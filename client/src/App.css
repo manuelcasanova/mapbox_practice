@@ -39,12 +39,12 @@
 
 .leaflet-container {
   height: 70vh;
-  width: 100vw;
+  width: 90vw;
   padding: 0.5em;
 }
 
 /* Hide the details of the route */
-.leaflet-routing-collapsible {
+.leaflet-routing-alternatives-container {
   display: none;
 }
 

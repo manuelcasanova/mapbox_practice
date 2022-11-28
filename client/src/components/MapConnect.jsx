@@ -2,7 +2,7 @@ import React from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import RoutineMachine from "./RoutineMachine";
 
-const Map = (props) => {
+const MapConnect = (props) => {
   return (
     <MapContainer
       doubleClickZoom={false}
@@ -19,4 +19,4 @@ const Map = (props) => {
   );
 };
 
-export default Map;
+export default MapConnect;

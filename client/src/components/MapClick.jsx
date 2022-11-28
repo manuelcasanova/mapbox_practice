@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import L from "leaflet";
-
 import "leaflet/dist/leaflet.css";
+
+import RoutineMachine from "./RoutineMachine";
 
 const icon = L.icon({
   iconSize: [25, 41],
@@ -23,7 +24,10 @@ function MyComponent({ saveMarkers }) {
   return null;
 }
 
-export default class MyMap extends Component {
+
+export default class MapClick extends Component {
+
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -32,16 +36,20 @@ export default class MyMap extends Component {
     };
   }
 
-  
 
   saveMarkers = (newMarkerCoords) => {
     const data = [...this.state.data, newMarkerCoords];
     this.setState((prevState) => ({ ...prevState, data }));
   };
 
+
+
   render() {
+
+
+
     return (
-      
+
       <div>
         {console.log(this.state.data)}
         <MapContainer
@@ -56,6 +64,7 @@ export default class MyMap extends Component {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <MyComponent saveMarkers={this.saveMarkers} />
+          <RoutineMachine datos={this.state.data} />
         </MapContainer>
       </div>
     );

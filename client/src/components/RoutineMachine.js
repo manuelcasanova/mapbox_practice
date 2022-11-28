@@ -8,6 +8,7 @@ console.log("points data", points_data)
 
 
 const createRoutineMachineLayer = (props) => {
+  
   const instance = L.Routing.control({
     waypoints: [
       L.latLng(points_data[0].latitude, points_data[0].longitude),
