@@ -1,10 +1,14 @@
 import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
-import { useState, useRef, useMemo, useCallback, useEffect } from 'react'
 
-import { useMapEvents } from 'react-leaflet/hooks'
+import points_data from '../api/api'
 
+console.log("points data", points_data)
 
-//const position = [49.282730, -123.120735]
+// const market = new L.Icon({
+
+// })
+
+const position = [49.282730, -123.120735]
 const center = {
   lat: 49.282730,
   lng: -123.120735,
@@ -13,49 +17,6 @@ const center = {
 const vancouver = [center.lat, center.lng]
 
 export default function ShowMap() {
-
-  // useEffect(() => {
-  //   pwdRef.current.focus();
-  // }, [])
-
-
-  function DraggableMarker() {
-    const [draggable, setDraggable] = useState(false)
-    const [position, setPosition] = useState(center)
-    console.log("position", position)
-    const markerRef = useRef(null)
-    const eventHandlers = useMemo(
-      () => ({
-        dragend() {
-          const marker = markerRef.current
-          if (marker != null) {
-            setPosition(marker.getLatLng())
-          }
-        },
-      }),
-      [],
-    )
-    const toggleDraggable = useCallback(() => {
-      setDraggable((d) => !d)
-    }, [])
-
-    return (
-      <Marker
-        draggable={draggable}
-        eventHandlers={eventHandlers}
-        position={position}
-        ref={markerRef}>
-        <Popup minWidth={90}>
-          <span onClick={toggleDraggable}>
-            {draggable
-              ? 'Marker is draggable'
-              : 'Click here to make marker draggable'}
-          </span>
-        </Popup>
-      </Marker>
-    )
-  }
-
 
   return (
 
@@ -67,12 +28,19 @@ export default function ShowMap() {
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
-    {/* <Marker position={position}>
+    <Marker position={position}>
 
-    </Marker> */}
- <DraggableMarker />
+    </Marker>
+    {points_data.map(point => (
+      <Marker 
+      key={point.id}
+      position={[point.latitude, point.longitude]}
+      />
+    )
+      
+      )}
+
   </MapContainer>
-  {/* <div>Position: {position}</div> */}
     </div>
    
   )
