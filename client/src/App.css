@@ -43,6 +43,11 @@
   padding: 0.5em;
 }
 
+/* Hide the details of the route */
+.leaflet-routing-collapsible {
+  display: none;
+}
+
 /* || MOBILE DEVICE LANDSCAPE  */
 @media screen and (max-height: 550px) and (min-aspect-ratio: 7/4) {
   .leaflet-container {

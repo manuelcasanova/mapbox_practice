@@ -5,6 +5,7 @@ import Title from './components/Title'
 import Information from './components/Information'
 import ShowMap from './components/ShowMap'
 import MyMap from './components/ShowMap2';
+import Map from './components/ShowMap3'
 
 
 function App() {
@@ -12,8 +13,9 @@ function App() {
     <div className='app'>
     <Title />
     <Information />
-    <MyMap />
+    {/* <MyMap /> */}
     {/* <ShowMap /> */}
+    <Map />
     </div>
 
 
