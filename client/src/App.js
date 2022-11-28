@@ -4,6 +4,7 @@ import './App.css';
 import Title from './components/Title'
 import Information from './components/Information'
 import ShowMap from './components/ShowMap'
+import MyMap from './components/ShowMap2';
 
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
     <div className='app'>
     <Title />
     <Information />
-    <ShowMap />
+    <MyMap />
+    {/* <ShowMap /> */}
     </div>
 
 
