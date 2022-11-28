@@ -23,10 +23,14 @@ app.use(express.json());
 //middleware for cookies
 app.use(cookieParser())
 
+// -------- START ROUTES --------
+
+// Test route
 app.get('/', (req, res) => {
   res.json("Test")
 })
 
+//Get all points
 app.get("/points", async (req, res) => {
   try {
     const points = await pool.query(
@@ -38,5 +42,19 @@ app.get("/points", async (req, res) => {
   }
 });
 
+//Create a point
+app.post("/points", async (req, res) => {
+  try {
+    const {latitude, longitude} = req.body
+    const newPoint = await pool.query(
+    'INSERT INTO points (latitude, longitude) VALUES ($1, $2) RETURNING *', [latitude, longitude]
+    );
+    res.json(newPoint.rows[0])
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+// -------- END ROUTES --------
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
