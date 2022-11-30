@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS points CASCADE;
 
 CREATE TABLE points (
   id SERIAL PRIMARY KEY NOT NULL,
-  latitude NUMERIC,
-  longitude NUMERIC
+  lat NUMERIC,
+  lng NUMERIC
 )
 

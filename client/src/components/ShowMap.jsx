@@ -2,7 +2,7 @@ import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
 
 import points_data from '../api/api'
 
-console.log("points data", points_data)
+// console.log("points data", points_data)
 
 // const market = new L.Icon({
 

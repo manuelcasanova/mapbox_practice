@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 app.get("/points", async (req, res) => {
   try {
     const points = await pool.query(
-      'SELECT * FROM points'
+      'SELECT lat, lng FROM points'
     );
     res.json(points.rows)
   } catch (err) {
@@ -45,14 +45,10 @@ app.get("/points", async (req, res) => {
 //Create a point
 app.post("/points", async (req, res) => {
   try {
-    const { coords } = req.body
-    const latitude = coords[0]
-    const longitude = coords[1]
-
-    // console.log("coords", coords, longitude, latitude)
-
+    let lat = req.body.coords[0];
+    let lng = req.body.coords[1];
     const newPoint = await pool.query(
-      'INSERT INTO points (latitude, longitude) VALUES ($1, $2) RETURNING *', [latitude, longitude]
+      'INSERT INTO points (lat, lng) VALUES ($1, $2) RETURNING *', [lat, lng]
     );
     res.json(newPoint.rows[0])
   } catch (err) {

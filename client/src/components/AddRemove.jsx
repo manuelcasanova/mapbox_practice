@@ -20,8 +20,8 @@ export default function AddRemove() {
   const saveMarkers = (newMarkerCoords) => {
     const data = [...state.data, newMarkerCoords];
     setState((prevState) => ({ ...prevState, data }));
-    console.log("data", data);
-    console.log("new marker", newMarkerCoords)
+    // console.log("data", data);
+    // console.log("new marker", newMarkerCoords)
 
     let coords = Object.values(newMarkerCoords);
 
@@ -31,7 +31,7 @@ export default function AddRemove() {
 
     axios.post(`http://localhost:3500/points`, body)
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
       })
   };
 

@@ -4,7 +4,7 @@ import "leaflet-routing-machine";
 
 import points_data from "../api/api";
 
-console.log("points data", points_data)
+// console.log("points data", points_data)
 
 
 const createRoutineMachineLayer = (props) => {
