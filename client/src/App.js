@@ -7,6 +7,7 @@ import ShowMap from './components/ShowMap'
 import MapClick from './components/MapClick';
 import MapConnect from './components/MapConnect'
 import MapFunctionalComponent from './components/MapFunctionalComponent';
+import AddRemove from './components/AddRemove';
 
 
 function App() {
@@ -14,8 +15,11 @@ function App() {
     <div className='app'>
     <Title />
     <Information />
-    <MapFunctionalComponent />
-    <MapClick />
+    {/* <MapFunctionalComponent /> */}
+    
+    <AddRemove />
+    
+    {/* <MapClick /> */}
     {/* <ShowMap /> */}
     {/* <MapConnect /> */}
     </div>

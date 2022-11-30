@@ -30,22 +30,22 @@ export default function MapFunctionalComponent() {
     data: []
   })
 
- const saveMarkers = (newMarkerCoords) => {
+  const saveMarkers = (newMarkerCoords) => {
     const data = [...state.data, newMarkerCoords];
     setState((prevState) => ({ ...prevState, data }));
     // console.log("data", data);
     // console.log("new marker", newMarkerCoords)
 
-let coords = Object.values(newMarkerCoords);
+    let coords = Object.values(newMarkerCoords);
 
-const body = {
-  coords
-}
+    const body = {
+      coords
+    }
 
-axios.post(`http://localhost:3500/points`, body) 
-.then((response) => {
-  console.log(response.data)
-})
+    axios.post(`http://localhost:3500/points`, body)
+      .then((response) => {
+        console.log(response.data)
+      })
   };
 
 
@@ -64,7 +64,7 @@ axios.post(`http://localhost:3500/points`, body)
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MyComponent saveMarkers={saveMarkers} />
-          {/* <RoutineMachine datos={this.state.data} /> */}
+        {/* <RoutineMachine datos={this.state.data} /> */}
       </MapContainer>
     </div>
   )

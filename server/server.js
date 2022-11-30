@@ -60,6 +60,7 @@ app.post("/points", async (req, res) => {
   }
 });
 
+
 // -------- END ROUTES --------
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
