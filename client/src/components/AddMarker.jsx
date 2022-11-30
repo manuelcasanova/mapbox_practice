@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import axios from "axios";
 
-export default function AddMarker({ saveMarkers }) {
+export default function AddMarker({ saveMarkers, setRemovePoint }) {
 
   const [coord, setCoord] = useState([]);
 
@@ -23,6 +23,7 @@ export default function AddMarker({ saveMarkers }) {
       // console.log("type of e.latlng", typeof e.latlng)
       // console.log("e.latlng", e.latlng)
       // console.log("values", Object.values(e.latlng))
+      setRemovePoint(prevState => !prevState)
     }
   });
 
@@ -39,7 +40,7 @@ export default function AddMarker({ saveMarkers }) {
       .then((response) => {
         // console.log(response.data)
       })
-
+    setRemovePoint(prevState => !prevState)
   };
 
   return (
