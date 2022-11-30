@@ -56,6 +56,21 @@ app.post("/points", async (req, res) => {
   }
 });
 
+//Delete a point
+app.post("/points/delete/", async (req, res) => {
+  try {
+let lat = req.body.lat;
+let lng = req.body.lng;
+
+   await pool.query(
+     "DELETE FROM points WHERE lat = $1 AND lng = $2", [lat, lng]
+   )
+   res.json("Network Response: The point was deleted")
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
 
 // -------- END ROUTES --------
 
