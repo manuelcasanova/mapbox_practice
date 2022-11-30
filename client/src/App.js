@@ -8,12 +8,14 @@ import MapClick from './components/MapClick';
 import MapConnect from './components/MapConnect'
 import MapFunctionalComponent from './components/MapFunctionalComponent';
 import AddRemove from './components/AddRemove';
+import Polyline from './components/Polyline';
 
 
 function App() {
   return (
     <div className='app'>
     <Title />
+    {/* <Polyline /> */}
     <Information />
     {/* <MapFunctionalComponent /> */}
     
