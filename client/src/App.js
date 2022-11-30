@@ -6,6 +6,7 @@ import Information from './components/Information'
 import ShowMap from './components/ShowMap'
 import MapClick from './components/MapClick';
 import MapConnect from './components/MapConnect'
+import MapFunctionalComponent from './components/MapFunctionalComponent';
 
 
 function App() {
@@ -13,9 +14,10 @@ function App() {
     <div className='app'>
     <Title />
     <Information />
+    <MapFunctionalComponent />
     <MapClick />
     {/* <ShowMap /> */}
-    <MapConnect />
+    {/* <MapConnect /> */}
     </div>
 
 

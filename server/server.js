@@ -9,7 +9,7 @@ const pool = require('./config/db')
 
 app.set("view engine", 'ejs');
 
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 // Cross Origin Resource Sharing
 app.use(cors());
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 app.get("/points", async (req, res) => {
   try {
     const points = await pool.query(
-    'SELECT * FROM points'
+      'SELECT * FROM points'
     );
     res.json(points.rows)
   } catch (err) {
@@ -45,9 +45,14 @@ app.get("/points", async (req, res) => {
 //Create a point
 app.post("/points", async (req, res) => {
   try {
-    const {latitude, longitude} = req.body
+    const { coords } = req.body
+    const latitude = coords[0]
+    const longitude = coords[1]
+
+    // console.log("coords", coords, longitude, latitude)
+
     const newPoint = await pool.query(
-    'INSERT INTO points (latitude, longitude) VALUES ($1, $2) RETURNING *', [latitude, longitude]
+      'INSERT INTO points (latitude, longitude) VALUES ($1, $2) RETURNING *', [latitude, longitude]
     );
     res.json(newPoint.rows[0])
   } catch (err) {
