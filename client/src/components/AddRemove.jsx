@@ -78,7 +78,8 @@ export default function AddRemove() {
   ];
 
   return (
-    <MapContainer center={state.markers[0]} zoom={13} style={{ height: "100vh" }}>
+    <div className="map-outer-container">
+    <MapContainer center={state.markers[0]} zoom={13} >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -86,5 +87,7 @@ export default function AddRemove() {
       <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}/>
       <Polyline positions={pos} color="black" />
     </MapContainer>
+    </div>
+
   );
 }

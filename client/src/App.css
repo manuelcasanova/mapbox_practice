@@ -9,7 +9,7 @@
   height: 100%;
 }
 
-.title, .information, .map {
+.title, .information, .map-outer-container, .footer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,27 +20,42 @@
 
 .title {
   background-color: mediumaquamarine;
-  min-height: 10vh;
+  /* height: 10vh; */
 }
 
 .information {
   background-color: lightblue;
-  min-height: 16vh;
+  /* height: 10vh; */
 
 }
 
-.map {
+.map-outer-container {
+  display: flex;
   background-color: coral;
+  padding: 0.5em 0em 0.5em 0em;
   /* min-height: 70vh; */
   /* height: 100%; */
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  min-height: 60vh;
 }
 
 .leaflet-container {
-  height: 70vh;
-  width: 90vw;
-  padding: 0.5em;
+  min-height: 60vh;
+  width: 60vw;
+  padding: 0.7em;
+}
+
+.footer {
+  /* height: 5vh; */
+  background-color: lightgrey;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+
+
 }
 
 /* Hide the details of the route */
@@ -49,8 +64,8 @@
 }
 
 /* || MOBILE DEVICE LANDSCAPE  */
-@media screen and (max-height: 550px) and (min-aspect-ratio: 7/4) {
+/* @media screen and (max-height: 320px) and (min-aspect-ratio: 7/4) {
   .leaflet-container {
-    height: 64vh;
+    height: 50vh;
   }
-}
+} */

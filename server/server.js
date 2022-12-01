@@ -48,7 +48,7 @@ app.post("/points", async (req, res) => {
     let lat = req.body.coords[0];
     let lng = req.body.coords[1];
     const newPoint = await pool.query(
-      'INSERT INTO points (lat, lng) VALUES ($1, $2) RETURNING *', [lat, lng]
+      'INSERT INTO points (lat, lng, map) VALUES ($1, $2, $3)  RETURNING *', [lat, lng, 1]
     );
     res.json(newPoint.rows[0])
   } catch (err) {

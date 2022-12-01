@@ -9,6 +9,7 @@ import MapConnect from './components/MapConnect'
 import MapFunctionalComponent from './components/MapFunctionalComponent';
 import AddRemove from './components/AddRemove';
 import Polyline from './components/Polyline';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
     {/* <MapClick /> */}
     {/* <ShowMap /> */}
     {/* <MapConnect /> */}
+    <Footer />
     </div>
 
 
