@@ -7,7 +7,15 @@ import axios from "axios";
 import AddMarker from "./AddMarker";
 
 L.Marker.prototype.options.icon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png"
+  // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+  iconUrl: require('../components/img/black-square.jpeg'),
+  
+  iconSize: [15,15],
+  iconAnchor: [0, 0],
+  popupAnchor: true,
+  shadowUrl: true,
+  shadowSize: true,
+  shadowAnchor: true
 });
 
 export default function AddRemove() {
@@ -76,7 +84,7 @@ export default function AddRemove() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}/>
-      <Polyline positions={pos} color="red" />
+      <Polyline positions={pos} color="black" />
     </MapContainer>
   );
 }
