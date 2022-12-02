@@ -7,9 +7,11 @@ import ShowMap from './components/ShowMap'
 import MapClick from './components/MapClick';
 import MapConnect from './components/MapConnect'
 import MapFunctionalComponent from './components/MapFunctionalComponent';
-import AddRemove from './components/AddRemove';
+import RideMap from './components/RideMap';
 import Polyline from './components/Polyline';
 import Footer from './components/Footer';
+import Bounds from './components/BoundsRideMap';
+import BoundsRideMap from './components/BoundsRideMap';
 
 
 function App() {
@@ -20,7 +22,8 @@ function App() {
     <Information />
     {/* <MapFunctionalComponent /> */}
     
-    <AddRemove />
+    <RideMap />
+    {/* <BoundsRideMap /> */}
     
     {/* <MapClick /> */}
     {/* <ShowMap /> */}

@@ -18,19 +18,15 @@ L.Marker.prototype.options.icon = L.icon({
   shadowAnchor: true
 });
 
-export default function AddRemove() {
+export default function RideMap() {
 
 
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(false)
   const [coordinadasPara, setCoordinadasPara] = useState([])
-  console.log("coordinadasPara", coordinadasPara)
+  // console.log("coordinadasPara", coordinadasPara)
 
-  const position = [49.282730, -123.120735];
-    const [state, setState] = useState({
-    markers: [[49.282730, -123.120735]],
-    data: []
-  })
+
 
   useEffect(() => {
     axios.get(`http://localhost:3500/points`)
@@ -43,15 +39,19 @@ export default function AddRemove() {
           res.data.map((coordinadas) => {
             // console.log(coordinadas.lat, coordinadas.lng)
             let coord = [Number(coordinadas.lat), Number(coordinadas.lng)]
-            console.log("coord", coord)
+            // console.log("coord", coord)
             // console.log("res", res.data[1].lat, res.data[1].lng)
             return coord
           })
         )
-
-
       })
   }, [removePoint]) 
+
+  const position = [49.282730, -123.120735];
+  const [state, setState] = useState({
+  markers: [position],
+  data: []
+})
 
   const saveMarkers = (newMarkerCoords) => {
     const data = [...state.data, newMarkerCoords];
@@ -72,14 +72,25 @@ export default function AddRemove() {
       })
   };
 
+useEffect(() => {
+console.log("test")
+}, [onclick])
+
 
   const pos = [
     coordinadasPara
   ];
 
+
   return (
     <div className="map-outer-container">
-    <MapContainer center={state.markers[0]} zoom={13} >
+    <MapContainer 
+    
+    center={state.markers[0]} zoom={12} 
+ 
+    
+    
+    >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
