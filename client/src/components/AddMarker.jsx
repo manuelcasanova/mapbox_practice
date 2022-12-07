@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import axios from "axios";
 
-export default function AddMarker({ saveMarkers, setRemovePoint }) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord}) {
 
-  const [coord, setCoord] = useState([]);
+  
 
   useEffect(() => {
     axios.get(`http://localhost:3500/points`)
       .then(function (res) {
         setCoord([...res.data])
         // console.log("res data", res.data)
+        // console.log("coord", coord)
       })
   }, [])
 

@@ -12,6 +12,7 @@ import Polyline from './components/Polyline';
 import Footer from './components/Footer';
 import Bounds from './components/BoundsRideMap';
 import BoundsRideMap from './components/BoundsRideMap';
+import RideMapParent from './components/RideMapParent';
 
 
 function App() {
@@ -21,8 +22,8 @@ function App() {
     {/* <Polyline /> */}
     <Information />
     {/* <MapFunctionalComponent /> */}
-    
-    <RideMap />
+    <RideMapParent />
+    {/* <RideMap /> */}
     {/* <BoundsRideMap /> */}
     
     {/* <MapClick /> */}
