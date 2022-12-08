@@ -11,13 +11,13 @@ export default function RideMapParent() {
 
 useEffect(() => {
 
-  console.log("setsetbounds", setBounds)
+  // console.log("setsetbounds", setBounds)
 
   axios.get(`http://localhost:3500/points`)
   .then(function (res) {
-    console.log("res data", res.data)
+    // console.log("res data", res.data)
     setObjValues(Object.values(res.data))
-    console.log("objValues in parent", objValues)
+    // console.log("objValues in parent", objValues)
   })
 
 

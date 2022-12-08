@@ -33,8 +33,8 @@ export default function RideMap({objValues, setSetBounds}) {
   const [coord, setCoord] = useState([]);
 
 
-  const [southwestLat, setSouthwestLat] = useState(90);
-  const [southwestLng, setSouthwestLng] = useState(180);
+  const [southwestLat, setSouthwestLat] = useState(-90);
+  const [southwestLng, setSouthwestLng] = useState(-180);
   const [northeastLat, setNortheastLat] = useState(90);
   const [northeastLng, setNortheastLng] = useState(180);
 
@@ -50,7 +50,7 @@ export default function RideMap({objValues, setSetBounds}) {
   useEffect(() => {
     axios.get(`http://localhost:3500/points`)
       .then(function (res) {
-        // console.log("res data", res.data)
+        //  console.log("res data", res.data)
         const objValues = Object.values(res.data)
         // console.log("objValues", objValues)
 
@@ -70,15 +70,15 @@ export default function RideMap({objValues, setSetBounds}) {
 
   useEffect(() => {
   coord.map((bnd) => {
-    // console.log("bnd lng", bnd.lng)
-    // console.log("bnd lat", typeof Number(bnd.lat))
-    // console.log("bnd", bnd)
-    // console.log("type of bnd", typeof bnd)
+    console.log("bnd lng", typeof Number(bnd.lng))
+    console.log("bnd lat", typeof Number(bnd.lat))
+    console.log("bnd", bnd)
+    console.log("type of bnd", typeof bnd)
     //if....then
-    if (bnd.lng < southwestLng) {
+    if (bnd.lng > southwestLng) {
       setSouthwestLng(Number(bnd.lng))
     }
-    if (bnd.lat < southwestLat) {
+    if (bnd.lat > southwestLat) {
       setSouthwestLat(Number(bnd.lat))
     }
     if (bnd.lng < northeastLng) {
@@ -132,25 +132,33 @@ export default function RideMap({objValues, setSetBounds}) {
   // const [bounds, setBounds] = useState([[49.29642612371167, -123.13666776796951]])
   // console.log("bounds", bounds)
 
-   const [test, setTest] = useState([[49.29642612371167, -123.13666776796951]])
+   const [test, setTest] = useState([[49.29642612371167, -123.13666776796951], [49.4, -123]])
+
+
 
    console.log("test", test)
 
-  const bounds = [[soutwestBound[0], northeastBound[1]]]
+  const bounds = [soutwestBound, northeastBound]
+
+console.log("swbound", soutwestBound)
+console.log("nebound", northeastBound)
+
   console.log("bounds on child", bounds)
 
   console.log("STATE MARKERS 0", state.markers[0])
   console.log("lng lat", [southwestLat, southwestLng])
 
+
+
   return (
     <div className="map-outer-container">
       <MapContainer
-        bounds={test}
-        // bounds={test}
+        // bounds={[soutwestBound, [49.2, -123]]}
+        bounds={bounds}
       // center={state.markers[0]} 
      
       // center={[southwestLng, southwestLat]}
-      zoom={13} 
+      // zoom={14} 
 
 
 
