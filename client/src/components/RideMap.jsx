@@ -20,10 +20,9 @@ L.Marker.prototype.options.icon = L.icon({
   shadowAnchor: true
 });
 
-export default function RideMap({bounds}) {
+export default function RideMap({longitudesArray, latitudesArray}) {
 
-console.log("bounds in child", bounds)
-
+console.log("arrays in child", longitudesArray, latitudesArray)
 
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(false)
@@ -31,6 +30,8 @@ console.log("bounds in child", bounds)
 
 
   const [coord, setCoord] = useState([]);
+
+
 
 
 
@@ -50,11 +51,16 @@ console.log("bounds in child", bounds)
             return coord
           })
         )
-
-        
       })
   }, [removePoint])
 
+  // useEffect(() => {
+  //    setSouthWestLatitude(latitudesArray.sort()[0]);
+  //    setSouthWestLongitude(longitudesArray.sort()[0]);
+  //    setNorthEastLatitude(latitudesArray.sort()[latitudesArray.length - 1]);
+  //    setNorthEastLongitude(longitudesArray.sort()[longitudesArray.length - 1]);
+
+  // }, [])
 
   const position = [49.282730, -123.120735];
   const [state, setState] = useState({
@@ -85,18 +91,26 @@ console.log("bounds in child", bounds)
   //   coordinadasPara
   // ];
 
+  console.log("lat arr", latitudesArray.sort()[0])
+  console.log("lng arr", longitudesArray.sort()[0])
 
 
+// console.log("state.markers", state.markers[0])
 
   return (
     <div className="map-outer-container">
       <MapContainer
-        //  bounds={[[49.2, -123.1], [49.3, -122.9]]}
-        bounds={bounds}
+          // bounds={[[49.25, -123.25], [49.3, -122.9]]}
+          bounds={[[latitudesArray.sort()[0], longitudesArray.sort()[0]], [latitudesArray.sort()[0], longitudesArray.sort()[0]]]}
+          
+          // bounds={[latitudesArray.sort()[0], longitudesArray.sort()[0]]}
+        
       // center={state.markers[0]} 
+      
+    
      
       // center={[southwestLng, southwestLat]}
-      // zoom={14} 
+      zoom={14} 
 
 
       >
