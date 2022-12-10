@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const icon = L.icon({
-  iconSize: [25, 41],
-  iconAnchor: [10, 41],
+  iconSize: [15, 15],
+  iconAnchor: [0, 0],
   popupAnchor: [2, -40],
-  iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+  iconUrl: require('../components/img/black-square.jpeg'),
+  // shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
 
 const group = L.featureGroup();
@@ -34,6 +34,7 @@ export default function ChangeCoordsComponentChild({ coords }) {
   const position = [42.2974279, -85.628292];
 
   return (
+    
     <MapContainer center={position} zoom={13} style={{ height: "90vh" }}>
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -47,6 +48,7 @@ export default function ChangeCoordsComponentChild({ coords }) {
         })}
 
       <Bounds coords={coords} />
+      <Polyline positions={coords} color="black" />
     </MapContainer>
   );
 }

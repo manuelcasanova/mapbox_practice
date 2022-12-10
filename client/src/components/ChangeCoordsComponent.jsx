@@ -42,16 +42,19 @@ export default function ChangeCoordsComponent () {
     console.log("points", points)
   }, [points])
 
+  let rideCoords = []
+
   {
     loading && points.map((point) => {
-      console.log("point", point)
-      latitudesArray.push(Number(point.lat))
-      longitudesArray.push(Number(point.lng))
+      // latitudesArray.push(Number(point.lat))
+      // longitudesArray.push(Number(point.lng))
+      console.log("Obj values", Object.values(point))
+      rideCoords.push(Object.values(point))
       
     })
   }
 
-  
+  console.log("rideCoords", rideCoords)
 
 
   console.log("arrays", latitudesArray, longitudesArray)
@@ -64,13 +67,10 @@ export default function ChangeCoordsComponent () {
     <ChangeCoordsComponentChild coords={coords} />
     <button
       onClick={() =>
-        setCoords([
-          [latitudesArray.sort()[0], longitudesArray.sort()[0]],
-          [latitudesArray.sort()[latitudesArray.length -1], longitudesArray.sort()[longitudesArray.length -1]]
-        ])
+        setCoords(rideCoords)
       }
     >
-      Change coords
+      Center ride
     </button>
   </>
   )

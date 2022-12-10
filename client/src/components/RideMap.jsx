@@ -158,61 +158,6 @@ export default function RideMap({
 let center = [49.29642612371167, -123.13666776796951]
 
 
-////RECTANGLE
-
-const outerBounds = [
-  [latitudesArray.sort()[0], longitudesArray.sort()[0]],
-  [latitudesArray.sort()[latitudesArray.length -1], longitudesArray.sort()[longitudesArray.length -1]],
-]
-
-const innerBounds = [
-  [latitudesArray.sort()[0], longitudesArray.sort()[0]],
-  [latitudesArray.sort()[latitudesArray.length -1], longitudesArray.sort()[longitudesArray.length -1]],
-]
-
-const redColor = { color: 'red' }
-const whiteColor = { color: 'white' }
-
-function SetBoundsRectangles() {
-  const [bounds, setBounds] = useState(outerBounds)
-  const map = useMap()
-
-  const innerHandlers = useMemo(
-    () => ({
-      click() {
-        setBounds(innerBounds)
-        map.fitBounds(innerBounds)
-      },
-    }),
-    [map],
-  )
-  const outerHandlers = useMemo(
-    () => ({
-      click() {
-        setBounds(outerBounds)
-        map.fitBounds(outerBounds)
-      },
-    }),
-    [map],
-  )
-
-  return (
-    <>
-      <Rectangle
-        bounds={outerBounds}
-        eventHandlers={outerHandlers}
-        pathOptions={bounds === outerBounds ? redColor : whiteColor}
-      />
-      <Rectangle
-        bounds={innerBounds}
-        eventHandlers={innerHandlers}
-        pathOptions={bounds === innerBounds ? redColor : whiteColor}
-      />
-    </>
-  )
-}
-
-/////RECTANGLE END
 
 
 
@@ -230,11 +175,10 @@ function SetBoundsRectangles() {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {/* <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}
+        <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}
           coord={coord}
-          setCoord={setCoord} /> */}
+          setCoord={setCoord} />
         <Polyline positions={coordinadasPara} color="black" />
-        {/* <SetBoundsRectangles /> */}
       </MapContainer>
     </div>
 

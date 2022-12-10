@@ -29,6 +29,7 @@ function App() {
     <ChangeCoordsComponent />
     {/* <RideMap /> */}
     {/* <BoundsRideMap /> */}
+    <RideMap />
     
     {/* <MapClick /> */}
     {/* <ShowMap /> */}
