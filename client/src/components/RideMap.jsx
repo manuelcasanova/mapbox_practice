@@ -1,7 +1,7 @@
 //ORIGINAL
 
-import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Polyline } from "react-leaflet";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { MapContainer, TileLayer, Polyline, Rectangle, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
@@ -20,9 +20,59 @@ L.Marker.prototype.options.icon = L.icon({
   shadowAnchor: true
 });
 
-export default function RideMap({longitudesArray, latitudesArray}) {
+export default function RideMap({
+  // longitudesArray, latitudesArray
+}) {
 
-console.log("arrays in child", longitudesArray, latitudesArray)
+
+  ////// BROUGHT FROM PARENT
+
+  const [points, setPoints] = useState();
+  const [loading, setLoading] = useState(false);
+
+  let latitudesArray = []
+  let longitudesArray = []
+
+
+  const [bounds, setBounds] = useState([])
+
+  const getPoints = async () => {
+    try {
+      const response = await axios.get('http://localhost:3500/points');
+      setPoints(response.data)
+      setLoading(true)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+
+    getPoints();
+
+  }, [])
+
+  useEffect(() => {
+    console.log("points", points)
+  }, [points])
+
+  {
+    loading && points.map((point) => {
+      console.log("point", point)
+      latitudesArray.push(Number(point.lat))
+      longitudesArray.push(Number(point.lng))
+      
+    })
+  }
+
+  
+
+
+  console.log("arrays", latitudesArray, longitudesArray)
+
+  //// BROUGHT FROM PARENT END
+
+// console.log("arrays in child", longitudesArray, latitudesArray)
 
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(false)
@@ -91,37 +141,100 @@ console.log("arrays in child", longitudesArray, latitudesArray)
   //   coordinadasPara
   // ];
 
-  console.log("lat arr", latitudesArray.sort()[0])
-  console.log("lng arr", longitudesArray.sort()[0])
+  // console.log("lat arr", latitudesArray.sort()[0])
+  // console.log("lng arr", longitudesArray.sort()[0])
+  // console.log("lat arr", latitudesArray.sort()[latitudesArray.length -1])
+  // console.log("lng arr", longitudesArray.sort()[longitudesArray.length -1])
 
+  let boundsReal = [[latitudesArray.sort()[0], longitudesArray.sort()[0]], [latitudesArray.sort()[latitudesArray.length -1], longitudesArray.sort()[longitudesArray.length -1]]]
+
+  console.log("boundsReal", boundsReal)
+
+   let boundsHardcoded = [[49.25, -123.25], [49.3, -122.9]]
+  // console.log("bounds hardcoded", bounds)
 
 // console.log("state.markers", state.markers[0])
 
+let center = [49.29642612371167, -123.13666776796951]
+
+
+////RECTANGLE
+
+const outerBounds = [
+  [latitudesArray.sort()[0], longitudesArray.sort()[0]],
+  [latitudesArray.sort()[latitudesArray.length -1], longitudesArray.sort()[longitudesArray.length -1]],
+]
+
+const innerBounds = [
+  [latitudesArray.sort()[0], longitudesArray.sort()[0]],
+  [latitudesArray.sort()[latitudesArray.length -1], longitudesArray.sort()[longitudesArray.length -1]],
+]
+
+const redColor = { color: 'red' }
+const whiteColor = { color: 'white' }
+
+function SetBoundsRectangles() {
+  const [bounds, setBounds] = useState(outerBounds)
+  const map = useMap()
+
+  const innerHandlers = useMemo(
+    () => ({
+      click() {
+        setBounds(innerBounds)
+        map.fitBounds(innerBounds)
+      },
+    }),
+    [map],
+  )
+  const outerHandlers = useMemo(
+    () => ({
+      click() {
+        setBounds(outerBounds)
+        map.fitBounds(outerBounds)
+      },
+    }),
+    [map],
+  )
+
   return (
+    <>
+      <Rectangle
+        bounds={outerBounds}
+        eventHandlers={outerHandlers}
+        pathOptions={bounds === outerBounds ? redColor : whiteColor}
+      />
+      <Rectangle
+        bounds={innerBounds}
+        eventHandlers={innerHandlers}
+        pathOptions={bounds === innerBounds ? redColor : whiteColor}
+      />
+    </>
+  )
+}
+
+/////RECTANGLE END
+
+
+
+  return (
+
     <div className="map-outer-container">
       <MapContainer
-          // bounds={[[49.25, -123.25], [49.3, -122.9]]}
-          bounds={[[latitudesArray.sort()[0], longitudesArray.sort()[0]], [latitudesArray.sort()[0], longitudesArray.sort()[0]]]}
-          
-          // bounds={[latitudesArray.sort()[0], longitudesArray.sort()[0]]}
-        
-      // center={state.markers[0]} 
-      
-    
-     
-      // center={[southwestLng, southwestLat]}
-      zoom={14} 
+        bounds={boundsHardcoded}
+        // bounds={outerBounds}
 
-
+      //  center={center} 
+      zoom={12} 
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}
+        {/* <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}
           coord={coord}
-          setCoord={setCoord} />
+          setCoord={setCoord} /> */}
         <Polyline positions={coordinadasPara} color="black" />
+        {/* <SetBoundsRectangles /> */}
       </MapContainer>
     </div>
 

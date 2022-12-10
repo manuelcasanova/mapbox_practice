@@ -14,10 +14,6 @@ export default function RideMapParent() {
   let latitudesArray = []
   let longitudesArray = []
 
-  const [southWestLatitude, setSouthWestLatitude] = useState([]);
-  const [southWestLongitude, setSouthWestLongitude] = useState([]);
-  const [northEastLatitude, setNorthEastLatitude] = useState([]);
-  const [northEastLongitude, setNorthEastLongitude] = useState([]);
 
   const [bounds, setBounds] = useState([])
 
@@ -46,6 +42,7 @@ export default function RideMapParent() {
       console.log("point", point)
       latitudesArray.push(Number(point.lat))
       longitudesArray.push(Number(point.lng))
+      
     })
   }
 
@@ -55,8 +52,8 @@ export default function RideMapParent() {
   console.log("arrays", latitudesArray, longitudesArray)
 
   return (
-    // <RideMap bounds={bounds}/>
-    <RideMap latitudesArray={latitudesArray} longitudesArray={longitudesArray}/>
+    <RideMap />
+    // <RideMap latitudesArray={latitudesArray} longitudesArray={longitudesArray}/>
     // <div>Ridemap</div>
   )
 }

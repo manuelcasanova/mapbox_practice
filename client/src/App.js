@@ -13,6 +13,8 @@ import Footer from './components/Footer';
 import Bounds from './components/BoundsRideMap';
 import BoundsRideMap from './components/BoundsRideMap';
 import RideMapParent from './components/RideMapParent';
+import RectangleComponent from './components/RectangleComponent';
+import ChangeCoordsComponent from './components/ChangeCoordsComponent';
 
 
 function App() {
@@ -22,7 +24,9 @@ function App() {
     {/* <Polyline /> */}
     <Information />
     {/* <MapFunctionalComponent /> */}
-    <RideMapParent />
+    {/* <RideMapParent /> */}
+    {/* <RectangleComponent/> */}
+    <ChangeCoordsComponent />
     {/* <RideMap /> */}
     {/* <BoundsRideMap /> */}
     
