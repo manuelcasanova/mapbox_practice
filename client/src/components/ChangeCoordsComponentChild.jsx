@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
+import React, { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, useMap, Polyline, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import RideMap from "./RideMap";
@@ -30,13 +30,40 @@ function Bounds({ coords }) {
   return null;
 }
 
+///Fly
+
+function LocationMarker() {
+  const [position, setPosition] = useState(null);
+
+  const map = useMap();
+
+  useEffect(() => {
+    map.locate().on("locationfound", function (e) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+      const radius = e.accuracy;
+      const circle = L.circle(e.latlng, radius);
+      circle.addTo(map);
+    });
+  }, [map]);
+
+  return position === null ? null : (
+    <Marker position={position} icon={icon}>
+    </Marker>
+  );
+}
+
+///FLy end
+
 export default function ChangeCoordsComponentChild({ coords }) {
   // STATIC MARKER POSITIONS
-  const position = [42.2974279, -85.628292];
+  // const position = [49.283255, -123.119930];
 
   return (
     <>
-    <MapContainer center={position} zoom={13} style={{ height: "90vh" }}>
+    <MapContainer 
+    // center={position} 
+    zoom={13} style={{ height: "90vh" }}>
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -50,6 +77,7 @@ export default function ChangeCoordsComponentChild({ coords }) {
 
       <Bounds coords={coords} />
       <Polyline positions={coords} color="black" />
+      <LocationMarker />
     </MapContainer>
     <RideMap />
     </>

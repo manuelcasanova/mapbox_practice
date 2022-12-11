@@ -11,9 +11,9 @@ let longitude;
     latitude = location.coords.latitude
     longitude = location.coords.longitude
 
-    console.log(location.coords.latitude);
-    console.log(location.coords.longitude);
-    console.log("coordinadas", [latitude, longitude])
+    // console.log(location.coords.latitude);
+    // console.log(location.coords.longitude);
+    // console.log("coordinadas", [latitude, longitude])
   
 });
 
@@ -21,7 +21,7 @@ let longitude;
 
 
   const [coords, setCoords] = useState([
-     [51.52167056034225, -0.12894469488176763]
+     [49.283255, -123.119930]
     //[latitude, longitude]
   ]);
 
