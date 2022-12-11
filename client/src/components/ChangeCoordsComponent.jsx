@@ -4,12 +4,27 @@ import axios from "axios";
 
 export default function ChangeCoordsComponent () {
 
+let latitude;
+let longitude;
+
+  navigator.geolocation.getCurrentPosition(function(location) {
+    latitude = location.coords.latitude
+    longitude = location.coords.longitude
+
+    console.log(location.coords.latitude);
+    console.log(location.coords.longitude);
+    console.log("coordinadas", [latitude, longitude])
+  
+});
+
+
+
+
   const [coords, setCoords] = useState([
-    [51.52167056034225, -0.12894469488176763],
-    [46.58635156377568, 2.1796793230151184],
-    [40.819721, 14.341111],
-    [45.819721, 14.341111]
+     [51.52167056034225, -0.12894469488176763]
+    //[latitude, longitude]
   ]);
+
 
   /////GET COORDINATES
 
@@ -21,6 +36,7 @@ export default function ChangeCoordsComponent () {
 
 
   const [bounds, setBounds] = useState([])
+
 
   const getPoints = async () => {
     try {
@@ -39,7 +55,8 @@ export default function ChangeCoordsComponent () {
   }, [])
 
   useEffect(() => {
-    console.log("points", points)
+    // console.log("points", points)
+   
   }, [points])
 
   let rideCoords = []
@@ -48,22 +65,27 @@ export default function ChangeCoordsComponent () {
     loading && points.map((point) => {
       // latitudesArray.push(Number(point.lat))
       // longitudesArray.push(Number(point.lng))
-      console.log("Obj values", Object.values(point))
+      // console.log("Obj values", Object.values(point))
       rideCoords.push(Object.values(point))
       
     })
   }
 
-  console.log("rideCoords", rideCoords)
+  // console.log("rideCoords", rideCoords)
 
 
-  console.log("arrays", latitudesArray, longitudesArray)
+  // console.log("arrays", latitudesArray, longitudesArray)
   
+
+
 
   /////GET COORDIANTES - END
 
   return (
-    <>
+    <div       onClick={() =>
+      setCoords(rideCoords)
+    }>
+    {/* <div> */}
     <ChangeCoordsComponentChild coords={coords} />
     <button
       onClick={() =>
@@ -72,6 +94,6 @@ export default function ChangeCoordsComponent () {
     >
       Center ride
     </button>
-  </>
+  </div>
   )
 }

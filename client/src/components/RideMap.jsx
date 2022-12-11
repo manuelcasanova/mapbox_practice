@@ -53,12 +53,12 @@ export default function RideMap({
   }, [])
 
   useEffect(() => {
-    console.log("points", points)
+    // console.log("points", points)
   }, [points])
 
   {
     loading && points.map((point) => {
-      console.log("point", point)
+      // console.log("point", point)
       latitudesArray.push(Number(point.lat))
       longitudesArray.push(Number(point.lng))
       
@@ -68,7 +68,7 @@ export default function RideMap({
   
 
 
-  console.log("arrays", latitudesArray, longitudesArray)
+  // console.log("arrays", latitudesArray, longitudesArray)
 
   //// BROUGHT FROM PARENT END
 
@@ -80,7 +80,6 @@ export default function RideMap({
 
 
   const [coord, setCoord] = useState([]);
-
 
 
 
@@ -104,13 +103,6 @@ export default function RideMap({
       })
   }, [removePoint])
 
-  // useEffect(() => {
-  //    setSouthWestLatitude(latitudesArray.sort()[0]);
-  //    setSouthWestLongitude(longitudesArray.sort()[0]);
-  //    setNorthEastLatitude(latitudesArray.sort()[latitudesArray.length - 1]);
-  //    setNorthEastLongitude(longitudesArray.sort()[longitudesArray.length - 1]);
-
-  // }, [])
 
   const position = [49.282730, -123.120735];
   const [state, setState] = useState({
@@ -146,16 +138,15 @@ export default function RideMap({
   // console.log("lat arr", latitudesArray.sort()[latitudesArray.length -1])
   // console.log("lng arr", longitudesArray.sort()[longitudesArray.length -1])
 
-  let boundsReal = [[latitudesArray.sort()[0], longitudesArray.sort()[0]], [latitudesArray.sort()[latitudesArray.length -1], longitudesArray.sort()[longitudesArray.length -1]]]
 
-  console.log("boundsReal", boundsReal)
+
+  // console.log("boundsReal", boundsReal)
 
    let boundsHardcoded = [[49.25, -123.25], [49.3, -122.9]]
   // console.log("bounds hardcoded", bounds)
 
 // console.log("state.markers", state.markers[0])
 
-let center = [49.29642612371167, -123.13666776796951]
 
 
 
@@ -166,9 +157,8 @@ let center = [49.29642612371167, -123.13666776796951]
     <div className="map-outer-container">
       <MapContainer
         bounds={boundsHardcoded}
-        // bounds={outerBounds}
+    
 
-      //  center={center} 
       zoom={12} 
       >
         <TileLayer
