@@ -40,15 +40,19 @@ function LocationMarker() {
   useEffect(() => {
     map.locate().on("locationfound", function (e) {
       setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-      const radius = e.accuracy;
-      const circle = L.circle(e.latlng, radius);
-      circle.addTo(map);
+      map.flyTo(e.latlng, 
+        // map.getZoom()
+        );
+      // const radius = e.accuracy;
+      // const circle = L.circle(e.latlng, radius);
+      // circle.addTo(map);
     });
   }, [map]);
 
   return position === null ? null : (
-    <Marker position={position} icon={icon}>
+    <Marker position={position} 
+    // icon={icon}
+    >
     </Marker>
   );
 }
@@ -71,7 +75,8 @@ export default function ChangeCoordsComponentChild({ coords }) {
       {coords.length > 0 &&
         coords.map((coord, index) => {
           return (
-            <Marker key={index} position={[coord[0], coord[1]]} icon={icon} />
+            <Marker key={index} position={[coord[0], coord[1]]} icon={icon} 
+            />
           );
         })}
 

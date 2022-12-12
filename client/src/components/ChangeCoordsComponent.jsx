@@ -86,14 +86,17 @@ let longitude;
       setCoords(rideCoords)
     }>
     {/* <div> */}
-    <ChangeCoordsComponentChild coords={coords} />
     <button
+    className="centeride"
       onClick={() =>
         setCoords(rideCoords)
       }
     >
-      Center ride
+      See ride
     </button>
+    <ChangeCoordsComponentChild coords={coords} />
+
+
   </div>
   )
 }
