@@ -87,13 +87,16 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
         setCoords(rideCoords)
       }
     >See ride</button>
-      {coords.length > 0 &&
+
+{/* Show or do not show markers */}
+
+      {/* {coords.length > 0 &&
         coords.map((coord, index) => {
           return (
             <Marker key={index} position={[coord[0], coord[1]]} icon={icon} 
             />
           );
-        })}
+        })} */}
 
       <Bounds coords={coords} />
       <Polyline positions={coords} color="black" />
