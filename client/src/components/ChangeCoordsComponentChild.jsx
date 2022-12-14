@@ -8,8 +8,16 @@ const icon = L.icon({
   iconSize: [15, 15],
   iconAnchor: [0, 0],
   popupAnchor: [2, -40],
-  iconUrl: require('../components/img/black-square.jpeg'),
+  iconUrl: require('../components/img/black-square.png'),
   // shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+});
+
+//Icon for the browser's location
+const icon2 = L.icon({
+  iconSize: [60, 60],
+  iconAnchor: [0, 0],
+  popupAnchor: [2, -40],
+  iconUrl: require('../components/img/mylocation.png'),
 });
 
 const group = L.featureGroup();
@@ -51,7 +59,7 @@ function LocationMarker() {
 
   return position === null ? null : (
     <Marker position={position} 
-    // icon={icon}
+     icon={icon2}
     >
     </Marker>
   );
@@ -59,19 +67,26 @@ function LocationMarker() {
 
 ///FLy end
 
-export default function ChangeCoordsComponentChild({ coords }) {
+export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoords, setMount }) {
   // STATIC MARKER POSITIONS
   // const position = [49.283255, -123.119930];
 
   return (
     <>
     <MapContainer 
+    
     // center={position} 
     zoom={13} style={{ height: "90vh" }}>
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+          <button
+    className="centeride"
+      onClick={() =>
+        setCoords(rideCoords)
+      }
+    >See ride</button>
       {coords.length > 0 &&
         coords.map((coord, index) => {
           return (
@@ -83,6 +98,7 @@ export default function ChangeCoordsComponentChild({ coords }) {
       <Bounds coords={coords} />
       <Polyline positions={coords} color="black" />
       <LocationMarker />
+      setMount(true)
     </MapContainer>
     <RideMap />
     </>

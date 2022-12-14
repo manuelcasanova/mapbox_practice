@@ -10,10 +10,13 @@
   display: flex;
   flex-direction: column;
 
-  
+
 }
 
-.title, .information, .map-outer-container, .footer {
+.title,
+.information,
+.map-outer-container,
+.footer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +51,7 @@
   flex-direction: column; */
   min-height: 60vh;
   padding: 0.5em 0em 0.5em 0em;
-  
+
 }
 
 .leaflet-container {
@@ -68,7 +71,7 @@
   left: 0;
   right: 0; */
   max-height: 5%;
-  
+
 
 
 }
@@ -80,32 +83,37 @@
 
 
 .centeride {
-  height: 5em;
-  width: 5em;
-  position: absolute;
-  margin-top: 15px;
-  margin-left: 705px;
-  z-index: 9999;
+  height: 3.5em;
+  width: 3.5em;
+  margin: 20px;
 
   display: inline-block;
-  padding: 15px 25px;
+  /* padding: 15px 15px; */
   font-size: 24px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
   outline: none;
-  color: #fff;
-  background-color: red;
+  color: black;
+  background-color: white;
+  opacity: 0.5;
   border: none;
-  border-radius: 15px;
+  border-radius: 50px;
   box-shadow: 0 9px #999;
+  right: 0;
+  top: 0;
+  position: absolute;
+  z-index: 1000;
+
+
 }
 
-
-.centeride:hover {background-color: #3e8e41}
+.centeride:hover {
+  /* background-color: darkgray */
+}
 
 .centeride:active {
-  background-color: red;
+  background-color: 3e8e41;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }

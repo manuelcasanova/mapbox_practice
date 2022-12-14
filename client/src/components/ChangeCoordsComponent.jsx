@@ -61,6 +61,7 @@ let longitude;
 
   let rideCoords = []
 
+
   {
     loading && points.map((point) => {
       // latitudesArray.push(Number(point.lat))
@@ -70,31 +71,16 @@ let longitude;
       
     })
   }
-
-  // console.log("rideCoords", rideCoords)
-
-
-  // console.log("arrays", latitudesArray, longitudesArray)
-  
-
-
-
   /////GET COORDIANTES - END
 
   return (
-    <div       onClick={() =>
+    //Ride is shown centered in map
+    <div       
+    onMouseOver={() =>
       setCoords(rideCoords)
-    }>
-    {/* <div> */}
-    <button
-    className="centeride"
-      onClick={() =>
-        setCoords(rideCoords)
-      }
+    }
     >
-      See ride
-    </button>
-    <ChangeCoordsComponentChild coords={coords} />
+    <ChangeCoordsComponentChild coords={coords} setCoords={setCoords} rideCoords={rideCoords} />
 
 
   </div>

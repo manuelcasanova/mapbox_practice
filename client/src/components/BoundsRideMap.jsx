@@ -8,7 +8,7 @@ import AddMarker from "./AddMarker";
 
 L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-  iconUrl: require('../components/img/black-square.jpeg'),
+  iconUrl: require('../components/img/black-square.png'),
 
   iconSize: [15, 15],
   iconAnchor: [0, 0],
