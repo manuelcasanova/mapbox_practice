@@ -61,26 +61,28 @@ export default function RideMap({
       // console.log("point", point)
       latitudesArray.push(Number(point.lat))
       longitudesArray.push(Number(point.lng))
-      
+
     })
   }
 
-  
+
 
 
   // console.log("arrays", latitudesArray, longitudesArray)
 
   //// BROUGHT FROM PARENT END
 
-// console.log("arrays in child", longitudesArray, latitudesArray)
+  // console.log("arrays in child", longitudesArray, latitudesArray)
 
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
-  const [removePoint, setRemovePoint] = useState(false)
+  const [removePoint, setRemovePoint] = useState(0)
   const [coordinadasPara, setCoordinadasPara] = useState([])
 
 
   const [coord, setCoord] = useState([]);
 
+
+  const [buttonDelete, setButtonDelete] = useState(0)
 
 
 
@@ -129,6 +131,18 @@ export default function RideMap({
       })
   };
 
+  // const removeMarker = (pos) => {
+  //   // console.log("pos", pos)
+  //   setCoord((prevCoord) =>
+  //     prevCoord.filter((coord) => JSON.stringify(coord) !== JSON.stringify(pos))
+  //   );
+  //   axios.post(`http://localhost:3500/points/delete/`, pos)
+  //     .then((response) => {
+  //       // console.log(response.data)
+  //     })
+  //   setRemovePoint(prev => prev + 1)
+  // };
+
   // const pos = [
   //   coordinadasPara
   // ];
@@ -138,39 +152,67 @@ export default function RideMap({
   // console.log("lat arr", latitudesArray.sort()[latitudesArray.length -1])
   // console.log("lng arr", longitudesArray.sort()[longitudesArray.length -1])
 
-
-
   // console.log("boundsReal", boundsReal)
 
-   let boundsHardcoded = [[49.25, -123.25], [49.3, -122.9]]
+  let boundsHardcoded = [[49.25, -123.25], [49.3, -122.9]]
   // console.log("bounds hardcoded", bounds)
 
-// console.log("state.markers", state.markers[0])
+  // console.log("state.markers", state.markers[0])
 
+  const removeMarker = (pos) => {
+    console.log("type of deleted pos", typeof pos)
+    console.log("deleted pos", pos)
+    console.log("last item array", coord.slice(-1)[0])
+ 
+   
+   //  setCoord((prevCoord) =>
+   //   prevCoord.filter((coord) => JSON.stringify(coord) !== JSON.stringify(pos))
+   // );
 
+   setCoord((coord.slice(0, -1))
+ );
 
+   // axios.post(`http://localhost:3500/points/delete/`, pos)
+   axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])
+   // axios.post(`http://localhost:3500/points/delete/`, coord.lenght - 1)
+     .then((response) => {
+       // console.log(response.data)
+     })
+   setRemovePoint(prev => prev + 1)
+ };
 
-
+ // console.log("coord", coord)
+ // console.log("coord minus last", coord.slice(0, -1))
 
   return (
 
     <div className="map-outer-container">
+      <>
+      <button
+          className="centeride"
+          // onClick={removeMarker()}
+           onClick={console.log("click")}
+        >Delete last</button>
       <MapContainer
         bounds={boundsHardcoded}
-    
 
-      zoom={12} 
+
+        zoom={12}
       >
+
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
         <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}
           coord={coord}
-          setCoord={setCoord} />
+          setCoord={setCoord} buttonDelete={buttonDelete} setButtonDelete={setButtonDelete} removeMarker={removeMarker}/>
         <Polyline positions={coordinadasPara} color="black" />
       </MapContainer>
+      </>
     </div>
+    
 
   );
 }

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import axios from "axios";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, buttonDelete, setButtonDelete, removeMarker}) {
 
-  
+  // console.log("but delete", buttonDelete)
 
   useEffect(() => {
     axios.get(`http://localhost:3500/points`)
@@ -29,24 +29,40 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
   });
 
   useEffect(() => {
-    // console.log("coord", coord);
+    //  console.log("coord", coord);
   }, [coord]);
 
-  const removeMarker = (pos) => {
-    // console.log("pos", pos)
-    setCoord((prevCoord) =>
-      prevCoord.filter((coord) => JSON.stringify(coord) !== JSON.stringify(pos))
-    );
-    axios.post(`http://localhost:3500/points/delete/`, pos)
-      .then((response) => {
-        // console.log(response.data)
-      })
-    setRemovePoint(prevState => !prevState)
-  };
+  // const removeMarker = (pos) => {
+  //    console.log("type of deleted pos", typeof pos)
+  //    console.log("deleted pos", pos)
+  //    console.log("last item array", coord.slice(-1)[0])
+  
+    
+  //   //  setCoord((prevCoord) =>
+  //   //   prevCoord.filter((coord) => JSON.stringify(coord) !== JSON.stringify(pos))
+  //   // );
+
+  //   setCoord((coord.slice(0, -1))
+  // );
+
+  //   // axios.post(`http://localhost:3500/points/delete/`, pos)
+  //   axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])
+  //   // axios.post(`http://localhost:3500/points/delete/`, coord.lenght - 1)
+  //     .then((response) => {
+  //       // console.log(response.data)
+  //     })
+  //   setRemovePoint(prev => prev + 1)
+  // };
+
+  // // console.log("coord", coord)
+  // // console.log("coord minus last", coord.slice(0, -1))
+
+
 
   return (
     <div>
       {coord.map((pos, idx) => (
+        <>
         <Marker
           key={`marker-${idx}`}
           position={pos}
@@ -55,13 +71,17 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
             click: (e) => {
               // console.log(e.latlng);
               removeMarker(pos)
+              setButtonDelete(prev => prev + 1)
             }
           }}
         >
+          
           {/* <Popup>
             <button onClick={() => removeMarker(pos)}>Remove marker</button>
           </Popup> */}
         </Marker>
+        </>
+        
       ))}
     </div>
   );

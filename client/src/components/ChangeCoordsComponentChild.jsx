@@ -73,7 +73,8 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
 
   return (
     <>
-    <MapContainer 
+    
+    {/* <MapContainer 
     
     // center={position} 
     zoom={13} style={{ height: "90vh" }}>
@@ -86,7 +87,8 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
       onClick={() =>
         setCoords(rideCoords)
       }
-    >See ride</button>
+    >See ride</button> */}
+
 
 {/* Show or do not show markers */}
 
@@ -98,11 +100,11 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
           );
         })} */}
 
-      <Bounds coords={coords} />
+      {/* <Bounds coords={coords} />
       <Polyline positions={coords} color="black" />
       <LocationMarker />
       setMount(true)
-    </MapContainer>
+    </MapContainer> */}
     <RideMap />
     </>
   );

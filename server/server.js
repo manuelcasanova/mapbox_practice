@@ -58,7 +58,9 @@ app.post("/points", async (req, res) => {
 
 //Delete a point
 app.post("/points/delete/", async (req, res) => {
+
   try {
+   
 let lat = req.body.lat;
 let lng = req.body.lng;
 
