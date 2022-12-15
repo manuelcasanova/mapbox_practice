@@ -12,7 +12,7 @@ L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
   iconUrl: require('../components/img/black-square.png'),
 
-  iconSize: [15, 15],
+  iconSize: [2, 2],
   iconAnchor: [0, 0],
   popupAnchor: true,
   shadowUrl: true,
@@ -184,21 +184,27 @@ export default function RideMap({
  // console.log("coord", coord)
  // console.log("coord minus last", coord.slice(0, -1))
 
+const deleteLast = (e) => {
+  
+  e.preventDefault();
+  // console.log("Clicked");
+  removeMarker(coord.slice(0, -1))
+  
+}
+
   return (
 
     <div className="map-outer-container">
       <>
       <button
           className="centeride"
-          // onClick={removeMarker()}
-           onClick={console.log("click")}
+            onClick={deleteLast}
         >Delete last</button>
       <MapContainer
         bounds={boundsHardcoded}
-
-
         zoom={12}
       >
+
 
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

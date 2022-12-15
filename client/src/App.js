@@ -23,6 +23,7 @@ function App() {
     <Title />
     {/* <Polyline /> */}
     <Information />
+
     {/* <MapFunctionalComponent /> */}
     {/* <RideMapParent /> */}
     {/* <RectangleComponent/> */}

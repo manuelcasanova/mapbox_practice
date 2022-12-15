@@ -70,8 +70,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
           eventHandlers={{
             click: (e) => {
               // console.log(e.latlng);
-              removeMarker(pos)
-              setButtonDelete(prev => prev + 1)
+              // removeMarker(pos)
             }
           }}
         >
