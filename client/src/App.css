@@ -51,16 +51,17 @@
   flex-direction: column; */
   min-height: 60vh;
   padding: 0.5em 0em 0.5em 0em;
-
+  border: 10px double black;
+  border-radius: 20px;
 }
 
 .leaflet-container {
   position: relative;
   min-height: 55vh;
-  width: 90vw;
+  width: 85vw;
   padding: 0.7em;
-  border: 10px double black;
   border-radius: 20px;
+  
 }
 
 .footer {
@@ -89,7 +90,7 @@
 
   display: inline-block;
   /* padding: 15px 15px; */
-  font-size: 24px;
+  font-size: 14px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -102,10 +103,8 @@
   box-shadow: 0 9px #999;
   right: 0;
   top: 0;
-  position: absolute;
-  z-index: 1000;
-
-
+  /* position: absolute; */
+  /* z-index: 1000; */
 }
 
 .centeride:hover {

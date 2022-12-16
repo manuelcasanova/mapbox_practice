@@ -1,7 +1,7 @@
 //ORIGINAL
 
-import { useState, useEffect, useRef, useMemo } from "react";
-import { MapContainer, TileLayer, Polyline, Rectangle, useMap } from "react-leaflet";
+import { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
@@ -20,9 +20,7 @@ L.Marker.prototype.options.icon = L.icon({
   shadowAnchor: true
 });
 
-export default function RideMap({
-  // longitudesArray, latitudesArray
-}) {
+export default function RideMap() {
 
 
   ////// BROUGHT FROM PARENT
@@ -33,8 +31,6 @@ export default function RideMap({
   let latitudesArray = []
   let longitudesArray = []
 
-
-  const [bounds, setBounds] = useState([])
 
   const getPoints = async () => {
     try {
@@ -52,18 +48,18 @@ export default function RideMap({
 
   }, [])
 
-  useEffect(() => {
-    // console.log("points", points)
-  }, [points])
+  // useEffect(() => {
+  //   // console.log("points", points)
+  // }, [points])
 
-  {
-    loading && points.map((point) => {
-      // console.log("point", point)
-      latitudesArray.push(Number(point.lat))
-      longitudesArray.push(Number(point.lng))
+  // {
+  //   loading && points.map((point) => {
+  //     // console.log("point", point)
+  //     latitudesArray.push(Number(point.lat))
+  //     longitudesArray.push(Number(point.lng))
 
-    })
-  }
+  //   })
+  // }
 
 
 
@@ -159,66 +155,98 @@ export default function RideMap({
 
   // console.log("state.markers", state.markers[0])
 
+  // Remove on marker
+
   const removeMarker = (pos) => {
-    console.log("type of deleted pos", typeof pos)
-    console.log("deleted pos", pos)
-    console.log("last item array", coord.slice(-1)[0])
- 
-   
-   //  setCoord((prevCoord) =>
-   //   prevCoord.filter((coord) => JSON.stringify(coord) !== JSON.stringify(pos))
-   // );
+    // console.log("type of deleted pos", typeof pos)
+    // console.log("deleted pos", pos)
+    // console.log("last item array", coord.slice(-1)[0])
 
-   setCoord((coord.slice(0, -1))
- );
 
-   // axios.post(`http://localhost:3500/points/delete/`, pos)
-   axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])
-   // axios.post(`http://localhost:3500/points/delete/`, coord.lenght - 1)
-     .then((response) => {
-       // console.log(response.data)
-     })
-   setRemovePoint(prev => prev + 1)
- };
+    //  setCoord((prevCoord) =>
+    //   prevCoord.filter((coord) => JSON.stringify(coord) !== JSON.stringify(pos))
+    // );
 
- // console.log("coord", coord)
- // console.log("coord minus last", coord.slice(0, -1))
+    setCoord((coord.slice(0, -1))
+    );
 
-const deleteLast = (e) => {
-  
-  e.preventDefault();
-  // console.log("Clicked");
-  removeMarker(coord.slice(0, -1))
-  
-}
+    // axios.post(`http://localhost:3500/points/delete/`, pos)
+    axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])
+      // axios.post(`http://localhost:3500/points/delete/`, coord.lenght - 1)
+      .then((response) => {
+        // console.log(response.data)
+      })
+    setRemovePoint(prev => prev + 1)
+  };
+
+  // console.log("coord", coord)
+  // console.log("coord minus last", coord.slice(0, -1))
+
+
+  //Remove all markers
+
+  const removeAll = () => {
+
+    setCoord(([]));
+
+    axios.post(`http://localhost:3500/points/delete/all`)
+      
+      .then((response) => {
+        // console.log(response.data)
+      })
+    setRemovePoint(prev => prev + 1)
+  };
+
+  const deleteLast = (e) => {
+
+    e.preventDefault();
+    // console.log("Clicked");
+    removeMarker(coord.slice(0, -1))
+
+  }
+
+  const deleteAll = (e) => {
+
+    e.preventDefault();
+    // console.log("Clicked");
+    removeAll(coord)
+
+  }
 
   return (
 
     <div className="map-outer-container">
       <>
-      <button
+        <button
           className="centeride"
-            onClick={deleteLast}
+          onClick={deleteLast}
         >Delete last</button>
-      <MapContainer
-        bounds={boundsHardcoded}
-        zoom={12}
-      >
+        <button
+          className="centeride"
+          onClick={deleteAll}
+        >Delete all</button>
+        <MapContainer
+          bounds={boundsHardcoded}
+          zoom={12}
+        >
 
 
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
 
-        <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}
-          coord={coord}
-          setCoord={setCoord} buttonDelete={buttonDelete} setButtonDelete={setButtonDelete} removeMarker={removeMarker}/>
-        <Polyline positions={coordinadasPara} color="black" />
-      </MapContainer>
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+
+
+
+          <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}
+            coord={coord}
+            setCoord={setCoord} buttonDelete={buttonDelete} setButtonDelete={setButtonDelete} removeMarker={removeMarker} />
+          <Polyline positions={coordinadasPara} color="black" />
+        </MapContainer>
       </>
     </div>
-    
+
 
   );
 }

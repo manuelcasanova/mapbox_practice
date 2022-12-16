@@ -87,7 +87,7 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
       onClick={() =>
         setCoords(rideCoords)
       }
-    >See ride</button> */}
+    >See ride</button> 
 
 
 {/* Show or do not show markers */}
@@ -105,6 +105,7 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
       <LocationMarker />
       setMount(true)
     </MapContainer> */}
+    
     <RideMap />
     </>
   );

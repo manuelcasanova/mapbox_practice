@@ -74,6 +74,22 @@ let lng = req.body.lng;
 })
 
 
+//Delete all points
+app.post("/points/delete/all", async (req, res) => {
+
+  try {
+
+   await pool.query(
+     "DELETE FROM points"
+   )
+   res.json("Network Response: All points were deleted")
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
+
+
 // -------- END ROUTES --------
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
