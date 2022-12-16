@@ -213,11 +213,14 @@ export default function RideMap() {
 
   }
 
+
+
   return (
 
     <div className="map-outer-container">
       <>
-        <button
+      <div className="deletebuttons">
+      <button
           className="centeride"
           onClick={deleteLast}
         >Delete last</button>
@@ -225,6 +228,10 @@ export default function RideMap() {
           className="centeride"
           onClick={deleteAll}
         >Delete all</button>
+      </div>
+
+
+
         <MapContainer
           bounds={boundsHardcoded}
           zoom={12}

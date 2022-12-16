@@ -55,11 +55,12 @@ let longitude;
   }, [])
 
   useEffect(() => {
-    // console.log("points", points)
+     console.log("coords", coords)
    
-  }, [points])
+  }, [coords])
 
-  let rideCoords = []
+  //If there were no ride coords, the map would center here
+  let rideCoords = [ [49.283255, -123.119930]]
 
 
   {

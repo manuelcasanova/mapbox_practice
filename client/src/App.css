@@ -15,7 +15,7 @@
 
 .title,
 .information,
-.map-outer-container,
+/* .map-outer-container, */
 .footer {
   display: flex;
   justify-content: center;
@@ -43,22 +43,30 @@
 
 .map-outer-container {
   display: flex;
+  flex-direction: column;
   /* background-color: coral; */
-  padding: 0.5em 0em 0.5em 0em;
+  /* padding: 0.5em 0em 0.5em 0em; */
   /* min-height: 70vh; */
   /* height: 100%; */
   /* display: flex;
   flex-direction: column; */
-  min-height: 60vh;
-  padding: 0.5em 0em 0.5em 0em;
+  /* min-height: 60vh; */
   border: 10px double black;
   border-radius: 20px;
+  /* padding: 0em 1em 1em 1em; */
+  padding: 100px;
+}
+
+.deletebuttons {
+  text-align: end;
+  /* background-color: red; */
+  padding: 0em 1em 1em 1em;
 }
 
 .leaflet-container {
-  position: relative;
-  min-height: 55vh;
-  width: 85vw;
+  /* position: relative; */
+  min-height: 35vh;
+  /* width: 85vw; */
   padding: 0.7em;
   border-radius: 20px;
   
@@ -83,14 +91,13 @@
 }
 
 
-.centeride {
+/* .seeride {
   height: 3.5em;
   width: 3.5em;
-  margin: 20px;
+  margin: 5px;
 
   display: inline-block;
-  /* padding: 15px 15px; */
-  font-size: 14px;
+  font-size: 1em;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -103,9 +110,41 @@
   box-shadow: 0 9px #999;
   right: 0;
   top: 0;
-  /* position: absolute; */
-  /* z-index: 1000; */
+  position: absolute;
+  z-index: 1000;
+} */
+
+
+
+.centeride, .seeride {
+  height: 3.5em;
+  width: 3.5em;
+  margin: 5px;
+
+  display: inline-block;
+  /* padding: 15px 15px; */
+  font-size: 1em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  color: black;
+  background-color: white;
+  opacity: 0.5;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 9px #999;
+  right: 0;
+  top: 0;
+  /* position: absolute;
+  z-index: 1000; */
 }
+
+.seeride {
+  position: absolute;
+  z-index: 1000;
+}
+
 
 .centeride:hover {
   /* background-color: darkgray */
@@ -116,6 +155,7 @@
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
+
 
 /* || MOBILE DEVICE LANDSCAPE  */
 /* @media screen and (max-height: 320px) and (min-aspect-ratio: 7/4) {

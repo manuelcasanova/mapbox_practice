@@ -72,10 +72,12 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
   // const position = [49.283255, -123.119930];
 
   return (
-    <>
+    <div>
+    <div className="map-outer-container">
+
     
-    {/* <MapContainer 
-    
+    <MapContainer 
+    // className="map-outer-container"
     // center={position} 
     zoom={13} style={{ height: "90vh" }}>
       <TileLayer
@@ -83,14 +85,14 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
           <button
-    className="centeride"
+    className="seeride"
       onClick={() =>
         setCoords(rideCoords)
       }
     >See ride</button> 
 
 
-{/* Show or do not show markers */}
+ {/* Show or do not show markers */}
 
       {/* {coords.length > 0 &&
         coords.map((coord, index) => {
@@ -100,13 +102,14 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
           );
         })} */}
 
-      {/* <Bounds coords={coords} />
+      <Bounds coords={coords} />
       <Polyline positions={coords} color="black" />
       <LocationMarker />
       setMount(true)
-    </MapContainer> */}
+    </MapContainer>
+    </div>
     
     <RideMap />
-    </>
+    </div>
   );
 }
