@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, useMap, Polyline, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import RideMap from "./RideMap";
@@ -49,11 +49,12 @@ function LocationMarker() {
     map.locate().on("locationfound", function (e) {
       setPosition(e.latlng);
       map.flyTo(e.latlng, 
-        // map.getZoom()
+        map.getZoom()
         );
       // const radius = e.accuracy;
       // const circle = L.circle(e.latlng, radius);
       // circle.addTo(map);
+      // console.log("latlang", Object.values(e.latlng))
     });
   }, [map]);
 
@@ -67,12 +68,19 @@ function LocationMarker() {
 
 ///FLy end
 
-export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoords, setMount }) {
+
+
+export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoords }) {
   // STATIC MARKER POSITIONS
   // const position = [49.283255, -123.119930];
 
+// console.log("coords", coords)
+// console.log("rideCoords", Object.values(rideCoords[0]))
+
+
   return (
     <div>
+      {/* Viewing map */}
     <div className="map-outer-container">
 
     
@@ -86,8 +94,13 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
       />
           <button
     className="seeride"
+
+
+
       onClick={() =>
-        setCoords(rideCoords)
+        //Slice so it does not draw a line between the browser's location and the first point
+        rideCoords.length = 1 ? setCoords(rideCoords) : setCoords(rideCoords.slice(1))
+     
       }
     >See ride</button> 
 
@@ -105,10 +118,11 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
       <Bounds coords={coords} />
       <Polyline positions={coords} color="black" />
       <LocationMarker />
-      setMount(true)
+
     </MapContainer>
     </div>
     
+    {/* Editing map */}
     <RideMap />
     </div>
   );

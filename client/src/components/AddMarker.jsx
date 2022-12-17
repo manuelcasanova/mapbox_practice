@@ -24,7 +24,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       // console.log("type of e.latlng", typeof e.latlng)
       // console.log("e.latlng", e.latlng)
       // console.log("values", Object.values(e.latlng))
-      setRemovePoint(prevState => !prevState)
+      setRemovePoint(prevState => prevState + 1)
     }
   });
 

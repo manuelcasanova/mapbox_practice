@@ -143,6 +143,8 @@
 .seeride {
   position: absolute;
   z-index: 1000;
+  height: 8em;
+  width: 8em;
 }
 
 

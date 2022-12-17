@@ -125,6 +125,7 @@ export default function RideMap() {
       .then((response) => {
         // console.log(response.data)
       })
+
   };
 
   // const removeMarker = (pos) => {
@@ -169,6 +170,7 @@ export default function RideMap() {
 
     setCoord((coord.slice(0, -1))
     );
+   
 
     // axios.post(`http://localhost:3500/points/delete/`, pos)
     axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])
@@ -186,11 +188,12 @@ export default function RideMap() {
   //Remove all markers
 
   const removeAll = () => {
+    
 
     setCoord(([]));
 
     axios.post(`http://localhost:3500/points/delete/all`)
-      
+
       .then((response) => {
         // console.log(response.data)
       })
@@ -202,7 +205,6 @@ export default function RideMap() {
     e.preventDefault();
     // console.log("Clicked");
     removeMarker(coord.slice(0, -1))
-
   }
 
   const deleteAll = (e) => {
@@ -210,7 +212,6 @@ export default function RideMap() {
     e.preventDefault();
     // console.log("Clicked");
     removeAll(coord)
-
   }
 
 
@@ -219,16 +220,16 @@ export default function RideMap() {
 
     <div className="map-outer-container">
       <>
-      <div className="deletebuttons">
-      <button
-          className="centeride"
-          onClick={deleteLast}
-        >Delete last</button>
-        <button
-          className="centeride"
-          onClick={deleteAll}
-        >Delete all</button>
-      </div>
+        <div className="deletebuttons">
+          <button
+            className="centeride"
+            onClick={deleteLast}
+          >Delete last</button>
+          <button
+            className="centeride"
+            onClick={deleteAll}
+          >Delete all</button>
+        </div>
 
 
 

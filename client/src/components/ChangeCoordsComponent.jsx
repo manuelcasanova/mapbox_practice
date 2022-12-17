@@ -55,12 +55,42 @@ let longitude;
   }, [])
 
   useEffect(() => {
-     console.log("coords", coords)
+    //  console.log("coords", coords)
    
   }, [coords])
 
-  //If there were no ride coords, the map would center here
-  let rideCoords = [ [49.283255, -123.119930]]
+  const [browserCoords, setBrowserCoords] = useState([49.283255, -123.119930])
+
+
+  //Function to get browser location
+
+  const options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+  };
+  
+  function success(pos) {
+    const crd = pos.coords;
+  
+    // console.log('Your current position is:');
+    // console.log(`Latitude : ${crd.latitude}`);
+    // console.log(`Longitude: ${crd.longitude}`);
+    // console.log(`More or less ${crd.accuracy} meters.`);
+    setBrowserCoords([crd.latitude, crd.longitude])
+
+  }
+  
+  function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  }
+  
+  navigator.geolocation.getCurrentPosition(success, error, options);
+
+    //END Function to get browser location
+
+  //If there were no ride coords, the map would center here.
+  let rideCoords = [browserCoords]
 
 
   {
@@ -74,14 +104,16 @@ let longitude;
   }
   /////GET COORDIANTES - END
 
+
   return (
     //Ride is shown centered in map
-    <div       
-    onMouseOver={() =>
-      setCoords(rideCoords)
-    }
+    <div  
+    //Remove because otherwise it shows the line connecting the current location with the first point     
+    // onMouseOver={() =>
+    //   setCoords(rideCoords)
+    // }
     >
-    <ChangeCoordsComponentChild coords={coords} setCoords={setCoords} rideCoords={rideCoords} />
+    <ChangeCoordsComponentChild coords={coords} setCoords={setCoords} rideCoords={rideCoords}  />
 
 
   </div>

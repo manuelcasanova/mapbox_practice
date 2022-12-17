@@ -27,7 +27,12 @@ function App() {
     {/* <MapFunctionalComponent /> */}
     {/* <RideMapParent /> */}
     {/* <RectangleComponent/> */}
+
+
     <ChangeCoordsComponent />
+    
+    
+    
     {/* <RideMap /> */}
     {/* <BoundsRideMap /> */}
     {/* <RideMap /> */}
