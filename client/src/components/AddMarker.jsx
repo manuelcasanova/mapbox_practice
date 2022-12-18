@@ -62,7 +62,8 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
   return (
     <div>
       {coord.map((pos, idx) => (
-        <>
+        
+        
         <Marker
           key={`marker-${idx}`}
           position={pos}
@@ -79,7 +80,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
             <button onClick={() => removeMarker(pos)}>Remove marker</button>
           </Popup> */}
         </Marker>
-        </>
+        
         
       ))}
     </div>

@@ -1,7 +1,7 @@
 //ORIGINAL
 
 import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, useMap, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
@@ -20,10 +20,45 @@ L.Marker.prototype.options.icon = L.icon({
   shadowAnchor: true
 });
 
+  //Icon for the browser's location
+  const icon2 = L.icon({
+    iconSize: [60, 60],
+    // iconAnchor: [0, 0],
+    // popupAnchor: [2, -40],
+    iconUrl: require('../components/img/mylocation.png'),
+  });
+
+///Fly
+
+function LocationMarker() {
+  const [pos, setPos] = useState(null);
+
+  const map = useMap();
+
+  useEffect(() => {
+    map.locate().on("locationfound", function (e) {
+      setPos(e.latlng);
+      map.flyTo(e.latlng, 
+        map.getZoom()
+        );
+      // const radius = e.accuracy;
+      // const circle = L.circle(e.latlng, radius);
+      // circle.addTo(map);
+      // console.log("latlang", Object.values(e.latlng))
+    });
+  }, [map]);
+
+  return pos === null ? null : (
+    <Marker position={pos} 
+     icon={icon2}
+    >
+    </Marker>
+  );
+}
+
+///FLy end
+
 export default function RideMap() {
-
-
-  ////// BROUGHT FROM PARENT
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -61,12 +96,10 @@ export default function RideMap() {
   //   })
   // }
 
-
-
-
   // console.log("arrays", latitudesArray, longitudesArray)
 
-  //// BROUGHT FROM PARENT END
+
+
 
   // console.log("arrays in child", longitudesArray, latitudesArray)
 
@@ -102,7 +135,7 @@ export default function RideMap() {
   }, [removePoint])
 
 
-  const position = [49.282730, -123.120735];
+   const position = [49.282730, -123.120735];
   const [state, setState] = useState({
     markers: [position],
     data: []
@@ -251,6 +284,7 @@ export default function RideMap() {
             coord={coord}
             setCoord={setCoord} buttonDelete={buttonDelete} setButtonDelete={setButtonDelete} removeMarker={removeMarker} />
           <Polyline positions={coordinadasPara} color="black" />
+        <LocationMarker />
         </MapContainer>
       </>
     </div>

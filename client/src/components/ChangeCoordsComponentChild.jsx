@@ -4,19 +4,20 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import RideMap from "./RideMap";
 
-const icon = L.icon({
-  iconSize: [15, 15],
-  iconAnchor: [0, 0],
-  popupAnchor: [2, -40],
-  iconUrl: require('../components/img/black-square.png'),
-  // shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
-});
+// const icon = L.icon({
+//   iconSize: [20, 20],
+//   iconAnchor: [0, 0],
+//   popupAnchor: [2, -40],
+//   iconUrl: require('../components/img/black-square.png'),
+//   // iconUrl: require('../components/img/black-square2.jpeg'),
+//   // shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+// });
 
 //Icon for the browser's location
 const icon2 = L.icon({
   iconSize: [60, 60],
-  iconAnchor: [0, 0],
-  popupAnchor: [2, -40],
+  // iconAnchor: [0, 0],
+  // popupAnchor: [2, -40],
   iconUrl: require('../components/img/mylocation.png'),
 });
 
@@ -70,13 +71,13 @@ function LocationMarker() {
 
 
 
+
 export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoords }) {
   // STATIC MARKER POSITIONS
   // const position = [49.283255, -123.119930];
 
 // console.log("coords", coords)
-// console.log("rideCoords", Object.values(rideCoords[0]))
-
+//  console.log("rideCoords", Object.values(rideCoords[0]))
 
   return (
     <div>
@@ -92,18 +93,20 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      
           <button
     className="seeride"
 
 
-
+ 
       onClick={() =>
         //Slice so it does not draw a line between the browser's location and the first point
-        rideCoords.length = 1 ? setCoords(rideCoords) : setCoords(rideCoords.slice(1))
-     
+
+        setCoords(rideCoords.slice(1))
+        
       }
     >See ride</button> 
-
+    
 
  {/* Show or do not show markers */}
 
@@ -115,7 +118,8 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
           );
         })} */}
 
-      <Bounds coords={coords} />
+      {coords.length > 1 && <Bounds coords={coords} />}
+ 
       <Polyline positions={coords} color="black" />
       <LocationMarker />
 
