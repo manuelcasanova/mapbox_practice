@@ -54,15 +54,16 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
   //   setRemovePoint(prev => prev + 1)
   // };
 
-  // // console.log("coord", coord)
+//  console.log("coord", coord)
+//  console.log("array", Object.values(coord[0]))
   // // console.log("coord minus last", coord.slice(0, -1))
 
-
+  
 
   return (
     <div>
       {coord.map((pos, idx) => (
-        
+       
         
         <Marker
           key={`marker-${idx}`}

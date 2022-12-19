@@ -4,18 +4,32 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import RideMap from "./RideMap";
 
-// const icon = L.icon({
-//   iconSize: [20, 20],
-//   iconAnchor: [0, 0],
-//   popupAnchor: [2, -40],
-//   iconUrl: require('../components/img/black-square.png'),
-//   // iconUrl: require('../components/img/black-square2.jpeg'),
-//   // shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
-// });
+const icon_black = L.icon({
+  iconSize: [10, 10],
+  iconAnchor: [0, 0],
+  popupAnchor: [2, -40],
+  iconUrl: require('../components/img/black-square.png'),
+  // iconUrl: require('../components/img/black-square2.jpeg'),
+  // shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+});
+
+const icon_green = L.icon({
+  iconSize: [20, 20],
+  iconAnchor: [0, 0],
+  popupAnchor: [2, -40],
+  iconUrl: require('../components/img/greencircle.png'),
+});
+
+const icon_flag = L.icon({
+  iconSize: [20, 20],
+  iconAnchor: [0, 0],
+  popupAnchor: [2, -40],
+  iconUrl: require('../components/img/racingflag.png'),
+});
 
 //Icon for the browser's location
 const icon2 = L.icon({
-  iconSize: [60, 60],
+  iconSize: [30, 30],
   // iconAnchor: [0, 0],
   // popupAnchor: [2, -40],
   iconUrl: require('../components/img/mylocation.png'),
@@ -67,7 +81,7 @@ function LocationMarker() {
   );
 }
 
-///FLy end
+///Fly end
 
 
 
@@ -88,7 +102,7 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
     <MapContainer 
     // className="map-outer-container"
     // center={position} 
-    zoom={13} style={{ height: "90vh" }}>
+    zoom={13} >
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -110,13 +124,28 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
 
  {/* Show or do not show markers */}
 
-      {/* {coords.length > 0 &&
+      {coords.length > 0 &&
         coords.map((coord, index) => {
+         
           return (
-            <Marker key={index} position={[coord[0], coord[1]]} icon={icon} 
+            <>
+            
+            <Marker 
+            
+            key={index} 
+            position={[coord[0], coord[1]]} 
+
+            icon={
+              index === 0 ? icon_green : icon_black
+            }
+
+//Introduce icon_flag for last marker
+
             />
+             </>
           );
-        })} */}
+         
+        })}
 
       {coords.length > 1 && <Bounds coords={coords} />}
  

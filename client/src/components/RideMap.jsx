@@ -6,27 +6,30 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
 
+import greencircle from '../components/img/greencircle.png'
+
 import AddMarker from "./AddMarker";
 
 L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-  iconUrl: require('../components/img/black-square.png'),
+  // iconUrl: require('../components/img/black-square.png'),
+  iconUrl: greencircle,
 
   iconSize: [2, 2],
   iconAnchor: [0, 0],
-  popupAnchor: true,
-  shadowUrl: true,
-  shadowSize: true,
-  shadowAnchor: true
+  // popupAnchor: true,
+  // shadowUrl: true,
+  // shadowSize: true,
+  // shadowAnchor: true
 });
 
-  //Icon for the browser's location
-  const icon2 = L.icon({
-    iconSize: [60, 60],
-    // iconAnchor: [0, 0],
-    // popupAnchor: [2, -40],
-    iconUrl: require('../components/img/mylocation.png'),
-  });
+//Icon for the browser's location
+const icon2 = L.icon({
+  iconSize: [30, 30],
+  // iconAnchor: [0, 0],
+  // popupAnchor: [2, -40],
+  iconUrl: require('../components/img/mylocation.png'),
+});
 
 ///Fly
 
@@ -38,9 +41,9 @@ function LocationMarker() {
   useEffect(() => {
     map.locate().on("locationfound", function (e) {
       setPos(e.latlng);
-      map.flyTo(e.latlng, 
+      map.flyTo(e.latlng,
         map.getZoom()
-        );
+      );
       // const radius = e.accuracy;
       // const circle = L.circle(e.latlng, radius);
       // circle.addTo(map);
@@ -49,8 +52,8 @@ function LocationMarker() {
   }, [map]);
 
   return pos === null ? null : (
-    <Marker position={pos} 
-     icon={icon2}
+    <Marker position={pos}
+      icon={icon2}
     >
     </Marker>
   );
@@ -135,7 +138,7 @@ export default function RideMap() {
   }, [removePoint])
 
 
-   const position = [49.282730, -123.120735];
+  const position = [49.282730, -123.120735];
   const [state, setState] = useState({
     markers: [position],
     data: []
@@ -203,7 +206,7 @@ export default function RideMap() {
 
     setCoord((coord.slice(0, -1))
     );
-   
+
 
     // axios.post(`http://localhost:3500/points/delete/`, pos)
     axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])
@@ -221,7 +224,7 @@ export default function RideMap() {
   //Remove all markers
 
   const removeAll = () => {
-    
+
 
     setCoord(([]));
 
@@ -264,27 +267,30 @@ export default function RideMap() {
           >Delete all</button>
         </div>
 
-
-
         <MapContainer
           bounds={boundsHardcoded}
           zoom={12}
         >
-
-
 
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-
-
-          <AddMarker saveMarkers={saveMarkers} setRemovePoint={setRemovePoint}
+          <AddMarker
+            saveMarkers={saveMarkers}
+            setRemovePoint={setRemovePoint}
             coord={coord}
-            setCoord={setCoord} buttonDelete={buttonDelete} setButtonDelete={setButtonDelete} removeMarker={removeMarker} />
+            setCoord={setCoord}
+            buttonDelete={buttonDelete}
+            setButtonDelete={setButtonDelete}
+            removeMarker={removeMarker}
+          />
+
           <Polyline positions={coordinadasPara} color="black" />
-        <LocationMarker />
+
+          <LocationMarker />
+
         </MapContainer>
       </>
     </div>
