@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import RideMap from "./RideMap";
 
 const icon_black = L.icon({
-  iconSize: [10, 10],
+  iconSize: [2, 2],
   iconAnchor: [0, 0],
   popupAnchor: [2, -40],
   iconUrl: require('../components/img/black-square.png'),
@@ -14,17 +14,17 @@ const icon_black = L.icon({
 });
 
 const icon_green = L.icon({
-  iconSize: [20, 20],
-  iconAnchor: [0, 0],
-  popupAnchor: [2, -40],
+  iconSize: [30, 30],
+  // iconAnchor: [0, 0],
+  // popupAnchor: [2, -40],
   iconUrl: require('../components/img/greencircle.png'),
 });
 
 const icon_flag = L.icon({
   iconSize: [20, 20],
-  iconAnchor: [0, 0],
-  popupAnchor: [2, -40],
-  iconUrl: require('../components/img/racingflag.png'),
+  // iconAnchor: [0, 0],
+  // popupAnchor: [2, -40],
+  iconUrl: require('../components/img/raceflag.png'),
 });
 
 //Icon for the browser's location
@@ -136,7 +136,7 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
             position={[coord[0], coord[1]]} 
 
             icon={
-              index === 0 ? icon_green : icon_black
+              index === 0 ? icon_green : index === coords.length - 1 ? icon_flag : icon_black 
             }
 
 //Introduce icon_flag for last marker
@@ -157,6 +157,7 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
     
     {/* Editing map */}
     <RideMap />
+    
     </div>
   );
 }

@@ -20,6 +20,11 @@ import ChangeCoordsComponent from './components/ChangeCoordsComponent';
 function App() {
   return (
     <div className='app'>
+
+
+
+
+
     <Title />
     {/* <Polyline /> */}
     <Information />
