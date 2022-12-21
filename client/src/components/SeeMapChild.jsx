@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import RideMap from "./RideMap";
+import DrawMap from "./DrawMap";
 
 const icon_black = L.icon({
   iconSize: [2, 2],
@@ -85,8 +85,7 @@ function LocationMarker() {
 
 
 
-
-export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoords }) {
+export default function SeeMapChild({ coords, setCoords, rideCoords }) {
   // STATIC MARKER POSITIONS
   // const position = [49.283255, -123.119930];
 
@@ -115,7 +114,7 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
  
       onClick={() =>
         //Slice so it does not draw a line between the browser's location and the first point
-
+     
         setCoords(rideCoords.slice(1))
         
       }
@@ -156,7 +155,7 @@ export default function ChangeCoordsComponentChild({ coords, setCoords, rideCoor
     </div>
     
     {/* Editing map */}
-    <RideMap />
+    {/* <RideMap /> */}
     
     </div>
   );

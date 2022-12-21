@@ -7,6 +7,8 @@ import L from "leaflet";
 import axios from "axios";
 
 import greencircle from '../components/img/greencircle.png'
+import recyclingBin from '../components/img/delete.png'
+import undo from '../components/img/undo.png'
 
 import AddMarker from "./AddMarker";
 
@@ -15,7 +17,7 @@ L.Marker.prototype.options.icon = L.icon({
   // iconUrl: require('../components/img/black-square.png'),
   iconUrl: greencircle,
 
-  iconSize: [2, 2],
+  iconSize: [20, 20],
   iconAnchor: [0, 0],
   // popupAnchor: true,
   // shadowUrl: true,
@@ -61,7 +63,7 @@ function LocationMarker() {
 
 ///FLy end
 
-export default function RideMap() {
+export default function DrawMap() {
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -116,7 +118,11 @@ export default function RideMap() {
 
   const [buttonDelete, setButtonDelete] = useState(0)
 
-
+  const position = [49.282730, -123.120735];
+  const [markersState, setMarkersState] = useState({
+    markers: [position],
+    data: []
+  })
 
   useEffect(() => {
     axios.get(`http://localhost:3500/points`)
@@ -135,18 +141,15 @@ export default function RideMap() {
           })
         )
       })
-  }, [removePoint])
+  }, [removePoint, coord
+  // coordinadasPara (works but causes infinite loop)
+  ])
 
 
-  const position = [49.282730, -123.120735];
-  const [state, setState] = useState({
-    markers: [position],
-    data: []
-  })
 
   const saveMarkers = (newMarkerCoords) => {
-    const data = [...state.data, newMarkerCoords];
-    setState((prevState) => ({ ...prevState, data }));
+    const data = [...markersState.data, newMarkerCoords];
+    setMarkersState((prevState) => ({ ...prevState, data }));
     // console.log("data", data);
     // console.log("new marker", newMarkerCoords)
 
@@ -257,14 +260,25 @@ export default function RideMap() {
     <div className="map-outer-container">
       <>
         <div className="deletebuttons">
-          <button
-            className="centeride"
+
+
+<img
+            className="recbin"
+            src={undo}
+            alt={"Undo"}
             onClick={deleteLast}
-          >Delete last</button>
-          <button
-            className="centeride"
+          />
+
+          <img
+            className="recbin"
+            src={recyclingBin}
+            alt={"Recycling bin"}
             onClick={deleteAll}
-          >Delete all</button>
+          />
+
+
+
+
         </div>
 
         <MapContainer

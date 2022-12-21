@@ -1,10 +1,35 @@
 import { useEffect, useState } from "react";
-import { Marker, Popup, useMapEvents } from "react-leaflet";
+import { Marker, useMapEvents } from "react-leaflet";
+import L from "leaflet";
 import axios from "axios";
 
 export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, buttonDelete, setButtonDelete, removeMarker}) {
 
   // console.log("but delete", buttonDelete)
+
+  const icon_black = L.icon({
+    iconSize: [2, 2],
+    iconAnchor: [0, 0],
+    popupAnchor: [2, -40],
+    iconUrl: require('../components/img/black-square.png'),
+    // iconUrl: require('../components/img/black-square2.jpeg'),
+    // shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+  });
+
+  const icon_green = L.icon({
+    iconSize: [30, 30],
+    // iconAnchor: [0, 0],
+    // popupAnchor: [2, -40],
+    iconUrl: require('../components/img/greencircle.png'),
+  });
+
+  const icon_flag = L.icon({
+    iconSize: [20, 20],
+    // iconAnchor: [0, 0],
+    // popupAnchor: [2, -40],
+    iconUrl: require('../components/img/raceflag.png'),
+  });
+
 
   useEffect(() => {
     axios.get(`http://localhost:3500/points`)
@@ -69,12 +94,21 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
           key={`marker-${idx}`}
           position={pos}
           // draggable={true}
+
+
+          icon={
+            idx === 0 ? icon_green : idx === coord.length - 1 ? icon_flag : icon_black 
+          }
+
+
           eventHandlers={{
             click: (e) => {
               // console.log(e.latlng);
               // removeMarker(pos)
+              // console.log("pos", pos)
             }
           }}
+         
         >
           
           {/* <Popup>

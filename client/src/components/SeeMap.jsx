@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import ChangeCoordsComponentChild from "./ChangeCoordsComponentChild";
+import SeeMapChild from "./SeeMapChild";
 import axios from "axios";
 
-export default function ChangeCoordsComponent () {
+export default function SeeMap () {
 
 let latitude;
 let longitude;
@@ -113,7 +113,7 @@ let longitude;
     //   setCoords(rideCoords)
     // }
     >
-    <ChangeCoordsComponentChild coords={coords} setCoords={setCoords} rideCoords={rideCoords}  />
+    <SeeMapChild coords={coords} setCoords={setCoords} rideCoords={rideCoords}  />
 
 
   </div>

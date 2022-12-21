@@ -7,22 +7,19 @@ import ShowMap from './components/ShowMap'
 import MapClick from './components/MapClick';
 import MapConnect from './components/MapConnect'
 import MapFunctionalComponent from './components/MapFunctionalComponent';
-import RideMap from './components/RideMap';
+import DrawMap from './components/DrawMap';
 import Polyline from './components/Polyline';
 import Footer from './components/Footer';
 import Bounds from './components/BoundsRideMap';
 import BoundsRideMap from './components/BoundsRideMap';
 import RideMapParent from './components/RideMapParent';
 import RectangleComponent from './components/RectangleComponent';
-import ChangeCoordsComponent from './components/ChangeCoordsComponent';
+import SeeMap from './components/SeeMap';
 
 
 function App() {
   return (
     <div className='app'>
-
-
-
 
 
     <Title />
@@ -33,14 +30,14 @@ function App() {
     {/* <RideMapParent /> */}
     {/* <RectangleComponent/> */}
 
-
-    <ChangeCoordsComponent />
-    
+    <DrawMap />
+    <SeeMap />
+  
     
     
     {/* <RideMap /> */}
     {/* <BoundsRideMap /> */}
-    {/* <RideMap /> */}
+
     
     {/* <MapClick /> */}
     {/* <ShowMap /> */}
