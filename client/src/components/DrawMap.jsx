@@ -63,7 +63,7 @@ function LocationMarker() {
 
 ///FLy end
 
-export default function DrawMap() {
+export default function DrawMap({refresh, setRefresh}) {
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -141,8 +141,9 @@ export default function DrawMap() {
           })
         )
       })
-  }, [removePoint, coord
-  // coordinadasPara (works but causes infinite loop)
+  }, [removePoint, coord, markersState.data 
+    //(works but causes infinite loop)
+  //,coordinadasPara 
   ])
 
 
@@ -244,6 +245,7 @@ export default function DrawMap() {
     e.preventDefault();
     // console.log("Clicked");
     removeMarker(coord.slice(0, -1))
+    setRefresh(prev => prev + 1)
   }
 
   const deleteAll = (e) => {
@@ -251,6 +253,7 @@ export default function DrawMap() {
     e.preventDefault();
     // console.log("Clicked");
     removeAll(coord)
+    setRefresh(prev => prev + 1)
   }
 
 
@@ -299,6 +302,8 @@ export default function DrawMap() {
             buttonDelete={buttonDelete}
             setButtonDelete={setButtonDelete}
             removeMarker={removeMarker}
+            refersh={refresh}
+            setRefresh={setRefresh}
           />
 
           <Polyline positions={coordinadasPara} color="black" />

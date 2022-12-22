@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SeeMapChild from "./SeeMapChild";
 import axios from "axios";
 
-export default function SeeMap () {
+export default function SeeMap ({refresh, setRefresh})  {
 
 let latitude;
 let longitude;
@@ -52,7 +52,7 @@ let longitude;
 
     getPoints();
 
-  }, [])
+  }, [refresh])
 
   useEffect(() => {
     //  console.log("coords", coords)

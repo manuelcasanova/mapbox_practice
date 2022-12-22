@@ -15,9 +15,14 @@ import BoundsRideMap from './components/BoundsRideMap';
 import RideMapParent from './components/RideMapParent';
 import RectangleComponent from './components/RectangleComponent';
 import SeeMap from './components/SeeMap';
+import { useState } from 'react';
 
 
 function App() {
+
+//For production only
+const [refresh, setRefresh] = useState(0)
+
   return (
     <div className='app'>
 
@@ -30,8 +35,8 @@ function App() {
     {/* <RideMapParent /> */}
     {/* <RectangleComponent/> */}
 
-    <DrawMap />
-    <SeeMap />
+    <DrawMap refresh={refresh} setRefresh={setRefresh}/>
+    <SeeMap refresh={refresh} setRefresh={setRefresh}/>
   
     
     

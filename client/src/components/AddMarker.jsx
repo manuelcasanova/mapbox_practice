@@ -3,7 +3,7 @@ import { Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import axios from "axios";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, buttonDelete, setButtonDelete, removeMarker}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, buttonDelete, setButtonDelete, removeMarker, refresh, setRefresh}) {
 
   // console.log("but delete", buttonDelete)
 
@@ -50,6 +50,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       // console.log("e.latlng", e.latlng)
       // console.log("values", Object.values(e.latlng))
       setRemovePoint(prevState => prevState + 1)
+      setRefresh(prev => prev + 1)
     }
   });
 
