@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Polyline, useMap, Marker } from "react-leaflet
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
+import LocationMarker from './util_functions/LocationMarker.jsx'
 
 import greencircle from '../components/img/greencircle.png'
 import recyclingBin from '../components/img/delete.png'
@@ -16,7 +17,6 @@ L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
   // iconUrl: require('../components/img/black-square.png'),
   iconUrl: greencircle,
-
   iconSize: [20, 20],
   iconAnchor: [0, 0],
   // popupAnchor: true,
@@ -33,44 +33,10 @@ const icon2 = L.icon({
   iconUrl: require('../components/img/mylocation.png'),
 });
 
-///Fly
-
-function LocationMarker() {
-  const [pos, setPos] = useState(null);
-
-  const map = useMap();
-
-  useEffect(() => {
-    map.locate().on("locationfound", function (e) {
-      setPos(e.latlng);
-      map.flyTo(e.latlng,
-        map.getZoom()
-      );
-      // const radius = e.accuracy;
-      // const circle = L.circle(e.latlng, radius);
-      // circle.addTo(map);
-      // console.log("latlang", Object.values(e.latlng))
-    });
-  }, [map]);
-
-  return pos === null ? null : (
-    <Marker position={pos}
-      icon={icon2}
-    >
-    </Marker>
-  );
-}
-
-///FLy end
-
-export default function DrawMap({refresh, setRefresh}) {
+export default function DrawMap({ refresh, setRefresh }) {
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
-
-  let latitudesArray = []
-  let longitudesArray = []
-
 
   const getPoints = async () => {
     try {
@@ -87,26 +53,6 @@ export default function DrawMap({refresh, setRefresh}) {
     getPoints();
 
   }, [])
-
-  // useEffect(() => {
-  //   // console.log("points", points)
-  // }, [points])
-
-  // {
-  //   loading && points.map((point) => {
-  //     // console.log("point", point)
-  //     latitudesArray.push(Number(point.lat))
-  //     longitudesArray.push(Number(point.lng))
-
-  //   })
-  // }
-
-  // console.log("arrays", latitudesArray, longitudesArray)
-
-
-
-
-  // console.log("arrays in child", longitudesArray, latitudesArray)
 
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
@@ -127,23 +73,16 @@ export default function DrawMap({refresh, setRefresh}) {
   useEffect(() => {
     axios.get(`http://localhost:3500/points`)
       .then(function (res) {
-        //  console.log("res data", res.data)
-        // const objValues = Object.values(res.data)
-        // console.log("objValues", objValues)
-
         setCoordinadasPara(
           res.data.map((coordinadas) => {
-            // console.log(coordinadas.lat, coordinadas.lng)
             let coord = [Number(coordinadas.lat), Number(coordinadas.lng)]
-            // console.log("coord", coord)
-            // console.log("res", res.data[1].lat, res.data[1].lng)
             return coord
           })
         )
       })
-  }, [removePoint, coord, markersState.data 
+  }, [removePoint, coord, markersState.data
     //(works but causes infinite loop)
-  //,coordinadasPara 
+    //,coordinadasPara 
   ])
 
 
@@ -151,11 +90,8 @@ export default function DrawMap({refresh, setRefresh}) {
   const saveMarkers = (newMarkerCoords) => {
     const data = [...markersState.data, newMarkerCoords];
     setMarkersState((prevState) => ({ ...prevState, data }));
-    // console.log("data", data);
-    // console.log("new marker", newMarkerCoords)
 
     let coords = Object.values(newMarkerCoords);
-    // console.log("state", state.data)
 
     const body = {
       coords
@@ -168,78 +104,34 @@ export default function DrawMap({refresh, setRefresh}) {
 
   };
 
-  // const removeMarker = (pos) => {
-  //   // console.log("pos", pos)
-  //   setCoord((prevCoord) =>
-  //     prevCoord.filter((coord) => JSON.stringify(coord) !== JSON.stringify(pos))
-  //   );
-  //   axios.post(`http://localhost:3500/points/delete/`, pos)
-  //     .then((response) => {
-  //       // console.log(response.data)
-  //     })
-  //   setRemovePoint(prev => prev + 1)
-  // };
-
-  // const pos = [
-  //   coordinadasPara
-  // ];
-
-  // console.log("lat arr", latitudesArray.sort()[0])
-  // console.log("lng arr", longitudesArray.sort()[0])
-  // console.log("lat arr", latitudesArray.sort()[latitudesArray.length -1])
-  // console.log("lng arr", longitudesArray.sort()[longitudesArray.length -1])
-
-  // console.log("boundsReal", boundsReal)
-
   let boundsHardcoded = [[49.25, -123.25], [49.3, -122.9]]
-  // console.log("bounds hardcoded", bounds)
 
-  // console.log("state.markers", state.markers[0])
-
-  // Remove on marker
-
+  // Remove one marker
   const removeMarker = (pos) => {
-    // console.log("type of deleted pos", typeof pos)
-    // console.log("deleted pos", pos)
-    // console.log("last item array", coord.slice(-1)[0])
-
-
-    //  setCoord((prevCoord) =>
-    //   prevCoord.filter((coord) => JSON.stringify(coord) !== JSON.stringify(pos))
-    // );
-
     setCoord((coord.slice(0, -1))
     );
 
-
-    // axios.post(`http://localhost:3500/points/delete/`, pos)
     axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])
-      // axios.post(`http://localhost:3500/points/delete/`, coord.lenght - 1)
       .then((response) => {
         // console.log(response.data)
       })
     setRemovePoint(prev => prev + 1)
   };
-
-  // console.log("coord", coord)
-  // console.log("coord minus last", coord.slice(0, -1))
-
 
   //Remove all markers
 
   const removeAll = () => {
-
-
     setCoord(([]));
 
     axios.post(`http://localhost:3500/points/delete/all`)
-
       .then((response) => {
         // console.log(response.data)
       })
     setRemovePoint(prev => prev + 1)
   };
 
+
+  //Remove last marker added
   const deleteLast = (e) => {
 
     e.preventDefault();
@@ -248,6 +140,7 @@ export default function DrawMap({refresh, setRefresh}) {
     setRefresh(prev => prev + 1)
   }
 
+  // Remove all markers
   const deleteAll = (e) => {
 
     e.preventDefault();
@@ -264,8 +157,7 @@ export default function DrawMap({refresh, setRefresh}) {
       <>
         <div className="deletebuttons">
 
-
-<img
+          <img
             className="recbin"
             src={undo}
             alt={"Undo"}
@@ -278,9 +170,6 @@ export default function DrawMap({refresh, setRefresh}) {
             alt={"Recycling bin"}
             onClick={deleteAll}
           />
-
-
-
 
         </div>
 
@@ -299,10 +188,6 @@ export default function DrawMap({refresh, setRefresh}) {
             setRemovePoint={setRemovePoint}
             coord={coord}
             setCoord={setCoord}
-            buttonDelete={buttonDelete}
-            setButtonDelete={setButtonDelete}
-            removeMarker={removeMarker}
-            refersh={refresh}
             setRefresh={setRefresh}
           />
 
