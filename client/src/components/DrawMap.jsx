@@ -1,7 +1,7 @@
 //ORIGINAL
 
 import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Polyline, useMap, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
@@ -25,15 +25,8 @@ L.Marker.prototype.options.icon = L.icon({
   // shadowAnchor: true
 });
 
-//Icon for the browser's location
-const icon2 = L.icon({
-  iconSize: [30, 30],
-  // iconAnchor: [0, 0],
-  // popupAnchor: [2, -40],
-  iconUrl: require('../components/img/mylocation.png'),
-});
 
-export default function DrawMap({ refresh, setRefresh }) {
+export default function DrawMap({ setRefresh }) {
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -61,8 +54,6 @@ export default function DrawMap({ refresh, setRefresh }) {
 
   const [coord, setCoord] = useState([]);
 
-
-  const [buttonDelete, setButtonDelete] = useState(0)
 
   const position = [49.282730, -123.120735];
   const [markersState, setMarkersState] = useState({

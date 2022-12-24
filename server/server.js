@@ -42,6 +42,9 @@ app.get("/points", async (req, res) => {
   }
 });
 
+
+
+
 //Create a point
 app.post("/points", async (req, res) => {
   try {

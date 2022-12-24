@@ -42,13 +42,16 @@ function Bounds({ coords }) {
 
 
 
-export default function SeeMapChild({ coords, setCoords, rideCoords }) {
+export default function SeeMapChild({ coords, setCoords, rideCoords, mapId, mapTitle, mapCreatedBy }) {
 
   return (
     <div>
       {/* Viewing map */}
       <div className="map-outer-container">
 
+      Map id: {mapId}
+      Map title: {mapTitle}
+      Map created by: {mapCreatedBy}
 
         <MapContainer
           // className="map-outer-container"
@@ -66,6 +69,8 @@ export default function SeeMapChild({ coords, setCoords, rideCoords }) {
               setCoords(rideCoords.slice(1))
             }
           >See ride</button>
+
+
 
 
           {/* Show or do not show markers */}

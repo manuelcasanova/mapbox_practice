@@ -33,6 +33,30 @@ function App() {
           </Route>
 
           <Route
+            exact path="/maps"
+            element={
+              <>
+              <Title />
+              <Information />
+              <SeeMap refresh={refresh} setRefresh={setRefresh} />
+              </>
+            
+            }>
+          </Route>
+
+          <Route
+            exact path="/maps/:id"
+            element={
+              <>
+              <Title />
+              <Information />
+              <SeeMap refresh={refresh} setRefresh={setRefresh} />
+              </>
+            
+            }>
+          </Route>
+
+          <Route
             exact path="/newmap"
             element={
               <>

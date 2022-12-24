@@ -1,23 +1,43 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import SeeMapChild from "./SeeMapChild";
 import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
 
 export default function SeeMap ({refresh})  {
 
-let latitude;
-let longitude;
-
-  navigator.geolocation.getCurrentPosition(function(location) {
-    latitude = location.coords.latitude
-    longitude = location.coords.longitude
-});
-
 
   const [coords, setCoords] = useState([
      [49.283255, -123.119930]
   ]);
 
+
+  //Get map
+  const [mapId, setMapId] = useState(null)
+  const [mapTitle, setMapTitle] = useState(null)
+  const [mapCreatedBy, setMapCreatedBy] = useState(null)
+  let idObject = useParams();
+  let id = Number(Object.values(idObject)[0])
+
+  const getMap = async () => {
+
+    try {
+      const response = await axios.get(`http://localhost:3500/maps/${id}`);
+
+const responseData = Object.values(response.data)[0]
+
+setMapId(responseData.id)
+setMapTitle(responseData.title)
+setMapCreatedBy(responseData.createdby)
+
+// console.log("responseData", responseData)
+   
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  
 
   /////GET COORDINATES
 
@@ -28,6 +48,7 @@ let longitude;
   const getPoints = async () => {
     try {
       const response = await axios.get('http://localhost:3500/points');
+      console.log("getPoints res.data", response.data)
       setPoints(response.data)
       setLoading(true)
     } catch (err) {
@@ -35,9 +56,13 @@ let longitude;
     }
   }
 
+
+
   useEffect(() => {
 
+  
     getPoints();
+    getMap();
 
   }, [refresh])
 
@@ -61,7 +86,14 @@ let longitude;
   return (
     //Ride is shown centered in map
     <div>
-    <SeeMapChild coords={coords} setCoords={setCoords} rideCoords={rideCoords}  />
+    <SeeMapChild 
+    coords={coords} 
+    setCoords={setCoords} 
+    rideCoords={rideCoords}
+    mapId = {mapId}
+    mapTitle = {mapTitle}
+    mapCreatedBy = {mapCreatedBy}
+    />
   </div>
   )
 }

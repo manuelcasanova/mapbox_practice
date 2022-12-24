@@ -6,6 +6,8 @@ export default function BrowserCoords () {
 
   const [browCoords, setBrowCoords] = useState([49.283255, -123.119930])
 
+  // console.log("browCoords", browCoords)
+
   const options = {
     enableHighAccuracy: true,
     timeout: 5000,
