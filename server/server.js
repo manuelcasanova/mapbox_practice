@@ -42,7 +42,18 @@ app.get("/points", async (req, res) => {
   }
 });
 
-
+//Get points from one map
+app.get("/points/:id", async (req, res) => {
+  try {
+    const {id} = req.params;
+    const points = await pool.query(
+      'SELECT lat, lng FROM points WHERE map = $1', [id]
+    );
+    res.json(points.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
 
 
 //Create a point
