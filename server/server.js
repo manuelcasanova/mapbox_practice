@@ -88,7 +88,30 @@ app.post("/points/delete/all", async (req, res) => {
   }
 })
 
+//Get all maps
+app.get("/maps", async (req, res) => {
+  try {
+    const maps = await pool.query(
+      'SELECT * FROM maps'
+    );
+    res.json(maps.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
 
+//Get one map
+app.get("/maps/:id", async (req, res) => {
+  try {
+    const {id} = req.params;
+    const maps = await pool.query(
+      'SELECT * FROM maps WHERE id = $1', [id]
+    );
+    res.json(maps.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
 
 // -------- END ROUTES --------
 

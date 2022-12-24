@@ -13,6 +13,7 @@
     "react-leaflet": "^4.1.0",
     "react-leaflet-draw": "^0.20.4",
     "react-leaflet-routing-machine": "^0.0.5",
+    "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
