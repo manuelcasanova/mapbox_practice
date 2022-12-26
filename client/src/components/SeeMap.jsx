@@ -45,10 +45,26 @@ setMapCreatedBy(responseData.createdby)
   const [loading, setLoading] = useState(false);
 
 
-  const getPoints = async () => {
+// const getPoints = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3500/points');
+  //     console.log("getPoints res.data", response.data)
+  //     setPoints(response.data)
+  //     setLoading(true)
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
+
+  const getMapPoints = async () => {
     try {
-      const response = await axios.get('http://localhost:3500/points');
-      console.log("getPoints res.data", response.data)
+      const response = await axios.get(`http://localhost:3500/points/${id}`);
+
+      console.log("getMapPoints res.data", response.data)
+  
+      // const responseData = Object.values(response.data)[0]
+      // console.log("responseData", responseData)
+
       setPoints(response.data)
       setLoading(true)
     } catch (err) {
@@ -56,12 +72,10 @@ setMapCreatedBy(responseData.createdby)
     }
   }
 
-
-
   useEffect(() => {
 
-  
-    getPoints();
+    getMapPoints();
+    // getPoints();
     getMap();
 
   }, [refresh])
@@ -70,6 +84,7 @@ setMapCreatedBy(responseData.createdby)
     //  console.log("coords", coords)
    
   }, [coords])
+
 
 
   let rideCoords = [BrowserCoords]
