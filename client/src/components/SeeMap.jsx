@@ -60,7 +60,7 @@ setMapCreatedBy(responseData.createdby)
     try {
       const response = await axios.get(`http://localhost:3500/points/${id}`);
 
-      console.log("getMapPoints res.data", response.data)
+      // console.log("getMapPoints res.data", response.data)
   
       // const responseData = Object.values(response.data)[0]
       // console.log("responseData", responseData)

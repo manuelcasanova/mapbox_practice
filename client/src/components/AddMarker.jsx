@@ -3,7 +3,7 @@ import { Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import axios from "axios";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, setRefresh}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, setRefresh, mapId}) {
 
   const icon_black = L.icon({
     iconSize: [2, 2],
@@ -24,11 +24,11 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
 
 
   useEffect(() => {
-    axios.get(`http://localhost:3500/points`)
+    axios.get(`http://localhost:3500/points/${mapId}`)
       .then(function (res) {
         setCoord([...res.data])
       })
-  }, [])
+  }, [mapId])
 
   useMapEvents({
     click: (e) => {
@@ -36,7 +36,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       const { lat, lng } = e.latlng;
       saveMarkers([lat, lng]);
       setRemovePoint(prevState => prevState + 1)
-      setRefresh(prev => prev + 1)
+      // setRefresh(prev => prev + 1)
     }
   });
 

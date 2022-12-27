@@ -16,6 +16,7 @@
 .title,
 .information,
 .newmap,
+.allmaps,
 /* .map-outer-container, */
 .footer {
   display: flex;
@@ -44,6 +45,11 @@
 
 .newmap {
   background-color: lightgoldenrodyellow;
+  /* height: 10vh; */
+}
+
+.allmaps {
+  background-color: goldenrod;
   /* height: 10vh; */
 
 }

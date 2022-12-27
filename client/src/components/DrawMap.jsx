@@ -26,14 +26,17 @@ L.Marker.prototype.options.icon = L.icon({
 });
 
 
-export default function DrawMap({ setRefresh }) {
+export default function DrawMap({ setRefresh, mapId }) {
 
+  // console.log("mapid", mapId)
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
 
   const getPoints = async () => {
+    let id = mapId
     try {
-      const response = await axios.get('http://localhost:3500/points');
+      const response = await axios.get(`http://localhost:3500/points/${mapId}`, id);
+      // console.log("res data", response.data)
       setPoints(response.data)
       setLoading(true)
     } catch (err) {
@@ -62,7 +65,7 @@ export default function DrawMap({ setRefresh }) {
   })
 
   useEffect(() => {
-    axios.get(`http://localhost:3500/points`)
+    axios.get(`http://localhost:3500/points/${mapId}`, mapId)
       .then(function (res) {
         setCoordinadasPara(
           res.data.map((coordinadas) => {
@@ -85,8 +88,11 @@ export default function DrawMap({ setRefresh }) {
     let coords = Object.values(newMarkerCoords);
 
     const body = {
-      coords
+      coords,
+      mapId
     }
+
+// console.log("body", body)
 
     axios.post(`http://localhost:3500/points`, body)
       .then((response) => {
@@ -114,7 +120,7 @@ export default function DrawMap({ setRefresh }) {
   const removeAll = () => {
     setCoord(([]));
 
-    axios.post(`http://localhost:3500/points/delete/all`)
+    axios.post(`http://localhost:3500/points/delete/all/${mapId}`)
       .then((response) => {
         // console.log(response.data)
       })
@@ -128,7 +134,7 @@ export default function DrawMap({ setRefresh }) {
     e.preventDefault();
     // console.log("Clicked");
     removeMarker(coord.slice(0, -1))
-    setRefresh(prev => prev + 1)
+    // setRefresh(prev => prev + 1)
   }
 
   // Remove all markers
@@ -137,7 +143,7 @@ export default function DrawMap({ setRefresh }) {
     e.preventDefault();
     // console.log("Clicked");
     removeAll(coord)
-    setRefresh(prev => prev + 1)
+    // setRefresh(prev => prev + 1)
   }
 
 
@@ -180,6 +186,7 @@ export default function DrawMap({ setRefresh }) {
             coord={coord}
             setCoord={setCoord}
             setRefresh={setRefresh}
+            mapId={mapId}
           />
 
           <Polyline positions={coordinadasPara} color="black" />

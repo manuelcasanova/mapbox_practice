@@ -10,6 +10,7 @@ import CreateMap from './components/CreateMap';
 //Hooks
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AllMaps from './components/AllMaps';
 
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
               <>
               <Title />
               <Information />
-
+              <AllMaps />
               </>
             
             }>
@@ -50,6 +51,7 @@ function App() {
               <>
               <Title />
               <Information />
+              <AllMaps />
               <SeeMap refresh={refresh} setRefresh={setRefresh} />
               </>
             
@@ -61,8 +63,9 @@ function App() {
             element={
               <>
                 <Title />
-                <Information />
+                {/* <Information /> */}
                 <CreateMap />
+                <AllMaps />
                 <Footer />
               </>
             }>

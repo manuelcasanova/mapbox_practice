@@ -32,6 +32,7 @@ app.get('/', (req, res) => {
 
 //Get all points
 app.get("/points", async (req, res) => {
+  // console.log("req body", req.body)
   try {
     const points = await pool.query(
       'SELECT lat, lng FROM points'
@@ -42,10 +43,15 @@ app.get("/points", async (req, res) => {
   }
 });
 
-//Get points from one map
+//Get points from one map /maps/:id
 app.get("/points/:id", async (req, res) => {
+  // console.log("req", req.params.id)
+
+
+  let id = req.params.id
+
   try {
-    const {id} = req.params;
+    // const {id} = req.params;
     const points = await pool.query(
       'SELECT lat, lng FROM points WHERE map = $1', [id]
     );
@@ -56,13 +62,18 @@ app.get("/points/:id", async (req, res) => {
 });
 
 
+
+
 //Create a point
 app.post("/points", async (req, res) => {
+  // console.log("req body", req.body)
   try {
     let lat = req.body.coords[0];
     let lng = req.body.coords[1];
+    let mapId = req.body.mapId;
+
     const newPoint = await pool.query(
-      'INSERT INTO points (lat, lng, map) VALUES ($1, $2, $3)  RETURNING *', [lat, lng, 1]
+      'INSERT INTO points (lat, lng, map) VALUES ($1, $2, $3)  RETURNING *', [lat, lng, mapId]
     );
     res.json(newPoint.rows[0])
   } catch (err) {
@@ -78,6 +89,7 @@ app.post("/points/delete/", async (req, res) => {
 let lat = req.body.lat;
 let lng = req.body.lng;
 
+
    await pool.query(
      "DELETE FROM points WHERE lat = $1 AND lng = $2", [lat, lng]
    )
@@ -89,12 +101,12 @@ let lng = req.body.lng;
 
 
 //Delete all points
-app.post("/points/delete/all", async (req, res) => {
-
+app.post("/points/delete/all/:id", async (req, res) => {
+let id = req.params.id
   try {
 
    await pool.query(
-     "DELETE FROM points"
+     "DELETE FROM points where map = $1", [id]
    )
    res.json("Network Response: All points were deleted")
   } catch (err) {
@@ -112,7 +124,10 @@ console.error(err.message)
   }
 })
 
-//Get all maps
+//Get all maps 
+
+//Eventually change to get maps from user
+
 app.get("/maps", async (req, res) => {
   try {
     const maps = await pool.query(
