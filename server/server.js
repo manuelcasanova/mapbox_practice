@@ -102,6 +102,16 @@ app.post("/points/delete/all", async (req, res) => {
   }
 })
 
+//Create a map
+app.post("/createmap", async (req, res) => {
+  try {
+   const newMap = await pool.query("INSERT INTO maps (title, createdby) VALUES($1, $2)", [req.body.title, 1])
+    res.json(newMap.rows[0])
+  } catch (err) {
+console.error(err.message)
+  }
+})
+
 //Get all maps
 app.get("/maps", async (req, res) => {
   try {

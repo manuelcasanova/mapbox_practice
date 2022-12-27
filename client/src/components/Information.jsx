@@ -12,9 +12,6 @@ export default function
         onClick={() => navigate("/newmap")}
       >Create new map</button>
 
-      <button className="navbar_button"
-        onClick={() => navigate("/")}
-      >See map</button>
     </div>
   )
 }

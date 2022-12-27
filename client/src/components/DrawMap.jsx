@@ -80,12 +80,10 @@ export default function DrawMap({ setRefresh }) {
 
   const saveMarkers = (newMarkerCoords) => {
     const data = [...markersState.data, newMarkerCoords];
-    console.log("data", data)
     setMarkersState((prevState) => ({ ...prevState, data }));
 
     let coords = Object.values(newMarkerCoords);
-console.log("coords", coords)
-console.log("marker state", markersState.data)
+
     const body = {
       coords
     }
@@ -102,7 +100,6 @@ console.log("marker state", markersState.data)
   // Remove one marker
   const removeMarker = (pos) => {
     setCoord((coord.slice(0, -1))
-    
     );
 
     axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])

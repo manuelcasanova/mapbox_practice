@@ -5,6 +5,7 @@ import Information from './components/Information'
 import DrawMap from './components/DrawMap';
 import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
+import CreateMap from './components/CreateMap';
 
 //Hooks
 import { useState } from 'react';
@@ -26,7 +27,6 @@ function App() {
               <>
               <Title />
               <Information />
-              <SeeMap refresh={refresh} setRefresh={setRefresh} />
               </>
             
             }>
@@ -38,7 +38,7 @@ function App() {
               <>
               <Title />
               <Information />
-              <SeeMap refresh={refresh} setRefresh={setRefresh} />
+
               </>
             
             }>
@@ -62,9 +62,7 @@ function App() {
               <>
                 <Title />
                 <Information />
-                <DrawMap
-                  refresh={refresh}
-                  setRefresh={setRefresh} />
+                <CreateMap />
                 <Footer />
               </>
             }>
