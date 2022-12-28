@@ -15,9 +15,10 @@
 
 .title,
 .information,
-.newmap,
+.maps,
 .allmaps,
 /* .map-outer-container, */
+.mapslist,
 .footer {
   display: flex;
   justify-content: center;
@@ -43,7 +44,7 @@
 
 }
 
-.newmap {
+.maps {
   background-color: lightgoldenrodyellow;
   /* height: 10vh; */
 }
@@ -52,6 +53,11 @@
   background-color: goldenrod;
   /* height: 10vh; */
 
+}
+
+.mapslist {
+  background-color: lightgreen;
+  flex-direction: column;
 }
 
 .map-outer-container {

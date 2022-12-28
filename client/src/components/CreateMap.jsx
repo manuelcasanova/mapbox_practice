@@ -28,9 +28,9 @@ const navigate = useNavigate();
 }
 
   return (
-    <div className="newmap">
+    <div className="maps">
       <form onSubmit={handleSubmit}>
-      <div>STEP 1: Create a new map</div>
+      <div>STEP 1: CREATE a new map or SELECT an existing map</div>
       <label>Map title</label>
       <input
         onChange={(e) => setTitle(e.target.value)}

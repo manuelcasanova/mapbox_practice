@@ -124,6 +124,20 @@ console.error(err.message)
   }
 })
 
+//Delete a map
+app.delete("/delete/:id", async (req, res) => {
+  try {
+   const id = parseInt(req.params.id);
+   console.log("Deleted map id:", id);
+   await pool.query(
+     "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
+   )
+   res.json("The map was deleted")
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
 //Get all maps 
 
 //Eventually change to get maps from user
@@ -131,7 +145,7 @@ console.error(err.message)
 app.get("/maps", async (req, res) => {
   try {
     const maps = await pool.query(
-      'SELECT * FROM maps'
+      'SELECT * FROM maps WHERE createdby = 1 ORDER BY id DESC'
     );
     res.json(maps.rows)
   } catch (err) {

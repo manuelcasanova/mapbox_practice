@@ -9,7 +9,7 @@ export default function
   return (
     <div className="information">
       <button className="navbar_button"
-        onClick={() => navigate("/newmap")}
+        onClick={() => navigate("/maps")}
       >Manage maps</button>
 
     </div>

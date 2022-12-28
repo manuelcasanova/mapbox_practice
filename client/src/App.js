@@ -34,18 +34,6 @@ function App() {
           </Route>
 
           <Route
-            exact path="/maps"
-            element={
-              <>
-              <Title />
-              <Information />
-              <AllMaps />
-              </>
-            
-            }>
-          </Route>
-
-          <Route
             exact path="/maps/:id"
             element={
               <>
@@ -59,7 +47,7 @@ function App() {
           </Route>
 
           <Route
-            exact path="/newmap"
+            exact path="/maps"
             element={
               <>
                 <Title />
