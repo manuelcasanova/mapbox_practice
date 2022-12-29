@@ -6,6 +6,7 @@ import DrawMap from './components/DrawMap';
 import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
+import CreateRide from './components/CreateRide';
 
 //Hooks
 import { useState } from 'react';
@@ -54,6 +55,18 @@ function App() {
                 {/* <Information /> */}
                 <CreateMap />
                 <AllMaps />
+                <Footer />
+              </>
+            }>
+          </Route>
+
+          <Route
+            exact path="/ride"
+            element={
+              <>
+                <Title />
+                {/* <Information /> */}
+                <CreateRide />
                 <Footer />
               </>
             }>

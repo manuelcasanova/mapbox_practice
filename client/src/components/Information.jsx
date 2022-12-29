@@ -11,6 +11,9 @@ export default function
       <button className="navbar_button"
         onClick={() => navigate("/maps")}
       >Manage maps</button>
+            <button className="navbar_button"
+        onClick={() => navigate("/ride")}
+      >Manage rides</button>
 
     </div>
   )

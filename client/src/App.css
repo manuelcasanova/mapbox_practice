@@ -16,6 +16,7 @@
 .title,
 .information,
 .maps,
+.rides,
 .allmaps,
 /* .map-outer-container, */
 .mapslist,
@@ -26,11 +27,12 @@
   font-size: 1em;
   /* padding: 1em; */
   margin: 0.5em;
-  height: 20%;
+  /* height: 20%; */
 }
 
 .title {
   max-height: 5%;
+  cursor: pointer;
 }
 
 .title {
@@ -47,6 +49,17 @@
 .maps {
   background-color: lightgoldenrodyellow;
   /* height: 10vh; */
+}
+
+.rides {
+  background-color: lightgoldenrodyellow;
+  /* height: 10vh; */
+  flex-direction: column;
+}
+
+.ridesform {
+  display: flex;
+  flex-direction: column;
 }
 
 .allmaps {
