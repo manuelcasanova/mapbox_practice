@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import PreviewMap from "./PreviewMap";
 
 export default function CreateRide() {
 
@@ -27,7 +28,7 @@ export default function CreateRide() {
         const response = await axios.get('http://localhost:3500/maps', {
           signal: controller.signal
         });
-        console.log(response.data);
+        // console.log(response.data);
         isMounted && setMaps(response.data);
         //In case all maps are deleted, we use this first state for mapId
         isMounted && setMapId(response.data[0].id)
@@ -62,9 +63,10 @@ export default function CreateRide() {
     }
   }
 
-  console.log(title, distance, speed, date, time, details, mapId)
+  // console.log(title, distance, speed, date, time, details, mapId)
 
   return (
+    <>
     <div className="rides">
       <form
         className="ridesform"
@@ -139,6 +141,10 @@ export default function CreateRide() {
       <button
       // onClick={navigate('/')}
       >Create</button>
+
     </div>
+    <PreviewMap mapId={mapId} setMapId={setMapId}/>
+    </>
+
   )
 }

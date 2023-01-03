@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import SeeMapChild from "./SeeMapChild";
+import PreviewMapChild from "./PreviewMapChild";
 import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
+import { map } from "leaflet";
 
-export default function SeeMap ({refresh})  {
+export default function PreviewMap ({refresh, mapId, setMapId})  {
 
 
   const [coords, setCoords] = useState([
@@ -13,13 +14,14 @@ export default function SeeMap ({refresh})  {
 
 
   //Get map
-  const [mapId, setMapId] = useState(null)
+  // const [mapId, setMapId] = useState(null)
   const [mapTitle, setMapTitle] = useState(null)
   const [mapCreatedBy, setMapCreatedBy] = useState(null)
-  let idObject = useParams();
-  let id = Number(Object.values(idObject)[0])
+  // let idObject = useParams();
+  // let id = Number(Object.values(idObject)[0])
+  let id = mapId;
 
-console.log("id in see map", id)
+// console.log("id in see map", id)
 
   const getMap = async () => {
 
@@ -32,7 +34,7 @@ setMapId(responseData.id)
 setMapTitle(responseData.title)
 setMapCreatedBy(responseData.createdby)
 
-// console.log("responseData", responseData)
+console.log("responseData", responseData)
    
     } catch (err) {
       console.error(err)
@@ -80,12 +82,12 @@ setMapCreatedBy(responseData.createdby)
     // getPoints();
     getMap();
 
-  }, [refresh])
+  }, [refresh, mapId])
 
   useEffect(() => {
     //  console.log("coords", coords)
    
-  }, [coords])
+  }, [coords, mapId])
 
 
 
@@ -103,7 +105,7 @@ setMapCreatedBy(responseData.createdby)
   return (
     //Ride is shown centered in map
     <div>
-    <SeeMapChild 
+    <PreviewMapChild 
     coords={coords} 
     setCoords={setCoords} 
     rideCoords={rideCoords}
