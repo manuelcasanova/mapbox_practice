@@ -15,6 +15,36 @@ export default function CreateRide() {
   const [time, setTime] = useState('');
   const [details, setDetails] = useState('');
 
+  const [maps, setMaps] = useState();
+  const [mapId, setMapId] = useState(1);
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController(); //Supported by axios.
+
+    const getMaps = async () => {
+      try {
+        const response = await axios.get('http://localhost:3500/maps', {
+          signal: controller.signal
+        });
+        console.log(response.data);
+        isMounted && setMaps(response.data);
+        //In case all maps are deleted, we use this first state for mapId
+        isMounted && setMapId(response.data[0].id)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    getMaps();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    }
+  }, [])
+
+
   useEffect(() => {
     // console.log(title)
   }, [title])
@@ -32,13 +62,13 @@ export default function CreateRide() {
     }
   }
 
-  console.log(title, distance, speed, date, time, details)
+  console.log(title, distance, speed, date, time, details, mapId)
 
   return (
     <div className="rides">
-      <form 
-      className="ridesform"
-      onSubmit={handleSubmit}>
+      <form
+        className="ridesform"
+        onSubmit={handleSubmit}>
         <label>Ride title</label>
         <input
           onChange={(e) => setTitle(e.target.value)}
@@ -78,6 +108,30 @@ export default function CreateRide() {
           onChange={(e) => setDetails(e.target.value)}
           value={details}
           required></input>
+
+
+        <label>Map</label>
+        {maps?.length
+          ?
+          <select
+            // className="allmaps"
+            value={mapId}
+            onChange={(e) => setMapId(e.target.value)}
+          >
+            {maps.map((map, index) =>
+
+              <option
+                key={index}
+                value={map.id}
+              >
+                {/* {console.log("mapid", map.id)} */}
+                Title: {map.title}
+              </option>
+            )}
+          </select>
+          :
+          <p>No maps to display</p>
+        }
 
 
       </form>
