@@ -45,16 +45,25 @@ export default function CreateRide() {
     }
   }, [])
 
-
   useEffect(() => {
     // console.log(title)
   }, [title])
 
+  const body = {
+    title,
+    distance,
+    speed,
+    date,
+    time,
+    details,
+    mapId
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:3500/createmap`,
-        { title }
+      await axios.post(`http://localhost:3500/createride`,
+        body
       );
       setTitle('');
       navigate('/')
@@ -70,7 +79,8 @@ export default function CreateRide() {
     <div className="rides">
       <form
         className="ridesform"
-        onSubmit={handleSubmit}>
+        // onSubmit={handleSubmit}
+        >
         <label>Ride title</label>
         <input
           onChange={(e) => setTitle(e.target.value)}
@@ -118,7 +128,9 @@ export default function CreateRide() {
           <select
             // className="allmaps"
             value={mapId}
-            onChange={(e) => setMapId(e.target.value)}
+            onChange={(e) => 
+              setMapId(e.target.value)
+            }
           >
             {maps.map((map, index) =>
 
@@ -139,6 +151,7 @@ export default function CreateRide() {
       </form>
 
       <button
+      onClick={handleSubmit}
       // onClick={navigate('/')}
       >Create</button>
 

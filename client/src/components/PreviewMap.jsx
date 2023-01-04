@@ -34,7 +34,7 @@ setMapId(responseData.id)
 setMapTitle(responseData.title)
 setMapCreatedBy(responseData.createdby)
 
-console.log("responseData", responseData)
+// console.log("responseData", responseData)
    
     } catch (err) {
       console.error(err)
@@ -85,7 +85,7 @@ console.log("responseData", responseData)
   }, [refresh, mapId])
 
   useEffect(() => {
-    //  console.log("coords", coords)
+    // console.log("coords", coords)
    
   }, [coords, mapId])
 

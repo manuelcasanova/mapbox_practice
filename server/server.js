@@ -124,6 +124,21 @@ console.error(err.message)
   }
 })
 
+//Create a ride
+app.post("/createride", async (req, res) => {
+  try {
+    const {title, distance, speed, date, time, details, mapId} = req.body
+    
+
+    // console.log("req body", req.body)
+    // console.log("typeof", typeof mapId)
+   const newRide = await pool.query("INSERT INTO rides (name, map) VALUES($1, $2)", [title, mapId])
+    res.json(newRide.rows[0])
+  } catch (err) {
+console.error(err.message)
+  }
+})
+
 //Delete a map
 app.delete("/delete/:id", async (req, res) => {
   try {

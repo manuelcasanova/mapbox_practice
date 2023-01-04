@@ -50,7 +50,9 @@ export default function PreviewMapChild({ coords, setCoords, rideCoords, mapId, 
   return (
     <div>
       {/* Viewing map */}
-      <div className="map-outer-container">
+      <div 
+      className="map-outer-container"
+      >
 
       Map id: {mapId}
       Map title: {mapTitle}
