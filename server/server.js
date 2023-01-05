@@ -5,7 +5,8 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3500;
-const pool = require('./config/db')
+const pool = require('./config/db');
+
 
 app.set("view engine", 'ejs');
 
@@ -127,12 +128,12 @@ console.error(err.message)
 //Create a ride
 app.post("/createride", async (req, res) => {
   try {
-    const {title, distance, speed, date, time, details, mapId} = req.body
+    const {title, distance, speed, date, time, details, mapId, createdAt} = req.body
     
 
     // console.log("req body", req.body)
     // console.log("typeof", typeof mapId)
-   const newRide = await pool.query("INSERT INTO rides (name, map) VALUES($1, $2)", [title, mapId])
+   const newRide = await pool.query("INSERT INTO rides (name, createdat, map) VALUES($1, $2, $3)", [title, createdAt, mapId])
     res.json(newRide.rows[0])
   } catch (err) {
 console.error(err.message)

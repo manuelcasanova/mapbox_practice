@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PreviewMap from "./PreviewMap";
+import Now from "./Now";
 
 export default function CreateRide() {
 
@@ -18,6 +19,8 @@ export default function CreateRide() {
 
   const [maps, setMaps] = useState();
   const [mapId, setMapId] = useState(1);
+
+  const createdAt = Now()
 
   useEffect(() => {
     let isMounted = true;
@@ -56,7 +59,8 @@ export default function CreateRide() {
     date,
     time,
     details,
-    mapId
+    mapId,
+    createdAt
   }
 
   const handleSubmit = async (e) => {
@@ -76,87 +80,87 @@ export default function CreateRide() {
 
   return (
     <>
-    <div className="rides">
-      <form
-        className="ridesform"
+      <div className="rides">
+        <form
+          className="ridesform"
         // onSubmit={handleSubmit}
         >
-        <label>Ride title</label>
-        <input
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-          required></input>
+          <label>Ride title</label>
+          <input
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            required></input>
 
-        <label>Date</label>
-        <input
-          onChange={(e) => setDate(e.target.value)}
-          value={date}
-          required></input>
-
-
-        <label>Distance</label>
-        <input
-          onChange={(e) => setDistance(e.target.value)}
-          value={distance}
-          required></input>
+          <label>Date</label>
+          <input
+            onChange={(e) => setDate(e.target.value)}
+            value={date}
+            required></input>
 
 
-        <label>Speed</label>
-        <input
-          onChange={(e) => setSpeed(e.target.value)}
-          value={speed}
-          required></input>
+          <label>Distance</label>
+          <input
+            onChange={(e) => setDistance(e.target.value)}
+            value={distance}
+            required></input>
 
 
-        <label>Time</label>
-        <input
-          onChange={(e) => setTime(e.target.value)}
-          value={time}
-          required></input>
+          <label>Speed</label>
+          <input
+            onChange={(e) => setSpeed(e.target.value)}
+            value={speed}
+            required></input>
 
 
-        <label>Details</label>
-        <input
-          onChange={(e) => setDetails(e.target.value)}
-          value={details}
-          required></input>
+          <label>Time</label>
+          <input
+            onChange={(e) => setTime(e.target.value)}
+            value={time}
+            required></input>
 
 
-        <label>Map</label>
-        {maps?.length
-          ?
-          <select
-            // className="allmaps"
-            value={mapId}
-            onChange={(e) => 
-              setMapId(e.target.value)
-            }
-          >
-            {maps.map((map, index) =>
-
-              <option
-                key={index}
-                value={map.id}
-              >
-                {/* {console.log("mapid", map.id)} */}
-                Title: {map.title}
-              </option>
-            )}
-          </select>
-          :
-          <p>No maps to display</p>
-        }
+          <label>Details</label>
+          <input
+            onChange={(e) => setDetails(e.target.value)}
+            value={details}
+            required></input>
 
 
-      </form>
+          <label>Map</label>
+          {maps?.length
+            ?
+            <select
+              // className="allmaps"
+              value={mapId}
+              onChange={(e) =>
+                setMapId(e.target.value)
+              }
+            >
+              {maps.map((map, index) =>
 
-      <button
-      onClick={handleSubmit}
-      // onClick={navigate('/')}
-      >Create</button>
+                <option
+                  key={index}
+                  value={map.id}
+                >
+                  {/* {console.log("mapid", map.id)} */}
+                  Title: {map.title}
+                </option>
+              )}
+            </select>
+            :
+            <p>No maps to display</p>
+          }
 
-    </div>
-    <PreviewMap mapId={mapId} setMapId={setMapId}/>
+
+        </form>
+
+        <button
+          onClick={handleSubmit}
+        // onClick={navigate('/')}
+        >Create</button>
+
+      </div>
+      <PreviewMap mapId={mapId} setMapId={setMapId} />
     </>
 
   )
