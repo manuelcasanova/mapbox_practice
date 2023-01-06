@@ -83,6 +83,7 @@ export default function PreviewMapChild({ coords, setCoords, rideCoords, mapId, 
           {coords.length > 0 &&
             coords.map((coord, index) => {
 
+
               return (
                 <>
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PreviewMap from "./PreviewMap";
 import Now from "./Now";
+import CalendarComponent from "./CalendarComponent"
 
 export default function CreateRide() {
 
@@ -13,7 +14,9 @@ export default function CreateRide() {
   const [title, setTitle] = useState('');
   const [distance, setDistance] = useState('');
   const [speed, setSpeed] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
+  const dateString = date.toLocaleDateString("en-GB")
+
   const [time, setTime] = useState('');
   const [details, setDetails] = useState('');
 
@@ -60,7 +63,8 @@ export default function CreateRide() {
     time,
     details,
     mapId,
-    createdAt
+    createdAt,
+    dateString
   }
 
   const handleSubmit = async (e) => {
@@ -92,27 +96,30 @@ export default function CreateRide() {
             required></input>
 
           <label>Date</label>
+          
           <input
             onChange={(e) => setDate(e.target.value)}
-            value={date}
+            value={dateString}
             required></input>
 
+            <CalendarComponent date={date} setDate={setDate}/>
 
-          <label>Distance</label>
+
+          <label>Distance (Km)</label>
           <input
             onChange={(e) => setDistance(e.target.value)}
             value={distance}
             required></input>
 
 
-          <label>Speed</label>
+          <label>Speed (Km/h)</label>
           <input
             onChange={(e) => setSpeed(e.target.value)}
             value={speed}
             required></input>
 
 
-          <label>Time</label>
+          <label>Starting Time</label>
           <input
             onChange={(e) => setTime(e.target.value)}
             value={time}

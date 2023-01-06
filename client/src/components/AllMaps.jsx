@@ -72,7 +72,8 @@ function deleteMap(id) {
           {maps.map((map, index) =>
           
             <option 
-            key={index}
+            // key={index}
+            key={map.id}
             value={map.id}
             >
               {/* {console.log("mapid", map.id)} */}
