@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
 import CreateRide from './components/CreateRide';
+import Authentication from './components/authentication/Authentication'
 
 //Hooks
 import { useState } from 'react';
@@ -22,6 +23,7 @@ function App() {
   return (
     <Router>
       <div className='app'>
+        <Authentication />
         <Routes>
           <Route
             exact path="/"

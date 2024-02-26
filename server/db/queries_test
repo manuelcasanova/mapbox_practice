@@ -1,0 +1,9 @@
+
+-- To select rides created by a user
+
+SELECT name, createdBy
+FROM rides
+JOIN users ON users.id = createdBy
+WHERE createdBy = 1;
+
+

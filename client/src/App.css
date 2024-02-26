@@ -13,6 +13,37 @@
 
 }
 
+/* login logout */
+
+.log-user-buttons,
+.log-admin-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-login,
+.button-logout {
+  padding: 8px 16px;
+  margin: 4px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-login:hover,
+.button-logout:hover {
+  background-color: #0056b3;
+}
+
+.button-login-hide,
+.button-logout-hide {
+  display: none;
+}
+
+
 .title,
 .information,
 .maps,

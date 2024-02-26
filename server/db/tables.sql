@@ -4,14 +4,15 @@ DROP TABLE IF EXISTS points CASCADE;
 DROP TABLE IF EXISTS rides CASCADE;
 
 CREATE TABLE users (
-  id SERIAL PRIMARY KEY NOT NULL,
+  id SERIAL PRIMARY KEY,
   username VARCHAR(255),
-  roles json DEFAULT ('{"Registered_user": 2001}'),
-  email VARCHAR(255),
+  roles JSONB DEFAULT '{"Registered_user": 2001}',
+  email VARCHAR(255) UNIQUE,
   password VARCHAR(255),
-  isSelected boolean DEFAULT false,
-  isActive boolean DEFAULT true,
-  refreshToken VARCHAR (255)
+  is_selected BOOLEAN DEFAULT false,
+  is_active BOOLEAN DEFAULT true,
+  refresh_token VARCHAR(255),
+  friends JSONB
 );
 
 CREATE TABLE maps (
