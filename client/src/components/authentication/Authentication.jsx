@@ -1,25 +1,11 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router";
-
+import { useAuth } from '../Context/AuthContext';
 
 const Authentication = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const [user, setUser] = useState({});
 
-  const logInUser = () => {
-    setUser({ id: 5, isAdmin: false, loggedIn: true });
+  const { user, logInUser, logInAdmin, logOut } = useAuth();
 
-  };
-
-  const logInAdmin = () => {
-    setUser({ id: 1, isAdmin: true, loggedIn: true });
-  };
-
-  const logOut = () => {
-    setUser({ id: null, loggedIn: false });
-  };
 
 console.log("user", user)
 
