@@ -182,6 +182,18 @@ app.get("/maps/:id", async (req, res) => {
   }
 });
 
+//Get all rides
+app.get("/rides", async (req, res) => {
+  try {
+    const rides = await pool.query(
+      'SELECT * FROM rides'
+    );
+    res.json(rides.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
 // -------- END ROUTES --------
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

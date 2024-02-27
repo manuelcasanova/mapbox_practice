@@ -74,6 +74,18 @@ function App() {
             }>
           </Route>
 
+          <Route
+            exact path="/ride/all"
+            element={
+              <>
+                <Title />
+                <Information />
+              
+                <Footer />
+              </>
+            }>
+          </Route>
+
         </Routes>
       </div>
     </Router >
