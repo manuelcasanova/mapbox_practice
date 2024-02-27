@@ -23,7 +23,7 @@ export default function CreateRide() {
   const [maps, setMaps] = useState();
   const [mapId, setMapId] = useState(1);
 
-  const createdAt = Now()
+  const createdAt = new Date().toISOString();
 
   useEffect(() => {
     let isMounted = true;
