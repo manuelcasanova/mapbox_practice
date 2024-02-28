@@ -13,6 +13,7 @@ import Authentication from './components/authentication/Authentication'
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AllMaps from './components/AllMaps';
+import AllRides from './components/AllRides';
 
 
 function App() {
@@ -29,10 +30,10 @@ function App() {
             exact path="/"
             element={
               <>
-              <Title />
-              <Information />
+                <Title />
+                <Information />
               </>
-            
+
             }>
           </Route>
 
@@ -40,12 +41,12 @@ function App() {
             exact path="/maps/:id"
             element={
               <>
-              <Title />
-              <Information />
-              <AllMaps />
-              <SeeMap refresh={refresh} setRefresh={setRefresh} />
+                <Title />
+                <Information />
+                <AllMaps />
+                <SeeMap refresh={refresh} setRefresh={setRefresh} />
               </>
-            
+
             }>
           </Route>
 
@@ -54,7 +55,7 @@ function App() {
             element={
               <>
                 <Title />
-                {/* <Information /> */}
+                <Information />
                 <CreateMap />
                 <AllMaps />
                 <Footer />
@@ -67,7 +68,7 @@ function App() {
             element={
               <>
                 <Title />
-                {/* <Information /> */}
+                <Information />
                 <CreateRide />
                 <Footer />
               </>
@@ -80,7 +81,7 @@ function App() {
               <>
                 <Title />
                 <Information />
-              
+                <AllRides />
                 <Footer />
               </>
             }>
