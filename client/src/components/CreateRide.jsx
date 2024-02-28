@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PreviewMap from "./PreviewMap";
-import Now from "./Now";
 import CalendarComponent from "./CalendarComponent"
 
 export default function CreateRide() {
@@ -26,59 +25,60 @@ export default function CreateRide() {
   const createdAt = new Date().toISOString();
 
   useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController(); //Supported by axios.
+    const controller = new AbortController();
 
     const getMaps = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/maps', {
-          signal: controller.signal
-        });
-        // console.log(response.data);
-        isMounted && setMaps(response.data);
-        //In case all maps are deleted, we use this first state for mapId
-        isMounted && setMapId(response.data[0].id)
-      } catch (err) {
-        console.error(err)
+        const response = await axios.get('http://localhost:3500/maps', { signal: controller.signal });
+        setMaps(response.data);
+        if (response.data.length > 0) {
+          setMapId(response.data[0].id);
+        }
+      } catch (error) {
+        if (error.name !== 'CanceledError') {
+          console.error(error);
+        }
       }
-    }
+    };
 
     getMaps();
 
     return () => {
-      isMounted = false;
       controller.abort();
-    }
-  }, [])
+    };
+  }, []);
 
   useEffect(() => {
     // console.log(title)
   }, [title])
 
-  const body = {
-    title,
-    distance,
-    speed,
-    date,
-    time,
-    details,
-    mapId,
-    createdAt,
-    dateString
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const body = {
+      title,
+      distance,
+      speed,
+      date,
+      time,
+      details,
+      mapId,
+      createdAt,
+      dateString
+    };
+
     try {
-      await axios.post(`http://localhost:3500/createride`,
-        body
-      );
+      await axios.post('http://localhost:3500/createride', body);
       setTitle('');
-      navigate('/')
+      setDistance('');
+      setSpeed('');
+      setDate(new Date());
+      setTime('');
+      setDetails('');
+      navigate('/');
     } catch (err) {
-      console.log("error", err)
+      console.error("error", err);
     }
-  }
+  };
 
   // console.log(title, distance, speed, date, time, details, mapId)
 
@@ -87,7 +87,7 @@ export default function CreateRide() {
       <div className="rides">
         <form
           className="ridesform"
-        // onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
         >
           <label>Ride title</label>
           <input
@@ -96,13 +96,13 @@ export default function CreateRide() {
             required></input>
 
           <label>Date</label>
-          
+
           <input
             onChange={(e) => setDate(e.target.value)}
             value={dateString}
             required></input>
 
-            <CalendarComponent date={date} setDate={setDate}/>
+          <CalendarComponent date={date} setDate={setDate} />
 
 
           <label>Distance (Km)</label>
@@ -158,13 +158,10 @@ export default function CreateRide() {
             <p>No maps to display</p>
           }
 
-
+          <button type="submit">Create</button>
         </form>
 
-        <button
-          onClick={handleSubmit}
-        // onClick={navigate('/')}
-        >Create</button>
+
 
       </div>
       <PreviewMap mapId={mapId} setMapId={setMapId} />
