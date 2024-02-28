@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -42,10 +42,13 @@ function Bounds({ coords }) {
 
 
 
-export default function PreviewMapChild({ coords, setCoords, rideCoords, mapId, mapTitle, mapCreatedBy }) {
+export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy }) {
 
-// console.log("prev map child", mapTitle)
+  if (!rideCoords || rideCoords.length === 0) {
+    return <div>Loading...</div>; // You can render a loading state here
+  }
 
+  const coords = rideCoords.slice(1);
 
   return (
     <div>
@@ -67,13 +70,13 @@ export default function PreviewMapChild({ coords, setCoords, rideCoords, mapId, 
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          <button
+          {/* <button
             className="seeride"
             onClick={() =>
               //Slice so it does not draw a line between the browser's location and the first point
               setCoords(rideCoords.slice(1))
             }
-          >See ride</button>
+          >See ride</button> */}
 
 
 

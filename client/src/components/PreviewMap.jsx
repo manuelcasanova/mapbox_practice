@@ -79,8 +79,7 @@ setMapCreatedBy(responseData.createdby)
   useEffect(() => {
 
     getMapPoints();
-    // getPoints();
-    getMap();
+
 
   }, [refresh, mapId])
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
+import PreviewMap from './PreviewMap';
 
 
 const AllRides = () => {
@@ -16,8 +17,6 @@ const AllRides = () => {
         const response = await axios.get('http://localhost:3500/rides');
         if (isMounted) {
           setRides(response.data);
-
-          console.log("response.data", response.data)
           setIsLoading(false);
         }
       } catch (error) {
@@ -56,13 +55,15 @@ const AllRides = () => {
 
   // Render the JSX elements, including the formatted date
   return (
-    <div key={ride.id}>
+    
+<div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
       <div>Name: {ride.name}</div>
       <div>Details: {ride.details}</div>
       <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
       <div>Time: {ride.starting_time}</div>
       <div>Speed (Km/h): {ride.speed}</div>
       <div>Details: {ride.name}</div>
+      <PreviewMap mapId={ride.map}/>
     </div>
   );
 })}
