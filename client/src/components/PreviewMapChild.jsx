@@ -53,13 +53,13 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
   return (
     <div>
       {/* Viewing map */}
-      <div 
-      className="map-outer-container"
+      <div
+        className="map-outer-container"
       >
 
-      Map id: {mapId}
-      Map title: {mapTitle}
-      Map created by: {mapCreatedBy}
+        Map id: {mapId}
+        Map title: {mapTitle}
+        Map created by: {mapCreatedBy}
 
         <MapContainer
           // className="map-outer-container"
@@ -88,18 +88,18 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
 
 
               return (
-                <>
 
-                  <Marker
 
-                    key={index}
-                    position={[coord[0], coord[1]]}
+                <Marker
 
-                    icon={
-                      index === 0 ? icon_green : index === coords.length - 1 ? icon_flag : icon_black
-                    }
-                  />
-                </>
+                  key={index}
+                  position={[coord[0], coord[1]]}
+
+                  icon={
+                    index === 0 ? icon_green : index === coords.length - 1 ? icon_flag : icon_black
+                  }
+                />
+
               );
 
             })}

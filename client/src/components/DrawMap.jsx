@@ -1,16 +1,12 @@
-//ORIGINAL
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
 import LocationMarker from './util_functions/LocationMarker.jsx'
-
 import greencircle from '../components/img/greencircle.png'
 import recyclingBin from '../components/img/delete.png'
 import undo from '../components/img/undo.png'
-
 import AddMarker from "./AddMarker";
 
 L.Marker.prototype.options.icon = L.icon({
@@ -28,56 +24,65 @@ L.Marker.prototype.options.icon = L.icon({
 
 export default function DrawMap({ setRefresh, mapId }) {
 
+
+
   // console.log("mapid", mapId)
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
-
-  const getPoints = async () => {
-    let id = mapId
-    try {
-      const response = await axios.get(`http://localhost:3500/points/${mapId}`, id);
-      // console.log("res data", response.data)
-      setPoints(response.data)
-      setLoading(true)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  useEffect(() => {
-
-    getPoints();
-
-  }, [])
-
+  const [coordinadasPara, setCoordinadasPara] = useState([]);
+  // console.log("coordinadasPara", coordinadasPara)
+  const [markersData, setMarkersData] = useState([]);
+  const [coord, setCoord] = useState([]);
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
-  const [coordinadasPara, setCoordinadasPara] = useState([])
-
-
-  const [coord, setCoord] = useState([]);
-
-
   const position = [49.282730, -123.120735];
+  const defaultPosition = [[49.25, -123.25], [49.3, -122.9]];
+  // const defaultPosition = [[0, 0], [0, 0]];
+  const [bounds, setBounds] = useState(defaultPosition);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3500/points/${mapId}`);
+        setPoints(response.data);
+        setLoading(true);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
+  }, [mapId]);
+
+
+
   const [markersState, setMarkersState] = useState({
     markers: [position],
     data: []
   })
 
+
   useEffect(() => {
-    axios.get(`http://localhost:3500/points/${mapId}`, mapId)
-      .then(function (res) {
-        setCoordinadasPara(
-          res.data.map((coordinadas) => {
-            let coord = [Number(coordinadas.lat), Number(coordinadas.lng)]
-            return coord
-          })
-        )
-      })
-  }, [removePoint, coord, markersState.data
-    //(works but causes infinite loop)
-    //,coordinadasPara 
-  ])
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3500/points/${mapId}`);
+        const coordinates = response.data.map(coordinadas => [Number(coordinadas.lat), Number(coordinadas.lng)]);
+
+
+        //  {console.log("coordinates2", 
+         
+        //  [coordinates[0][0], coordinates[coordinates.length-1][0]]         
+         
+        //  )}
+
+setBounds( [coordinates[0][0], coordinates[coordinates.length-1][0]])
+        setCoordinadasPara(coordinates);
+      } catch (error) {
+        console.error('Error fetching coordinates:', error);
+      }
+    };
+    fetchData();
+  }, [mapId, removePoint, coord, markersState.data]);
 
 
 
@@ -92,8 +97,6 @@ export default function DrawMap({ setRefresh, mapId }) {
       mapId
     }
 
-// console.log("body", body)
-
     axios.post(`http://localhost:3500/points`, body)
       .then((response) => {
         // console.log(response.data)
@@ -101,52 +104,38 @@ export default function DrawMap({ setRefresh, mapId }) {
 
   };
 
-  let boundsHardcoded = [[49.25, -123.25], [49.3, -122.9]]
-
   // Remove one marker
-  const removeMarker = (pos) => {
-    setCoord((coord.slice(0, -1))
-    );
-
-    axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0])
-      .then((response) => {
-        // console.log(response.data)
-      })
-    setRemovePoint(prev => prev + 1)
+  const removeMarker = async () => {
+    const updatedCoord = coord.slice(0, -1);
+    await axios.post(`http://localhost:3500/points/delete/`, coord.slice(-1)[0]);
+    setCoord(updatedCoord);
   };
-
-  //Remove all markers
-
-  const removeAll = () => {
-    setCoord(([]));
-
-    axios.post(`http://localhost:3500/points/delete/all/${mapId}`)
-      .then((response) => {
-        // console.log(response.data)
-      })
-    setRemovePoint(prev => prev + 1)
-  };
-
-
-  //Remove last marker added
-  const deleteLast = (e) => {
-
-    e.preventDefault();
-    // console.log("Clicked");
-    removeMarker(coord.slice(0, -1))
-    // setRefresh(prev => prev + 1)
-  }
 
   // Remove all markers
-  const deleteAll = (e) => {
+  const removeAll = async () => {
+    await axios.post(`http://localhost:3500/points/delete/all/${mapId}`);
+    setCoord([]);
+  };
 
+  // Remove last marker added
+  const deleteLast = async (e) => {
     e.preventDefault();
-    // console.log("Clicked");
-    removeAll(coord)
-    // setRefresh(prev => prev + 1)
-  }
+    await removeMarker();
+  };
 
+  // Remove all markers
+  const deleteAll = async (e) => {
+    e.preventDefault();
+    await removeAll();
+  };
 
+  // Extracting first and last points for setting bounds
+  // useEffect(() => {
+  //   const firstPoint = coordinadasPara.length > 0 ? coordinadasPara[0] : defaultPosition[0];
+  //   const lastPoint = coordinadasPara.length > 0 ? coordinadasPara[coordinadasPara.length - 1] : defaultPosition[1];
+  //   setBounds([firstPoint, lastPoint]);
+  // }, [coordinadasPara]);
+{console.log("bounds", bounds)}
 
   return (
 
@@ -170,10 +159,10 @@ export default function DrawMap({ setRefresh, mapId }) {
 
         </div>
 
-        <MapContainer
-          bounds={boundsHardcoded}
-          zoom={12}
-        >
+        <MapContainer bounds={bounds} zoom={12}>
+
+{/* {console.log("bounds", bounds)} */}
+
 
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
