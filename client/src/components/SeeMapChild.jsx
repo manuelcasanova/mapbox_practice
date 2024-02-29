@@ -79,7 +79,7 @@ export default function SeeMapChild({ coords, setCoords, rideCoords, mapId, mapT
             coords.map((coord, index) => {
 
               return (
-                <>
+                
 
                   <Marker
 
@@ -90,7 +90,7 @@ export default function SeeMapChild({ coords, setCoords, rideCoords, mapId, mapT
                       index === 0 ? icon_green : index === coords.length - 1 ? icon_flag : icon_black
                     }
                   />
-                </>
+               
               );
 
             })}
