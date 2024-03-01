@@ -106,6 +106,8 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
 
           {coords.length > 1 && <Bounds coords={coords} />}
 
+
+
           <Polyline positions={coords} color="black" />
           <LocationMarker />
 

@@ -4,113 +4,65 @@ import SeeMapChild from "./SeeMapChild";
 import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
 
-export default function SeeMap ({refresh})  {
-
+export default function SeeMap({ refresh }) {
+  const [mapId, setMapId] = useState(null);
+  const [mapTitle, setMapTitle] = useState(null);
+  const [mapCreatedBy, setMapCreatedBy] = useState(null);
+  const [points, setPoints] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams();
 
   const [coords, setCoords] = useState([
-     [49.283255, -123.119930]
+    [49.283255, -123.119930]
   ]);
 
-
-  //Get map
-  const [mapId, setMapId] = useState(null)
-  const [mapTitle, setMapTitle] = useState(null)
-  const [mapCreatedBy, setMapCreatedBy] = useState(null)
-  let idObject = useParams();
-  let id = Number(Object.values(idObject)[0])
-
-console.log("id in see map", id)
-
   const getMap = async () => {
-
     try {
       const response = await axios.get(`http://localhost:3500/maps/${id}`);
-
-const responseData = Object.values(response.data)[0]
-
-setMapId(responseData.id)
-setMapTitle(responseData.title)
-setMapCreatedBy(responseData.createdby)
-
-// console.log("responseData", responseData)
-   
+      const responseData = Object.values(response.data)[0];
+      setMapId(responseData.id);
+      setMapTitle(responseData.title);
+      setMapCreatedBy(responseData.createdby);
     } catch (err) {
-      console.error(err)
+      console.error(err);
+      // Handle error (e.g., show error message)
     }
-  }
-
-  
-
-  /////GET COORDINATES
-
-  const [points, setPoints] = useState();
-  const [loading, setLoading] = useState(false);
-
-
-// const getPoints = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3500/points');
-  //     console.log("getPoints res.data", response.data)
-  //     setPoints(response.data)
-  //     setLoading(true)
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }
+  };
 
   const getMapPoints = async () => {
     try {
       const response = await axios.get(`http://localhost:3500/points/${id}`);
-
-      // console.log("getMapPoints res.data", response.data)
-  
-      // const responseData = Object.values(response.data)[0]
-      // console.log("responseData", responseData)
-
-      setPoints(response.data)
-      setLoading(true)
+      setPoints(response.data);
+      setLoading(true);
     } catch (err) {
-      console.error(err)
+      console.error(err);
+      // Handle error (e.g., show error message)
     }
-  }
+  };
 
   useEffect(() => {
-
     getMapPoints();
-    // getPoints();
     getMap();
+  }, [refresh]);
 
-  }, [refresh])
+  let rideCoords = [BrowserCoords];
 
-  useEffect(() => {
-    //  console.log("coords", coords)
-   
-  }, [coords])
-
-
-
-  let rideCoords = [BrowserCoords]
-
-  {
-    loading && points.map((point) => {
-      rideCoords.push(Object.values(point))
-      
-    })
+  if (loading) {
+    points.forEach((point) => {
+      rideCoords.push(Object.values(point));
+    });
   }
-  /////GET COORDIANTES - END
-
 
   return (
-    //Ride is shown centered in map
     <div>
-    <SeeMapChild 
-    coords={coords} 
-    setCoords={setCoords} 
-    rideCoords={rideCoords}
-    mapId = {mapId}
-    mapTitle = {mapTitle}
-    mapCreatedBy = {mapCreatedBy}
-    />
-  </div>
-  )
+      <SeeMapChild
+        coords={coords}
+        setCoords={setCoords}
+        rideCoords={rideCoords}
+        mapId={mapId}
+        mapTitle={mapTitle}
+        mapCreatedBy={mapCreatedBy}
+      />
+    </div>
+  );
 }

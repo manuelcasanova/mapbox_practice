@@ -43,7 +43,7 @@ function App() {
               <>
                 <Title />
                 <Information />
-                <AllMaps />
+                {/* <AllMaps /> */}
                 <SeeMap refresh={refresh} setRefresh={setRefresh} />
               </>
 

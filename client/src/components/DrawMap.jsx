@@ -22,6 +22,7 @@ L.Marker.prototype.options.icon = L.icon({
 });
 
 
+
 export default function DrawMap({ setRefresh, mapId }) {
 
 
@@ -66,16 +67,31 @@ export default function DrawMap({ setRefresh, mapId }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3500/points/${mapId}`);
-        const coordinates = response.data.map(coordinadas => [Number(coordinadas.lat), Number(coordinadas.lng)]);
+        
+        
+        
+//HERE???????
+// const coordinates = response.data.map(coordinadas => [Number(coordinadas.lat), Number(coordinadas.lng)]);
+const coordinates = response.data.map(coordinadas => ({
+  lat: Number(coordinadas.lat),
+  lng: Number(coordinadas.lng)
+}));
 
+// console.log("coordinates", coordinates)
 
         //  {console.log("coordinates2", 
-         
+
         //  [coordinates[0][0], coordinates[coordinates.length-1][0]]         
-         
+
         //  )}
 
-setBounds( [coordinates[0][0], coordinates[coordinates.length-1][0]])
+        // setBounds([coordinates[0][0], coordinates[coordinates.length - 1][0]])
+
+
+        // console.log("coordinates", coordinates)
+        // console.log("coord", [coord[0].lat, coord[coord.length - 1].lng])
+        //  {console.log("coordinates", [coord[0].lat, coord[coord.length-1].lng])}
+
         setCoordinadasPara(coordinates);
       } catch (error) {
         console.error('Error fetching coordinates:', error);
@@ -85,6 +101,17 @@ setBounds( [coordinates[0][0], coordinates[coordinates.length-1][0]])
   }, [mapId, removePoint, coord, markersState.data]);
 
 
+  useEffect(() => {
+    if (coord.length === 0) {
+      setBounds(defaultPosition);
+    } else {
+      const southwest = [coord[0].lat, coord[0].lng];
+      const northeast = [coord[coord.length - 1].lat, coord[coord.length - 1].lng];
+      setBounds([southwest, northeast]);
+    }
+  }, [coord]);
+  
+
 
   const saveMarkers = (newMarkerCoords) => {
     const data = [...markersState.data, newMarkerCoords];
@@ -93,7 +120,9 @@ setBounds( [coordinates[0][0], coordinates[coordinates.length-1][0]])
     let coords = Object.values(newMarkerCoords);
 
     const body = {
-      coords,
+      //HRE????
+      // coords, 
+      coords: Object.values(newMarkerCoords),
       mapId
     }
 
@@ -135,7 +164,7 @@ setBounds( [coordinates[0][0], coordinates[coordinates.length-1][0]])
   //   const lastPoint = coordinadasPara.length > 0 ? coordinadasPara[coordinadasPara.length - 1] : defaultPosition[1];
   //   setBounds([firstPoint, lastPoint]);
   // }, [coordinadasPara]);
-{console.log("bounds", bounds)}
+  // {console.log("bounds", bounds)}
 
   return (
 
@@ -161,7 +190,12 @@ setBounds( [coordinates[0][0], coordinates[coordinates.length-1][0]])
 
         <MapContainer bounds={bounds} zoom={12}>
 
-{/* {console.log("bounds", bounds)} */}
+          {console.log("bounds in map container", bounds)}
+          {/* {console.log("coordinates", [coord[[0][0]], coord[coord.length - 1]])} */}
+
+
+
+          {/* {console.log("bounds", [coord[[0].lat], coord[coord.length-1].lng])} */}
 
 
           <TileLayer
