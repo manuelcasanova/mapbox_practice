@@ -74,7 +74,8 @@ export default function SeeMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy 
 
           {coords.length > 1 && <Bounds coords={coords} />}
           <Polyline positions={coords} color="black" />
-          <LocationMarker />
+              {/* LocationMarker disabled to avoid flying to my coords */}
+          <LocationMarker /> 
         </MapContainer>
       </div>
     </div>

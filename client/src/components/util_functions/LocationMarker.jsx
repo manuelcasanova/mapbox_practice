@@ -19,9 +19,9 @@ const icon2 = L.icon({
   useEffect(() => {
     map.locate().on("locationfound", function (e) {
       setPosition(e.latlng);
-      map.flyTo(e.latlng,
-        map.getZoom()
-      );
+      // map.flyTo(e.latlng,
+      //   map.getZoom()
+      // );
     });
   }, [map]);
 

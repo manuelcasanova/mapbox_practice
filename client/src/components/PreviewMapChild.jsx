@@ -99,7 +99,9 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
 
 
           <Polyline positions={coords} color="black" />
-          <LocationMarker />
+
+          {/* LocationMarker disabled to avoid flying to my coords */}
+          <LocationMarker /> 
 
         </MapContainer>
       </div>

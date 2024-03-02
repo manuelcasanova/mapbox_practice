@@ -9,6 +9,9 @@ import CreateMap from './components/CreateMap';
 import CreateRide from './components/CreateRide';
 import Authentication from './components/authentication/Authentication'
 
+//Context
+import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
+
 //Hooks
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -22,6 +25,7 @@ function App() {
   const [refresh, setRefresh] = useState(0)
 
   return (
+    <BrowserCoordsProvider>
     <Router>
       <div className='app'>
         <Authentication />
@@ -90,6 +94,7 @@ function App() {
         </Routes>
       </div>
     </Router >
+    </BrowserCoordsProvider>
   );
 }
 

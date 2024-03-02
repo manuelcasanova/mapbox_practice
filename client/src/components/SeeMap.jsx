@@ -16,6 +16,7 @@ export default function SeeMap({ refresh }) {
     [49.283255, -123.119930]
   ]);
 
+
   const getMap = async () => {
     try {
       const response = await axios.get(`http://localhost:3500/maps/${id}`);
@@ -43,9 +44,11 @@ export default function SeeMap({ refresh }) {
   useEffect(() => {
     getMapPoints();
     getMap();
+    
   }, [refresh]);
 
   let rideCoords = [BrowserCoords];
+
 
   if (loading) {
     points.forEach((point) => {

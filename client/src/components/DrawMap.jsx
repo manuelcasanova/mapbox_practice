@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -8,7 +8,12 @@ import greencircle from '../components/img/greencircle.png'
 import recyclingBin from '../components/img/delete.png'
 import undo from '../components/img/undo.png'
 import AddMarker from "./AddMarker";
-import BrowserCoords from "./util_functions/GetBrowserLocation.jsx";
+
+
+import { useCoords } from '../components/util_functions/GetBrowserLocation';
+
+
+
 
 L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
@@ -24,7 +29,25 @@ L.Marker.prototype.options.icon = L.icon({
 
 const group = L.featureGroup();
 
-function Bounds({ coordinadasPara }) {
+// function Bounds({ coordinadasPara }) {
+//   const map = useMap();
+
+//   useEffect(() => {
+//     if (!map) return;
+
+//     group.clearLayers();
+
+//     coordinadasPara.forEach((marker) => group.addLayer(L.marker(marker)));
+
+//     map.fitBounds(group.getBounds());
+
+//   }, [map, coordinadasPara]);
+
+//   return null;
+// }
+
+
+function Bounds({ coordinadasPara, defaultBounds }) {
   const map = useMap();
 
   useEffect(() => {
@@ -32,11 +55,15 @@ function Bounds({ coordinadasPara }) {
 
     group.clearLayers();
 
-    coordinadasPara.forEach((marker) => group.addLayer(L.marker(marker)));
+    if (coordinadasPara && coordinadasPara.length > 0) {
+      coordinadasPara.forEach((marker) => group.addLayer(L.marker(marker)));
+      map.fitBounds(group.getBounds());
+    } else {
+      defaultBounds.forEach((marker) => group.addLayer(L.marker(marker)));
+      map.fitBounds(group.getBounds());
+    }
 
-    map.fitBounds(group.getBounds());
-    
-  }, [map, coordinadasPara]);
+  }, [map, coordinadasPara, defaultBounds]);
 
   return null;
 }
@@ -44,6 +71,9 @@ function Bounds({ coordinadasPara }) {
 
 export default function DrawMap({ setRefresh, mapId }) {
 
+  const { browCoords } = useCoords();
+
+// console.log("brow coords", browCoords)
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -53,10 +83,14 @@ export default function DrawMap({ setRefresh, mapId }) {
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
   const position = [49.282730, -123.120735];
-  // const defaultPosition = [[49.25, -123.25], [49.3, -122.9]];
-  const defaultPosition = [BrowserCoords];
-  const [bounds, setBounds] = useState(defaultPosition);
+  const defaultPosition = browCoords || [49.2827, -123.1207]; // Downtown Vancouver, BC coordinates
+  
+  const defaultBounds = [[String(defaultPosition[0]), String(defaultPosition[1])], [String(defaultPosition[0]), String(defaultPosition[1])]];
 
+  // const defaultBounds = [[43.0, -8.0], [37.0, -0.09]]
+
+// console.log("def bou", defaultBounds)
+// console.log("def pos", defaultPosition)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,13 +117,13 @@ export default function DrawMap({ setRefresh, mapId }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3500/points/${mapId}`);
-        
-        
-        
-const coordinates = response.data.map(coordinadas => [
-  String(coordinadas.lat),
-  String(coordinadas.lng)
-]);
+
+
+
+        const coordinates = response.data.map(coordinadas => [
+          String(coordinadas.lat),
+          String(coordinadas.lng)
+        ]);
         setCoordinadasPara(coordinates);
       } catch (error) {
         console.error('Error fetching coordinates:', error);
@@ -99,16 +133,16 @@ const coordinates = response.data.map(coordinadas => [
   }, [mapId, removePoint, coord, markersState.data]);
 
 
-  useEffect(() => {
-    if (coordinadasPara.length === 0) {
-      setBounds(defaultPosition);
-    } else {
-      const southwest = [coordinadasPara[0][0], coordinadasPara[0][1]];
-      const northeast = [coordinadasPara[coordinadasPara.length - 1][0], coordinadasPara[coordinadasPara.length - 1][1]];
-      setBounds([southwest, northeast]);
+  // useEffect(() => {
+  //   if (coordinadasPara.length === 0) {
+  //     setBounds(defaultPosition);
+  //   } else {
+  //     const southwest = [coordinadasPara[0][0], coordinadasPara[0][1]];
+  //     const northeast = [coordinadasPara[coordinadasPara.length - 1][0], coordinadasPara[coordinadasPara.length - 1][1]];
+  //     setBounds([southwest, northeast]);
 
-    }
-  }, [coordinadasPara]);
+  //   }
+  // }, [coordinadasPara]);
 
 
   const saveMarkers = (newMarkerCoords) => {
@@ -159,6 +193,11 @@ const coordinates = response.data.map(coordinadas => [
 
     <div className="map-outer-container">
       <>
+      {/* <div>
+      <p>Latitude: {browCoords[0]}</p>
+      <p>Longitude: {browCoords[1]}</p>
+    </div> */}
+
         <div className="deletebuttons">
 
           <img
@@ -194,8 +233,16 @@ const coordinates = response.data.map(coordinadas => [
             setRefresh={setRefresh}
             mapId={mapId}
           />
+{/* 
+          {coordinadasPara.length > 1 && <Bounds coordinadasPara={coordinadasPara} />} */}
 
-{coordinadasPara.length > 1 && <Bounds coordinadasPara={coordinadasPara} />}
+          {coordinadasPara.length > 1 
+  ? <Bounds coordinadasPara={coordinadasPara} />
+  : <Bounds defaultBounds={defaultBounds} />} 
+
+{/* {console.log("default bounds", defaultBounds)}
+
+{console.log("coordinadas para", coordinadasPara)} */}
 
           <Polyline positions={coordinadasPara} color="black" />
 
