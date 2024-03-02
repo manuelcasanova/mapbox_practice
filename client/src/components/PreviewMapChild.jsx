@@ -34,11 +34,11 @@ function Bounds({ coords }) {
     coords.forEach((marker) => group.addLayer(L.marker(marker)));
 
     map.fitBounds(group.getBounds());
+    
   }, [map, coords]);
 
   return null;
 }
-
 
 
 
@@ -49,6 +49,7 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
   }
 
   const coords = rideCoords.slice(1);
+  // console.log("coords for bounds", coords)
 
   return (
     <div>
@@ -69,17 +70,6 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-
-          {/* <button
-            className="seeride"
-            onClick={() =>
-              //Slice so it does not draw a line between the browser's location and the first point
-              setCoords(rideCoords.slice(1))
-            }
-          >See ride</button> */}
-
-
-
 
           {/* Show or do not show markers */}
 

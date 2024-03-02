@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
@@ -21,24 +21,38 @@ L.Marker.prototype.options.icon = L.icon({
   // shadowAnchor: true
 });
 
+const group = L.featureGroup();
+
+function Bounds({ coordinadasPara }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map) return;
+
+    group.clearLayers();
+
+    coordinadasPara.forEach((marker) => group.addLayer(L.marker(marker)));
+
+    map.fitBounds(group.getBounds());
+    
+  }, [map, coordinadasPara]);
+
+  return null;
+}
 
 
 export default function DrawMap({ setRefresh, mapId }) {
 
 
-
-  // console.log("mapid", mapId)
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
   const [coordinadasPara, setCoordinadasPara] = useState([]);
-  // console.log("coordinadasPara", coordinadasPara)
   const [markersData, setMarkersData] = useState([]);
   const [coord, setCoord] = useState([]);
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
   const position = [49.282730, -123.120735];
   const defaultPosition = [[49.25, -123.25], [49.3, -122.9]];
-  // const defaultPosition = [[0, 0], [0, 0]];
   const [bounds, setBounds] = useState(defaultPosition);
 
 
@@ -70,28 +84,10 @@ export default function DrawMap({ setRefresh, mapId }) {
         
         
         
-//HERE???????
-// const coordinates = response.data.map(coordinadas => [Number(coordinadas.lat), Number(coordinadas.lng)]);
-const coordinates = response.data.map(coordinadas => ({
-  lat: Number(coordinadas.lat),
-  lng: Number(coordinadas.lng)
-}));
-
-// console.log("coordinates", coordinates)
-
-        //  {console.log("coordinates2", 
-
-        //  [coordinates[0][0], coordinates[coordinates.length-1][0]]         
-
-        //  )}
-
-        // setBounds([coordinates[0][0], coordinates[coordinates.length - 1][0]])
-
-
-        // console.log("coordinates", coordinates)
-        // console.log("coord", [coord[0].lat, coord[coord.length - 1].lng])
-        //  {console.log("coordinates", [coord[0].lat, coord[coord.length-1].lng])}
-
+const coordinates = response.data.map(coordinadas => [
+  String(coordinadas.lat),
+  String(coordinadas.lng)
+]);
         setCoordinadasPara(coordinates);
       } catch (error) {
         console.error('Error fetching coordinates:', error);
@@ -102,15 +98,15 @@ const coordinates = response.data.map(coordinadas => ({
 
 
   useEffect(() => {
-    if (coord.length === 0) {
+    if (coordinadasPara.length === 0) {
       setBounds(defaultPosition);
     } else {
-      const southwest = [coord[0].lat, coord[0].lng];
-      const northeast = [coord[coord.length - 1].lat, coord[coord.length - 1].lng];
+      const southwest = [coordinadasPara[0][0], coordinadasPara[0][1]];
+      const northeast = [coordinadasPara[coordinadasPara.length - 1][0], coordinadasPara[coordinadasPara.length - 1][1]];
       setBounds([southwest, northeast]);
+
     }
-  }, [coord]);
-  
+  }, [coordinadasPara]);
 
 
   const saveMarkers = (newMarkerCoords) => {
@@ -157,15 +153,6 @@ const coordinates = response.data.map(coordinadas => ({
     e.preventDefault();
     await removeAll();
   };
-
-  // Extracting first and last points for setting bounds
-  // useEffect(() => {
-  //   const firstPoint = coordinadasPara.length > 0 ? coordinadasPara[0] : defaultPosition[0];
-  //   const lastPoint = coordinadasPara.length > 0 ? coordinadasPara[coordinadasPara.length - 1] : defaultPosition[1];
-  //   setBounds([firstPoint, lastPoint]);
-  // }, [coordinadasPara]);
-  // {console.log("bounds", bounds)}
-
   return (
 
     <div className="map-outer-container">
@@ -188,14 +175,8 @@ const coordinates = response.data.map(coordinadas => ({
 
         </div>
 
-        <MapContainer bounds={bounds} zoom={12}>
+        <MapContainer zoom={12}>
 
-          {console.log("bounds in map container", bounds)}
-          {/* {console.log("coordinates", [coord[[0][0]], coord[coord.length - 1]])} */}
-
-
-
-          {/* {console.log("bounds", [coord[[0].lat], coord[coord.length-1].lng])} */}
 
 
           <TileLayer
@@ -211,6 +192,8 @@ const coordinates = response.data.map(coordinadas => ({
             setRefresh={setRefresh}
             mapId={mapId}
           />
+
+{coordinadasPara.length > 1 && <Bounds coordinadasPara={coordinadasPara} />}
 
           <Polyline positions={coordinadasPara} color="black" />
 
