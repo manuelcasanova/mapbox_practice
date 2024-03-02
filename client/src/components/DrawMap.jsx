@@ -8,6 +8,7 @@ import greencircle from '../components/img/greencircle.png'
 import recyclingBin from '../components/img/delete.png'
 import undo from '../components/img/undo.png'
 import AddMarker from "./AddMarker";
+import BrowserCoords from "./util_functions/GetBrowserLocation.jsx";
 
 L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
@@ -52,7 +53,8 @@ export default function DrawMap({ setRefresh, mapId }) {
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
   const position = [49.282730, -123.120735];
-  const defaultPosition = [[49.25, -123.25], [49.3, -122.9]];
+  // const defaultPosition = [[49.25, -123.25], [49.3, -122.9]];
+  const defaultPosition = [BrowserCoords];
   const [bounds, setBounds] = useState(defaultPosition);
 
 
