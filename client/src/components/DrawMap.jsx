@@ -131,9 +131,11 @@ export default function DrawMap({ setRefresh, mapId }) {
     };
     fetchData();
   }, [mapId,
-    removePoint,
-    coord,
-    markersState.data
+    //If the three below are commented out, I achive ot setting bounds after each marker added, but the polyline does not appear as I add markers and does not disappear as I remove them. I'll work now to supply different coordinates variable to the polyline. That should fix it.
+
+    // removePoint,
+    // coord,
+    // markersState.data
   ]);
 
 
