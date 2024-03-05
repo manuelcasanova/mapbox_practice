@@ -86,7 +86,8 @@ export default function DrawMap({ setRefresh, mapId }) {
 
   const defaultBounds = [[String(defaultPosition[0]), String(defaultPosition[1])], [String(defaultPosition[0]), String(defaultPosition[1])]];
 
-
+// Initialize state variable to hold positions for the polyline
+const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
 
   // Sets the points of the map when a map is loaded
@@ -137,6 +138,29 @@ export default function DrawMap({ setRefresh, mapId }) {
     // coord,
     // markersState.data
   ]);
+
+    //Fetches points from map. Transforms them (Array of objects with value/key pair) to array with two strings (format for bounds), sets coordinatesForPolyline with these arrays.
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`http://localhost:3500/points/${mapId}`);
+  
+          const coordinates = response.data.map(coordinadas => [
+            String(coordinadas.lat),
+            String(coordinadas.lng)
+          ]);
+  
+          setCoordinatesForPolyline(coordinates);
+        } catch (error) {
+          console.error('Error fetching coordinates:', error);
+        }
+      };
+      fetchData();
+    }, [mapId,
+      removePoint,
+      coord,
+      markersState.data
+    ]);
 
 
   // useEffect(() => {
@@ -250,7 +274,7 @@ export default function DrawMap({ setRefresh, mapId }) {
 
 {/* {defaultBounds.length > 1 && <Bounds defaultBounds={defaultBounds} />} */}
 
-          <Polyline positions={coordinadasPara} color="black" />
+          <Polyline positions={coordinatesForPolyline} color="black" />
 
           <LocationMarker />
 
