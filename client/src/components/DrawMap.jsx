@@ -73,7 +73,7 @@ export default function DrawMap({ setRefresh, mapId }) {
 
   const { browCoords } = useCoords();
 
-// console.log("brow coords", browCoords)
+  // console.log("brow coords", browCoords)
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -82,16 +82,14 @@ export default function DrawMap({ setRefresh, mapId }) {
   const [coord, setCoord] = useState([]);
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
-  const position = [49.282730, -123.120735];
   const defaultPosition = browCoords || [49.2827, -123.1207]; // Downtown Vancouver, BC coordinates
-  
+
   const defaultBounds = [[String(defaultPosition[0]), String(defaultPosition[1])], [String(defaultPosition[0]), String(defaultPosition[1])]];
 
-  // const defaultBounds = [[43.0, -8.0], [37.0, -0.09]]
 
-// console.log("def bou", defaultBounds)
-// console.log("def pos", defaultPosition)
 
+
+  // Sets the points of the map when a map is loaded
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -107,30 +105,36 @@ export default function DrawMap({ setRefresh, mapId }) {
 
 
 
+
+  //Object with two key/value pairs (array). Markers holds the default position, data will include eventually the new markers added
   const [markersState, setMarkersState] = useState({
-    markers: [position],
+    markers: [defaultPosition],
     data: []
   })
 
 
+  //Fetches points from map. Transforms them (Array of objects with value/key pair) to array with two strings (format for bounds), sets CoordinadasPara with these arrays.
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3500/points/${mapId}`);
 
-
-
         const coordinates = response.data.map(coordinadas => [
           String(coordinadas.lat),
           String(coordinadas.lng)
         ]);
+
         setCoordinadasPara(coordinates);
       } catch (error) {
         console.error('Error fetching coordinates:', error);
       }
     };
     fetchData();
-  }, [mapId, removePoint, coord, markersState.data]);
+  }, [mapId,
+    removePoint,
+    coord,
+    markersState.data
+  ]);
 
 
   // useEffect(() => {
@@ -145,8 +149,12 @@ export default function DrawMap({ setRefresh, mapId }) {
   // }, [coordinadasPara]);
 
 
+  //Add new markers to the local state, update the state with the new data, prepare to send the data to the server (body), send the post request (axios). 
+
   const saveMarkers = (newMarkerCoords) => {
+
     const data = [...markersState.data, newMarkerCoords];
+    // console.log("data", data)
     setMarkersState((prevState) => ({ ...prevState, data }));
 
     let coords = Object.values(newMarkerCoords);
@@ -193,7 +201,7 @@ export default function DrawMap({ setRefresh, mapId }) {
 
     <div className="map-outer-container">
       <>
-      {/* <div>
+        {/* <div>
       <p>Latitude: {browCoords[0]}</p>
       <p>Longitude: {browCoords[1]}</p>
     </div> */}
@@ -218,8 +226,6 @@ export default function DrawMap({ setRefresh, mapId }) {
 
         <MapContainer zoom={12}>
 
-
-
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -233,16 +239,14 @@ export default function DrawMap({ setRefresh, mapId }) {
             setRefresh={setRefresh}
             mapId={mapId}
           />
-{/* 
-          {coordinadasPara.length > 1 && <Bounds coordinadasPara={coordinadasPara} />} */}
 
-          {coordinadasPara.length > 1 
-  ? <Bounds coordinadasPara={coordinadasPara} />
-  : <Bounds defaultBounds={defaultBounds} />} 
 
-{/* {console.log("default bounds", defaultBounds)}
+{/* Sends defaultBounds and coordinadasPara to the Bounds function, that gets the southwestermost and northeasternmost points to set the bounds of the map */}
+{coordinadasPara.length > 1
+            ? <Bounds coordinadasPara={coordinadasPara} />
+            : <Bounds defaultBounds={defaultBounds} />}
 
-{console.log("coordinadas para", coordinadasPara)} */}
+{/* {defaultBounds.length > 1 && <Bounds defaultBounds={defaultBounds} />} */}
 
           <Polyline positions={coordinadasPara} color="black" />
 

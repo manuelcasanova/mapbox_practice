@@ -28,6 +28,9 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       .then(function (res) {
         setCoord([...res.data])
       })
+      .catch(function (error) {
+        console.error('Error fetching points data:', error);
+      });
   }, [mapId])
 
   useMapEvents({
@@ -40,9 +43,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
     }
   });
 
-  useEffect(() => {
-    //  console.log("coord", coord);
-  }, [coord]);
+
 
   return (
     <div>
