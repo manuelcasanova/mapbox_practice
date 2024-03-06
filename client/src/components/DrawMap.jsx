@@ -89,12 +89,19 @@ export default function DrawMap({ setRefresh, mapId }) {
 // Initialize state variable to hold positions for the polyline
 const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
+// console.log("defaultBounds", defaultBounds)
+// console.log("coordinadasPara", coordinadasPara)
+// console.log("coord", coord)
+// console.log("coordinatesForPolyline", coordinatesForPolyline)
+// console.log("mapId", mapId)
+// console.log("points", points)
 
   // Sets the points of the map when a map is loaded
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3500/points/${mapId}`);
+        // console.log("API Response:", response.data); // Log API response
         setPoints(response.data);
         setLoading(true);
       } catch (err) {
@@ -119,25 +126,27 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3500/points/${mapId}`);
-
-        const coordinates = response.data.map(coordinadas => [
-          String(coordinadas.lat),
-          String(coordinadas.lng)
-        ]);
-
-        setCoordinadasPara(coordinates);
+  
+        if (response.data.length === 0) {
+          // If coordinates are empty, set coordinadasPara to defaultPosition.
+          setCoordinadasPara([[
+            String(defaultPosition[0]),
+            String(defaultPosition[1])
+          ]]);
+        } else {
+          const coordinates = response.data.map(coordinadas => [
+            String(coordinadas.lat),
+            String(coordinadas.lng)
+          ]);
+  
+          setCoordinadasPara(coordinates);
+        }
       } catch (error) {
         console.error('Error fetching coordinates:', error);
       }
     };
     fetchData();
-  }, [mapId,
-    //If the three below are commented out, I achive ot setting bounds after each marker added, but the polyline does not appear as I add markers and does not disappear as I remove them. I'll work now to supply different coordinates variable to the polyline. That should fix it.
-
-    // removePoint,
-    // coord,
-    // markersState.data
-  ]);
+  }, [mapId]);
 
     //Fetches points from map. Transforms them (Array of objects with value/key pair) to array with two strings (format for bounds), sets coordinatesForPolyline with these arrays.
     useEffect(() => {
@@ -260,13 +269,18 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
             setCoord={setCoord}
             setRefresh={setRefresh}
             mapId={mapId}
+            defaultPosition={defaultPosition}
           />
 
 
 {/* Sends defaultBounds and coordinadasPara to the Bounds function, that gets the southwestermost and northeasternmost points to set the bounds of the map */}
-{coordinadasPara.length > 1
-            ? <Bounds coordinadasPara={coordinadasPara} />
-            : <Bounds defaultBounds={defaultBounds} />}
+{coordinadasPara.length > 1 ? (
+  <Bounds coordinadasPara={coordinadasPara} />
+) : (
+  coordinadasPara.length === 1 && (
+    <Bounds coordinadasPara={coordinadasPara} />
+  )
+)}
 
 {/* {defaultBounds.length > 1 && <Bounds defaultBounds={defaultBounds} />} */}
 

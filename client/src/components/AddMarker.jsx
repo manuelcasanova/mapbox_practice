@@ -3,7 +3,17 @@ import { Marker, useMapEvents, Polyline } from "react-leaflet";
 import L from "leaflet";
 import axios from "axios";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, setRefresh, mapId}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, setRefresh, mapId, defaultPosition}) {
+
+
+  //  console.log("coord", coord)
+  // console.log("default Position", defaultPosition)
+  // console.log("mapId", mapId)
+ 
+
+  const defaultCoords = [{ lat: String(defaultPosition[0]), lng: String(defaultPosition[1]) }];
+
+  // console.log("default coords", defaultCoords)
 
   const icon_black = L.icon({
     iconSize: [2, 2],
@@ -23,9 +33,17 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
   });
 
 
+    // Check if coord is empty before setting it to defaultPosition
+    // if (coord.length === 0) {
+    //   setCoord([defaultCoords]);
+    //   // console.log("coord is empty")
+    // }
+
+
   useEffect(() => {
     axios.get(`http://localhost:3500/points/${mapId}`)
       .then(function (res) {
+        // console.log("res.data", res.data)
         setCoord([...res.data])
       })
       .catch(function (error) {
@@ -33,14 +51,6 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       });
   }, [mapId])
 
-  // useMapEvents({
-  //   click: (e) => {
-  //     setCoord([...coord, e.latlng]);
-  //     const { lat, lng } = e.latlng;
-  //     saveMarkers([lat, lng]);
-  //     setRemovePoint(prevState => prevState + 1)
-  //   }
-  // });
 
 
   useMapEvents({
