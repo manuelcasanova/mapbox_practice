@@ -1,11 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./Context/AuthContext";
 
 import axios from 'axios';
 
 export default function CreateMap() {
 
+  const { user, logInUser, logInAdmin, logOut } = useAuth();
 
+  console.log("user", user)
 
 const navigate = useNavigate();
 

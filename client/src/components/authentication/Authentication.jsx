@@ -7,7 +7,7 @@ const Authentication = () => {
   const { user, logInUser, logInAdmin, logOut } = useAuth();
 
 
-console.log("user", user)
+// console.log("user", user)
 
   return (
 <div>

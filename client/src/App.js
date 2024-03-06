@@ -11,6 +11,7 @@ import Authentication from './components/authentication/Authentication'
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
+import { AuthProvider } from './components/Context/AuthContext';
 
 //Hooks
 import { useState } from 'react';
@@ -25,6 +26,7 @@ function App() {
   const [refresh, setRefresh] = useState(0)
 
   return (
+    <AuthProvider>
     <BrowserCoordsProvider>
     <Router>
       <div className='app'>
@@ -107,6 +109,7 @@ function App() {
       </div>
     </Router >
     </BrowserCoordsProvider>
+    </AuthProvider>
   );
 }
 
