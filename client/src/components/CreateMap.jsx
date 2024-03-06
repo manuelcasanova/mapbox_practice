@@ -24,7 +24,7 @@ const navigate = useNavigate();
     e.preventDefault();
     try {
         await axios.post(`http://localhost:3500/createmap`,
-            {title}
+            {title, user}
         );
         setTitle('');
         navigate('/')
