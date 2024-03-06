@@ -28,7 +28,7 @@ function App() {
     <BrowserCoordsProvider>
     <Router>
       <div className='app'>
-        <Authentication />
+        <Authentication/>
         <Routes>
           <Route
             exact path="/"
@@ -42,6 +42,31 @@ function App() {
           </Route>
 
           <Route
+            exact path="/maps"
+            element={
+              <>
+                <Title />
+                <Information />
+                {/* <CreateMap /> */}
+                <AllMaps />
+                <Footer />
+              </>
+            }>
+          </Route>
+
+          <Route
+            exact path="/maps/create"
+            element={
+              <>
+                <Title />
+                <Information />
+                <CreateMap />
+                <Footer />
+              </>
+            }>
+          </Route>
+
+          <Route
             exact path="/maps/:id"
             element={
               <>
@@ -51,19 +76,6 @@ function App() {
                 <SeeMap refresh={refresh} setRefresh={setRefresh} />
               </>
 
-            }>
-          </Route>
-
-          <Route
-            exact path="/maps"
-            element={
-              <>
-                <Title />
-                <Information />
-                <CreateMap />
-                <AllMaps />
-                <Footer />
-              </>
             }>
           </Route>
 
