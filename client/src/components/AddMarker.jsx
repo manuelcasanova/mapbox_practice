@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Marker, useMapEvents } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { Marker, useMapEvents, Polyline } from "react-leaflet";
 import L from "leaflet";
 import axios from "axios";
 
@@ -33,21 +33,32 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       });
   }, [mapId])
 
+  // useMapEvents({
+  //   click: (e) => {
+  //     setCoord([...coord, e.latlng]);
+  //     const { lat, lng } = e.latlng;
+  //     saveMarkers([lat, lng]);
+  //     setRemovePoint(prevState => prevState + 1)
+  //   }
+  // });
+
+
   useMapEvents({
     click: (e) => {
-      setCoord([...coord, e.latlng]);
       const { lat, lng } = e.latlng;
+      const newCoordinate = { lat, lng, timestamp: Date.now() }; // Include timestamp
+      setCoord([...coord, newCoordinate]);
       saveMarkers([lat, lng]);
       setRemovePoint(prevState => prevState + 1)
-      // setRefresh(prev => prev + 1)
     }
   });
 
-
+   // Sort coordinates by timestamp
+   const sortedCoordinates = [...coord].sort((a, b) => a.timestamp - b.timestamp);
 
   return (
     <div>
-      {coord.map((pos, index) => (
+      {sortedCoordinates.map((pos, index) => (
        
         
         <Marker
@@ -68,6 +79,9 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
           }}
         />
       ))}
+
+<Polyline positions={sortedCoordinates.map(pos => [pos.lat, pos.lng])} pathOptions={{ color: "black" }}/>
+
     </div>
   );
 }

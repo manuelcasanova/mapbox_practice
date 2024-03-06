@@ -183,11 +183,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
     // console.log("data", data)
     setMarkersState((prevState) => ({ ...prevState, data }));
 
-    let coords = Object.values(newMarkerCoords);
-
     const body = {
-      //HRE????
-      // coords, 
       coords: Object.values(newMarkerCoords),
       mapId
     }
@@ -274,7 +270,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
 {/* {defaultBounds.length > 1 && <Bounds defaultBounds={defaultBounds} />} */}
 
-          <Polyline positions={coordinatesForPolyline} color="black" />
+          {/* <Polyline positions={coordinatesForPolyline} color="black" /> */}
 
           <LocationMarker />
 
