@@ -4,12 +4,17 @@ import PreviewMapChild from "./PreviewMapChild";
 import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
 import { map } from "leaflet";
+import { useAuth } from "./Context/AuthContext";
 
-export default function PreviewMap ({refresh, mapId, setMapId})  {
+export default function PreviewMap({ refresh, mapId, setMapId }) {
 
+
+  const { user, logInUser, logInAdmin, logOut } = useAuth();
+
+  // console.log("user", user)
 
   const [coords, setCoords] = useState([
-     [49.283255, -123.119930]
+    [49.283255, -123.119930]
   ]);
 
 
@@ -21,27 +26,25 @@ export default function PreviewMap ({refresh, mapId, setMapId})  {
   // let id = Number(Object.values(idObject)[0])
   let id = mapId;
 
-// console.log("id in see map", id)
+  // console.log("id in see map", id)
 
   const getMap = async () => {
 
     try {
       const response = await axios.get(`http://localhost:3500/maps/${id}`);
 
-const responseData = Object.values(response.data)[0]
+      const responseData = Object.values(response.data)[0]
 
-setMapId(responseData.id)
-setMapTitle(responseData.title)
-setMapCreatedBy(responseData.createdby)
+      setMapId(responseData.id)
+      setMapTitle(responseData.title)
+      setMapCreatedBy(responseData.createdby)
 
-// console.log("responseData", responseData)
-   
+      // console.log("responseData", responseData)
+
     } catch (err) {
       console.error(err)
     }
   }
-
-  
 
   /////GET COORDINATES
 
@@ -49,23 +52,14 @@ setMapCreatedBy(responseData.createdby)
   const [loading, setLoading] = useState(false);
 
 
-// const getPoints = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3500/points');
-  //     console.log("getPoints res.data", response.data)
-  //     setPoints(response.data)
-  //     setLoading(true)
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }
+
 
   const getMapPoints = async () => {
     try {
       const response = await axios.get(`http://localhost:3500/points/${id}`);
 
       // console.log("getMapPoints res.data", response.data)
-  
+
       // const responseData = Object.values(response.data)[0]
       // console.log("responseData", responseData)
 
@@ -85,7 +79,7 @@ setMapCreatedBy(responseData.createdby)
 
   useEffect(() => {
     // console.log("coords", coords)
-   
+
   }, [coords, mapId])
 
 
@@ -95,7 +89,7 @@ setMapCreatedBy(responseData.createdby)
   {
     loading && points.map((point) => {
       rideCoords.push(Object.values(point))
-      
+
     })
   }
   /////GET COORDIANTES - END
@@ -103,15 +97,19 @@ setMapCreatedBy(responseData.createdby)
 
   return (
     //Ride is shown centered in map
+
     <div>
-    <PreviewMapChild 
-    coords={coords} 
-    setCoords={setCoords} 
-    rideCoords={rideCoords}
-    mapId = {mapId}
-    mapTitle = {mapTitle}
-    mapCreatedBy = {mapCreatedBy}
-    />
-  </div>
+      {user.loggedIn && (
+        <PreviewMapChild
+          coords={coords}
+          setCoords={setCoords}
+          rideCoords={rideCoords}
+          mapId={mapId}
+          mapTitle={mapTitle}
+          mapCreatedBy={mapCreatedBy}
+
+        />
+      )}
+    </div>
   )
 }

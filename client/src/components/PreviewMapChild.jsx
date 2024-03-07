@@ -3,6 +3,9 @@ import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import LocationMarker from "./util_functions/LocationMarker";
+import { useAuth } from "./Context/AuthContext";
+
+
 
 const icon_black = L.icon({
   iconSize: [2, 2],
@@ -28,28 +31,23 @@ function Bounds({ coords }) {
 
   useEffect(() => {
     if (!map) return;
-
     group.clearLayers();
-
     coords.forEach((marker) => group.addLayer(L.marker(marker)));
-
     map.fitBounds(group.getBounds());
-    
   }, [map, coords]);
-
   return null;
 }
 
-
-
 export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy }) {
 
+  const { user, logInUser, logInAdmin, logOut } = useAuth();
+  const userId = user.id;
+
   if (!rideCoords || rideCoords.length === 0) {
-    return <div>Loading...</div>; // You can render a loading state here
+    return <div>Loading...</div>; 
   }
 
   const coords = rideCoords.slice(1);
-  // console.log("coords for bounds", coords)
 
   return (
     <div>
@@ -100,8 +98,7 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
 
           <Polyline positions={coords} color="black" />
 
-          {/* LocationMarker disabled to avoid flying to my coords */}
-          <LocationMarker /> 
+          <LocationMarker />
 
         </MapContainer>
       </div>

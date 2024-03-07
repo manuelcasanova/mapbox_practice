@@ -37,17 +37,17 @@ export default function CreateRide() {
     const getMaps = async () => {
       try {
         const response = await axios.get('http://localhost:3500/maps', {
-          params: {userId},  
-        signal: controller.signal
-          
+          params: { userId },
+          signal: controller.signal
+
         });
         if (isMounted) {
-        setMaps(response.data);
-        if (response.data.length > 0) {
-          setMapId(response.data[0].id);
+          setMaps(response.data);
+          if (response.data.length > 0) {
+            setMapId(response.data[0].id);
+          }
+          setIsLoading(false);
         }
-        setIsLoading(false);
-      }
       } catch (error) {
         if (error.name !== 'CanceledError') {
           console.error(error);
@@ -98,87 +98,97 @@ export default function CreateRide() {
 
   return (
     <>
-      <div className="rides">
-        <form
-          className="ridesform"
-          onSubmit={handleSubmit}
-        >
-          <label>Ride title</label>
-          <input
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-            required></input>
-
-          <label>Date</label>
-
-          <input
-            onChange={(e) => setDate(e.target.value)}
-            value={dateString}
-            required></input>
-
-          <CalendarComponent date={date} setDate={setDate} />
-
-
-          <label>Distance (Km)</label>
-          <input
-            onChange={(e) => setDistance(e.target.value)}
-            value={distance}
-            required></input>
-
-
-          <label>Speed (Km/h)</label>
-          <input
-            onChange={(e) => setSpeed(e.target.value)}
-            value={speed}
-            required></input>
-
-
-          <label>Starting Time</label>
-          <input
-            onChange={(e) => setTime(e.target.value)}
-            value={time}
-            required></input>
-
-
-          <label>Details</label>
-          <input
-            onChange={(e) => setDetails(e.target.value)}
-            value={details}
-            required></input>
-
-
-          <label>Map</label>
-          {maps?.length
-            ?
-            <select
-              // className="allmaps"
-              value={mapId}
-              onChange={(e) =>
-                setMapId(e.target.value)
-              }
+      {user.loggedIn ? (
+        <>
+          <div className="rides">
+            <form
+              className="ridesform"
+              onSubmit={handleSubmit}
             >
-              {maps.map((map, index) =>
+              <label>Ride title</label>
+              <input
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+                required></input>
 
-                <option
-                  key={index}
-                  value={map.id}
+              <label>Date</label>
+
+              <input
+                onChange={(e) => setDate(e.target.value)}
+                value={dateString}
+                required></input>
+
+              <CalendarComponent date={date} setDate={setDate} />
+
+
+              <label>Distance (Km)</label>
+              <input
+                onChange={(e) => setDistance(e.target.value)}
+                value={distance}
+                required></input>
+
+
+              <label>Speed (Km/h)</label>
+              <input
+                onChange={(e) => setSpeed(e.target.value)}
+                value={speed}
+                required></input>
+
+
+              <label>Starting Time</label>
+              <input
+                onChange={(e) => setTime(e.target.value)}
+                value={time}
+                required></input>
+
+
+              <label>Details</label>
+              <input
+                onChange={(e) => setDetails(e.target.value)}
+                value={details}
+                required></input>
+
+
+              <label>Map</label>
+              {maps?.length
+                ?
+                <select
+                  // className="allmaps"
+                  value={mapId}
+                  onChange={(e) =>
+                    setMapId(e.target.value)
+                  }
                 >
-                  {/* {console.log("mapid", map.id)} */}
-                  Title: {map.title}
-                </option>
-              )}
-            </select>
-            :
-            <p>No maps to display</p>
-          }
+                  {maps.map((map, index) =>
 
-          <button type="submit">Create</button>
-        </form>
+                    <option
+                      key={index}
+                      value={map.id}
+                    >
+                      {/* {console.log("mapid", map.id)} */}
+                      Title: {map.title}
+                    </option>
+                  )}
+                </select>
+                :
+                <p>No maps to display</p>
+              }
+
+              <button type="submit">Create</button>
+            </form>
 
 
 
-      </div>
-      <PreviewMap mapId={mapId} setMapId={setMapId} />
+          </div>
+          <PreviewMap mapId={mapId} setMapId={setMapId} />
+        </>
+
+
+      ) : (
+        <p>Please log in to access this feature.</p>
+      )}
+
+
     </>
 
   )
