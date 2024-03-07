@@ -12,7 +12,7 @@ export default function AllMaps() {
   const navigate = useNavigate();
 
   const userId = user.id;
-  // console.log("user in allmaps", user)
+  //  console.log("user in allmaps", user)
 
   useEffect(() => {
     let isMounted = true;
@@ -41,7 +41,7 @@ export default function AllMaps() {
       isMounted = false;
       controller.abort();
     };
-  }, [userId]); // Ensure useEffect runs when userId changes
+  }, [userId]); 
 
   const deleteMap = async (id) => {
     try {
@@ -53,6 +53,12 @@ export default function AllMaps() {
       console.error(error);
     }
   };
+
+    // Conditionally render the component only if the user is logged in
+    if (!user.loggedIn) {
+      // Redirect to login page or show a message
+      return <p>Please log in to view maps</p>;
+    }
 
   return (
     <>
@@ -74,6 +80,7 @@ export default function AllMaps() {
         <p>No maps to display</p>
       )}
 
+
       <div>STEP 2: Add, edit or remove markers</div>
       <DrawMap mapId={mapId} />
 
@@ -89,6 +96,7 @@ export default function AllMaps() {
           ))}
         </div>
       )}
+      
     </>
   );
 }
