@@ -7,12 +7,11 @@ import DrawMap from "./DrawMap";
 export default function AllMaps() {
   const { user, logInUser, logInAdmin, logOut } = useAuth();
   const [maps, setMaps] = useState([]);
-  const [mapId, setMapId] = useState(1);
+  const [mapId, setMapId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const userId = user.id;
-  //  console.log("user in allmaps", user)
 
   useEffect(() => {
     let isMounted = true;
@@ -26,6 +25,10 @@ export default function AllMaps() {
         });
         if (isMounted) {
           setMaps(response.data);
+          // Set the initial mapId to the id of the first map if available
+          if (response.data.length > 0) {
+            setMapId(response.data[0].id);
+          }
           setIsLoading(false);
         }
       } catch (error) {
@@ -54,47 +57,44 @@ export default function AllMaps() {
     }
   };
 
-    // Conditionally render the component only if the user is logged in
-    if (!user.loggedIn) {
-      // Redirect to login page or show a message
-      return <p>Please log in to view maps</p>;
-    }
+  if (!user.loggedIn) {
+    return <p>Please log in to view maps</p>;
+  }
 
   return (
     <>
       {isLoading ? (
         <div>Loading...</div>
       ) : maps.length > 0 ? (
-        <select
-          className="allmaps"
-          value={mapId}
-          onChange={(e) => setMapId(e.target.value)}
-        >
-          {maps.map((map) => (
-            <option key={map.id} value={map.id}>
-              Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
-            </option>
-          ))}
-        </select>
+        <>
+          <select
+            className="allmaps"
+            value={mapId}
+            onChange={(e) => setMapId(e.target.value)}
+          >
+            {maps.map((map) => (
+              <option key={map.id} value={map.id}>
+                Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
+              </option>
+            ))}
+          </select>
+
+          <div>STEP 2: Add, edit or remove markers</div>
+          <DrawMap mapId={mapId} />
+
+          <div className="mapslist">
+            {maps.map((map) => (
+              <div key={map.id}>
+                Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
+                {map.id !== 1 && (
+                  <button onClick={() => deleteMap(map.id)}>Delete</button>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         <p>No maps to display</p>
-      )}
-
-
-      <div>STEP 2: Add, edit or remove markers</div>
-      <DrawMap mapId={mapId} />
-
-      {maps.length > 0 && (
-        <div className="mapslist">
-          {maps.map((map) => (
-            <div key={map.id}>
-              Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
-              {map.id !== 1 && (
-                <button onClick={() => deleteMap(map.id)}>Delete</button>
-              )}
-            </div>
-          ))}
-        </div>
       )}
       
     </>
