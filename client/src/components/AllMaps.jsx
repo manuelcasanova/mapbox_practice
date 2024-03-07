@@ -86,9 +86,9 @@ export default function AllMaps() {
             {maps.map((map) => (
               <div key={map.id}>
                 Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
-                {map.id !== 1 && (
+                {/* {map.id !== 1 && ( */}
                   <button onClick={() => deleteMap(map.id)}>Delete</button>
-                )}
+                {/* )} */}
               </div>
             ))}
           </div>
