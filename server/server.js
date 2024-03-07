@@ -175,8 +175,11 @@ app.delete("/delete/:id", async (req, res) => {
 
 app.get("/maps", async (req, res) => {
   try {
+   
+    const userId = req.query.userId;
+    // console.log("userId serverjs", userId)
     const maps = await pool.query(
-      'SELECT * FROM maps WHERE createdby = 1 ORDER BY id DESC'
+      'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
     );
     res.json(maps.rows)
   } catch (err) {

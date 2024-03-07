@@ -6,7 +6,7 @@ const Authentication = () => {
 
   const { user, logInUser, logInAdmin, logOut } = useAuth();
 
-
+  // console.log("user in authentication", user)
 // console.log("user", user)
 
   return (
@@ -31,6 +31,8 @@ const Authentication = () => {
     </div>
   )}
 </div>
+
+
 
   );
 };

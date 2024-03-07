@@ -1,13 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./Context/AuthContext";
 import DrawMap from "./DrawMap";
 
 export default function AllMaps() {
+  const { user, logInUser, logInAdmin, logOut } = useAuth();
   const [maps, setMaps] = useState([]);
   const [mapId, setMapId] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  const userId = user.id;
+  // console.log("user in allmaps", user)
 
   useEffect(() => {
     let isMounted = true;
@@ -15,7 +20,10 @@ export default function AllMaps() {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/maps', { signal: controller.signal });
+        const response = await axios.get('http://localhost:3500/maps', { 
+          params: { userId },  
+          signal: controller.signal 
+        });
         if (isMounted) {
           setMaps(response.data);
           setIsLoading(false);
@@ -33,7 +41,7 @@ export default function AllMaps() {
       isMounted = false;
       controller.abort();
     };
-  }, []);
+  }, [userId]); // Ensure useEffect runs when userId changes
 
   const deleteMap = async (id) => {
     try {
@@ -71,8 +79,8 @@ export default function AllMaps() {
 
       {maps.length > 0 && (
         <div className="mapslist">
-          {maps.map((map, index) => (
-            <div key={index} value={map.id}>
+          {maps.map((map) => (
+            <div key={map.id}>
               Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
               {map.id !== 1 && (
                 <button onClick={() => deleteMap(map.id)}>Delete</button>

@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export default function CreateMap() {
 
-  const { user, logInUser, logInAdmin, logOut } = useAuth();
+  const { user } = useAuth();
 
   // console.log("user", user)
 
