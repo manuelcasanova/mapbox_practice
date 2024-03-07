@@ -171,13 +171,13 @@ app.delete("/delete/:id", async (req, res) => {
 
 //Get all maps 
 
-//Eventually change to get maps from user
-
+//Get maps from user
 app.get("/maps", async (req, res) => {
   try {
    
     const userId = req.query.userId;
-    // console.log("userId serverjs", userId)
+    // console.log("req query", req)
+    //  console.log("userId serverjs", userId)
     const maps = await pool.query(
       'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
     );

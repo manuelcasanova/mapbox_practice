@@ -3,8 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
+import { useAuth } from "./Context/AuthContext";
 
 export default function CreateRide() {
+
+  const { user } = useAuth();
+
+  const userId = user.id;
 
   const navigate = useNavigate();
 
@@ -21,19 +26,28 @@ export default function CreateRide() {
 
   const [maps, setMaps] = useState();
   const [mapId, setMapId] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   const createdAt = new Date().toISOString();
 
   useEffect(() => {
+    let isMounted = true;
     const controller = new AbortController();
 
     const getMaps = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/maps', { signal: controller.signal });
+        const response = await axios.get('http://localhost:3500/maps', {
+          params: {userId},  
+        signal: controller.signal
+          
+        });
+        if (isMounted) {
         setMaps(response.data);
         if (response.data.length > 0) {
           setMapId(response.data[0].id);
         }
+        setIsLoading(false);
+      }
       } catch (error) {
         if (error.name !== 'CanceledError') {
           console.error(error);
@@ -46,7 +60,7 @@ export default function CreateRide() {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     // console.log(title)
