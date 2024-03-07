@@ -30,7 +30,7 @@ export default function CreateMap() {
       });
     
       setTitle('');
-      navigate('/');
+      navigate('/maps');
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred");
