@@ -118,12 +118,27 @@ let id = req.params.id
 //Create a map
 app.post("/createmap", async (req, res) => {
   try {
-   const newMap = await pool.query("INSERT INTO maps (title, createdby) VALUES($1, $2)", [req.body.title, req.body.user.id])
-    res.json(newMap.rows[0])
+    // Check if user is logged in
+    if (!req.body.user || !req.body.user.loggedIn) {
+      return res.status(401).json({ message: "A user needs to be logged in to create a map" });
+    }
+    
+    const newMap = await pool.query("INSERT INTO maps (title, createdby) VALUES($1, $2) RETURNING *", [req.body.title, req.body.user.id]);
+
+    if (newMap.rows.length === 0) {
+      return res.status(500).json({ message: "Failed to create map" });
+    }
+
+    const insertedMap = newMap.rows[0];
+    console.log("Inserted map:", insertedMap);
+    res.json(insertedMap);
   } catch (err) {
-console.error(err.message)
+    console.error(err.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-})
+});
+
+
 
 //Create a ride
 app.post("/createride", async (req, res) => {
