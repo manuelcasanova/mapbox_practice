@@ -46,6 +46,7 @@ export default function CreateRide() {
           if (response.data.length > 0) {
             setMapId(response.data[0].id);
           }
+          
           setIsLoading(false);
         }
       } catch (error) {
@@ -63,8 +64,8 @@ export default function CreateRide() {
   }, [userId]);
 
   useEffect(() => {
-    // console.log(title)
-  }, [title])
+    console.log("isLoading:", isLoading);
+  }, [isLoading]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

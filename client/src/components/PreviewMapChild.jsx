@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import LocationMarker from "./util_functions/LocationMarker";
-import { useAuth } from "./Context/AuthContext";
 
 
 
@@ -39,9 +38,6 @@ function Bounds({ coords }) {
 }
 
 export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy }) {
-
-  const { user, logInUser, logInAdmin, logOut } = useAuth();
-  const userId = user.id;
 
   if (!rideCoords || rideCoords.length === 0) {
     return <div>Loading...</div>; 

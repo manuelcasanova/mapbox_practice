@@ -5,7 +5,7 @@ import { useAuth } from "./Context/AuthContext";
 import DrawMap from "./DrawMap";
 
 export default function AllMaps() {
-  const { user, logInUser, logInAdmin, logOut } = useAuth();
+  const { user } = useAuth();
   const [maps, setMaps] = useState([]);
   const [mapId, setMapId] = useState();
   const [isLoading, setIsLoading] = useState(true);

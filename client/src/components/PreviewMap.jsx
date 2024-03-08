@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import PreviewMapChild from "./PreviewMapChild";
 import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
-import { map } from "leaflet";
 import { useAuth } from "./Context/AuthContext";
 
-export default function PreviewMap({ refresh, mapId, setMapId }) {
+export default function PreviewMap({ mapId }) {
 
 
-  const { user, logInUser, logInAdmin, logOut } = useAuth();
+  const { user } = useAuth();
 
   // console.log("user", user)
 
@@ -19,14 +17,9 @@ export default function PreviewMap({ refresh, mapId, setMapId }) {
 
 
   //Get map
-  // const [mapId, setMapId] = useState(null)
   const [mapTitle, setMapTitle] = useState(null)
   const [mapCreatedBy, setMapCreatedBy] = useState(null)
-  // let idObject = useParams();
-  // let id = Number(Object.values(idObject)[0])
   let id = mapId;
-
-  // console.log("id in see map", id)
 
   const getMap = async () => {
 
@@ -35,16 +28,15 @@ export default function PreviewMap({ refresh, mapId, setMapId }) {
 
       const responseData = Object.values(response.data)[0]
 
-      setMapId(responseData.id)
-      setMapTitle(responseData.title)
-      setMapCreatedBy(responseData.createdby)
-
-      // console.log("responseData", responseData)
+      setMapTitle(responseData?.title)
+      setMapCreatedBy(responseData?.createdby)
 
     } catch (err) {
       console.error(err)
     }
   }
+
+  getMap()
 
   /////GET COORDINATES
 
@@ -52,30 +44,19 @@ export default function PreviewMap({ refresh, mapId, setMapId }) {
   const [loading, setLoading] = useState(false);
 
 
-
-
-  const getMapPoints = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3500/points/${id}`);
-
-      // console.log("getMapPoints res.data", response.data)
-
-      // const responseData = Object.values(response.data)[0]
-      // console.log("responseData", responseData)
-
-      setPoints(response.data)
-      setLoading(true)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   useEffect(() => {
-
+    const getMapPoints = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3500/points/${id}`);
+        setPoints(response.data);
+        setLoading(true);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  
     getMapPoints();
-
-
-  }, [refresh, mapId])
+  }, [mapId, id]);
 
   useEffect(() => {
     // console.log("coords", coords)
@@ -86,12 +67,12 @@ export default function PreviewMap({ refresh, mapId, setMapId }) {
 
   let rideCoords = [BrowserCoords]
 
-  {
+  
     loading && points.map((point) => {
       rideCoords.push(Object.values(point))
-
+return null
     })
-  }
+  
   /////GET COORDIANTES - END
 
 

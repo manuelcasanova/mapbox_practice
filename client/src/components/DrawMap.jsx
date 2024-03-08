@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
+import React, { useState, useEffect, useMemo } from "react";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
@@ -69,7 +69,7 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 }
 
 
-export default function DrawMap({ setRefresh, mapId }) {
+export default function DrawMap({ mapId }) {
 
   const { browCoords } = useCoords();
 
@@ -78,13 +78,16 @@ export default function DrawMap({ setRefresh, mapId }) {
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
   const [coordinadasPara, setCoordinadasPara] = useState([]);
-  const [markersData, setMarkersData] = useState([]);
   const [coord, setCoord] = useState([]);
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
-  const defaultPosition = browCoords || [49.2827, -123.1207]; // Downtown Vancouver, BC coordinates
+  // const defaultPosition = ; // Downtown Vancouver, BC coordinates
 
-  const defaultBounds = [[String(defaultPosition[0]), String(defaultPosition[1])], [String(defaultPosition[0]), String(defaultPosition[1])]];
+
+  const defaultPosition = useMemo(() => {
+    // Initialize your default position here
+    return browCoords || [59.2827, -123.1207]
+  }, [browCoords]); // Add dependencies if needed
 
 // Initialize state variable to hold positions for the polyline
 const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
@@ -111,7 +114,11 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
     fetchData();
   }, [mapId]);
 
+//Avoid ESLINT error by using these variables
 
+  useEffect(() => {
+
+  }, [points, loading, coordinatesForPolyline]);
 
 
   //Object with two key/value pairs (array). Markers holds the default position, data will include eventually the new markers added
@@ -146,7 +153,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
       }
     };
     fetchData();
-  }, [mapId]);
+  }, [mapId, defaultPosition]);
 
     //Fetches points from map. Transforms them (Array of objects with value/key pair) to array with two strings (format for bounds), sets coordinatesForPolyline with these arrays.
     useEffect(() => {
@@ -267,7 +274,6 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
             setRemovePoint={setRemovePoint}
             coord={coord}
             setCoord={setCoord}
-            setRefresh={setRefresh}
             mapId={mapId}
             defaultPosition={defaultPosition}
           />

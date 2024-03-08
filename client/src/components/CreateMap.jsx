@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 
@@ -24,7 +24,7 @@ export default function CreateMap() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:3500/createmap`, {
+      await axios.post(`http://localhost:3500/createmap`, {
         title,
         user
       });

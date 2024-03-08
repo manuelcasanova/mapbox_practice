@@ -2,7 +2,6 @@ import './App.css';
 
 import Title from './components/Title'
 import Information from './components/Information'
-import DrawMap from './components/DrawMap';
 import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
@@ -14,7 +13,6 @@ import BrowserCoordsProvider from './components/util_functions/GetBrowserLocatio
 import { AuthProvider } from './components/Context/AuthContext';
 
 //Hooks
-import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AllMaps from './components/AllMaps';
 import AllRides from './components/AllRides';
@@ -22,8 +20,6 @@ import AllRides from './components/AllRides';
 
 function App() {
 
-  //For production only
-  const [refresh, setRefresh] = useState(0)
 
   return (
     <AuthProvider>
@@ -74,8 +70,7 @@ function App() {
               <>
                 <Title />
                 <Information />
-                {/* <AllMaps /> */}
-                <SeeMap refresh={refresh} setRefresh={setRefresh} />
+                <SeeMap/>
               </>
 
             }>

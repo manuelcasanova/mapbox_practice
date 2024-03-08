@@ -4,7 +4,7 @@ import SeeMapChild from "./SeeMapChild";
 import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
 
-export default function SeeMap({ refresh }) {
+export default function SeeMap() {
   const [mapId, setMapId] = useState(null);
   const [mapTitle, setMapTitle] = useState(null);
   const [mapCreatedBy, setMapCreatedBy] = useState(null);
@@ -17,35 +17,36 @@ export default function SeeMap({ refresh }) {
   ]);
 
 
-  const getMap = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3500/maps/${id}`);
-      const responseData = Object.values(response.data)[0];
-      setMapId(responseData.id);
-      setMapTitle(responseData.title);
-      setMapCreatedBy(responseData.createdby);
-    } catch (err) {
-      console.error(err);
-      // Handle error (e.g., show error message)
-    }
-  };
-
-  const getMapPoints = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3500/points/${id}`);
-      setPoints(response.data);
-      setLoading(true);
-    } catch (err) {
-      console.error(err);
-      // Handle error (e.g., show error message)
-    }
-  };
-
   useEffect(() => {
+    const getMapPoints = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3500/points/${id}`);
+        setPoints(response.data);
+        setLoading(true);
+      } catch (err) {
+        console.error(err);
+        // Handle error (e.g., show error message)
+      }
+    };
+  
+    const getMap = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3500/maps/${id}`);
+        const responseData = Object.values(response.data)[0];
+        setMapId(responseData.id);
+        setMapTitle(responseData.title);
+        setMapCreatedBy(responseData.createdby);
+      } catch (err) {
+        console.error(err);
+        // Handle error (e.g., show error message)
+      }
+    };
+  
     getMapPoints();
     getMap();
-    
-  }, [refresh]);
+  
+  }, [id]); // Assuming id is the only external dependency
+  
 
   let rideCoords = [BrowserCoords];
 
