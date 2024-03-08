@@ -4,22 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import LocationMarker from "./util_functions/LocationMarker";
 
-const icon_black = L.icon({
-  iconSize: [2, 2],
-  iconAnchor: [0, 0],
-  popupAnchor: [2, -40],
-  iconUrl: require('../components/img/black-square.png'),
-});
-
-const icon_green = L.icon({
-  iconSize: [30, 30],
-  iconUrl: require('../components/img/greencircle.png'),
-});
-
-const icon_flag = L.icon({
-  iconSize: [20, 20],
-  iconUrl: require('../components/img/raceflag.png'),
-});
+import { icon_black, icon_green, icon_flag } from "./img/Icons";
 
 const group = L.featureGroup();
 

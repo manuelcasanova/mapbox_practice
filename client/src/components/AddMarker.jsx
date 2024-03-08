@@ -1,26 +1,10 @@
 import { useEffect, useCallback } from "react";
 import { Marker, useMapEvents, Polyline } from "react-leaflet";
-import L from "leaflet";
 import axios from "axios";
+import { icon_black, icon_green, icon_flag } from "./img/Icons";
 
 export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition}) {
 
-  const icon_black = L.icon({
-    iconSize: [2, 2],
-    iconAnchor: [0, 0],
-    popupAnchor: [2, -40],
-    iconUrl: require('../components/img/black-square.png'),
-  });
-
-  const icon_green = L.icon({
-    iconSize: [30, 30],
-    iconUrl: require('../components/img/greencircle.png'),
-  });
-
-  const icon_flag = L.icon({
-    iconSize: [20, 20],
-    iconUrl: require('../components/img/raceflag.png'),
-  });
 
   const fetchData = useCallback(() => {
     axios.get(`http://localhost:3500/points/${mapId}`)
