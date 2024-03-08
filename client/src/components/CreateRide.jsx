@@ -64,7 +64,7 @@ export default function CreateRide() {
   }, [userId]);
 
   useEffect(() => {
-    console.log("isLoading:", isLoading);
+    // console.log("isLoading:", isLoading);
   }, [isLoading]);
 
   const handleSubmit = async (e) => {

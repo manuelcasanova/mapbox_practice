@@ -123,7 +123,7 @@ app.post("/createmap", async (req, res) => {
       return res.status(401).json({ message: "A user needs to be logged in to create a map" });
     }
     
-    const newMap = await pool.query("INSERT INTO maps (title, createdby) VALUES($1, $2) RETURNING *", [req.body.title, req.body.user.id]);
+    const newMap = await pool.query("INSERT INTO maps (title, createdby, createdAt) VALUES($1, $2, $3) RETURNING *", [req.body.title, req.body.user.id, req.body.createdAt]);
 
     if (newMap.rows.length === 0) {
       return res.status(500).json({ message: "Failed to create map" });
@@ -145,7 +145,7 @@ app.post("/createride", async (req, res) => {
   try {
     const {title, distance, speed, date, time, details, mapId, createdAt, dateString} = req.body
 
-    //Converts 13/01/2023 to 20923-01-13
+    //Converts 13/01/2023 to 2023-01-13
     const psqlDate = `${dateString[6]+dateString[7]+dateString[8]+dateString[9]+`-`+dateString[3]+dateString[4]+`-`+dateString[0]+dateString[1]}`
 
    const newRide = await pool.query(`INSERT INTO rides (name, createdat, map, starting_date) VALUES($1, $2, $3, $4)`, [title, createdAt, mapId, psqlDate])

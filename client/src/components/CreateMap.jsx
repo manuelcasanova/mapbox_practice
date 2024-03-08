@@ -16,6 +16,7 @@ export default function CreateMap() {
 
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
+  const createdAt = new Date().toISOString();
 
   useEffect(() => {
     // console.log(title)
@@ -26,7 +27,8 @@ export default function CreateMap() {
     try {
       await axios.post(`http://localhost:3500/createmap`, {
         title,
-        user
+        user,
+        createdAt
       });
     
       setTitle('');

@@ -18,14 +18,17 @@ CREATE TABLE users (
 CREATE TABLE maps (
   id SERIAL PRIMARY KEY NOT NULL,
   title VARCHAR(255),
-  createdBy INTEGER REFERENCES users(id) ON DELETE CASCADE
+  createdBy INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  createdAt timestamp,
+  isPrivate boolean DEFAULT true
 );
 
 CREATE TABLE points (
   id SERIAL PRIMARY KEY NOT NULL,
   lat NUMERIC,
   lng NUMERIC,
-  map INTEGER REFERENCES maps(id) ON DELETE CASCADE
+  map INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+  createdAt timestamp
 );
 
 CREATE TABLE rides (
