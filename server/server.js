@@ -143,12 +143,12 @@ app.post("/createmap", async (req, res) => {
 //Create a ride
 app.post("/createride", async (req, res) => {
   try {
-    const {title, distance, speed, date, time, details, mapId, createdAt, dateString} = req.body
+    const {title, distance, speed, date, time, details, mapId, createdAt, dateString, privateRide} = req.body
 
     //Converts 13/01/2023 to 2023-01-13
     const psqlDate = `${dateString[6]+dateString[7]+dateString[8]+dateString[9]+`-`+dateString[3]+dateString[4]+`-`+dateString[0]+dateString[1]}`
 
-   const newRide = await pool.query(`INSERT INTO rides (name, createdat, map, starting_date) VALUES($1, $2, $3, $4)`, [title, createdAt, mapId, psqlDate])
+   const newRide = await pool.query(`INSERT INTO rides (name, createdat, map, starting_date, isprivate) VALUES($1, $2, $3, $4, $5)`, [title, createdAt, mapId, psqlDate, privateRide])
     res.json(newRide.rows[0])
   } catch (err) {
 console.error(err.message)

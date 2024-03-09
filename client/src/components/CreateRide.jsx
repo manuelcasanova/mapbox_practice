@@ -8,8 +8,10 @@ import { useAuth } from "./Context/AuthContext";
 export default function CreateRide() {
 
   const { user } = useAuth();
-
   const userId = user.id;
+
+  const [privateRide, setPrivateRide] = useState(true);
+  const [publicRide, setPublicRide] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,6 +31,11 @@ export default function CreateRide() {
   const [isLoading, setIsLoading] = useState(true);
 
   const createdAt = new Date().toISOString();
+
+  const handleChange = () => {
+    setPrivateRide(!privateRide);
+    setPublicRide(!publicRide);
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -78,7 +85,8 @@ export default function CreateRide() {
       details,
       mapId,
       createdAt,
-      dateString
+      dateString,
+      privateRide
     };
 
     try {
@@ -111,6 +119,23 @@ export default function CreateRide() {
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 required></input>
+
+<label>
+          Private
+          <input
+            type="checkbox"
+            checked={privateRide}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Public
+          <input
+            type="checkbox"
+            checked={publicRide}
+            onChange={handleChange}
+          />
+        </label>
 
               <label>Date</label>
 
