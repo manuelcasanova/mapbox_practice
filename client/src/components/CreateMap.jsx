@@ -7,6 +7,8 @@ import axios from 'axios';
 export default function CreateMap() {
 
   const { user } = useAuth();
+  const [privateMap, setPrivateMap] = useState(true);
+  const [publicMap, setPublicMap] = useState(false);
 
   // console.log("user", user)
 
@@ -18,6 +20,12 @@ export default function CreateMap() {
   const [error, setError] = useState('');
   const createdAt = new Date().toISOString();
 
+  const handleChange = () => {
+    setPrivateMap(!privateMap);
+    setPublicMap(!publicMap);
+  };
+
+
   useEffect(() => {
     // console.log(title)
   }, [title])
@@ -28,9 +36,10 @@ export default function CreateMap() {
       await axios.post(`http://localhost:3500/createmap`, {
         title,
         user,
-        createdAt
+        createdAt,
+        privateMap
       });
-    
+
       setTitle('');
       navigate('/maps');
     } catch (err) {
@@ -38,17 +47,33 @@ export default function CreateMap() {
       setError(err.response.data.message || "An error occurred");
     }
   };
-  
+
 
   return (
     <div className="maps">
       <form onSubmit={handleSubmit}>
         <div>STEP 1: CREATE a new map or SELECT an existing map</div>
-        <label>Map title</label>
+
         <input
           onChange={(e) => setTitle(e.target.value)}
           value={title}
           required></input>
+        <label>
+          Private
+          <input
+            type="checkbox"
+            checked={privateMap}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Public
+          <input
+            type="checkbox"
+            checked={publicMap}
+            onChange={handleChange}
+          />
+        </label>
         <button
         // onClick={navigate('/')}
         >Create</button>

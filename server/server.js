@@ -123,7 +123,7 @@ app.post("/createmap", async (req, res) => {
       return res.status(401).json({ message: "A user needs to be logged in to create a map" });
     }
     
-    const newMap = await pool.query("INSERT INTO maps (title, createdby, createdAt) VALUES($1, $2, $3) RETURNING *", [req.body.title, req.body.user.id, req.body.createdAt]);
+    const newMap = await pool.query("INSERT INTO maps (title, createdby, createdAt, isPrivate) VALUES($1, $2, $3, $4) RETURNING *", [req.body.title, req.body.user.id, req.body.createdAt, req.body.privateMap]);
 
     if (newMap.rows.length === 0) {
       return res.status(500).json({ message: "Failed to create map" });
