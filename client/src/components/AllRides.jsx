@@ -63,6 +63,7 @@ const AllRides = () => {
       <div>Time: {ride.starting_time}</div>
       <div>Speed (Km/h): {ride.speed}</div>
       <div>Details: {ride.name}</div>
+      <div>Created By: {ride.createdby}</div>
       <PreviewMap mapId={ride.map} />
     </div>
   );

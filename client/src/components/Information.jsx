@@ -13,7 +13,7 @@ export default function
       >Create a map</button>
       <button className="navbar_button"
         onClick={() => navigate("/maps")}
-      >Manage maps</button>
+      >Manage my maps</button>
       <button className="navbar_button"
         onClick={() => navigate("/ride")}
       >Create ride</button>

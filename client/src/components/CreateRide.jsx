@@ -86,7 +86,8 @@ export default function CreateRide() {
       mapId,
       createdAt,
       dateString,
-      privateRide
+      privateRide,
+      userId
     };
 
     try {
