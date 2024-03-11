@@ -147,6 +147,12 @@ app.post("/createride", async (req, res) => {
 
     console.log("req.body", req.body)
 
+        // Check if the time has the format 00:00:00
+        const timeRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+        if (!timeRegex.test(time)) {
+          return res.status(400).json({ error: 'Invalid time format. Please provide time in the format HH:MM:SS' });
+        }
+
     //Converts 13/01/2023 to 2023-01-13
     const psqlDate = `${dateString[6] + dateString[7] + dateString[8] + dateString[9] + `-` + dateString[3] + dateString[4] + `-` + dateString[0] + dateString[1]}`
 

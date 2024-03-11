@@ -33,6 +33,8 @@ export default function CreateRide() {
 
   const createdAt = new Date().toISOString();
 
+  const [error, setError] = useState('');
+
   const handleChange = () => {
     setPrivateRide(!privateRide);
     setPublicRide(!publicRide);
@@ -101,8 +103,16 @@ export default function CreateRide() {
       setTime('');
       setDetails('');
       navigate('/ride/mine');
-    } catch (err) {
-      console.error("error", err);
+    } catch (error) {
+      // If there is an error in the response
+      if (error.response && error.response.data && error.response.data.error) {
+        // Set the error message to state
+        setError(error.response.data.error);
+      } else {
+        // Handle other types of errors
+        console.error('Error:', error.message);
+        setError('An error occurred while creating the ride.');
+      }
     }
   };
 
@@ -177,6 +187,9 @@ export default function CreateRide() {
 
               <label>Starting Time</label>
               <input
+              type="text"
+              pattern="^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$"
+              title="Format HH:MM:SS - 00:00:00 - 23:59:59"
                 onChange={(e) => setTime(e.target.value)}
                 value={time}
                 required></input>
@@ -221,6 +234,7 @@ export default function CreateRide() {
               }
 
               <button type="submit">Create</button>
+              {error && <p>Error: {error}</p>}
             </form>
 
 
