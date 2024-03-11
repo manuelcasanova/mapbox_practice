@@ -34,6 +34,7 @@ export default function CreateRide() {
   const createdAt = new Date().toISOString();
 
   const [error, setError] = useState('');
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const handleChange = () => {
     setPrivateRide(!privateRide);
@@ -76,6 +77,18 @@ export default function CreateRide() {
   useEffect(() => {
     // console.log("isLoading:", isLoading);
   }, [isLoading]);
+
+
+  const handleDateInputClick = () => {
+    if (!showCalendar) { // Toggle showCalendar only if it's not already shown
+      setShowCalendar(true);
+    }
+  };
+
+  const handleDateSelect = (selectedDate) => {
+    setDate(selectedDate);
+    setShowCalendar(false); // Hide the calendar once a date is selected
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -153,11 +166,12 @@ export default function CreateRide() {
               <label>Date</label>
 
               <input
+              onClick={handleDateInputClick}
                 onChange={(e) => setDate(e.target.value)}
                 value={dateString}
                 required></input>
 
-              <CalendarComponent date={date} setDate={setDate} />
+{showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
 
 
               <label>Distance (Km)</label>
