@@ -50,6 +50,9 @@ export default function CreateMap() {
 
 
   return (
+
+    <>
+    {user.loggedIn ? (
     <div className="maps">
       <form onSubmit={handleSubmit}>
         <div>STEP 1: CREATE a new map or SELECT an existing map</div>
@@ -81,5 +84,11 @@ export default function CreateMap() {
 
       {error && <div className="error">{error}</div>}
     </div>
+       ) : (
+        <p>Please log in to access this feature.</p>
+      )}
+
+
+    </>
   )
 }
