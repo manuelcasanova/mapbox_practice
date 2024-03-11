@@ -145,10 +145,12 @@ app.post("/createride", async (req, res) => {
   try {
     const { title, distance, speed, date, time, details, mapId, createdAt, dateString, privateRide, userId } = req.body
 
+    console.log("req.body", req.body)
+
     //Converts 13/01/2023 to 2023-01-13
     const psqlDate = `${dateString[6] + dateString[7] + dateString[8] + dateString[9] + `-` + dateString[3] + dateString[4] + `-` + dateString[0] + dateString[1]}`
 
-    const newRide = await pool.query(`INSERT INTO rides (name, createdat, map, starting_date, isprivate, createdBy) VALUES($1, $2, $3, $4, $5, $6)`, [title, createdAt, mapId, psqlDate, privateRide, userId])
+    const newRide = await pool.query(`INSERT INTO rides (name, distance, speed, createdat, map, starting_date, starting_time, isprivate, createdBy, details) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`, [title, distance, speed, createdAt, mapId, psqlDate, time, privateRide, userId, details])
     res.json(newRide.rows[0])
   } catch (err) {
     console.error(err.message)
@@ -224,7 +226,7 @@ app.get("/rides/user/:id", async (req, res) => {
     }
 
     const rides = await pool.query(
-      'SELECT * FROM rides where createdby = $1', [id]
+      'SELECT * FROM rides where createdby = $1 ORDER BY starting_date desc, starting_time DESC', [id]
     );
     res.json(rides.rows)
   } catch (err) {

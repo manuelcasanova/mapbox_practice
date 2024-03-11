@@ -98,7 +98,7 @@ export default function CreateRide() {
       setDate(new Date());
       setTime('');
       setDetails('');
-      navigate('/');
+      navigate('/ride/mine');
     } catch (err) {
       console.error("error", err);
     }
