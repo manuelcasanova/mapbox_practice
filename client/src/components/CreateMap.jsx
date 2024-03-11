@@ -85,7 +85,7 @@ export default function CreateMap() {
       {error && <div className="error">{error}</div>}
     </div>
        ) : (
-        <p>Please log in to access this feature.</p>
+        <p>Please log in to create a map</p>
       )}
 
 

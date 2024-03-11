@@ -212,7 +212,7 @@ export default function CreateRide() {
 
 
       ) : (
-        <p>Please log in to access this feature.</p>
+        <p>Please log in to create a ride.</p>
       )}
 
 

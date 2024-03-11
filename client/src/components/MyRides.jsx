@@ -4,7 +4,6 @@ import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
 
-
 const MyRides = () => {
   const [rides, setRides] = useState([]);
   const [error, setError] = useState(null);
@@ -75,7 +74,7 @@ const MyRides = () => {
                     <PreviewMap mapId={ride.map} />
 
                   </div>
-                ) : <div>Please, log in to access this feature</div>}
+                ) : <div>Please, log in to access see rides</div>}
               </>
             );
           })}

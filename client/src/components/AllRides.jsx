@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
-
+import { useAuth } from "./Context/AuthContext";
 
 const AllRides = () => {
   const [rides, setRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     let isMounted = true;
@@ -47,14 +48,19 @@ const AllRides = () => {
       {rides.length === 0 ? (
         <div>No rides available.</div>
       ) : (
+        <>
+        {user.loggedIn ? (
         <div>
 {rides.map(ride => {
   // Extract the date formatting logic here
   const originalDate = ride.starting_date;
   const formattedDate = formatDate(originalDate);
 
+
+
   // Render the JSX elements, including the formatted date
   return (
+    
     
 <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
       <div>Name: {ride.name}</div>
@@ -71,6 +77,10 @@ const AllRides = () => {
 
 
         </div>
+            ) : (
+              <p>Please log in to create a ride.</p>
+            )}
+          </>
       )}
     </div>
   );
