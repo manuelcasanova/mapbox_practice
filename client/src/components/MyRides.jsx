@@ -9,7 +9,7 @@ const MyRides = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-  const id = user.id;
+  const id = user ? user.id : null;
 
   useEffect(() => {
     let isMounted = true;
@@ -20,18 +20,24 @@ const MyRides = () => {
           const response = await axios.get(`http://localhost:3500/rides/user/${id}`);
           if (isMounted) {
             setRides(response.data);
-            setIsLoading(false);
           }
         }
       } catch (error) {
         if (isMounted) {
           setError(error.message);
+        }
+      } finally {
+        if (isMounted) {
           setIsLoading(false);
         }
       }
     };
 
-    fetchData();
+    if (id !== null && id !== undefined) {
+      fetchData();
+    } else {
+      setIsLoading(false); // If user is not logged in, set isLoading to false immediately
+    }
 
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
@@ -47,23 +53,22 @@ const MyRides = () => {
   }
 
   return (
-    <div>
-
-      {rides.length === 0 ? (
-        <div>No rides available.</div>
-      ) : (
+    <>
+      {user.loggedIn ? (
         <div>
-          {rides.map(ride => {
-            // Extract the date formatting logic here
-            const originalDate = ride.starting_date;
-            const formattedDate = formatDate(originalDate);
+          {rides.length === 0 ? (
+            <div>No rides available.</div>
+          ) : (
 
-            // Render the JSX elements, including the formatted date
-            return (
-              <>
-                {user.loggedIn ? (
+            <div>
+              {rides.map(ride => {
+                // Extract the date formatting logic here
+                const originalDate = ride.starting_date;
+                const formattedDate = formatDate(originalDate);
+
+                // Render the JSX elements, including the formatted date
+                return (
                   <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-
                     <div>Name: {ride.name}</div>
                     <div>Details: {ride.details}</div>
                     <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
@@ -72,17 +77,17 @@ const MyRides = () => {
                     <div>Details: {ride.name}</div>
                     <div>Created By: {ride.createdby}</div>
                     <PreviewMap mapId={ride.map} />
-
                   </div>
-                ) : <div>Please, log in to access see rides</div>}
-              </>
-            );
-          })}
+                );
+              })}
+            </div>
 
-
+          )}
         </div>
+      ) : (
+        <p>Please log in to see rides.</p>
       )}
-    </div>
+    </>
   );
 };
 

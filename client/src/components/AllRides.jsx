@@ -78,7 +78,7 @@ const AllRides = () => {
 
         </div>
             ) : (
-              <p>Please log in to create a ride.</p>
+              <p>Please log in to see rides.</p>
             )}
           </>
       )}
