@@ -24,6 +24,7 @@ export default function CreateRide() {
   const dateString = date.toLocaleDateString("en-GB")
 
   const [time, setTime] = useState('');
+  const [meetingPoint, setMeetingPoint] = useState('');
   const [details, setDetails] = useState('');
 
   const [maps, setMaps] = useState();
@@ -87,7 +88,8 @@ export default function CreateRide() {
       createdAt,
       dateString,
       privateRide,
-      userId
+      userId,
+      meetingPoint
     };
 
     try {
@@ -177,6 +179,12 @@ export default function CreateRide() {
               <input
                 onChange={(e) => setTime(e.target.value)}
                 value={time}
+                required></input>
+
+              <label>Meeting Point</label>
+              <input
+                onChange={(e) => setMeetingPoint(e.target.value)}
+                value={meetingPoint}
                 required></input>
 
 

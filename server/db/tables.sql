@@ -45,6 +45,7 @@ CREATE TABLE rides (
   gpx VARCHAR(255),
   starting_date DATE,
   starting_time TIME,
+  meeting_point TEXT,
   details TEXT,
   map INTEGER REFERENCES maps(id) ON DELETE CASCADE
 );

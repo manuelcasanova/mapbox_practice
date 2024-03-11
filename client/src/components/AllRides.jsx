@@ -69,7 +69,7 @@ const AllRides = () => {
       <div>Time: {ride.starting_time}</div>
       <div>Distance: {ride.distance} km</div>
       <div>Speed: {ride.speed} km/h</div>
-      <div>Details: {ride.name}</div>
+      <div>Meeting Point: {ride.meeting_point}</div>
       <div>Created By: {ride.createdby}</div>
       <PreviewMap mapId={ride.map} />
     </div>
