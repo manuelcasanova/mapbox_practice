@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
+import TimePickerComponent from "./TimePickerComponent";
 import { useAuth } from "./Context/AuthContext";
 
 export default function CreateRide() {
@@ -200,13 +201,15 @@ export default function CreateRide() {
 
 
               <label>Starting Time</label>
-              <input
+              {/* <input
               type="text"
               pattern="^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$"
               title="Format HH:MM:SS - 00:00:00 - 23:59:59"
                 onChange={(e) => setTime(e.target.value)}
                 value={time}
-                required></input>
+                required></input> */}
+
+<TimePickerComponent time={time} setTime={setTime} />
 
               <label>Meeting Point</label>
               <input
