@@ -86,15 +86,15 @@ app.post("/points", async (req, res) => {
 app.post("/points/delete/", async (req, res) => {
 
   try {
-   
-let lat = req.body.lat;
-let lng = req.body.lng;
+
+    let lat = req.body.lat;
+    let lng = req.body.lng;
 
 
-   await pool.query(
-     "DELETE FROM points WHERE lat = $1 AND lng = $2", [lat, lng]
-   )
-   res.json("Network Response: The point was deleted")
+    await pool.query(
+      "DELETE FROM points WHERE lat = $1 AND lng = $2", [lat, lng]
+    )
+    res.json("Network Response: The point was deleted")
   } catch (err) {
     console.error(err.message)
   }
@@ -103,13 +103,13 @@ let lng = req.body.lng;
 
 //Delete all points
 app.post("/points/delete/all/:id", async (req, res) => {
-let id = req.params.id
+  let id = req.params.id
   try {
 
-   await pool.query(
-     "DELETE FROM points where map = $1", [id]
-   )
-   res.json("Network Response: All points were deleted")
+    await pool.query(
+      "DELETE FROM points where map = $1", [id]
+    )
+    res.json("Network Response: All points were deleted")
   } catch (err) {
     console.error(err.message)
   }
@@ -122,7 +122,7 @@ app.post("/createmap", async (req, res) => {
     if (!req.body.user || !req.body.user.loggedIn) {
       return res.status(401).json({ message: "A user needs to be logged in to create a map" });
     }
-    
+
     const newMap = await pool.query("INSERT INTO maps (title, createdby, createdAt, isPrivate) VALUES($1, $2, $3, $4) RETURNING *", [req.body.title, req.body.user.id, req.body.createdAt, req.body.privateMap]);
 
     if (newMap.rows.length === 0) {
@@ -143,27 +143,27 @@ app.post("/createmap", async (req, res) => {
 //Create a ride
 app.post("/createride", async (req, res) => {
   try {
-    const {title, distance, speed, date, time, details, mapId, createdAt, dateString, privateRide, userId} = req.body
+    const { title, distance, speed, date, time, details, mapId, createdAt, dateString, privateRide, userId } = req.body
 
     //Converts 13/01/2023 to 2023-01-13
-    const psqlDate = `${dateString[6]+dateString[7]+dateString[8]+dateString[9]+`-`+dateString[3]+dateString[4]+`-`+dateString[0]+dateString[1]}`
+    const psqlDate = `${dateString[6] + dateString[7] + dateString[8] + dateString[9] + `-` + dateString[3] + dateString[4] + `-` + dateString[0] + dateString[1]}`
 
-   const newRide = await pool.query(`INSERT INTO rides (name, createdat, map, starting_date, isprivate, createdBy) VALUES($1, $2, $3, $4, $5, $6)`, [title, createdAt, mapId, psqlDate, privateRide, userId])
+    const newRide = await pool.query(`INSERT INTO rides (name, createdat, map, starting_date, isprivate, createdBy) VALUES($1, $2, $3, $4, $5, $6)`, [title, createdAt, mapId, psqlDate, privateRide, userId])
     res.json(newRide.rows[0])
   } catch (err) {
-console.error(err.message)
+    console.error(err.message)
   }
 })
 
 //Delete a map
 app.delete("/delete/:id", async (req, res) => {
   try {
-   const id = parseInt(req.params.id);
-   console.log("Deleted map id:", id);
-   await pool.query(
-     "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
-   )
-   res.json("The map was deleted")
+    const id = parseInt(req.params.id);
+    console.log("Deleted map id:", id);
+    await pool.query(
+      "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
+    )
+    res.json("The map was deleted")
   } catch (err) {
     console.error(err.message)
   }
@@ -174,7 +174,7 @@ app.delete("/delete/:id", async (req, res) => {
 //Get maps from user
 app.get("/maps", async (req, res) => {
   try {
-   
+
     const userId = req.query.userId;
     // console.log("req query", req)
     //  console.log("userId serverjs", userId)
@@ -190,7 +190,7 @@ app.get("/maps", async (req, res) => {
 //Get one map
 app.get("/maps/:id", async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const maps = await pool.query(
       'SELECT * FROM maps WHERE id = $1', [id]
     );
@@ -209,6 +209,27 @@ app.get("/rides", async (req, res) => {
     res.json(rides.rows)
   } catch (err) {
     console.error(err.message)
+  }
+});
+
+//Get users rides
+app.get("/rides/user/:id", async (req, res) => {
+
+  try {
+    const { id } = req.params;
+
+    // Check if id is null or undefined
+    if (id === null || id === undefined) {
+      return res.status(400).json({ error: 'User ID is required.' });
+    }
+
+    const rides = await pool.query(
+      'SELECT * FROM rides where createdby = $1', [id]
+    );
+    res.json(rides.rows)
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

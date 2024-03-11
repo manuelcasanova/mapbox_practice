@@ -16,6 +16,7 @@ import { AuthProvider } from './components/Context/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AllMaps from './components/AllMaps';
 import AllRides from './components/AllRides';
+import MyRides from './components/MyRides'
 
 
 function App() {
@@ -95,6 +96,18 @@ function App() {
                 <Title />
                 <Information />
                 <AllRides />
+                <Footer />
+              </>
+            }>
+          </Route>
+
+          <Route
+            exact path="/ride/mine"
+            element={
+              <>
+                <Title />
+                <Information />
+              <MyRides />
                 <Footer />
               </>
             }>

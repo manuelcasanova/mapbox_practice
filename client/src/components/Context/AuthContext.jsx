@@ -11,7 +11,7 @@ export const AuthProvider = ({children}) => {
 // console.log("auth context user", user)
 
   const logInUser = () => {
-    setUser({ id: 5, isAdmin: false, loggedIn: true });
+    setUser({ id: 4, isAdmin: false, loggedIn: true });
 
   };
 
