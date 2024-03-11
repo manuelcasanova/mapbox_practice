@@ -53,7 +53,7 @@ export default function CreateRide() {
           if (response.data.length > 0) {
             setMapId(response.data[0].id);
           }
-          
+
           setIsLoading(false);
         }
       } catch (error) {
@@ -121,22 +121,22 @@ export default function CreateRide() {
                 value={title}
                 required></input>
 
-<label>
-          Private
-          <input
-            type="checkbox"
-            checked={privateRide}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Public
-          <input
-            type="checkbox"
-            checked={publicRide}
-            onChange={handleChange}
-          />
-        </label>
+              <label>
+                Private
+                <input
+                  type="checkbox"
+                  checked={privateRide}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Public
+                <input
+                  type="checkbox"
+                  checked={publicRide}
+                  onChange={handleChange}
+                />
+              </label>
 
               <label>Date</label>
 
@@ -150,16 +150,27 @@ export default function CreateRide() {
 
               <label>Distance (Km)</label>
               <input
+                type="text"
+                // Positive number or pattern 22-24
+                // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
+                pattern="\d+(\.\d+)?"
+                title="Distance must be a positive number"
                 onChange={(e) => setDistance(e.target.value)}
                 value={distance}
-                required></input>
+                required
+              />
 
 
               <label>Speed (Km/h)</label>
               <input
+                type="text"
+                // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
+                pattern="\d+(\.\d+)?"
+                title="Speed must be a positive number"
                 onChange={(e) => setSpeed(e.target.value)}
                 value={speed}
-                required></input>
+                required
+              />
 
 
               <label>Starting Time</label>
