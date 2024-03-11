@@ -73,7 +73,8 @@ const MyRides = () => {
                     <div>Details: {ride.details}</div>
                     <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
                     <div>Time: {ride.starting_time}</div>
-                    <div>Speed (Km/h): {ride.speed}</div>
+                    <div>Distance: {ride.distance} km</div>
+                    <div>Speed: {ride.speed} km/h</div>
                     <div>Details: {ride.name}</div>
                     <div>Created By: {ride.createdby}</div>
                     <PreviewMap mapId={ride.map} />
