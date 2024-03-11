@@ -239,6 +239,21 @@
   transform: translateY(4px);
 }
 
+.time-picker {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+}
+
+.time-picker label {
+  margin-bottom: 5px;
+}
+
+.time-picker input {
+  width: 60px;
+}
+
+
 
 /* || MOBILE DEVICE LANDSCAPE  */
 /* @media screen and (max-height: 320px) and (min-aspect-ratio: 7/4) {
