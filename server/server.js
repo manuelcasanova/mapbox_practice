@@ -147,11 +147,35 @@ app.post("/createride", async (req, res) => {
 
     console.log("req.body", req.body)
 
-        // Check if the time has the format 00:00:00
-        const timeRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
-        if (!timeRegex.test(time)) {
-          return res.status(400).json({ error: 'Invalid time format. Please provide time in the format HH:MM:SS' });
-        }
+    // Check if the date has the format DD/MM/YYYY
+    const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/;
+    if (!dateRegex.test(date)) {
+      return res.status(400).json({ error: 'Invalid date format. Please provide a date in the format DD/MM/YYYY' });
+    }
+
+    // Check if the time has the format 00:00:00
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+    if (!timeRegex.test(time)) {
+      return res.status(400).json({ error: 'Invalid time format. Please provide time in the format HH:MM:SS' });
+    }
+
+    // Check if the distance is a positive number
+    const distanceRegex = /^\d+(\.\d+)?$/;
+    if (!distanceRegex.test(distance)) {
+      return res.status(400).json({ error: 'Invalid distance format. Please provide a positive number' });
+    }
+
+    // Check if the speed is a positive number
+    const speedRegex = /^\d+(\.\d+)?$/;
+    if (!speedRegex.test(speed)) {
+      return res.status(400).json({ error: 'Invalid speed format. Please provide a positive number' });
+    }
+
+    // Check if the userId is a positive number
+    const userIdRegex = /^\d+$/;
+    if (!userIdRegex.test(userId)) {
+      return res.status(400).json({ error: 'Invalid userId format' });
+    }
 
     //Converts 13/01/2023 to 2023-01-13
     const psqlDate = `${dateString[6] + dateString[7] + dateString[8] + dateString[9] + `-` + dateString[3] + dateString[4] + `-` + dateString[0] + dateString[1]}`
