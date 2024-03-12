@@ -149,7 +149,7 @@ app.post("/createride", async (req, res) => {
 
     // Check if the date has the format DD/MM/YYYY
     const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/;
-    if (!dateRegex.test(date)) {
+    if (!dateRegex.test(dateString)) {
       return res.status(400).json({ error: 'Invalid date format. Please provide a date in the format DD/MM/YYYY' });
     }
 
@@ -256,7 +256,7 @@ app.get("/rides/user/:id", async (req, res) => {
     }
 
     const rides = await pool.query(
-      'SELECT * FROM rides where createdby = $1 ORDER BY starting_date desc, starting_time DESC', [id]
+      'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC', [id]
     );
     res.json(rides.rows)
   } catch (err) {

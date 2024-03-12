@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const TimePickerComponent = ({ time, setTime }) => {
-  const [hours, setHours] = useState('12');
-  const [minutes, setMinutes] = useState('00');
+  const [hours, setHours] = useState(null);
+  const [minutes, setMinutes] = useState(null);
+  const seconds = '00';
+
+  useEffect(() => {
+    // Check if hours and minutes are null (indicating no user interaction)
+    if (hours === null || minutes === null) {
+      // Set default values for hours and minutes
+      setHours(12);
+      setMinutes("00");
+      // Update time with default values
+      updateTime(12, 0);
+    }
+  }, [hours, minutes]); // Run this effect whenever hours or minutes change
 
   const handleHoursChange = (event) => {
     let newHours = parseInt(event.target.value);
@@ -23,19 +35,18 @@ const TimePickerComponent = ({ time, setTime }) => {
   };
 
   const updateTime = (newHours, newMinutes) => {
-    const newTime = `${newHours < 10 ? '0' + newHours : newHours}:${newMinutes < 10 ? '0' + newMinutes : newMinutes}`;
+    const newTime = `${newHours < 10 ? '0' + newHours : newHours}:${newMinutes < 10 ? '0' + newMinutes : newMinutes}:${seconds}`;
     setTime(newTime);
   };
 
   return (
     <div className="time-picker">
       <div>
-        {/* <label>Hours:</label> */}
         <input 
           type="number" 
           min="0" 
           max="23" 
-          value={hours} 
+          value={hours !== null ? hours : ''} 
           onChange={handleHoursChange} 
         />
       </div>
@@ -45,7 +56,7 @@ const TimePickerComponent = ({ time, setTime }) => {
           type="number" 
           min="0" 
           max="59" 
-          value={minutes} 
+          value={minutes !== null ? minutes : ''} 
           onChange={handleMinutesChange} 
         />
       </div>
