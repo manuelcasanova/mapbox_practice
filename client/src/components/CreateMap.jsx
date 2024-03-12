@@ -78,6 +78,7 @@ export default function CreateMap() {
           />
         </label>
         <button
+        disabled={!title}
         // onClick={navigate('/')}
         >Create</button>
       </form>

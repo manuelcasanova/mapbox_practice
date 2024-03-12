@@ -226,39 +226,44 @@ export default function CreateRide() {
 
 
               <label>Map</label>
-{maps?.length
-  ?
-  <select
-    // className="allmaps"
-    value={mapId}
-    onChange={(e) =>
-      setMapId(e.target.value)
-    }
-    disabled={!maps || maps.length === 0} // Disable the dropdown if maps are not available
-  >
-    {maps.map((map, index) =>
-      <option
-        key={index}
-        value={map.id}
-      >
-        Title: {map.title}
-      </option>
-    )}
-  </select>
-  :
-  <p>No maps to display</p>
-}
-<button type="submit" disabled={!mapId}>Create</button> {/* Disable the submit button if mapId is undefined */}
+              {maps?.length
+                ?
+                <select
+                  // className="allmaps"
+                  value={mapId}
+                  onChange={(e) =>
+                    setMapId(e.target.value)
+                  }
+                  disabled={!maps || maps.length === 0} // Disable the dropdown if maps are not available
+                >
+                  {maps.map((map, index) =>
+                    <option
+                      key={index}
+                      value={map.id}
+                    >
+                      Title: {map.title}
+                    </option>
+                  )}
+                </select>
+                :
+                <p>No maps to display</p>
+              }
+              <button
+                type="submit"
+                disabled={!mapId || !title || !distance || !speed || !meetingPoint || !details}
+              >Create
+              </button>
+
               {error && <p>Error: {error}</p>}
             </form>
 
 
 
           </div>
-          {mapId && mapId !== null && mapId !== undefined && 
-                <PreviewMap mapId={mapId} setMapId={setMapId} />
-                }
-    
+          {mapId && mapId !== null && mapId !== undefined &&
+            <PreviewMap mapId={mapId} setMapId={setMapId} />
+          }
+
         </>
 
 
