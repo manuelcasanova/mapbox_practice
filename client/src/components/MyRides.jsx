@@ -77,7 +77,7 @@ const MyRides = () => {
                     <div>Speed: {ride.speed} km/h</div>
                     <div>Meeting Point: {ride.meeting_point}</div>
                     <div>Created By: {ride.createdby}</div>
-                    {ride.map !== null && <PreviewMap mapId={ride.map} />}
+                    {ride.map && ride.map !== null && ride.map !== undefined && <PreviewMap mapId={ride.map} />}
           
                   </div>
                 );

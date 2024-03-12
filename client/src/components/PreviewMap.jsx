@@ -80,7 +80,7 @@ return null
     //Ride is shown centered in map
 
     <div>
-      {user.loggedIn && (
+      {user.loggedIn && mapId && mapId !== null && mapId !== undefined && (
         <PreviewMapChild
           coords={coords}
           setCoords={setCoords}

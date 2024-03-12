@@ -255,7 +255,7 @@ export default function CreateRide() {
 
 
           </div>
-          {mapId !== null && mapId !== undefined && 
+          {mapId && mapId !== null && mapId !== undefined && 
                 <PreviewMap mapId={mapId} setMapId={setMapId} />
                 }
     
