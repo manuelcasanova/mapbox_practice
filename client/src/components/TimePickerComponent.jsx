@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const TimePickerComponent = ({ time, setTime }) => {
   const [hours, setHours] = useState(null);
   const [minutes, setMinutes] = useState(null);
   const seconds = '00';
+
+  const updateTime = useCallback((newHours, newMinutes) => {
+    const newTime = `${newHours < 10 ? '0' + newHours : newHours}:${newMinutes < 10 ? '0' + newMinutes : newMinutes}:${seconds}`;
+    setTime(newTime);
+  }, [setTime, seconds]);
 
   useEffect(() => {
     // Check if hours and minutes are null (indicating no user interaction)
@@ -14,7 +19,7 @@ const TimePickerComponent = ({ time, setTime }) => {
       // Update time with default values
       updateTime(12, 0);
     }
-  }, [hours, minutes]); // Run this effect whenever hours or minutes change
+  }, [hours, minutes, updateTime]); // Include updateTime in the dependency array
 
   const handleHoursChange = (event) => {
     let newHours = parseInt(event.target.value);
@@ -32,11 +37,6 @@ const TimePickerComponent = ({ time, setTime }) => {
     }
     setMinutes(newMinutes);
     updateTime(hours, newMinutes);
-  };
-
-  const updateTime = (newHours, newMinutes) => {
-    const newTime = `${newHours < 10 ? '0' + newHours : newHours}:${newMinutes < 10 ? '0' + newMinutes : newMinutes}:${seconds}`;
-    setTime(newTime);
   };
 
   return (
