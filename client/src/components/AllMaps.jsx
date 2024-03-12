@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 import DrawMap from "./DrawMap";
 
-export default function AllMaps() {
+export default function AllMaps({fromButton}) {
   const { user, mapId, setMapId } = useAuth();
   const [maps, setMaps] = useState([]);
   // const [mapId, setMapId] = useState();
@@ -67,6 +67,8 @@ export default function AllMaps() {
         <div>Loading...</div>
       ) : maps.length > 0 ? (
         <>
+
+        {fromButton &&
           <select
             className="allmaps"
             value={mapId}
@@ -77,9 +79,15 @@ export default function AllMaps() {
                 Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
               </option>
             ))}
-          </select>
+          </select>}
 
-          <div>STEP 2: Add, edit or remove markers</div>
+{fromButton ? 
+<div>Add, edit or remove markers</div> :
+<div>STEP 2: Add, edit or remove markers</div>
+}
+
+
+          
           <DrawMap mapId={mapId} />
 
           <div className="mapslist">

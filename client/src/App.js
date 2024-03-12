@@ -17,10 +17,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AllMaps from './components/AllMaps';
 import AllRides from './components/AllRides';
 import MyRides from './components/MyRides'
+import { useState } from 'react';
 
 
 function App() {
 
+
+  const [fromButton, setFromButton] = useState(false)
 
   return (
     <AuthProvider>
@@ -34,7 +37,7 @@ function App() {
             element={
               <>
                 <Title />
-                <Information />
+                <Information setFromButton={setFromButton}/>
               </>
 
             }>
@@ -45,9 +48,9 @@ function App() {
             element={
               <>
                 <Title />
-                <Information />
+                <Information setFromButton={setFromButton} />
                 {/* <CreateMap /> */}
-                <AllMaps />
+                <AllMaps fromButton={fromButton}/>
                 <Footer />
               </>
             }>
@@ -58,8 +61,8 @@ function App() {
             element={
               <>
                 <Title />
-                <Information />
-                <CreateMap />
+                <Information setFromButton={setFromButton} />
+                <CreateMap setFromButton={setFromButton}/>
                 <Footer />
               </>
             }>
@@ -70,7 +73,7 @@ function App() {
             element={
               <>
                 <Title />
-                <Information />
+                <Information setFromButton={setFromButton} />
                 <SeeMap/>
               </>
 
@@ -82,7 +85,7 @@ function App() {
             element={
               <>
                 <Title />
-                <Information />
+                <Information setFromButton={setFromButton} />
                 <CreateRide />
                 <Footer />
               </>
@@ -94,7 +97,7 @@ function App() {
             element={
               <>
                 <Title />
-                <Information />
+                <Information setFromButton={setFromButton} />
                 <AllRides />
                 <Footer />
               </>
@@ -106,7 +109,7 @@ function App() {
             element={
               <>
                 <Title />
-                <Information />
+                <Information setFromButton={setFromButton} />
               <MyRides />
                 <Footer />
               </>

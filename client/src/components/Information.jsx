@@ -2,9 +2,10 @@
 import { useNavigate } from "react-router-dom";
 
 export default function
-  Information() {
+  Information({setFromButton}) {
 
   const navigate = useNavigate()
+  const fromButton = true;
 
   return (
     <div className="information">
@@ -12,7 +13,10 @@ export default function
         onClick={() => navigate("/maps/create")}
       >Create a map</button>
       <button className="navbar_button"
-        onClick={() => navigate("/maps")}
+              onClick={() => {
+                setFromButton(true);
+                navigate("/maps");
+              }}
       >Manage my maps</button>
       <button className="navbar_button"
         onClick={() => navigate("/ride")}

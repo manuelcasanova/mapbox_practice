@@ -4,7 +4,7 @@ import { useAuth } from "./Context/AuthContext";
 
 import axios from 'axios';
 
-export default function CreateMap() {
+export default function CreateMap({setFromButton}) {
 
   const { user } = useAuth();
   const [privateMap, setPrivateMap] = useState(true);
@@ -25,6 +25,9 @@ export default function CreateMap() {
     setPublicMap(!publicMap);
   };
 
+  useEffect(() => {
+    setFromButton(false); // This will only run once after component mount
+  }, [setFromButton]);
 
   useEffect(() => {
     // console.log(title)
@@ -55,7 +58,7 @@ export default function CreateMap() {
     {user.loggedIn ? (
     <div className="maps">
       <form onSubmit={handleSubmit}>
-        <div>STEP 1: CREATE a new map or SELECT an existing map</div>
+        <div>STEP 1: Name the map</div>
 
         <input
           onChange={(e) => setTitle(e.target.value)}
