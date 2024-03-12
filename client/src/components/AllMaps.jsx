@@ -5,9 +5,9 @@ import { useAuth } from "./Context/AuthContext";
 import DrawMap from "./DrawMap";
 
 export default function AllMaps() {
-  const { user } = useAuth();
+  const { user, mapId, setMapId } = useAuth();
   const [maps, setMaps] = useState([]);
-  const [mapId, setMapId] = useState();
+  // const [mapId, setMapId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -44,7 +44,7 @@ export default function AllMaps() {
       isMounted = false;
       controller.abort();
     };
-  }, [userId]); 
+  }, [userId, setMapId]); 
 
   const deleteMap = async (id) => {
     try {

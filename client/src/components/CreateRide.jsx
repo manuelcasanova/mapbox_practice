@@ -8,7 +8,7 @@ import { useAuth } from "./Context/AuthContext";
 
 export default function CreateRide() {
 
-  const { user } = useAuth();
+  const { user, mapId, setMapId } = useAuth();
   const userId = user.id;
 
   const [privateRide, setPrivateRide] = useState(true);
@@ -29,7 +29,6 @@ export default function CreateRide() {
   const [details, setDetails] = useState('');
 
   const [maps, setMaps] = useState();
-  const [mapId, setMapId] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
   const createdAt = new Date().toISOString();
@@ -73,7 +72,7 @@ export default function CreateRide() {
     return () => {
       controller.abort();
     };
-  }, [userId]);
+  }, [userId, setMapId]);
 
   useEffect(() => {
     // console.log("isLoading:", isLoading);
@@ -116,6 +115,7 @@ export default function CreateRide() {
       setDate(new Date());
       setTime('');
       setDetails('');
+      setMapId(undefined);
       navigate('/ride/mine');
     } catch (error) {
       // If there is an error in the response
@@ -167,12 +167,12 @@ export default function CreateRide() {
               <label>Date</label>
 
               <input
-              onClick={handleDateInputClick}
+                onClick={handleDateInputClick}
                 onChange={(e) => setDate(e.target.value)}
                 value={dateString}
                 required></input>
 
-{showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
+              {showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
 
 
               <label>Distance (Km)</label>
@@ -209,7 +209,7 @@ export default function CreateRide() {
                 value={time}
                 required></input> */}
 
-<TimePickerComponent time={time} setTime={setTime} />
+              <TimePickerComponent time={time} setTime={setTime} />
 
               <label>Meeting Point</label>
               <input
@@ -226,38 +226,39 @@ export default function CreateRide() {
 
 
               <label>Map</label>
-              {maps?.length
-                ?
-                <select
-                  // className="allmaps"
-                  value={mapId}
-                  onChange={(e) =>
-                    setMapId(e.target.value)
-                  }
-                >
-                  {maps.map((map, index) =>
-
-                    <option
-                      key={index}
-                      value={map.id}
-                    >
-                      {/* {console.log("mapid", map.id)} */}
-                      Title: {map.title}
-                    </option>
-                  )}
-                </select>
-                :
-                <p>No maps to display</p>
-              }
-
-              <button type="submit">Create</button>
+{maps?.length
+  ?
+  <select
+    // className="allmaps"
+    value={mapId}
+    onChange={(e) =>
+      setMapId(e.target.value)
+    }
+    disabled={!maps || maps.length === 0} // Disable the dropdown if maps are not available
+  >
+    {maps.map((map, index) =>
+      <option
+        key={index}
+        value={map.id}
+      >
+        Title: {map.title}
+      </option>
+    )}
+  </select>
+  :
+  <p>No maps to display</p>
+}
+<button type="submit" disabled={!mapId}>Create</button> {/* Disable the submit button if mapId is undefined */}
               {error && <p>Error: {error}</p>}
             </form>
 
 
 
           </div>
-          <PreviewMap mapId={mapId} setMapId={setMapId} />
+          {mapId !== null && mapId !== undefined && 
+                <PreviewMap mapId={mapId} setMapId={setMapId} />
+                }
+    
         </>
 
 
