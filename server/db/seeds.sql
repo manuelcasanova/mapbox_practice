@@ -7,9 +7,10 @@ VALUES ('john_doe_friends_jane_smith', '{"Registered_user": 2001}', 'john@exampl
        ('emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true, '[]');
 
 
-INSERT INTO maps (title, createdBy) VALUES 
-('Stanley Park Loop', 1),
-('Grouse Mountain', 1);
+INSERT INTO maps (title, createdBy, createdAt) VALUES 
+('Stanley Park Loop', 2, Now()),
+('Grouse Mountain', 3, Now());
+
 
 
 
@@ -230,49 +231,7 @@ INSERT INTO points (lat, lng, map) VALUES
 -- Insert rides
 INSERT INTO rides (name, distance, speed, isSelected, isActive, createdBy, createdAt, isPrivate, image, gpx, starting_date, starting_time, meeting_point, details, map)
 VALUES 
-  ('Stanley Park Bike Ride', 20, 15, false, true, 2, NOW(), true, 'stanley_park_bike.jpg', 'stanley_park_bike.gpx', '2024-03-10', '10:00:00', 'Vancouver Art Gallery', 'Enjoy a bike ride around Stanley Park.', 1),
-  ('Grouse Mountain Parking Lot', 5, 3, false, true, 4, NOW(), true, 'grouse.jpg', 'grouse.gpx', '2024-03-18', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famouse ''Triple Crown''.', 2);
+  ('Stanley Park Bike Ride', 20, 23, false, true, 2, NOW(), true, 'stanley_park_bike.jpg', 'stanley_park_bike.gpx', '2024-03-10', '10:00:00', 'Vancouver Art Gallery', 'Enjoy a bike ride around Stanley Park.', 1),
+  ('Grouse Mountain Parking Lot', 10, 18, false, true, 3, NOW(), true, 'grouse.jpg', 'grouse.gpx', '2024-03-18', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famouse ''Triple Crown''.', 2);
 
 
-
-
--- INSERT INTO rides 
--- (name, 
--- distance, 
--- speed,
--- createdBy,
--- createdAt,
--- starting_date,
--- starting_time, 
--- details, 
--- map) 
--- VALUES
--- ('Fun Stanley ride', 
--- 10, 
--- 24,
--- 1,
--- current_timestamp,
--- '2022-12-02',
--- '10:00:00', 
--- 'Just around Stanley Park', 
--- 1),
-
--- ('Grouse climb', 
--- 5, 
--- 15, 
--- 1,
--- current_timestamp,
--- '2022-12-02',
--- '10:00:00', 
--- 'Up from marine drive to the gondola', 
--- 2),
-
--- ('Another fun Stanley ride', 
--- 10, 
--- 18, 
--- 1,
--- current_timestamp,
--- '2022-12-04',
--- '10:00:00', 
--- 'Again, just around Stanley Park', 
--- 1);

@@ -11,13 +11,16 @@ export const AuthProvider = ({children}) => {
 
 // console.log("auth context user", user)
 
-  const logInUser = () => {
-    setUser({ id: 4, isAdmin: false, loggedIn: true });
-
-  };
-
   const logInAdmin = () => {
     setUser({ id: 1, isAdmin: true, loggedIn: true });
+  };
+
+  const logInUser2 = () => {
+    setUser({ id: 2, isAdmin: false, loggedIn: true });
+  };
+
+  const logInUser3 = () => {
+    setUser({ id: 3, isAdmin: false, loggedIn: true });
   };
 
   const logOut = () => {
@@ -28,7 +31,7 @@ export const AuthProvider = ({children}) => {
   // console.log("user in AuthContext", user)
 
 return (
-  <AuthContext.Provider value={{ user, logInUser, logInAdmin, logOut, mapId, setMapId }}>
+  <AuthContext.Provider value={{ user, logInUser2, logInUser3, logInAdmin, logOut, mapId, setMapId }}>
     {children}
   </AuthContext.Provider>
 );

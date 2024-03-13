@@ -3,7 +3,7 @@ import { useAuth } from '../Context/AuthContext';
 const Authentication = () => {
 
 
-  const { user, logInUser, logInAdmin, logOut } = useAuth();
+  const { user, logInUser2, logInUser3, logInAdmin, logOut } = useAuth();
 
   // console.log("user in authentication", user)
 // console.log("user", user)
@@ -21,8 +21,11 @@ const Authentication = () => {
   {!user.loggedIn && (
   
     <div className="log-user-buttons">
-      <button className="button-login" onClick={logInUser}>
-        Log In as User
+      <button className="button-login" onClick={logInUser2}>
+        Log In as User 2
+      </button>
+      <button className="button-login" onClick={logInUser3}>
+        Log In as User 3
       </button>
       <button className="button-login" onClick={logInAdmin}>
         Log In As Admin
