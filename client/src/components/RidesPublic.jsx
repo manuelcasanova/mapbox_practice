@@ -15,7 +15,11 @@ const RidesPublic = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/rides/public');
+        const response = await axios.get('http://localhost:3500/rides/public', {
+          params: {
+            user: user 
+          }
+        });
         if (isMounted) {
           setRides(response.data);
           setIsLoading(false);

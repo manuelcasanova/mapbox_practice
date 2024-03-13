@@ -255,10 +255,15 @@ app.get("/rides", async (req, res) => {
 //Get all public rides (user)
 app.get("/rides/public", async (req, res) => {
   try {
-    const rides = await pool.query(
-      'SELECT * FROM rides WHERE isprivate = false'
-    );
-    res.json(rides.rows)
+    if (req.query.user && req.query.user.loggedIn) {
+      const rides = await pool.query(
+        'SELECT * FROM rides WHERE isprivate = false'
+      );
+      res.json(rides.rows)
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
   } catch (err) {
     console.error(err.message)
   }
