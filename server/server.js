@@ -232,11 +232,24 @@ app.get("/maps/:id", async (req, res) => {
   }
 });
 
-//Get all rides
+//Get all rides (admin)
 app.get("/rides", async (req, res) => {
   try {
     const rides = await pool.query(
       'SELECT * FROM rides'
+    );
+    res.json(rides.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+
+//Get all public rides (user)
+app.get("/rides/public", async (req, res) => {
+  try {
+    const rides = await pool.query(
+      'SELECT * FROM rides WHERE isprivate = false'
     );
     res.json(rides.rows)
   } catch (err) {
