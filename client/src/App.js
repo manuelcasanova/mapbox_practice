@@ -50,7 +50,7 @@ function App() {
                 <Title />
                 <Information setFromButton={setFromButton} />
                 {/* <CreateMap /> */}
-                <AllMaps fromButton={fromButton}/>
+                <AllMaps fromButton={fromButton}  setFromButton={setFromButton} />
                 <Footer />
               </>
             }>

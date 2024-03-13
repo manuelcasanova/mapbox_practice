@@ -130,7 +130,7 @@ app.post("/createmap", async (req, res) => {
     }
 
     const insertedMap = newMap.rows[0];
-    console.log("Inserted map:", insertedMap);
+    // console.log("Inserted map:", insertedMap);
     res.json(insertedMap);
   } catch (err) {
     console.error(err.message);
@@ -145,7 +145,7 @@ app.post("/createride", async (req, res) => {
   try {
     const { title, distance, speed, date, time, details, mapId, createdAt, dateString, privateRide, userId, meetingPoint } = req.body
 
-    console.log("req.body", req.body)
+    // console.log("req.body", req.body)
 
     // Check if the date has the format DD/MM/YYYY
     const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/;
