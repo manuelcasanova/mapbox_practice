@@ -4,7 +4,7 @@ import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
 
-const AllRides = () => {
+const RidesAll = () => {
   const [rides, setRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,14 +15,22 @@ const AllRides = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/rides/public');
+        const response = await axios.get('http://localhost:3500/rides/', {
+          params: {
+            user: user 
+          }
+        });
         if (isMounted) {
           setRides(response.data);
           setIsLoading(false);
         }
       } catch (error) {
         if (isMounted) {
-          setError(error.message);
+          if (error.response && error.response.data && error.response.data.error) {
+            setError(error.response.data.error)
+          } else {
+            setError(error.message)
+          }
           setIsLoading(false);
         }
       }
@@ -33,7 +41,7 @@ const AllRides = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, []);
+  }, [user]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -49,7 +57,7 @@ const AllRides = () => {
         <div>No rides available.</div>
       ) : (
         <>
-        {user.loggedIn ? (
+        {user.loggedIn && user.isAdmin ? (
         <div>
 {rides.map(ride => {
   // Extract the date formatting logic here
@@ -79,7 +87,7 @@ const AllRides = () => {
 
         </div>
             ) : (
-              <p>Please log in to see rides.</p>
+              <p>Please log in as an administrator to see rides.</p>
             )}
           </>
       )}
@@ -87,4 +95,4 @@ const AllRides = () => {
   );
 };
 
-export default AllRides;
+export default RidesAll;

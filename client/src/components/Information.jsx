@@ -6,7 +6,6 @@ export default function
   Information({ setFromButton }) {
 
   const navigate = useNavigate()
-  const fromButton = true;
   const { user } = useAuth();
 
   return (
@@ -35,7 +34,7 @@ export default function
       {user.isAdmin &&
         <div className="admin-navbar">
           <button className="navbar_button"
-          // onClick={() => navigate("/rides/all")}
+          onClick={() => navigate("/rides/all")}
           >Admin rides</button>
           <button className="navbar_button"
           // onClick={() => navigate("/rides/mine")}

@@ -1,9 +1,16 @@
 import { useAuth } from '../Context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Authentication = () => {
 
 
   const { user, logInUser2, logInUser3, logInAdmin, logOut } = useAuth();
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logOut();
+    navigate("/"); // Navigate to the root route after logout
+  };
 
   // console.log("user in authentication", user)
 // console.log("user", user)
@@ -13,7 +20,7 @@ const Authentication = () => {
   {user.loggedIn && (
     <div>
       <>Logged in as {user.id}</>
-      <button className="button-logout" onClick={logOut}>
+      <button className="button-logout" onClick={handleLogout}>
         Log Out
       </button>
     </div>

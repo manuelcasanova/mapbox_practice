@@ -4,7 +4,7 @@ import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
 
-const MyRides = () => {
+const RidesUser = () => {
   const [rides, setRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -93,4 +93,4 @@ const MyRides = () => {
   );
 };
 
-export default MyRides;
+export default RidesUser;

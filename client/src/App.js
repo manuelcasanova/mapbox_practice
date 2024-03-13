@@ -15,9 +15,10 @@ import { AuthProvider } from './components/Context/AuthContext';
 //Hooks
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AllMaps from './components/AllMaps';
-import AllRides from './components/AllRides';
-import MyRides from './components/MyRides'
+import RidesPublic from './components/RidesPublic';
+import RidesUser from './components/RidesUser'
 import { useState } from 'react';
+import RidesAll from './components/RidesAll';
 
 
 function App() {
@@ -98,7 +99,7 @@ function App() {
               <>
                 <Title />
                 <Information setFromButton={setFromButton} />
-                <AllRides />
+                <RidesPublic />
                 <Footer />
               </>
             }>
@@ -110,7 +111,19 @@ function App() {
               <>
                 <Title />
                 <Information setFromButton={setFromButton} />
-              <MyRides />
+              <RidesUser />
+                <Footer />
+              </>
+            }>
+          </Route>
+
+          <Route
+            exact path="/rides/all"
+            element={
+              <>
+                <Title />
+                <Information setFromButton={setFromButton} />
+              <RidesAll />
                 <Footer />
               </>
             }>

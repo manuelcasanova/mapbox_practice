@@ -235,10 +235,17 @@ app.get("/maps/:id", async (req, res) => {
 //Get all rides (admin)
 app.get("/rides", async (req, res) => {
   try {
-    const rides = await pool.query(
-      'SELECT * FROM rides'
-    );
-    res.json(rides.rows)
+
+    if (req.query.user && req.query.user.isAdmin) {
+      const rides = await pool.query(
+        'SELECT * FROM rides'
+      );
+      res.json(rides.rows)
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
   } catch (err) {
     console.error(err.message)
   }
