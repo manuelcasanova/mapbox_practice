@@ -4,6 +4,7 @@ import { useAuth } from "./Context/AuthContext";
 
 export default function
   Information({ setFromButton }) {
+//TEST
 
   const navigate = useNavigate()
   const { user } = useAuth();
