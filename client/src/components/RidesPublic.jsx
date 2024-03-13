@@ -26,7 +26,11 @@ const RidesPublic = () => {
         }
       } catch (error) {
         if (isMounted) {
-          setError(error.message);
+          if (error.response && error.response.data && error.response.data.error) {
+            setError(error.response.data.error)
+          } else {
+            setError(error.message)
+          }
           setIsLoading(false);
         }
       }
