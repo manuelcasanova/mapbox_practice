@@ -93,7 +93,7 @@ function App() {
           </Route>
 
           <Route
-            exact path="/ride/all"
+            exact path="/rides/public"
             element={
               <>
                 <Title />
@@ -105,7 +105,7 @@ function App() {
           </Route>
 
           <Route
-            exact path="/ride/mine"
+            exact path="/rides/mine"
             element={
               <>
                 <Title />

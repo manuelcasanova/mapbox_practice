@@ -25,23 +25,23 @@ export default function
           onClick={() => navigate("/ride")}
         >Create ride</button>
         <button className="navbar_button"
-          onClick={() => navigate("/ride/all")}
+          onClick={() => navigate("/rides/public")}
         >See public rides</button>
         <button className="navbar_button"
-          onClick={() => navigate("/ride/mine")}
+          onClick={() => navigate("/rides/mine")}
         >See my rides</button>
       </div>
 
       {user.isAdmin &&
         <div className="admin-navbar">
           <button className="navbar_button"
-          // onClick={() => navigate("/ride/mine")}
+          // onClick={() => navigate("/rides/all")}
           >Admin rides</button>
           <button className="navbar_button"
-          // onClick={() => navigate("/ride/mine")}
+          // onClick={() => navigate("/rides/mine")}
           >Admin users</button>
           <button className="navbar_button"
-          // onClick={() => navigate("/ride/mine")}
+          // onClick={() => navigate("/rides/mine")}
           >Admin maps</button>
         </div>
       }
