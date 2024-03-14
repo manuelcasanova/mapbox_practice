@@ -19,6 +19,7 @@ import RidesPublic from './components/RidesPublic';
 import RidesUser from './components/RidesUser'
 import { useState } from 'react';
 import RidesAll from './components/RidesAll';
+import UsersAll from './components/UsersAll';
 
 
 function App() {
@@ -124,6 +125,18 @@ function App() {
                 <Title />
                 <Information setFromButton={setFromButton} />
               <RidesAll />
+                <Footer />
+              </>
+            }>
+          </Route>
+
+          <Route
+            exact path="/users/all"
+            element={
+              <>
+                <Title />
+                <Information setFromButton={setFromButton} />
+              <UsersAll />
                 <Footer />
               </>
             }>

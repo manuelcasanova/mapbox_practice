@@ -42,6 +42,9 @@ export default function
           <button className="navbar_button"
           // onClick={() => navigate("/rides/mine")}
           >Admin maps</button>
+                    <button className="navbar_button"
+          onClick={() => navigate("/users/all")}
+          >Admin users</button>
         </div>
       }
 
