@@ -58,7 +58,9 @@ export default function SeeMap() {
   }
 
   return (
+    
     <div>
+      {mapId !== null && mapId !== undefined ? 
       <SeeMapChild
         coords={coords}
         setCoords={setCoords}
@@ -67,6 +69,11 @@ export default function SeeMap() {
         mapTitle={mapTitle}
         mapCreatedBy={mapCreatedBy}
       />
+      :
+      <div>Map with id {id} does not exist or cannot be rendered.</div>
+}
     </div>
+  
   );
+   
 }
