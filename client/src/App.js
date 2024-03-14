@@ -7,19 +7,22 @@ import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
 import CreateRide from './components/CreateRide';
 import Authentication from './components/authentication/Authentication'
+import AllMaps from './components/AllMaps';
+import RidesPublic from './components/RidesPublic';
+import RidesUser from './components/RidesUser'
+import RidesAll from './components/RidesAll';
+import UsersAll from './components/UsersAll';
+import MapsPublic from './components/MapsPublic';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
 import { AuthProvider } from './components/Context/AuthContext';
 
 //Hooks
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AllMaps from './components/AllMaps';
-import RidesPublic from './components/RidesPublic';
-import RidesUser from './components/RidesUser'
 import { useState } from 'react';
-import RidesAll from './components/RidesAll';
-import UsersAll from './components/UsersAll';
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 
 function App() {
@@ -53,6 +56,19 @@ function App() {
                 <Information setFromButton={setFromButton} />
                 {/* <CreateMap /> */}
                 <AllMaps fromButton={fromButton}  setFromButton={setFromButton} />
+                <Footer />
+              </>
+            }>
+          </Route>
+
+          <Route
+            exact path="/maps/public"
+            element={
+              <>
+                <Title />
+                <Information setFromButton={setFromButton} />
+                {/* <CreateMap /> */}
+               <MapsPublic />
                 <Footer />
               </>
             }>

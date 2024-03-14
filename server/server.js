@@ -220,7 +220,22 @@ app.delete("/delete/:id", async (req, res) => {
   }
 })
 
-//Get all maps 
+//Get all public maps 
+
+app.get("/maps/public", async (req, res) => {
+  try {
+
+    const userId = req.query.userId;
+    // console.log("req query", req)
+    //  console.log("userId serverjs", userId)
+    const maps = await pool.query(
+      'SELECT * FROM maps WHERE isprivate = false ORDER BY id DESC'
+    );
+    res.json(maps.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
 
 //Get maps from user
 app.get("/maps", async (req, res) => {
