@@ -12,7 +12,10 @@ CREATE TABLE users (
   is_selected BOOLEAN DEFAULT false,
   is_active BOOLEAN DEFAULT true,
   refresh_token VARCHAR(255),
-  friends JSONB
+  follows JSONB,
+  followed JSONB,
+  profile_picture VARCHAR(255),
+  location VARCHAR(255)
 );
 
 CREATE TABLE maps (
@@ -21,6 +24,12 @@ CREATE TABLE maps (
   createdBy INTEGER REFERENCES users(id) ON DELETE CASCADE,
   createdAt timestamp,
   isPrivate boolean DEFAULT true
+);
+
+CREATE TABLE map_users (
+  map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  PRIMARY KEY (map_id, user_id)
 );
 
 CREATE TABLE points (
@@ -47,7 +56,9 @@ CREATE TABLE rides (
   starting_time TIME,
   meeting_point TEXT,
   details TEXT,
-  map INTEGER REFERENCES maps(id) ON DELETE CASCADE
+  map INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+  comments JSONB,
+  difficulty VARCHAR(50)
 );
 
 

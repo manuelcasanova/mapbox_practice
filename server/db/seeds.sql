@@ -1,15 +1,15 @@
 -- Insert users
-INSERT INTO users (username, roles, email, password, is_selected, is_active, friends)
-VALUES ('john_doe_friends_jane_smith', '{"Registered_user": 2001}', 'john@example.com', 'password123', true, true, '[2]'),
-       ('jane_smith_friends_john_alice', '{"Registered_user": 2001}', 'jane@example.com', 'password456', true, true, '[1,3]'),
-       ('alice_wonder', '{"Registered_user": 2001}', 'alice@example.com', 'password789', true, true, '[]'),
-       ('bob_robinson', '{"Registered_user": 2001}', 'bob@example.com', 'passwordabc', true, true, '[]'),
-       ('emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true, '[]');
+INSERT INTO users (username, roles, email, password, is_selected, is_active, follows, followed)
+VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'password123', true, true, '[]', '[]'),
+       ('Laura Admin', '{"Registered_user": 2005}', 'laura@example.com', 'password456', true, true, '[]', '[]'),
+       ('Alice_wonder', '{"Registered_user": 2001}', 'alice@example.com', 'password789', true, true, '[4, 5]', '[]'),
+       ('Bob_robinson', '{"Registered_user": 2001}', 'bob@example.com', 'passwordabc', true, true, '[3]', '[3]'),
+       ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true, '[]', '[3]');
 
 
-INSERT INTO maps (title, createdBy, createdAt) VALUES 
-('Stanley Park Loop', 2, Now()),
-('Grouse Mountain', 3, Now());
+INSERT INTO maps (title, createdBy, createdAt, isPrivate) VALUES 
+('Stanley Park Loop', 2, Now(), true),
+('Grouse Mountain', 3, Now(), false);
 
 
 
@@ -232,6 +232,6 @@ INSERT INTO points (lat, lng, map) VALUES
 INSERT INTO rides (name, distance, speed, isSelected, isActive, createdBy, createdAt, isPrivate, image, gpx, starting_date, starting_time, meeting_point, details, map)
 VALUES 
   ('Stanley Park Bike Ride', 20, 23, false, true, 2, NOW(), true, 'stanley_park_bike.jpg', 'stanley_park_bike.gpx', '2024-03-10', '10:00:00', 'Vancouver Art Gallery', 'Enjoy a bike ride around Stanley Park.', 1),
-  ('Grouse Mountain Parking Lot', 10, 18, false, true, 3, NOW(), true, 'grouse.jpg', 'grouse.gpx', '2024-03-18', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famouse ''Triple Crown''.', 2);
+  ('Grouse Mountain Parking Lot', 10, 18, false, true, 3, NOW(), false, 'grouse.jpg', 'grouse.gpx', '2024-03-18', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famouse ''Triple Crown''.', 2);
 
 

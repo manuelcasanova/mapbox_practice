@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Authentication = () => {
 
 
-  const { user, logInUser2, logInUser3, logInAdmin, logOut } = useAuth();
+  const { user, logInUser1, logInUser2, logInUser3, logInUser4, logInUser5, logOut } = useAuth();
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -19,7 +19,7 @@ const Authentication = () => {
 <div>
   {user.loggedIn && (
     <div>
-      <>Logged in as {user.id}</>
+      <>Logged in as {user.username}</>
       <button className="button-logout" onClick={handleLogout}>
         Log Out
       </button>
@@ -27,16 +27,24 @@ const Authentication = () => {
   )}
   {!user.loggedIn && (
   
+  
     <div className="log-user-buttons">
+            <button className="button-login" onClick={logInUser1}>
+        Log In As User 1
+      </button>
       <button className="button-login" onClick={logInUser2}>
-        Log In as User 2
+        Log In As User 2
       </button>
       <button className="button-login" onClick={logInUser3}>
         Log In as User 3
       </button>
-      <button className="button-login" onClick={logInAdmin}>
-        Log In As Admin
+      <button className="button-login" onClick={logInUser4}>
+        Log In as User 4
       </button>
+      <button className="button-login" onClick={logInUser5}>
+        Log In As User 5
+      </button>
+
     </div>
   )}
 </div>
