@@ -3,6 +3,7 @@ import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
+import RidesFilter from './RidesFilter';
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
@@ -17,7 +18,7 @@ const RidesPublic = () => {
       try {
         const response = await axios.get('http://localhost:3500/rides/public', {
           params: {
-            user: user 
+            user: user
           }
         });
         if (isMounted) {
@@ -57,39 +58,40 @@ const RidesPublic = () => {
         <div>No rides available.</div>
       ) : (
         <>
-        {user.loggedIn ? (
-        <div>
-{rides.map(ride => {
-  // Extract the date formatting logic here
-  const originalDate = ride.starting_date;
-  const formattedDate = formatDate(originalDate);
+          {user.loggedIn ? (
+            <div>
+              <RidesFilter />
+              {rides.map(ride => {
+                // Extract the date formatting logic here
+                const originalDate = ride.starting_date;
+                const formattedDate = formatDate(originalDate);
 
 
 
-  // Render the JSX elements, including the formatted date
-  return (
-    
-    
-<div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-      <div>Name: {ride.name}</div>
-      <div>Details: {ride.details}</div>
-      <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
-      <div>Time: {ride.starting_time}</div>
-      <div>Distance: {ride.distance} km</div>
-      <div>Speed: {ride.speed} km/h</div>
-      <div>Meeting Point: {ride.meeting_point}</div>
-      <div>Created By: {ride.createdby}</div>
-      {ride.map && ride.map !== null && <PreviewMap mapId={ride.map} />}
-    </div>
-  );
-})}
+                // Render the JSX elements, including the formatted date
+                return (
 
 
-        </div>
-            ) : (
-              <p>Please log in to see rides.</p>
-            )}
-          </>
+                  <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                    <div>Name: {ride.name}</div>
+                    <div>Details: {ride.details}</div>
+                    <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
+                    <div>Time: {ride.starting_time}</div>
+                    <div>Distance: {ride.distance} km</div>
+                    <div>Speed: {ride.speed} km/h</div>
+                    <div>Meeting Point: {ride.meeting_point}</div>
+                    <div>Created By: {ride.createdby}</div>
+                    {ride.map && ride.map !== null && <PreviewMap mapId={ride.map} />}
+                  </div>
+                );
+              })}
+
+
+            </div>
+          ) : (
+            <p>Please log in to see rides.</p>
+          )}
+        </>
       )}
     </div>
   );
