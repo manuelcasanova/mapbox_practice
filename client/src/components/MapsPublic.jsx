@@ -58,7 +58,9 @@ const MapsPublic = () => {
       ) : (
         <>
         {user.loggedIn ? (
+         
         <div>
+           <button>Add to my maps</button>
 {maps.map(map => {
 
 

@@ -258,7 +258,7 @@ app.get("/maps/public", async (req, res) => {
 });
 
 //Get maps from user
-app.get("/maps", async (req, res) => {
+app.get("/maps/", async (req, res) => {
   try {
 
     const userId = req.query.userId;
@@ -272,6 +272,35 @@ app.get("/maps", async (req, res) => {
     console.error(err.message)
   }
 });
+
+//Get maps from other users, if they are public and we added them to "our maps"
+
+app.get("/maps/shared", async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    
+    // Query to retrieve maps associated with the user through map_users
+    const mapsQuery = `
+      SELECT m.*
+      FROM maps m
+      JOIN map_users mu ON m.id = mu.map_id
+      WHERE mu.user_id = $1
+      
+      UNION
+      
+      SELECT m.*
+      FROM maps m
+      WHERE m.createdby = $1
+      ORDER BY id DESC`;
+    
+    const maps = await pool.query(mapsQuery, [userId]);
+    res.json(maps.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 //Get one map
 app.get("/maps/:id", async (req, res) => {
