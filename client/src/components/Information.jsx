@@ -4,7 +4,7 @@ import { useAuth } from "./Context/AuthContext";
 
 export default function
   Information({ setFromButton }) {
-    
+
   const navigate = useNavigate()
   const { user } = useAuth();
 
@@ -32,6 +32,9 @@ export default function
         <button className="navbar_button"
           onClick={() => navigate("/rides/mine")}
         >See my rides</button>
+                <button className="navbar_button"
+          onClick={() => navigate("/users/follow")}
+        >Follow</button>
       </div>
 
       {user.isAdmin &&

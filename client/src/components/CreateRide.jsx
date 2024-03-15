@@ -116,7 +116,7 @@ export default function CreateRide() {
       setTime('');
       setDetails('');
       setMapId(undefined);
-      navigate('/ride/mine');
+      navigate('/rides/mine');
     } catch (error) {
       // If there is an error in the response
       if (error.response && error.response.data && error.response.data.error) {

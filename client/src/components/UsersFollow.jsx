@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from "./Context/AuthContext";
 
-const UsersAll = () => {
+const UsersFollow = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-console.log("users", users)
+// console.log("users", users)
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/users/', {
+        const response = await axios.get('http://localhost:3500/users/follow', {
           params: {
             user: user 
           }
@@ -57,7 +57,13 @@ console.log("users", users)
         <div>No users available.</div>
       ) : (
         <>
-        {user.loggedIn && user.isAdmin ? (
+        <button>Following</button>
+        <button>Followers</button>
+        <button>Follow</button>
+        
+        <div>Search O</div>
+        
+        {user.loggedIn  ? (
         <div>
 {users.map(user => {
 
@@ -69,9 +75,9 @@ console.log("users", users)
     
     
 <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-      <div>Id: {user.id}</div>
-      <div>Name: {user.username}</div>
-      <div>Email: {user.email}</div>
+
+      <div>{user.username}</div>
+      <div>Follow</div>
     </div>
   );
 })}
@@ -79,7 +85,7 @@ console.log("users", users)
 
         </div>
             ) : (
-              <p>Please log in as an administrator to see users.</p>
+              <p>Please log in to see users.</p>
             )}
           </>
       )}
@@ -87,4 +93,4 @@ console.log("users", users)
   );
 };
 
-export default UsersAll;
+export default UsersFollow;

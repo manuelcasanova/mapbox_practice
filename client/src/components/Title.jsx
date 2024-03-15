@@ -8,7 +8,7 @@ export default function Title () {
   return (
     <div className="title"
     onClick={() => navigate("/")}>
-      Map practice
+      Ride with me
     </div>
   )
 }

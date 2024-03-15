@@ -11,8 +11,9 @@ import AllMaps from './components/AllMaps';
 import RidesPublic from './components/RidesPublic';
 import RidesUser from './components/RidesUser'
 import RidesAll from './components/RidesAll';
-import UsersAll from './components/UsersAll';
+import UsersAdmin from './components/UsersAdmin';
 import MapsPublic from './components/MapsPublic';
+import UsersFollow from './components/UsersFollow';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -22,6 +23,7 @@ import { AuthProvider } from './components/Context/AuthContext';
 import { useState } from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 
 
@@ -152,7 +154,19 @@ function App() {
               <>
                 <Title />
                 <Information setFromButton={setFromButton} />
-              <UsersAll />
+              <UsersAdmin />
+                <Footer />
+              </>
+            }>
+          </Route>
+
+          <Route
+            exact path="/users/follow"
+            element={
+              <>
+                <Title />
+                <Information setFromButton={setFromButton} />
+              <UsersFollow />
                 <Footer />
               </>
             }>
