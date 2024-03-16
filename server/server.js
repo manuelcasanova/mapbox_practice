@@ -177,6 +177,21 @@ app.post("/createmap", async (req, res) => {
   }
 });
 
+//Ad user to map
+app.post("/maps/adduser", async (req, res) => {
+  try {
+    // Check if user is logged in
+    if (!req.body.user || !req.body.user.loggedIn) {
+      return res.status(401).json({ message: "A user needs to be logged in" });
+    }
+    return res.status(200).json({ message: "User successfully added to the map" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
 
 
 //Create a ride

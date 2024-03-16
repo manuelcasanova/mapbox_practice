@@ -11,6 +11,9 @@ const MapsPublic = () => {
   const [addToMyMaps, setAddToMyMaps] = useState(true)
   const { user } = useAuth();
 
+  useEffect (() => {
+    console.log("add to my maps", addToMyMaps)
+  }, [addToMyMaps])
 
   useEffect(() => {
     let isMounted = true;
@@ -53,6 +56,22 @@ const MapsPublic = () => {
     return <div>Error: {error}</div>;
   }
 
+  //Function to add user to map
+  const addToMap = async (e) => {
+    e.preventDefault();
+    try {
+      console.log("Adding to map...");
+      await axios.post(`http://localhost:3500/maps/adduser`, {
+        user
+      });
+      console.log("Successfully added to map.");
+      setAddToMyMaps(false)
+    } catch (err) {
+      console.log("error", err);
+      setError(err.response.data.message || "An error occurred");
+    }
+  };
+
   return (
     <div>
       {maps.length === 0 ? (
@@ -64,7 +83,7 @@ const MapsPublic = () => {
         <div>
           {addToMyMaps && 
           <button
-          onClick={() => setAddToMyMaps(false)}
+          onClick={(e) => addToMap(e)}
           >Add to my maps</button>
           }
            {!addToMyMaps && 
