@@ -1,3 +1,9 @@
+
+Add to my maps, click --> add... show button remove from my maps
+
+http://localhost:3000/maps/public
+
+
 Seemap -- Click to push user.id to
 
 CREATE TABLE map_users (

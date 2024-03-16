@@ -8,7 +8,9 @@ const MapsPublic = () => {
   const [maps, setMaps] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [addToMyMaps, setAddToMyMaps] = useState(true)
   const { user } = useAuth();
+
 
   useEffect(() => {
     let isMounted = true;
@@ -60,7 +62,16 @@ const MapsPublic = () => {
         {user.loggedIn ? (
          
         <div>
-           <button>Add to my maps</button>
+          {addToMyMaps && 
+          <button
+          onClick={() => setAddToMyMaps(false)}
+          >Add to my maps</button>
+          }
+           {!addToMyMaps && 
+          <button
+          onClick={() => setAddToMyMaps(true)}
+          >Remove from my maps</button>
+          }
 {maps.map(map => {
 
 
