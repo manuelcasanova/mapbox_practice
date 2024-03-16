@@ -8,7 +8,7 @@ const MapsPublic = () => {
   const [maps, setMaps] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [addToMyMaps, setAddToMyMaps] = useState(true)
+  const [addToMyMaps, setAddToMyMaps] = useState([])
   const { user } = useAuth();
 
   useEffect(() => {
@@ -26,6 +26,8 @@ const MapsPublic = () => {
           }
         });
         if (isMounted) {
+          // Initialize addToMyMaps state with false for each map
+          setAddToMyMaps(new Array(response.data.length).fill(false));
           setMaps(response.data);
           setIsLoading(false);
         }
@@ -56,8 +58,17 @@ const MapsPublic = () => {
     return <div>Error: {error}</div>;
   }
 
+    // Function to toggle addToMyMaps state for a specific map index
+    const toggleAddToMyMaps = (index) => {
+      setAddToMyMaps(prevState => {
+        const newState = [...prevState];
+        newState[index] = !newState[index];
+        return newState;
+      });
+    };
+
   //Function to add user to map
-  const addToMap = async (e) => {
+  const addToMap = async (e, index) => {
     e.preventDefault();
     try {
       console.log("Adding to map...");
@@ -65,7 +76,7 @@ const MapsPublic = () => {
         user
       });
       console.log("Successfully added to map.");
-      setAddToMyMaps(false)
+      toggleAddToMyMaps(index); // Toggle state for the clicked map
       setError(null)
     } catch (err) {
       console.log("error", err);
@@ -82,17 +93,8 @@ const MapsPublic = () => {
           {user.loggedIn ? (
 
             <div>
-              {addToMyMaps &&
-                <button
-                  onClick={(e) => addToMap(e)}
-                >Add to my maps</button>
-              }
-              {!addToMyMaps &&
-                <button
-                  onClick={() => setAddToMyMaps(true)}
-                >Remove from my maps</button>
-              }
-              {maps.map(map => {
+
+              {maps.map((map, index) => {
 
 
                 // Extract the date formatting logic here
@@ -108,7 +110,11 @@ const MapsPublic = () => {
                   <div key={map.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
                     <div>Name: {map.title}</div>
                     <div>Created by: {map.createdby}</div>
-
+                    {addToMyMaps[index] ? (
+                      <button onClick={(e) => addToMap(e, index)}>Remove from my maps</button>
+                    ) : (
+                      <button onClick={(e) => addToMap(e, index)}>Add to my maps</button>
+                    )}
                     {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
                   </div>
                 );
