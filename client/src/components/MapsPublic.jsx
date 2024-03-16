@@ -11,7 +11,7 @@ const MapsPublic = () => {
   const [addToMyMaps, setAddToMyMaps] = useState(true)
   const { user } = useAuth();
 
-  useEffect (() => {
+  useEffect(() => {
     console.log("add to my maps", addToMyMaps)
   }, [addToMyMaps])
 
@@ -22,7 +22,7 @@ const MapsPublic = () => {
       try {
         const response = await axios.get('http://localhost:3500/maps/public', {
           params: {
-            user: user 
+            user: user
           }
         });
         if (isMounted) {
@@ -66,9 +66,10 @@ const MapsPublic = () => {
       });
       console.log("Successfully added to map.");
       setAddToMyMaps(false)
+      setError(null)
     } catch (err) {
       console.log("error", err);
-      setError(err.response.data.message || "An error occurred");
+      setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
     }
   };
 
@@ -78,47 +79,47 @@ const MapsPublic = () => {
         <div>No maps available.</div>
       ) : (
         <>
-        {user.loggedIn ? (
-         
-        <div>
-          {addToMyMaps && 
-          <button
-          onClick={(e) => addToMap(e)}
-          >Add to my maps</button>
-          }
-           {!addToMyMaps && 
-          <button
-          onClick={() => setAddToMyMaps(true)}
-          >Remove from my maps</button>
-          }
-{maps.map(map => {
+          {user.loggedIn ? (
+
+            <div>
+              {addToMyMaps &&
+                <button
+                  onClick={(e) => addToMap(e)}
+                >Add to my maps</button>
+              }
+              {!addToMyMaps &&
+                <button
+                  onClick={() => setAddToMyMaps(true)}
+                >Remove from my maps</button>
+              }
+              {maps.map(map => {
 
 
-  // Extract the date formatting logic here
-  const originalDate = map.starting_date;
-  const formattedDate = formatDate(originalDate);
+                // Extract the date formatting logic here
+                const originalDate = map.starting_date;
+                const formattedDate = formatDate(originalDate);
 
 
 
-  // Render the JSX elements, including the formatted date
-  return (
-    
-    
-<div key={map.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-      <div>Name: {map.title}</div>
-      <div>Created by: {map.createdby}</div>
-
-      {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
-    </div>
-  );
-})}
+                // Render the JSX elements, including the formatted date
+                return (
 
 
-        </div>
-            ) : (
-              <p>Please log in to see maps.</p>
-            )}
-          </>
+                  <div key={map.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                    <div>Name: {map.title}</div>
+                    <div>Created by: {map.createdby}</div>
+
+                    {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
+                  </div>
+                );
+              })}
+
+
+            </div>
+          ) : (
+            <p>Please log in to see maps.</p>
+          )}
+        </>
       )}
     </div>
   );
