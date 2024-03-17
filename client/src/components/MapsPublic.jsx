@@ -19,9 +19,9 @@ const MapsPublic = () => {
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 
-  useEffect(() => {
-    // console.log("add to my maps", addToMyMaps)
-  }, [addToMyMaps])
+  // useEffect(() => {
+  //     console.log("add to my maps", addToMyMaps)
+  // }, [addToMyMaps])
 
   useEffect(() => {
     let isMounted = true;
@@ -97,10 +97,22 @@ const MapsPublic = () => {
 
 
   // Function to toggle addToMyMaps state for a specific map index
+  // const toggleAddToMyMaps = (index) => {
+  //   console.log("add to my maps before", addToMyMaps)
+  //   setAddToMyMaps(prevState => {
+  //     const newState = [...prevState];
+  //     newState[index] = !newState[index];
+  //     return newState;
+  //   });
+  //   console.log("add to my maps after", addToMyMaps)
+  // };
+
   const toggleAddToMyMaps = (index) => {
+    console.log("add to my maps before", addToMyMaps);
     setAddToMyMaps(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
+      console.log("add to my maps after", newState); // Log the updated state
       return newState;
     });
   };
@@ -165,8 +177,10 @@ const MapsPublic = () => {
                 // Determine if the logged-in user is already in this map
 
 
-                const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
+                // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
+                const isUserInMap = userMaps.some(userMap => userMap.user_id === user.id && userMap.map_id === map.id);
 
+                console.log("is user in map", isUserInMap)
                 // Render the JSX elements, including the formatted date
                 return (
 
@@ -177,7 +191,7 @@ const MapsPublic = () => {
                     <div>Created by: {map.createdby}</div>
 
 
-                    {console.log(`The logged in user is ${userId}, the map id is ${map.id}, the owner of the map is ${map.createdby}, is ${userId} inside the map ${map.id}? According to the variable isUserInMap ${isUserInMap}`)}
+                    {/* {console.log(`The logged in user is ${userId}, the map id is ${map.id}, the owner of the map is ${map.createdby}, is ${userId} inside the map ${map.id}? According to the variable isUserInMap ${isUserInMap}`)} */}
 
 
                     {isUserMap ? (
@@ -189,7 +203,7 @@ const MapsPublic = () => {
                     ) : (
                       <button onClick={(e) => addToMap(e, index, map.id)}>Add to my maps</button>
                     )}
-                    {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
+                    {/* {map.id && map.id !== null && <PreviewMap mapId={map.id} />} */}
 
 
 
