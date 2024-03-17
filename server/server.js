@@ -207,14 +207,16 @@ app.delete("/maps/removeuser", async (req, res) => {
     // Check if user ID and map ID are provided
     const userId = req.body.userId;
     const mapId = req.body.mapId;
-    if (!req.body.userId || !req.body.mapId) {
+    console.log("userId", userId)
+    console.log("mapId", mapId)
+    if (!userId || !mapId) {
       return res.status(400).json({ message: "User ID and map ID are required" });
     }
     
     // Delete the user from the map_users table
     const query = {
       text: 'DELETE FROM map_users WHERE map_id = $1 AND user_id = $2',
-      values: [req.body.mapId, req.body.userId]
+      values: [mapId, userId]
     };
     await pool.query(query);
 

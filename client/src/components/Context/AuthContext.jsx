@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 
 // Create a context for authentication
 const AuthContext = createContext();
@@ -9,7 +9,9 @@ export const AuthProvider = ({children}) => {
   const [user, setUser] = useState({id: null, isAdmin: false, isSuperAdmin: false, loggedIn: false, username: null});
   const [mapId, setMapId] = useState(); // Add mapId state
 
-// console.log("auth context user", user)
+//  useEffect (() => {
+//   console.log("user authentication jsx", user)
+//  })
 
   const logInUser1 = () => {
     setUser({ id: 1, isAdmin: true, isSuperAdmin: true, loggedIn: true, username: 'Manuel' });

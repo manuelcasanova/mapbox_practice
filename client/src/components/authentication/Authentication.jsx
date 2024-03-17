@@ -7,6 +7,9 @@ const Authentication = () => {
   const { user, logInUser1, logInUser2, logInUser3, logInUser4, logInUser5, logOut } = useAuth();
   const navigate = useNavigate()
 
+
+
+
   const handleLogout = () => {
     logOut();
     navigate("/"); // Navigate to the root route after logout
@@ -17,6 +20,7 @@ const Authentication = () => {
 
   return (
 <div>
+
   {user.loggedIn && (
     <div>
       <>Logged in as {user.username}</>
