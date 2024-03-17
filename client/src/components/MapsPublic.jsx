@@ -66,8 +66,10 @@ const MapsPublic = () => {
             userId
           }
         });
-        // console.log("responsedata", response.data)
-        setUserMaps(response.data);
+  // Check if the response data is not an empty array before updating the state
+  if (Array.isArray(response.data) && response.data.length > 0) {
+    setUserMaps(response.data);
+  }
       } catch (error) {
         console.error('Error fetching user maps:', error);
       }
@@ -110,6 +112,24 @@ const MapsPublic = () => {
       // console.log("Adding to map...");
       await axios.post(`http://localhost:3500/maps/adduser`, {
         userId, userIsLoggedIn, mapId
+      });
+      // console.log("Successfully added to map.");
+      toggleAddToMyMaps(index); // Toggle state for the clicked map
+      setError(null)
+    } catch (err) {
+      console.log("error", err);
+      setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
+    }
+  };
+
+
+  //Function to remove user from map
+  const removeFromMap = async (e, index, mapId) => {
+    e.preventDefault();
+    try {
+      // console.log("Adding to map...");
+      await axios.delete(`http://localhost:3500/maps/removeuser`, {
+        data: {userId, userIsLoggedIn, mapId}
       });
       // console.log("Successfully added to map.");
       toggleAddToMyMaps(index); // Toggle state for the clicked map
@@ -165,7 +185,7 @@ const MapsPublic = () => {
                     ) : isUserInMap ? (
 
 
-                      <button onClick={(e) => addToMap(e, index, map.id)}>Remove from my maps</button>
+                      <button onClick={(e) => removeFromMap(e, index, map.id)}>Remove from my maps</button>
                     ) : (
                       <button onClick={(e) => addToMap(e, index, map.id)}>Add to my maps</button>
                     )}
