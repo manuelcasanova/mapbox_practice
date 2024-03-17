@@ -11,8 +11,11 @@ const MapsPublic = () => {
   const [addToMyMaps, setAddToMyMaps] = useState([])
   const { user } = useAuth();
 
+const userId = user.id;
+const userIsLoggedIn = user.loggedIn;
+
   useEffect(() => {
-    console.log("add to my maps", addToMyMaps)
+    // console.log("add to my maps", addToMyMaps)
   }, [addToMyMaps])
 
   useEffect(() => {
@@ -68,14 +71,14 @@ const MapsPublic = () => {
     };
 
   //Function to add user to map
-  const addToMap = async (e, index) => {
+  const addToMap = async (e, index, mapId) => {
     e.preventDefault();
     try {
-      console.log("Adding to map...");
+      // console.log("Adding to map...");
       await axios.post(`http://localhost:3500/maps/adduser`, {
-        user
+        userId, userIsLoggedIn, mapId
       });
-      console.log("Successfully added to map.");
+      // console.log("Successfully added to map.");
       toggleAddToMyMaps(index); // Toggle state for the clicked map
       setError(null)
     } catch (err) {
@@ -108,12 +111,13 @@ const MapsPublic = () => {
 
 
                   <div key={map.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                    
                     <div>Name: {map.title}</div>
                     <div>Created by: {map.createdby}</div>
                     {addToMyMaps[index] ? (
-                      <button onClick={(e) => addToMap(e, index)}>Remove from my maps</button>
+                      <button onClick={(e) => addToMap(e, index, map.id)}>Remove from my maps</button>
                     ) : (
-                      <button onClick={(e) => addToMap(e, index)}>Add to my maps</button>
+                      <button onClick={(e) => addToMap(e, index, map.id)}>Add to my maps</button>
                     )}
                     {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
                   </div>

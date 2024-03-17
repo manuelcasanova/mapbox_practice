@@ -11,12 +11,12 @@ INSERT INTO maps (title, createdBy, createdAt, isPrivate) VALUES
 ('Stanley Park Loop', 2, Now(), true),
 ('Grouse Mountain', 3, Now(), false);
 
-INSERT INTO map_users (map_id, user_id)
-VALUES
-    (2, 1),
-    (2, 2),
-    (2, 4),
-    (2, 5);
+-- INSERT INTO map_users (map_id, user_id)
+-- VALUES
+--     (2, 1),
+--     (2, 2),
+--     (2, 4),
+--     (2, 5);
 
 
 INSERT INTO points (lat, lng, map) VALUES

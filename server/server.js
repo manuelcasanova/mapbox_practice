@@ -181,9 +181,18 @@ app.post("/createmap", async (req, res) => {
 app.post("/maps/adduser", async (req, res) => {
   try {
     // Check if user is logged in
-    if (!req.body.user || !req.body.user.loggedIn) {
+    console.log("req.body", req.body)
+    if (!req.body.userId || !req.body.userIsLoggedIn) {
       return res.status(401).json({ message: "A user needs to be logged in" });
     }
+    // Insert the user to the map_users table
+    const query = {
+      text: 'INSERT INTO map_users (map_id, user_id) VALUES ($1, $2)',
+      values: [req.body.mapId, req.body.userId]
+    };
+    await pool.query(query);
+
+
     return res.status(200).json({ message: "User successfully added to the map" });
   } catch (err) {
     console.error(err.message);

@@ -1,15 +1,6 @@
+maps/public
 
-Add to my maps, click --> add... show button remove from my maps
+check if it's my map --> do not show button add my maps or remove my maps. Show a message. It's my map
 
-http://localhost:3000/maps/public
-
-
-Seemap -- Click to push user.id to
-
-CREATE TABLE map_users (
-  map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  PRIMARY KEY (map_id, user_id)
-);
-
+check if it's "in my maps" and show button remove my maps.
 
