@@ -303,13 +303,12 @@ app.get("/maps/otherusers", async (req, res) => {
   try {
 
     const userId = req.query.userId;
-    // console.log("req query", req)
-    //  console.log("userId serverjs", userId)
     const maps = await pool.query(
-      'SELECT * FROM map_users WHERE user_id = $1 ORDER BY user_id DESC', [userId]
+      'SELECT * FROM map_users'
     );
+    console.log("maps", maps.rows)
     res.json(maps.rows)
-    console.log("maps.rows", maps.rows)
+    // console.log("maps.rows", maps.rows)
   } catch (err) {
     console.error(err.message)
   }

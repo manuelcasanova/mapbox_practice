@@ -12,12 +12,12 @@ const MapsPublic = () => {
   const [userMaps, setUserMaps] = useState([]);
   const { user } = useAuth();
 
-console.log("userMaps", userMaps)
+
 
   // console.log("addtomymaps", addToMyMaps)
 
-const userId = user.id;
-const userIsLoggedIn = user.loggedIn;
+  const userId = user.id;
+  const userIsLoggedIn = user.loggedIn;
 
   useEffect(() => {
     // console.log("add to my maps", addToMyMaps)
@@ -63,10 +63,10 @@ const userIsLoggedIn = user.loggedIn;
       try {
         const response = await axios.get('http://localhost:3500/maps/otherusers', {
           params: {
-            userId: userId
+            userId
           }
         });
-        console.log("responsedata", response.data)
+        // console.log("responsedata", response.data)
         setUserMaps(response.data);
       } catch (error) {
         console.error('Error fetching user maps:', error);
@@ -76,6 +76,15 @@ const userIsLoggedIn = user.loggedIn;
     fetchUserMaps();
   }, [userId]);
 
+  useEffect(() => {
+    // Check for changes in addToMyMaps state
+    // This will trigger when the user clicks "Add to my maps" button
+    // and toggles the addToMyMaps state
+    // You can perform any necessary actions here
+    // For example, you can update other state variables or force a re-render
+    //console.log("addToMyMaps changed:", addToMyMaps);
+  }, [addToMyMaps]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -84,14 +93,15 @@ const userIsLoggedIn = user.loggedIn;
     return <div>Error: {error}</div>;
   }
 
-    // Function to toggle addToMyMaps state for a specific map index
-    const toggleAddToMyMaps = (index) => {
-      setAddToMyMaps(prevState => {
-        const newState = [...prevState];
-        newState[index] = !newState[index];
-        return newState;
-      });
-    };
+
+  // Function to toggle addToMyMaps state for a specific map index
+  const toggleAddToMyMaps = (index) => {
+    setAddToMyMaps(prevState => {
+      const newState = [...prevState];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
 
   //Function to add user to map
   const addToMap = async (e, index, mapId) => {
@@ -126,34 +136,35 @@ const userIsLoggedIn = user.loggedIn;
                 // Extract the date formatting logic here
                 const originalDate = map.starting_date;
                 const formattedDate = formatDate(originalDate);
- 
 
 
-                      // Determine if the logged-in user is the creator of this map
-      const isUserMap = map.createdby === userId;
+
+                // Determine if the logged-in user is the creator of this map
+                const isUserMap = map.createdby === userId;
+
+                // Determine if the logged-in user is already in this map
 
 
-      // Determine if the logged-in user is already in this map
-      const isUserInMap = userMaps.some(userMap => userMap.map_id === map.id);
+                const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
 
-     
                 // Render the JSX elements, including the formatted date
                 return (
 
 
                   <div key={map.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-                    
+
                     <div>Name: {map.title}</div>
                     <div>Created by: {map.createdby}</div>
 
-{console.log("isUserMap", isUserMap)}
-{console.log("isUserInMap", isUserInMap)}
+
+                    {console.log(`The logged in user is ${userId}, the map id is ${map.id}, the owner of the map is ${map.createdby}, is ${userId} inside the map ${map.id}? According to the variable isUserInMap ${isUserInMap}`)}
+
 
                     {isUserMap ? (
                       <div></div>
                     ) : isUserInMap ? (
 
-                
+
                       <button onClick={(e) => addToMap(e, index, map.id)}>Remove from my maps</button>
                     ) : (
                       <button onClick={(e) => addToMap(e, index, map.id)}>Add to my maps</button>
