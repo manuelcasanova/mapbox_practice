@@ -9,7 +9,12 @@ const MapsPublic = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyMaps, setAddToMyMaps] = useState([])
+  const [userMaps, setUserMaps] = useState([]);
   const { user } = useAuth();
+
+console.log("userMaps", userMaps)
+
+  // console.log("addtomymaps", addToMyMaps)
 
 const userId = user.id;
 const userIsLoggedIn = user.loggedIn;
@@ -52,6 +57,24 @@ const userIsLoggedIn = user.loggedIn;
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, []);
+
+  useEffect(() => {
+    const fetchUserMaps = async () => {
+      try {
+        const response = await axios.get('http://localhost:3500/maps/otherusers', {
+          params: {
+            userId: userId
+          }
+        });
+        console.log("responsedata", response.data)
+        setUserMaps(response.data);
+      } catch (error) {
+        console.error('Error fetching user maps:', error);
+      }
+    };
+
+    fetchUserMaps();
+  }, [userId]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -103,9 +126,17 @@ const userIsLoggedIn = user.loggedIn;
                 // Extract the date formatting logic here
                 const originalDate = map.starting_date;
                 const formattedDate = formatDate(originalDate);
+ 
 
 
+                      // Determine if the logged-in user is the creator of this map
+      const isUserMap = map.createdby === userId;
 
+
+      // Determine if the logged-in user is already in this map
+      const isUserInMap = userMaps.some(userMap => userMap.map_id === map.id);
+
+     
                 // Render the JSX elements, including the formatted date
                 return (
 
@@ -114,12 +145,23 @@ const userIsLoggedIn = user.loggedIn;
                     
                     <div>Name: {map.title}</div>
                     <div>Created by: {map.createdby}</div>
-                    {addToMyMaps[index] ? (
+
+{console.log("isUserMap", isUserMap)}
+{console.log("isUserInMap", isUserInMap)}
+
+                    {isUserMap ? (
+                      <div></div>
+                    ) : isUserInMap ? (
+
+                
                       <button onClick={(e) => addToMap(e, index, map.id)}>Remove from my maps</button>
                     ) : (
                       <button onClick={(e) => addToMap(e, index, map.id)}>Add to my maps</button>
                     )}
                     {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
+
+
+
                   </div>
                 );
               })}

@@ -181,7 +181,7 @@ app.post("/createmap", async (req, res) => {
 app.post("/maps/adduser", async (req, res) => {
   try {
     // Check if user is logged in
-    console.log("req.body", req.body)
+    // console.log("req.body", req.body)
     if (!req.body.userId || !req.body.userIsLoggedIn) {
       return res.status(401).json({ message: "A user needs to be logged in" });
     }
@@ -292,10 +292,29 @@ app.get("/maps/", async (req, res) => {
       'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
     );
     res.json(maps.rows)
+    console.log("maps.rows", maps.rows)
   } catch (err) {
     console.error(err.message)
   }
 });
+
+//Get maps with other users
+app.get("/maps/otherusers", async (req, res) => {
+  try {
+
+    const userId = req.query.userId;
+    // console.log("req query", req)
+    //  console.log("userId serverjs", userId)
+    const maps = await pool.query(
+      'SELECT * FROM map_users WHERE user_id = $1 ORDER BY user_id DESC', [userId]
+    );
+    res.json(maps.rows)
+    console.log("maps.rows", maps.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
 
 //Get maps from other users, if they are public and we added them to "our maps"
 
