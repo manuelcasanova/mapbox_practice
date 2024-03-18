@@ -315,7 +315,12 @@ app.get("/maps/", async (req, res) => {
     // console.log("req query", req)
     //  console.log("userId serverjs", userId)
     const maps = await pool.query(
-      'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
+      //User's maps only
+      //'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
+      //User's maps and user in maps
+      'SELECT * FROM maps WHERE createdby = $1 UNION SELECT maps.* FROM maps INNER JOIN map_users ON maps.id = map_users.map_id WHERE map_users.user_id = $1 ORDER BY id DESC', 
+      [userId]
+
     );
     res.json(maps.rows)
     //console.log("maps.rows", maps.rows)

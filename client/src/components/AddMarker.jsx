@@ -2,10 +2,13 @@ import { useEffect, useCallback } from "react";
 import { Marker, useMapEvents, Polyline } from "react-leaflet";
 import axios from "axios";
 import { icon_black, icon_green, icon_flag } from "./img/Icons";
+import { useAuth } from "./Context/AuthContext";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition, maps}) {
 
 
+
+  const { user } = useAuth();
   const fetchData = useCallback(() => {
     axios.get(`http://localhost:3500/points/${mapId}`)
       .then(function (res) {
@@ -22,11 +25,15 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
 
   useMapEvents({
     click: (e) => {
+      if (maps && user.id === maps[0].createdby) {
       const { lat, lng } = e.latlng;
       const newCoordinate = { lat, lng, timestamp: Date.now() };
       setCoord([...coord, newCoordinate]);
       saveMarkers([lat, lng]);
       setRemovePoint(prevState => prevState + 1)
+      } else {
+        console.log("You are not authorized to add markers to this map.");
+      }
     }
   });
 
@@ -48,6 +55,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
           }}
         />
       ))}
+      
       <Polyline positions={sortedCoordinates.map(pos => [pos.lat, pos.lng])} pathOptions={{ color: "black" }}/>
     </div>
   );

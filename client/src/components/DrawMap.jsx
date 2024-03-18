@@ -8,10 +8,9 @@ import greencircle from '../components/img/greencircle.png'
 import recyclingBin from '../components/img/delete.png'
 import undo from '../components/img/undo.png'
 import AddMarker from "./AddMarker";
-
+import { useAuth } from "./Context/AuthContext";
 
 import { useCoords } from '../components/util_functions/GetBrowserLocation';
-
 
 
 
@@ -28,23 +27,6 @@ L.Marker.prototype.options.icon = L.icon({
 });
 
 const group = L.featureGroup();
-
-// function Bounds({ coordinadasPara }) {
-//   const map = useMap();
-
-//   useEffect(() => {
-//     if (!map) return;
-
-//     group.clearLayers();
-
-//     coordinadasPara.forEach((marker) => group.addLayer(L.marker(marker)));
-
-//     map.fitBounds(group.getBounds());
-
-//   }, [map, coordinadasPara]);
-
-//   return null;
-// }
 
 
 function Bounds({ coordinadasPara, defaultBounds }) {
@@ -71,9 +53,17 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 export default function DrawMap({ mapId }) {
 
+  const { user } = useAuth();
+
+// console.log("userid", user.id)
   const { browCoords } = useCoords();
 
   // console.log("brow coords", browCoords)
+
+  const [maps, setMaps] = useState();
+
+
+// console.log("createdby id in draw map", maps[0].createdby)
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -84,20 +74,37 @@ export default function DrawMap({ mapId }) {
   // const defaultPosition = ; // Downtown Vancouver, BC coordinates
 
 
+  // console.log("true or false", user.id === maps[0].createdby )
+
+
   const defaultPosition = useMemo(() => {
     // Initialize your default position here
     return browCoords || [59.2827, -123.1207]
   }, [browCoords]); // Add dependencies if needed
 
-// Initialize state variable to hold positions for the polyline
-const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
+  // Initialize state variable to hold positions for the polyline
+  const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
-// console.log("defaultBounds", defaultBounds)
-// console.log("coordinadasPara", coordinadasPara)
-// console.log("coord", coord)
-// console.log("coordinatesForPolyline", coordinatesForPolyline)
-// console.log("mapId", mapId)
-// console.log("points", points)
+  // console.log("defaultBounds", defaultBounds)
+  // console.log("coordinadasPara", coordinadasPara)
+  // console.log("coord", coord)
+  // console.log("coordinatesForPolyline", coordinatesForPolyline)
+  // console.log("mapId", mapId)
+  // console.log("points", points)
+
+  //Get data from maps to allow editing only those maps createdby the user, not those public maps created by another user, that can be user by the user, but not edited:
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3500/maps/${mapId}`);
+        setMaps(response.data)
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchData()
+  }, [mapId])
 
   // Sets the points of the map when a map is loaded
   useEffect(() => {
@@ -114,7 +121,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
     fetchData();
   }, [mapId]);
 
-//Avoid ESLINT error by using these variables
+  //Avoid ESLINT error by using these variables
 
   useEffect(() => {
 
@@ -133,7 +140,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3500/points/${mapId}`);
-  
+
         if (response.data.length === 0) {
           // If coordinates are empty, set coordinadasPara to defaultPosition.
           setCoordinadasPara([[
@@ -145,7 +152,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
             String(coordinadas.lat),
             String(coordinadas.lng)
           ]);
-  
+
           setCoordinadasPara(coordinates);
         }
       } catch (error) {
@@ -155,28 +162,28 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
     fetchData();
   }, [mapId, defaultPosition]);
 
-    //Fetches points from map. Transforms them (Array of objects with value/key pair) to array with two strings (format for bounds), sets coordinatesForPolyline with these arrays.
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`http://localhost:3500/points/${mapId}`);
-  
-          const coordinates = response.data.map(coordinadas => [
-            String(coordinadas.lat),
-            String(coordinadas.lng)
-          ]);
-  
-          setCoordinatesForPolyline(coordinates);
-        } catch (error) {
-          console.error('Error fetching coordinates:', error);
-        }
-      };
-      fetchData();
-    }, [mapId,
-      removePoint,
-      coord,
-      markersState.data
-    ]);
+  //Fetches points from map. Transforms them (Array of objects with value/key pair) to array with two strings (format for bounds), sets coordinatesForPolyline with these arrays.
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3500/points/${mapId}`);
+
+        const coordinates = response.data.map(coordinadas => [
+          String(coordinadas.lat),
+          String(coordinadas.lng)
+        ]);
+
+        setCoordinatesForPolyline(coordinates);
+      } catch (error) {
+        console.error('Error fetching coordinates:', error);
+      }
+    };
+    fetchData();
+  }, [mapId,
+    removePoint,
+    coord,
+    markersState.data
+  ]);
 
 
   // useEffect(() => {
@@ -231,6 +238,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
   };
 
   // Remove all markers
+  
   const deleteAll = async (e) => {
     e.preventDefault();
     await removeAll();
@@ -244,6 +252,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
       <p>Longitude: {browCoords[1]}</p>
     </div> */}
 
+{maps && user.id === maps[0].createdby && 
         <div className="deletebuttons">
 
           <img
@@ -261,6 +270,7 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
           />
 
         </div>
+}
 
         <MapContainer zoom={12}>
 
@@ -269,26 +279,33 @@ const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
+
+
           <AddMarker
-            saveMarkers={saveMarkers}
-            setRemovePoint={setRemovePoint}
-            coord={coord}
-            setCoord={setCoord}
-            mapId={mapId}
-            defaultPosition={defaultPosition}
-          />
+maps={maps}
+          saveMarkers={saveMarkers}
+          setRemovePoint={setRemovePoint}
+          coord={coord}
+          setCoord={setCoord}
+          mapId={mapId}
+          defaultPosition={defaultPosition}
+
+        />
 
 
-{/* Sends defaultBounds and coordinadasPara to the Bounds function, that gets the southwestermost and northeasternmost points to set the bounds of the map */}
-{coordinadasPara.length > 1 ? (
-  <Bounds coordinadasPara={coordinadasPara} />
-) : (
-  coordinadasPara.length === 1 && (
-    <Bounds coordinadasPara={coordinadasPara} />
-  )
-)}
 
-{/* {defaultBounds.length > 1 && <Bounds defaultBounds={defaultBounds} />} */}
+
+
+          {/* Sends defaultBounds and coordinadasPara to the Bounds function, that gets the southwestermost and northeasternmost points to set the bounds of the map */}
+          {coordinadasPara.length > 1 ? (
+            <Bounds coordinadasPara={coordinadasPara} />
+          ) : (
+            coordinadasPara.length === 1 && (
+              <Bounds coordinadasPara={coordinadasPara} />
+            )
+          )}
+
+          {/* {defaultBounds.length > 1 && <Bounds defaultBounds={defaultBounds} />} */}
 
           {/* <Polyline positions={coordinatesForPolyline} color="black" /> */}
 
