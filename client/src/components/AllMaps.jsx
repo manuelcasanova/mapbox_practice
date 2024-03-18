@@ -10,6 +10,10 @@ export default function AllMaps({ fromButton, setFromButton }) {
   // const [mapId, setMapId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
+
+//State used to show message "You cannot edit a public map created by another user"
+const [editAllowed, setEditAllowed] = useState(true)
+console.log("edit allowed", editAllowed)
   const navigate = useNavigate();
 
   const userId = user.id;
@@ -82,14 +86,17 @@ export default function AllMaps({ fromButton, setFromButton }) {
               ))}
             </select>}
 
-          {fromButton ?
-            <div>Add, edit or remove markers</div> :
-            <div>STEP 2: Add, edit or remove markers</div>
-          }
+            {!editAllowed ? (
+        <div>No edit allowed</div>
+      ) : (
+        fromButton ?
+          <div>Add, edit or remove markers</div> :
+          <div>STEP 2: Add, edit or remove markers</div>
+      )}
 
 
 
-          <DrawMap mapId={mapId} />
+          <DrawMap mapId={mapId} setEditAllowed={setEditAllowed} />
 
 
           {fromButton ?

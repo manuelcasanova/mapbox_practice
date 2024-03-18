@@ -4,7 +4,7 @@ import axios from "axios";
 import { icon_black, icon_green, icon_flag } from "./img/Icons";
 import { useAuth } from "./Context/AuthContext";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition, maps}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition, maps, setEditAllowed}) {
 
 
 
@@ -30,7 +30,8 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       const newCoordinate = { lat, lng, timestamp: Date.now() };
       setCoord([...coord, newCoordinate]);
       saveMarkers([lat, lng]);
-      setRemovePoint(prevState => prevState + 1)
+      setRemovePoint(prevState => prevState + 1);
+      setEditAllowed(false)
       } else {
         console.log("You are not authorized to add markers to this map.");
       }

@@ -51,11 +51,11 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 }
 
 
-export default function DrawMap({ mapId }) {
+export default function DrawMap({ mapId, setEditAllowed }) {
 
   const { user } = useAuth();
 
-// console.log("userid", user.id)
+  // console.log("userid", user.id)
   const { browCoords } = useCoords();
 
   // console.log("brow coords", browCoords)
@@ -63,7 +63,7 @@ export default function DrawMap({ mapId }) {
   const [maps, setMaps] = useState();
 
 
-// console.log("createdby id in draw map", maps[0].createdby)
+  // console.log("createdby id in draw map", maps[0].createdby)
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -238,7 +238,7 @@ export default function DrawMap({ mapId }) {
   };
 
   // Remove all markers
-  
+
   const deleteAll = async (e) => {
     e.preventDefault();
     await removeAll();
@@ -252,25 +252,25 @@ export default function DrawMap({ mapId }) {
       <p>Longitude: {browCoords[1]}</p>
     </div> */}
 
-{maps && user.id === maps[0].createdby && 
-        <div className="deletebuttons">
+        {maps && user.id === maps[0].createdby &&
+          <div className="deletebuttons">
 
-          <img
-            className="recbin"
-            src={undo}
-            alt={"Undo"}
-            onClick={deleteLast}
-          />
+            <img
+              className="recbin"
+              src={undo}
+              alt={"Undo"}
+              onClick={deleteLast}
+            />
 
-          <img
-            className="recbin"
-            src={recyclingBin}
-            alt={"Recycling bin"}
-            onClick={deleteAll}
-          />
+            <img
+              className="recbin"
+              src={recyclingBin}
+              alt={"Recycling bin"}
+              onClick={deleteAll}
+            />
 
-        </div>
-}
+          </div>
+        }
 
         <MapContainer zoom={12}>
 
@@ -282,15 +282,15 @@ export default function DrawMap({ mapId }) {
 
 
           <AddMarker
-maps={maps}
-          saveMarkers={saveMarkers}
-          setRemovePoint={setRemovePoint}
-          coord={coord}
-          setCoord={setCoord}
-          mapId={mapId}
-          defaultPosition={defaultPosition}
-
-        />
+            maps={maps}
+            saveMarkers={saveMarkers}
+            setRemovePoint={setRemovePoint}
+            coord={coord}
+            setCoord={setCoord}
+            mapId={mapId}
+            defaultPosition={defaultPosition}
+            setEditAllowed={setEditAllowed}
+          />
 
 
 
