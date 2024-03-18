@@ -28,6 +28,7 @@ const MapsPublic = () => {
 
     const fetchData = async () => {
       try {
+        setIsLoading(true); // Set loading to true before API call
         const response = await axios.get('http://localhost:3500/maps/public', {
           params: {
             user: user
@@ -76,27 +77,18 @@ const MapsPublic = () => {
     };
 
     fetchUserMaps();
-  }, [userId]);
+  }, [userId, addToMyMaps]);
 
-  useEffect(() => {
-    // Check for changes in addToMyMaps state
-    // This will trigger when the user clicks "Add to my maps" button
-    // and toggles the addToMyMaps state
-    // You can perform any necessary actions here
-    // For example, you can update other state variables or force a re-render
-    //console.log("addToMyMaps changed:", addToMyMaps);
-  }, [addToMyMaps]);
+  // useEffect(() => {
+  //   // Check for changes in addToMyMaps state
+  //   // This will trigger when the user clicks "Add to my maps" button
+  //   // and toggles the addToMyMaps state
+  //   // You can perform any necessary actions here
+  //   // For example, you can update other state variables or force a re-render
+  //   //console.log("addToMyMaps changed:", addToMyMaps);
+  // }, [addToMyMaps]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-
-  // Function to toggle addToMyMaps state for a specific map index
+    // Function to toggle addToMyMaps state for a specific map index
   // const toggleAddToMyMaps = (index) => {
   //   console.log("add to my maps before", addToMyMaps)
   //   setAddToMyMaps(prevState => {
@@ -108,14 +100,15 @@ const MapsPublic = () => {
   // };
 
   const toggleAddToMyMaps = (index) => {
-    console.log("add to my maps before", addToMyMaps);
+    // console.log("add to my maps before", addToMyMaps);
     setAddToMyMaps(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
-      console.log("add to my maps after", newState); // Log the updated state
+      // console.log("add to my maps after", newState); // Log the updated state
       return newState;
     });
   };
+  
 
   //Function to add user to map
   const addToMap = async (e, index, mapId) => {
@@ -152,6 +145,14 @@ const MapsPublic = () => {
     }
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
       {maps.length === 0 ? (
@@ -180,7 +181,7 @@ const MapsPublic = () => {
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInMap = userMaps.some(userMap => userMap.user_id === user.id && userMap.map_id === map.id);
 
-                console.log("is user in map", isUserInMap)
+                // console.log("is user in map", isUserInMap)
                 // Render the JSX elements, including the formatted date
                 return (
 

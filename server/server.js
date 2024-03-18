@@ -207,8 +207,8 @@ app.delete("/maps/removeuser", async (req, res) => {
     // Check if user ID and map ID are provided
     const userId = req.body.userId;
     const mapId = req.body.mapId;
-    console.log("userId", userId)
-    console.log("mapId", mapId)
+    // console.log("userId", userId)
+    // console.log("mapId", mapId)
     if (!userId || !mapId) {
       return res.status(400).json({ message: "User ID and map ID are required" });
     }
@@ -318,7 +318,7 @@ app.get("/maps/", async (req, res) => {
       'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
     );
     res.json(maps.rows)
-    console.log("maps.rows", maps.rows)
+    //console.log("maps.rows", maps.rows)
   } catch (err) {
     console.error(err.message)
   }
@@ -332,7 +332,7 @@ app.get("/maps/otherusers", async (req, res) => {
     const maps = await pool.query(
       'SELECT * FROM map_users'
     );
-    console.log("maps", maps.rows)
+    // console.log("maps", maps.rows)
     res.json(maps.rows)
     // console.log("maps.rows", maps.rows)
   } catch (err) {
