@@ -57,7 +57,7 @@ CREATE TABLE rides (
   starting_time TIME,
   meeting_point TEXT,
   details TEXT,
-  map INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+   map INTEGER REFERENCES maps(id) ON DELETE SET NULL,
   comments JSONB,
   difficulty VARCHAR(50)
 );

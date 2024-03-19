@@ -108,10 +108,11 @@ export default function DrawMap({ mapId, setEditAllowed }) {
     fetchData()
   }, [mapId])
 
+//Modifies the frontend message if user can edit the map (created by them) or not. 
+
   useEffect(() => {
     if (maps && maps.length > 0) {
     const isUserMap = user.id === maps[0].createdby
-    console.log("is user map", isUserMap)
     setEditAllowed(isUserMap)
   }
   }, [maps])

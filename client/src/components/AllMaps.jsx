@@ -13,7 +13,7 @@ export default function AllMaps({ fromButton, setFromButton }) {
 
 //State used to show message "You cannot edit a public map created by another user"
 const [editAllowed, setEditAllowed] = useState()
-console.log("edit allowed", editAllowed)
+// console.log("edit allowed", editAllowed)
   const navigate = useNavigate();
 
   const userId = user.id;

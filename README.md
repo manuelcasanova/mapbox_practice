@@ -1,6 +1,3 @@
-maps/public
+If a MAP is deleted, RIDE is deleted. Let's not delete ride, just have it without map
 
-check if it's my map --> do not show button add my maps or remove my maps. Show a message. It's my map
-
-check if it's "in my maps" and show button remove my maps.
-
+Delete button for map only if user.id = map.createdby
