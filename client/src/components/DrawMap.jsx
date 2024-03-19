@@ -74,7 +74,7 @@ export default function DrawMap({ mapId, setEditAllowed }) {
   // const defaultPosition = ; // Downtown Vancouver, BC coordinates
 
 
-  // console.log("true or false", user.id === maps[0].createdby )
+  //  console.log("true or false", user.id === maps[0].createdby )
 
 
   const defaultPosition = useMemo(() => {
@@ -94,6 +94,8 @@ export default function DrawMap({ mapId, setEditAllowed }) {
 
   //Get data from maps to allow editing only those maps createdby the user, not those public maps created by another user, that can be user by the user, but not edited:
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -105,6 +107,14 @@ export default function DrawMap({ mapId, setEditAllowed }) {
     }
     fetchData()
   }, [mapId])
+
+  useEffect(() => {
+    if (maps && maps.length > 0) {
+    const isUserMap = user.id === maps[0].createdby
+    console.log("is user map", isUserMap)
+    setEditAllowed(isUserMap)
+  }
+  }, [maps])
 
   // Sets the points of the map when a map is loaded
   useEffect(() => {

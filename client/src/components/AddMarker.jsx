@@ -31,7 +31,6 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       setCoord([...coord, newCoordinate]);
       saveMarkers([lat, lng]);
       setRemovePoint(prevState => prevState + 1);
-      setEditAllowed(false)
       } else {
         console.log("You are not authorized to add markers to this map.");
       }
