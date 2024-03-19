@@ -66,6 +66,22 @@ const [editAllowed, setEditAllowed] = useState()
     }
   };
 
+  const removeFromMyMaps = async (id) => {
+    try {
+      const userId = user.id;
+      const mapId = id;
+      await axios.delete(`http://localhost:3500/maps/delete/users/${id}`, {
+        data: {userId}
+      });
+      setMaps(maps.filter(map => map.id !== id));
+      // console.log(`Map with ${id} id deleted`);
+      // navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   if (!user.loggedIn) {
     return <p>Please log in to view maps</p>;
   }
@@ -111,7 +127,7 @@ const [editAllowed, setEditAllowed] = useState()
                   {/* Only show de Delete button if user.id === map.createdby */}
                   {userId === map.createdby ?
                   <button onClick={() => deleteMap(map.id)}>Delete</button> :
-                  <button>Remove from my maps</button>
+                  <button onClick={() => removeFromMyMaps(map.id)}>Remove from my maps</button>
                  }
                 </div>
               ))}

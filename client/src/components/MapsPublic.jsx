@@ -204,7 +204,7 @@ const MapsPublic = () => {
                     ) : (
                       <button onClick={(e) => addToMap(e, index, map.id)}>Add to my maps</button>
                     )}
-                    {/* {map.id && map.id !== null && <PreviewMap mapId={map.id} />} */}
+                    {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
 
 
 
