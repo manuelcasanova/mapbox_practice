@@ -53,9 +53,13 @@ const [editAllowed, setEditAllowed] = useState()
 
   const deleteMap = async (id) => {
     try {
-      await axios.delete(`http://localhost:3500/delete/${id}`);
+      const userId = user.id;
+    const mapCreatedBy = maps.find(map => map.id === id).createdby;
+      await axios.delete(`http://localhost:3500/delete/${id}`, {
+        data: {userId, mapCreatedBy}
+      });
       setMaps(maps.filter(map => map.id !== id));
-      console.log(`Map with ${id} id deleted`);
+      // console.log(`Map with ${id} id deleted`);
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -104,9 +108,11 @@ const [editAllowed, setEditAllowed] = useState()
               {maps.map((map) => (
                 <div key={map.id}>
                   Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
-                  {/* {map.id !== 1 && ( */}
-                  <button onClick={() => deleteMap(map.id)}>Delete</button>
-                  {/* )} */}
+                  {/* Only show de Delete button if user.id === map.createdby */}
+                  {userId === map.createdby ?
+                  <button onClick={() => deleteMap(map.id)}>Delete</button> :
+                  <button>Remove from my maps</button>
+                 }
                 </div>
               ))}
             </div> :

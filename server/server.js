@@ -280,11 +280,22 @@ app.post("/createride", async (req, res) => {
 app.delete("/delete/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    console.log("Deleted map id:", id);
-    await pool.query(
-      "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
-    )
-    res.json("The map was deleted")
+    const userId = req.body.userId
+    const mapCreatedBy = req.body.mapCreatedBy
+    
+    // console.log("Deleted map id:", id);
+
+if (userId === mapCreatedBy) {
+
+  await pool.query(
+    "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
+  )
+  res.json("The map was deleted")
+
+} else {
+  res.json("Map can only be deleted by creator")
+}
+
   } catch (err) {
     console.error(err.message)
   }
