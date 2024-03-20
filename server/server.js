@@ -351,6 +351,31 @@ if (userId === mapCreatedBy) {
   }
 })
 
+//Delete a ride
+app.delete("/ride/delete/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const userId = req.body.userId
+    const rideCreatedBy = req.body.rideCreatedBy
+    
+    // console.log("Deleted map id:", id);
+
+if (userId === rideCreatedBy) {
+
+  await pool.query(
+    "DELETE FROM rides WHERE id = $1 RETURNING *", [id]
+  )
+  res.json("The ride was deleted")
+
+} else {
+  res.json("Ride can only be deleted by creator")
+}
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
 //Remove users from map
 
 app.delete(`/maps/delete/users/:id`, async (req, res) => {

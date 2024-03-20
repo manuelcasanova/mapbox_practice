@@ -50,13 +50,13 @@ const RidesUser = () => {
   const deleteRide = async (id) => {
     try {
       const userId = user.id;
-      console.log("deleteRide", userId)
-    // const mapCreatedBy = maps.find(map => map.id === id).createdby;
-    //   await axios.delete(`http://localhost:3500/delete/${id}`, {
-    //     data: {userId, mapCreatedBy}
-    //   });
-    //   setMaps(maps.filter(map => map.id !== id));
-      // console.log(`Map with ${id} id deleted`);
+      // console.log("deleteRide", userId)
+    const rideCreatedBy = rides.find(ride => ride.id === id).createdby;
+      await axios.delete(`http://localhost:3500/ride/delete/${id}`, {
+        data: {userId, rideCreatedBy}
+      });
+      setRides(rides.filter(ride => ride.id !== id));
+      // console.log(`Ride with ${id} id deleted`);
       // navigate("/");
     } catch (error) {
       console.error(error);
@@ -67,12 +67,12 @@ const RidesUser = () => {
     try {
       const userId = user.id;
       const rideId = id;
-      console.log("remove from my rides", userId, rideId)
+      // console.log("remove from my rides", userId, rideId)
       await axios.delete(`http://localhost:3500/rides/delete/users/${id}`, {
         data: {userId}
       });
       setRides(rides.filter(ride => ride.id !== id)); //HERE HEEEEEERE!
-      console.log(`Ride with ${id} id deleted`);
+      // console.log(`Ride with ${id} id deleted`);
       // navigate("/");
     } catch (error) {
       console.error(error);
