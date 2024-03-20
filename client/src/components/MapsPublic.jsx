@@ -70,6 +70,8 @@ const MapsPublic = () => {
   // Check if the response data is not an empty array before updating the state
   if (Array.isArray(response.data) && response.data.length > 0) {
     setUserMaps(response.data);
+  } else {
+    setUserMaps([])
   }
       } catch (error) {
         console.error('Error fetching user maps:', error);
@@ -79,32 +81,12 @@ const MapsPublic = () => {
     fetchUserMaps();
   }, [userId, addToMyMaps]);
 
-  // useEffect(() => {
-  //   // Check for changes in addToMyMaps state
-  //   // This will trigger when the user clicks "Add to my maps" button
-  //   // and toggles the addToMyMaps state
-  //   // You can perform any necessary actions here
-  //   // For example, you can update other state variables or force a re-render
-  //   //console.log("addToMyMaps changed:", addToMyMaps);
-  // }, [addToMyMaps]);
-
-    // Function to toggle addToMyMaps state for a specific map index
-  // const toggleAddToMyMaps = (index) => {
-  //   console.log("add to my maps before", addToMyMaps)
-  //   setAddToMyMaps(prevState => {
-  //     const newState = [...prevState];
-  //     newState[index] = !newState[index];
-  //     return newState;
-  //   });
-  //   console.log("add to my maps after", addToMyMaps)
-  // };
-
   const toggleAddToMyMaps = (index) => {
-    // console.log("add to my maps before", addToMyMaps);
+    //  console.log("add to my maps before", addToMyMaps);
     setAddToMyMaps(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
-      // console.log("add to my maps after", newState); // Log the updated state
+      //  console.log("add to my maps after", newState); // Log the updated state
       return newState;
     });
   };
