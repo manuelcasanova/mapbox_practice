@@ -569,7 +569,10 @@ app.get("/rides/user/:id", async (req, res) => {
     }
 
     const rides = await pool.query(
-      'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC', [id]
+      // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
+      'SELECT * FROM rides WHERE createdby = $1 UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 ORDER BY id DESC' 
+    
+      , [id]
     );
     res.json(rides.rows)
   } catch (err) {
@@ -577,6 +580,10 @@ app.get("/rides/user/:id", async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+    
+
 
 // -------- END ROUTES --------
 
