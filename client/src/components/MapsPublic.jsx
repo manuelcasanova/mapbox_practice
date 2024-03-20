@@ -4,6 +4,7 @@ import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
 
+
 const MapsPublic = () => {
   const [maps, setMaps] = useState([]);
   const [error, setError] = useState(null);
@@ -12,16 +13,8 @@ const MapsPublic = () => {
   const [userMaps, setUserMaps] = useState([]);
   const { user } = useAuth();
 
-
-
-  // console.log("addtomymaps", addToMyMaps)
-
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
-
-  // useEffect(() => {
-  //     console.log("add to my maps", addToMyMaps)
-  // }, [addToMyMaps])
 
   useEffect(() => {
     let isMounted = true;

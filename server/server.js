@@ -228,6 +228,56 @@ app.delete("/maps/removeuser", async (req, res) => {
 });
 
 
+//Remove user from ride
+app.delete("/rides/removeuser", async (req, res) => {
+  try {
+    // Check if user ID and map ID are provided
+    const userId = req.body.userId;
+    const rideId = req.body.rideId;
+    // console.log("userId", userId)
+    // console.log("rideId", rideId)
+    if (!userId || !rideId) {
+      return res.status(400).json({ message: "User ID and ride ID are required" });
+    }
+    
+    // Delete the user from the ride_users table
+    const query = {
+      text: 'DELETE FROM ride_users WHERE ride_id = $1 AND user_id = $2',
+      values: [rideId, userId]
+    };
+    await pool.query(query);
+
+    return res.status(200).json({ message: "User successfully removed from the map" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+//Add user to ride
+app.post("/rides/adduser", async (req, res) => {
+  try {
+    // Check if user is logged in
+    // console.log("req.body", req.body)
+    if (!req.body.userId || !req.body.userIsLoggedIn) {
+      return res.status(401).json({ message: "A user needs to be logged in" });
+    }
+    // Insert the user to the ride_users table
+    const query = {
+      text: 'INSERT INTO ride_users (ride_id, user_id) VALUES ($1, $2)',
+      values: [req.body.rideId, req.body.userId]
+    };
+    await pool.query(query);
+
+
+    return res.status(200).json({ message: "User successfully added to the ride" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
 
 //Create a ride
 app.post("/createride", async (req, res) => {
@@ -406,6 +456,22 @@ app.get("/maps/otherusers", async (req, res) => {
     // console.log("maps", maps.rows)
     res.json(maps.rows)
     // console.log("maps.rows", maps.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+//Get rides with other users
+app.get("/rides/otherusers", async (req, res) => {
+  try {
+
+    const userId = req.query.userId;
+    const rides = await pool.query(
+      'SELECT * FROM ride_users'
+    );
+    // console.log("maps", rides.rows)
+    res.json(rides.rows)
+    // console.log("maps.rows", rides.rows)
   } catch (err) {
     console.error(err.message)
   }

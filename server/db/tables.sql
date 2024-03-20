@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS maps CASCADE;
 DROP TABLE IF EXISTS points CASCADE;
 DROP TABLE IF EXISTS rides CASCADE;
 DROP TABLE IF EXISTS map_users CASCADE;
+DROP TABLE IF EXISTS ride_users CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -25,12 +26,6 @@ CREATE TABLE maps (
   createdBy INTEGER REFERENCES users(id) ON DELETE CASCADE,
   createdAt timestamp,
   isPrivate boolean DEFAULT true
-);
-
-CREATE TABLE map_users (
-  map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  PRIMARY KEY (map_id, user_id)
 );
 
 CREATE TABLE points (
@@ -61,6 +56,19 @@ CREATE TABLE rides (
   comments JSONB,
   difficulty VARCHAR(50)
 );
+
+CREATE TABLE map_users (
+  map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  PRIMARY KEY (map_id, user_id)
+);
+
+CREATE TABLE ride_users (
+  ride_id INTEGER REFERENCES rides(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  isprivate boolean DEFAULT true
+);
+
 
 
 
