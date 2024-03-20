@@ -8,7 +8,7 @@ const UsersAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-console.log("users", users)
+// console.log("users", users)
 
   useEffect(() => {
     let isMounted = true;

@@ -77,6 +77,17 @@ const RidesUser = () => {
                     <div>Speed: {ride.speed} km/h</div>
                     <div>Meeting Point: {ride.meeting_point}</div>
                     <div>Created By: {ride.createdby}</div>
+                  
+                    {console.log(user.id, ride.createdby)}
+                    {user.id === ride.createdby ?
+                  <button
+                  //  onClick={() => deleteMap(map.id)}
+                   >Delete</button> :
+                  <button 
+                  // onClick={() => removeFromMyMaps(map.id)}
+                  >Remove from my rides</button>
+                 }
+              
                     {ride.map && ride.map !== null && ride.map !== undefined && <PreviewMap mapId={ride.map} />}
           
                   </div>
