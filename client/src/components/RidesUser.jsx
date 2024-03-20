@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
@@ -10,6 +11,8 @@ const RidesUser = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   const id = user ? user.id : null;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     let isMounted = true;
@@ -43,6 +46,38 @@ const RidesUser = () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, [id]);
+
+  const deleteRide = async (id) => {
+    try {
+      const userId = user.id;
+      console.log("deleteRide", userId)
+    // const mapCreatedBy = maps.find(map => map.id === id).createdby;
+    //   await axios.delete(`http://localhost:3500/delete/${id}`, {
+    //     data: {userId, mapCreatedBy}
+    //   });
+    //   setMaps(maps.filter(map => map.id !== id));
+      // console.log(`Map with ${id} id deleted`);
+      // navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removeFromMyRides = async (id) => {
+    try {
+      const userId = user.id;
+      const rideId = id;
+      console.log("remove from my rides", userId, rideId)
+      await axios.delete(`http://localhost:3500/rides/delete/users/${id}`, {
+        data: {userId}
+      });
+      setRides(rides.filter(ride => ride.id !== id)); //HERE HEEEEEERE!
+      console.log(`Ride with ${id} id deleted`);
+      // navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -78,14 +113,14 @@ const RidesUser = () => {
                     <div>Meeting Point: {ride.meeting_point}</div>
                     <div>Created By: {ride.createdby}</div>
                   
-                    {console.log(user.id, ride.createdby)}
+                    {/* {console.log(user.id, ride.createdby)} */}
                     {user.id === ride.createdby ?
                   <button
-                  //  onClick={() => deleteMap(map.id)}
+                   onClick={() => deleteRide(ride.id)}
                    >Delete</button> :
                   <button 
-                  // onClick={() => removeFromMyMaps(map.id)}
-                  >Remove from my rides</button>
+                  onClick={() => removeFromMyRides(ride.id)}>Remove from my rides
+                  </button>
                  }
               
                     {ride.map && ride.map !== null && ride.map !== undefined && <PreviewMap mapId={ride.map} />}

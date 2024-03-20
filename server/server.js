@@ -376,6 +376,31 @@ app.delete(`/maps/delete/users/:id`, async (req, res) => {
   }
 });
 
+//Remove users from ride
+
+app.delete(`/rides/delete/users/:id`, async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const rideId = req.params.id;
+
+    if (!userId || !rideId) {
+      return res.status(400).json({ message: "User ID and map ID are required" });
+    }
+
+    // Delete the user from the map_users table
+    const query = {
+      text: 'DELETE FROM ride_users WHERE ride_id = $1 AND user_id = $2',
+      values: [rideId, userId]
+    };
+    await pool.query(query);
+
+    return res.status(200).json({ message: "User successfully removed from the ride" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 
 /*
 app.delete("/maps/removeuser", async (req, res) => {
