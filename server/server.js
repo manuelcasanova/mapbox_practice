@@ -258,14 +258,14 @@ app.delete("/rides/removeuser", async (req, res) => {
 app.post("/rides/adduser", async (req, res) => {
   try {
     // Check if user is logged in
-    // console.log("req.body", req.body)
+    //  console.log("req.body", req.body)
     if (!req.body.userId || !req.body.userIsLoggedIn) {
       return res.status(401).json({ message: "A user needs to be logged in" });
     }
     // Insert the user to the ride_users table
     const query = {
-      text: 'INSERT INTO ride_users (ride_id, user_id) VALUES ($1, $2)',
-      values: [req.body.rideId, req.body.userId]
+      text: 'INSERT INTO ride_users (ride_id, user_id, isprivate) VALUES ($1, $2, $3)',
+      values: [req.body.rideId, req.body.userId, req.body.isPrivate]
     };
     await pool.query(query);
 

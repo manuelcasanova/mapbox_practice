@@ -105,12 +105,12 @@ const RidesPublic = () => {
   };
 
   //Function to add user to ride
-  const addToRide = async (e, index, rideId) => {
+  const addToRide = async (e, index, rideId, isPrivate) => {
     e.preventDefault();
     try {
       // console.log("Adding to ride...");
       await axios.post(`http://localhost:3500/rides/adduser`, {
-        userId, userIsLoggedIn, rideId
+        userId, userIsLoggedIn, rideId, isPrivate
       });
       // console.log("Successfully added to ride.");
       toggleAddToMyRides(index); // Toggle state for the clicked ride
@@ -223,8 +223,10 @@ const RidesPublic = () => {
                       <button onClick={(e) => removeFromRide(e, index, ride.id)}>Remove from my rides</button>
 
                     ) : (
-                      <button onClick={(e) => addToRide(e, index, ride.id)}>Add to my rides</button>
-
+                      <div>
+                      <button onClick={(e) => addToRide(e, index, ride.id, true)}>Join ride privately</button>
+                      <button onClick={(e) => addToRide(e, index, ride.id, false)}>Join ride privately</button>
+                      </div>
                     )}
 
 
