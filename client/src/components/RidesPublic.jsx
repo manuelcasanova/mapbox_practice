@@ -18,9 +18,9 @@ const RidesPublic = () => {
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const { user } = useAuth();
 
-// console.log("rides", rides)
+  //  console.log("rides", rides)
 
-  //  console.log("userRides", userRides) //{ride_id: 2, user_id: 2, isprivate: true}
+  console.log("userRides", userRides) //{ride_id: 2, user_id: 2, isprivate: true}
 
   // console.log("rides", rides)
   // console.log("users", users)
@@ -30,7 +30,7 @@ const RidesPublic = () => {
 
   useEffect(() => {
     let isMounted = true;
-fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -79,12 +79,12 @@ fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
             userId
           }
         });
-  // Check if the response data is not an empty array before updating the state
-  if (Array.isArray(response.data) && response.data.length > 0) {
-    setUserRides(response.data);
-  } else {
-    setUserRides([])
-  }
+        // Check if the response data is not an empty array before updating the state
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          setUserRides(response.data);
+        } else {
+          setUserRides([])
+        }
       } catch (error) {
         console.error('Error fetching user rides:', error);
       }
@@ -109,7 +109,7 @@ fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
     e.preventDefault();
     try {
       // console.log("Adding to ride...");
-      await axios.post(`http://localhost:3500/rides/adduser`, {
+      await axios.post(`http://localhost:3500/user`, {
         userId, userIsLoggedIn, rideId
       });
       // console.log("Successfully added to ride.");
@@ -186,31 +186,32 @@ fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
                     <div>Speed: {ride.speed} km/h</div>
                     <div>Meeting Point: {ride.meeting_point}</div>
                     <div>Created By: {
-  users.find(user => user.id === ride.createdby)?.username || "Unknown User"
-}</div>
+                      users.find(user => user.id === ride.createdby)?.username || "Unknown User"
+                    }</div>
 
-                    {userRides.length ? 
-                    <div>
-                    <div>{userRides.filter(ride => ride.isPrivate).length} joined this ride privately</div>
-                    <div>{userRides.filter(ride => !ride.isPrivate).length} joined this ride publicly:</div>
+                    {userRides.length ?
+                      <div>
+                        <div>{userRides.filter(ride => ride.isprivate).length} joined this ride privately</div>
+                        <div>{userRides.filter(ride => !ride.isprivate).length} joined this ride publicly:</div>
 
-                                      <div>
-                                      {
-  userRides
-    .filter(userRide => userRide.ride_id === ride.id)
-    .map(userRide => {
-      const user = users.find(user => user.id === userRide.user_id);
-      return user ? user.username : ""; // return username if user found, otherwise an empty string
-    })
-    .join(', ')
+                        <div>
+                        {userRides
+  .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
+  .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+  .map(userRide => {
+    const user = users.find(user => user.id === userRide.user_id);
+    return user ? user.username : ""; // Return username if user found, otherwise an empty string
+  })
+  .join(', ')
 }
 
-                                    </div> 
-                                    </div>
-                                    :
-                                    <div>No users have joined this ride</div>  
-                                   
-                  }
+
+                        </div>
+                      </div>
+                      :
+                      <div>No users have joined this ride</div>
+
+                    }
 
 
 
