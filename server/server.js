@@ -57,7 +57,7 @@ app.get("/users/follow", async (req, res) => {
 
     if (req.query.user && req.query.user.loggedIn) {
       const rides = await pool.query(
-        'SELECT * FROM users ORDER BY username'
+        'SELECT id, username FROM users ORDER BY username'
       );
       res.json(rides.rows)
     } else {

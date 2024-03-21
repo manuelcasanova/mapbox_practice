@@ -5,20 +5,36 @@ import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
 import RidesFilter from './RidesFilter';
 
+
+//Util functions
+import fetchUsernameAndId from './util_functions/FetchUsername'
+
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRides, setAddToMyRides] = useState([])
   const [userRides, setUserRides] = useState([]);
+  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const { user } = useAuth();
 
-   //console.log("userRides", userRides) //{ride_id: 2, user_id: 2, isprivate: true}
+// console.log("rides", rides)
+
+  //  console.log("userRides", userRides) //{ride_id: 2, user_id: 2, isprivate: true}
 
   // console.log("rides", rides)
+  // console.log("users", users)
 
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
+
+  useEffect(() => {
+    let isMounted = true;
+fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    return () => {
+      isMounted = false; // Cleanup function to handle unmounting
+    };
+  }, [user]);
 
   useEffect(() => {
     let isMounted = true;
@@ -169,18 +185,26 @@ const RidesPublic = () => {
                     <div>Distance: {ride.distance} km</div>
                     <div>Speed: {ride.speed} km/h</div>
                     <div>Meeting Point: {ride.meeting_point}</div>
-                    <div>Created By: {ride.createdby}</div>
+                    <div>Created By: {
+  users.find(user => user.id === ride.createdby)?.username || "Unknown User"
+}</div>
+
                     {userRides.length ? 
                     <div>
                     <div>{userRides.filter(ride => ride.isPrivate).length} joined this ride privately</div>
                     <div>{userRides.filter(ride => !ride.isPrivate).length} joined this ride publicly:</div>
 
                                       <div>
-                                      {userRides
-                                        .filter(userRide => userRide.ride_id === ride.id)
-                                        .map(userRide => userRide.user_id)
-                                        .join(', ')
-                                      }
+                                      {
+  userRides
+    .filter(userRide => userRide.ride_id === ride.id)
+    .map(userRide => {
+      const user = users.find(user => user.id === userRide.user_id);
+      return user ? user.username : ""; // return username if user found, otherwise an empty string
+    })
+    .join(', ')
+}
+
                                     </div> 
                                     </div>
                                     :

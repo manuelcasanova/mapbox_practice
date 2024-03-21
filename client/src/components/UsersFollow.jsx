@@ -2,42 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from "./Context/AuthContext";
 
+//Util functions
+import fetchUsernameAndId from './util_functions/FetchUsername'
+
 const UsersFollow = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-// console.log("users", users)
+//  console.log("users", users)
 
   useEffect(() => {
     let isMounted = true;
-
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3500/users/follow', {
-          params: {
-            user: user 
-          }
-        });
-        if (isMounted) {
-          setUsers(response.data);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        if (isMounted) {
-          if (error.response && error.response.data && error.response.data.error) {
-            setError(error.response.data.error)
-          } else {
-            setError(error.message)
-          }
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-
+fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
