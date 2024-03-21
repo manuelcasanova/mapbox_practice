@@ -1,10 +1,16 @@
-Join a ride (privately or not)
-Show hoy many riders joined a ride
-Add rides created by other user to my rides if I'm following them
+
+Show hoy many riders joined a ride - DONE, but missing private vs public
+
+Join a ride (privately or not) - DONE, but missing private vs public
+
 Logic to filter rides on rides/public
 
 
 DONE
+
+
+
+Add rides created by other user to my rides if I'm following them
 
 Implement logic and backend logic to remove from my maps from "manage my maps"
 

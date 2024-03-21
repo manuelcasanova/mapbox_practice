@@ -595,7 +595,7 @@ app.get("/rides/public", async (req, res) => {
   try {
     if (req.query.user && req.query.user.loggedIn) {
       const rides = await pool.query(
-        'SELECT * FROM rides WHERE isprivate = false'
+         'SELECT * FROM rides WHERE isprivate = false'        
       );
       res.json(rides.rows)
     } else {

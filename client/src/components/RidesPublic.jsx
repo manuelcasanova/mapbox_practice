@@ -13,6 +13,10 @@ const RidesPublic = () => {
   const [userRides, setUserRides] = useState([]);
   const { user } = useAuth();
 
+  // console.log("userRides", userRides) //{ride_id: 2, user_id: 2, isprivate: true}
+
+  // console.log("rides", rides)
+
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 
@@ -166,6 +170,13 @@ const RidesPublic = () => {
                     <div>Speed: {ride.speed} km/h</div>
                     <div>Meeting Point: {ride.meeting_point}</div>
                     <div>Created By: {ride.createdby}</div>
+                    <div>Ride joined by: 
+  {userRides
+    .filter(userRide => userRide.ride_id === ride.id)
+    .map(userRide => userRide.user_id)
+    .join(', ')
+  }
+</div>
 
                     {isUserRide ? (
                       <div></div>

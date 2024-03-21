@@ -71,7 +71,7 @@ const RidesUser = () => {
       await axios.delete(`http://localhost:3500/rides/delete/users/${id}`, {
         data: {userId}
       });
-      setRides(rides.filter(ride => ride.id !== id)); //HERE HEEEEEERE!
+      setRides(rides.filter(ride => ride.id !== id)); 
       // console.log(`Ride with ${id} id deleted`);
       // navigate("/");
     } catch (error) {
