@@ -17,10 +17,10 @@ const RidesPublic = () => {
   const [userRides, setUserRides] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const { user } = useAuth();
-
+// console.log("user", user)
   //  console.log("rides", rides)
 
-  console.log("userRides", userRides) //{ride_id: 2, user_id: 2, isprivate: true}
+  // console.log("userRides", userRides) //{ride_id: 2, user_id: 2, isprivate: true}
 
   // console.log("rides", rides)
   // console.log("users", users)
@@ -109,7 +109,7 @@ const RidesPublic = () => {
     e.preventDefault();
     try {
       // console.log("Adding to ride...");
-      await axios.post(`http://localhost:3500/user`, {
+      await axios.post(`http://localhost:3500/rides/adduser`, {
         userId, userIsLoggedIn, rideId
       });
       // console.log("Successfully added to ride.");
