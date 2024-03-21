@@ -4,6 +4,8 @@ import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
 
+//Util functions
+import fetchUsernameAndId from './util_functions/FetchUsername'
 
 const MapsPublic = () => {
   const [maps, setMaps] = useState([]);
@@ -11,10 +13,21 @@ const MapsPublic = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyMaps, setAddToMyMaps] = useState([])
   const [userMaps, setUserMaps] = useState([]);
+  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
   const { user } = useAuth();
 
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    return () => {
+      isMounted = false; // Cleanup function to handle unmounting
+    };
+  }, [user]);
+
+  console.log("users in Maps Public", users)
 
   useEffect(() => {
     let isMounted = true;
@@ -164,7 +177,9 @@ const MapsPublic = () => {
                   <div key={map.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 
                     <div>Name: {map.title}</div>
-                    <div>Created by: {map.createdby}</div>
+                    <div>Created by: {
+  users.find(user => user.id === map.createdby)?.username || "Unknown User"
+}</div>
 
 
                     {/* {console.log(`The logged in user is ${userId}, the map id is ${map.id}, the owner of the map is ${map.createdby}, is ${userId} inside the map ${map.id}? According to the variable isUserInMap ${isUserInMap}`)} */}

@@ -225,7 +225,7 @@ const RidesPublic = () => {
                     ) : (
                       <div>
                       <button onClick={(e) => addToRide(e, index, ride.id, true)}>Join ride privately</button>
-                      <button onClick={(e) => addToRide(e, index, ride.id, false)}>Join ride privately</button>
+                      <button onClick={(e) => addToRide(e, index, ride.id, false)}>Join ride publicly</button>
                       </div>
                     )}
 
