@@ -10,6 +10,7 @@ export default function AllMaps({ fromButton, setFromButton }) {
   // const [mapId, setMapId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
+  const [fake, setFake] = useState(false)
 
 //State used to show message "You cannot edit a public map created by another user"
 const [editAllowed, setEditAllowed] = useState()
@@ -49,7 +50,7 @@ const [editAllowed, setEditAllowed] = useState()
       isMounted = false;
       controller.abort();
     };
-  }, [userId, setMapId]);
+  }, [userId, setMapId, fake]);
 
   const deleteMap = async (id) => {
     try {
@@ -116,7 +117,7 @@ const [editAllowed, setEditAllowed] = useState()
 
 
 
-          <DrawMap mapId={mapId} setEditAllowed={setEditAllowed} />
+          <DrawMap mapId={mapId} setEditAllowed={setEditAllowed} fake={fake} setFake={setFake}/>
 
 
            {fromButton ?
