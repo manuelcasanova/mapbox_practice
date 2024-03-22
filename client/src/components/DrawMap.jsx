@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -11,8 +12,6 @@ import AddMarker from "./AddMarker";
 import { useAuth } from "./Context/AuthContext";
 
 import { useCoords } from '../components/util_functions/GetBrowserLocation';
-
-
 
 L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
@@ -51,16 +50,19 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 }
 
 
-export default function DrawMap({ mapId, setEditAllowed }) {
 
-  const { user } = useAuth();
+
+export default function DrawMap({ setEditAllowed }) {
+
+  const { user, mapId, setMapId } = useAuth();
+  const [maps, setMaps] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // console.log("userid", user.id)
   const { browCoords } = useCoords();
 
   // console.log("brow coords", browCoords)
 
-  const [maps, setMaps] = useState();
 
 
   // console.log("createdby id in draw map", maps[0].createdby)
@@ -73,7 +75,7 @@ export default function DrawMap({ mapId, setEditAllowed }) {
   const [removePoint, setRemovePoint] = useState(0)
   // const defaultPosition = ; // Downtown Vancouver, BC coordinates
 
-
+  const navigate = useNavigate();
   //  console.log("true or false", user.id === maps[0].createdby )
 
 
@@ -93,7 +95,69 @@ export default function DrawMap({ mapId, setEditAllowed }) {
   // console.log("points", points)
 
   //Get data from maps to allow editing only those maps createdby the user, not those public maps created by another user, that can be user by the user, but not edited:
+  const userId = user.id;
 
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3500/maps', {
+          params: { userId },
+          signal: controller.signal
+        });
+        if (isMounted) {
+          setMaps(response.data);
+          // Set the initial mapId to the id of the first map if available
+          if (response.data.length > 0) {
+            setMapId(response.data[0].id);
+          }
+          setIsLoading(false);
+        }
+      } catch (error) {
+        if (error.name !== 'CanceledError') {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, [userId, setMapId]);
+
+  const deleteMap = async (id) => {
+    try {
+      const userId = user.id;
+    const mapCreatedBy = maps.find(map => map.id === id).createdby;
+      await axios.delete(`http://localhost:3500/delete/${id}`, {
+        data: {userId, mapCreatedBy}
+      });
+      setMaps(maps.filter(map => map.id !== id));
+      console.log(`Map with ${id} id deleted`);
+      // navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const removeFromMyMaps = async (id) => {
+    try {
+      const userId = user.id;
+      await axios.delete(`http://localhost:3500/maps/delete/users/${id}`, {
+        data: {userId}
+      });
+      setMaps(maps.filter(map => map.id !== id));
+      console.log(`Map with ${id} id removed`);
+      // navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   useEffect(() => {
@@ -262,8 +326,10 @@ export default function DrawMap({ mapId, setEditAllowed }) {
       <p>Latitude: {browCoords[0]}</p>
       <p>Longitude: {browCoords[1]}</p>
     </div> */}
+    {/* {console.log("maps", maps)} */}
 
-        {maps && user.id === maps[0].createdby &&
+        {
+        // maps && user.id === maps[0].createdby &&
           <div className="deletebuttons">
 
             <img
@@ -323,6 +389,13 @@ export default function DrawMap({ mapId, setEditAllowed }) {
           <LocationMarker />
 
         </MapContainer>
+
+        {
+         maps.length && user.id === maps[0].createdby ? 
+         <button onClick={() => deleteMap(maps[0].id)}>Delete</button> :
+         <button onClick={() => removeFromMyMaps(maps[0].id)}>Remove from my maps</button>
+         }
+
       </>
     </div>
 

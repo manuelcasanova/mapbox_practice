@@ -27,7 +27,7 @@ const MapsPublic = () => {
     };
   }, [user]);
 
-  console.log("users in Maps Public", users)
+  // console.log("users in Maps Public", users)
 
   useEffect(() => {
     let isMounted = true;

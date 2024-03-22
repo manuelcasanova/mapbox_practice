@@ -119,7 +119,7 @@ const [editAllowed, setEditAllowed] = useState()
           <DrawMap mapId={mapId} setEditAllowed={setEditAllowed} />
 
 
-          {fromButton ?
+           {fromButton ?
             <div className="mapslist">
               {maps.map((map) => (
                 <div key={map.id}>
@@ -140,8 +140,9 @@ const [editAllowed, setEditAllowed] = useState()
 
 
             </div>
-            // <div>Step 3: Create a ride or manage my maps</div>
-          }
+       
+          } 
+  
           {done && <div>STEP 3:
             <button
               onClick={() => {
