@@ -52,10 +52,9 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 
 
-export default function DrawMap({ setEditAllowed, fake, setFake }) {
+export default function DrawMap({ setEditAllowed, maps, setMaps}) {
 
   const { user, mapId, setMapId } = useAuth();
-  const [maps, setMaps] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // console.log("userid", user.id)
@@ -153,7 +152,6 @@ export default function DrawMap({ setEditAllowed, fake, setFake }) {
       });
       setMaps(maps.filter(map => map.id !== id));
       console.log(`Map with ${id} id removed`);
-      setFake(prev => !prev)
       // navigate("/");
     } catch (error) {
       console.error(error);
