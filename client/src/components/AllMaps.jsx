@@ -10,11 +10,13 @@ export default function AllMaps({ fromButton, setFromButton }) {
   // const [mapId, setMapId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
-console.log("done", done)
-console.log("frombutton", fromButton)
-//State used to show message "You cannot edit a public map created by another user"
-const [editAllowed, setEditAllowed] = useState()
-// console.log("edit allowed", editAllowed)
+  console.log("maps", maps)
+  console.log("mapId", mapId)
+  // console.log("done", done)
+  console.log("frombutton", fromButton)
+  //State used to show message "You cannot edit a public map created by another user"
+  const [editAllowed, setEditAllowed] = useState()
+  // console.log("edit allowed", editAllowed)
   const navigate = useNavigate();
 
   const userId = user.id;
@@ -30,10 +32,12 @@ const [editAllowed, setEditAllowed] = useState()
           signal: controller.signal
         });
         if (isMounted) {
-          setMaps(response.data);
-          // Set the initial mapId to the id of the first map if available
-          if (response.data.length > 0) {
-            setMapId(response.data[0].id);
+          if (JSON.stringify(response.data) !== JSON.stringify(maps)) {
+            setMaps(response.data);
+            // Set the initial mapId to the id of the first map if available
+            if (response.data.length > 0 && mapId === undefined) {
+              setMapId(response.data[0].id);
+            }
           }
           setIsLoading(false);
         }
@@ -50,14 +54,14 @@ const [editAllowed, setEditAllowed] = useState()
       isMounted = false;
       controller.abort();
     };
-  }, [userId, setMapId]);
+  }, [userId, maps]);
 
   const deleteMap = async (id) => {
     try {
       const userId = user.id;
-    const mapCreatedBy = maps.find(map => map.id === id).createdby;
+      const mapCreatedBy = maps.find(map => map.id === id).createdby;
       await axios.delete(`http://localhost:3500/delete/${id}`, {
-        data: {userId, mapCreatedBy}
+        data: { userId, mapCreatedBy }
       });
       setMaps(maps.filter(map => map.id !== id));
       // console.log(`Map with ${id} id deleted`);
@@ -72,7 +76,7 @@ const [editAllowed, setEditAllowed] = useState()
       const userId = user.id;
       const mapId = id;
       await axios.delete(`http://localhost:3500/maps/delete/users/${id}`, {
-        data: {userId}
+        data: { userId }
       });
       setMaps(maps.filter(map => map.id !== id));
       // console.log(`Map with ${id} id deleted`);
@@ -107,20 +111,20 @@ const [editAllowed, setEditAllowed] = useState()
               ))}
             </select>}
 
-            {!editAllowed ? (
-        <div>Only users that created a map can modify them</div>
-      ) : (
-        fromButton ?
-          <div>Add, edit or remove markers</div> :
-          <div>STEP 2: Add, edit or remove markers</div>
-      )}
+          {!editAllowed ? (
+            <div>Only users that created a map can modify them</div>
+          ) : (
+            fromButton ?
+              <div>Add, edit or remove markers</div> :
+              <div>STEP 2: Add, edit or remove markers</div>
+          )}
 
 
 
-          <DrawMap mapId={mapId} setEditAllowed={setEditAllowed} maps={maps} setMaps={setMaps}/>
+          <DrawMap mapId={mapId} setEditAllowed={setEditAllowed} maps={maps} setMaps={setMaps} />
 
 
-           {!fromButton &&
+          {!fromButton &&
             // <div className="mapslist">
             //   {maps.map((map) => (
             //     <div key={map.id}>
@@ -141,9 +145,9 @@ const [editAllowed, setEditAllowed] = useState()
 
 
             </div>
-       
-          } 
-  
+
+          }
+
           {done && <div>STEP 3:
             <button
               onClick={() => {
