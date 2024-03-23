@@ -10,7 +10,8 @@ export default function AllMaps({ fromButton, setFromButton }) {
   // const [mapId, setMapId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
-
+console.log("done", done)
+console.log("frombutton", fromButton)
 //State used to show message "You cannot edit a public map created by another user"
 const [editAllowed, setEditAllowed] = useState()
 // console.log("edit allowed", editAllowed)
@@ -119,19 +120,19 @@ const [editAllowed, setEditAllowed] = useState()
           <DrawMap mapId={mapId} setEditAllowed={setEditAllowed} maps={maps} setMaps={setMaps}/>
 
 
-           {fromButton ?
-            <div className="mapslist">
-              {maps.map((map) => (
-                <div key={map.id}>
-                  Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
-                  {/* Only show de Delete button if user.id === map.createdby */}
-                  {userId === map.createdby ?
-                  <button onClick={() => deleteMap(map.id)}>Delete</button> :
-                  <button onClick={() => removeFromMyMaps(map.id)}>Remove from my maps</button>
-                 }
-                </div>
-              ))}
-            </div> :
+           {!fromButton &&
+            // <div className="mapslist">
+            //   {maps.map((map) => (
+            //     <div key={map.id}>
+            //       Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
+            //       {/* Only show de Delete button if user.id === map.createdby */}
+            //       {userId === map.createdby ?
+            //       <button onClick={() => deleteMap(map.id)}>Delete</button> :
+            //       <button onClick={() => removeFromMyMaps(map.id)}>Remove from my maps</button>
+            //      }
+            //     </div>
+            //   ))}
+            // </div> :
             <div>
               {!done && <button
                 onClick={() => setDone(true)}
