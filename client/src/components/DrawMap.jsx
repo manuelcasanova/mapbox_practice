@@ -61,7 +61,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) 
 
 
   useEffect (() => {
-    console.log(`Draw map -> User.id: ${user.id}, mapId: ${mapId}`)
+    // console.log(`Draw map -> User.id: ${user.id}, mapId: ${mapId}`)
 // console.log('Maps', maps)
   }, [mapId])
 
@@ -106,7 +106,13 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) 
           signal: controller.signal
         });
         if (isMounted) {
-          setMaps(response.data);
+          setMaps(prevMaps => {
+            // Ensure that only update is made if maps have changed
+            if (JSON.stringify(response.data) !== JSON.stringify(prevMaps)) {
+              return response.data;
+            }
+            return prevMaps; // If maps haven't changed, return previous state
+          });
           // Set the initial mapId to the id of the first map if available
           if (response.data.length > 0) {
             setMapId(response.data[0].id);
@@ -135,7 +141,9 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) 
       await axios.delete(`http://localhost:3500/delete/${id}`, {
         data: {userId, mapCreatedBy}
       });
-      setMaps(maps.filter(map => map.id !== id));
+      // setMaps(maps.filter(map => map.id !== id));
+      setMaps([]) //It will be filled from the parent component through the useEffect
+    
       console.log(`Map with ${id} id deleted`);
       // navigate("/");
     } catch (error) {
@@ -149,11 +157,11 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) 
       await axios.delete(`http://localhost:3500/maps/delete/users/${id}`, {
         data: {userId}
       });
-      setMaps(maps.filter(map => map.id !== id));
-      console.log(`Map with ${id} id removed`);
+      // setMaps([maps.filter(map => map.id !== id)]);
+      setMaps([]) //It will be filled from the parent component through the useEffect
+      // console.log(`Map with ${id} id removed`);
       // navigate("/");
     } catch (error) {
-      console.error(error);
     }
   };
 
@@ -374,7 +382,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) 
         </MapContainer>
 
         {
-         maps.length && user.id === maps[0].createdby ? 
+         maps.length && editAllowed ? 
          <button onClick={() => deleteMap(maps[0].id)}>Delete</button> :
          <button onClick={() => removeFromMyMaps(maps[0].id)}>Remove from my maps</button>
          }

@@ -13,8 +13,9 @@ export default function AllMaps({ fromButton, setFromButton }) {
   // console.log("frombutton", fromButton)
   //State used to show message "You cannot edit a public map created by another user"
 
+
   useEffect(() => {
-    // console.log(`All maps -> User.id: ${user.id}, mapId: ${mapId}`)
+    //  console.log(`All maps -> User.id: ${user.id}, mapId: ${mapId}`)
     // console.log('Maps', maps)
   }, [mapId])
 
