@@ -4,7 +4,7 @@ import axios from "axios";
 import { icon_black, icon_green, icon_flag } from "./img/Icons";
 import { useAuth } from "./Context/AuthContext";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition, maps, setEditAllowed}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition, maps}) {
 
 
 

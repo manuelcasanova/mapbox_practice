@@ -52,19 +52,14 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 
 
-export default function DrawMap({ setEditAllowed, maps, setMaps}) {
+export default function DrawMap({ maps, setMaps}) {
 
   const { user, mapId, setMapId } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
-  // console.log("userid", user.id)
   const { browCoords } = useCoords();
 
-  // console.log("brow coords", browCoords)
 
-
-
-  // console.log("createdby id in draw map", maps[0].createdby)
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -173,12 +168,7 @@ export default function DrawMap({ setEditAllowed, maps, setMaps}) {
 
 //Modifies the frontend message if user can edit the map (created by them) or not. 
 
-  useEffect(() => {
-    if (maps && maps.length > 0) {
-    const isUserMap = user.id === maps[0].createdby
-    setEditAllowed(isUserMap)
-  }
-  }, [maps])
+
 
   // Sets the points of the map when a map is loaded
   useEffect(() => {
@@ -259,17 +249,6 @@ export default function DrawMap({ setEditAllowed, maps, setMaps}) {
     markersState.data
   ]);
 
-
-  // useEffect(() => {
-  //   if (coordinadasPara.length === 0) {
-  //     setBounds(defaultPosition);
-  //   } else {
-  //     const southwest = [coordinadasPara[0][0], coordinadasPara[0][1]];
-  //     const northeast = [coordinadasPara[coordinadasPara.length - 1][0], coordinadasPara[coordinadasPara.length - 1][1]];
-  //     setBounds([southwest, northeast]);
-
-  //   }
-  // }, [coordinadasPara]);
 
 
   //Add new markers to the local state, update the state with the new data, prepare to send the data to the server (body), send the post request (axios). 
@@ -365,7 +344,7 @@ export default function DrawMap({ setEditAllowed, maps, setMaps}) {
             setCoord={setCoord}
             mapId={mapId}
             defaultPosition={defaultPosition}
-            setEditAllowed={setEditAllowed}
+      
           />
 
 
