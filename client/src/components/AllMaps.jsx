@@ -7,17 +7,15 @@ import DrawMap from "./DrawMap";
 export default function AllMaps({ fromButton, setFromButton }) {
   const { user, mapId, setMapId } = useAuth();
   const [maps, setMaps] = useState([]);
-  // const [mapId, setMapId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
-  // console.log("frombutton", fromButton)
-  //State used to show message "You cannot edit a public map created by another user"
 
+  // console.log("mapId All Maps", mapId)
 
-  useEffect(() => {
+  // useEffect(() => {
     //  console.log(`All maps -> User.id: ${user.id}, mapId: ${mapId}`)
     // console.log('Maps', maps)
-  }, [mapId])
+  // }, [mapId])
 
 const parseIntMapId = parseInt(mapId)
 
@@ -60,37 +58,8 @@ const parseIntMapId = parseInt(mapId)
       isMounted = false;
       controller.abort();
     };
-  }, [userId, maps]);
+  }, [maps, mapId]);
 
-  const deleteMap = async (id) => {
-    try {
-      const userId = user.id;
-      const mapCreatedBy = maps.find(map => map.id === id).createdby;
-      await axios.delete(`http://localhost:3500/delete/${id}`, {
-        data: { userId, mapCreatedBy }
-      });
-      setMaps(maps.filter(map => map.id !== id));
-      // console.log(`Map with ${id} id deleted`);
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const removeFromMyMaps = async (id) => {
-    try {
-      const userId = user.id;
-      const mapId = id;
-      await axios.delete(`http://localhost:3500/maps/delete/users/${id}`, {
-        data: { userId }
-      });
-      setMaps(maps.filter(map => map.id !== id));
-      // console.log(`Map with ${id} id deleted`);
-      // navigate("/");
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
 
   if (!user.loggedIn) {
@@ -129,7 +98,7 @@ const parseIntMapId = parseInt(mapId)
 
 
 
-          <DrawMap mapId={mapId} setMapId={setMapId} maps={maps} setMaps={setMaps} editAllowed={editAllowed} />
+          <DrawMap maps={maps} setMaps={setMaps} editAllowed={editAllowed} />
 
 
           {!fromButton &&

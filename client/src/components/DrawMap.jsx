@@ -52,18 +52,20 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 
 
-export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) {
+export default function DrawMap({ maps, setMaps, editAllowed}) {
 
-  const { user } = useAuth();
+  const { user, mapId, setMapId } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
   const { browCoords } = useCoords();
 
+  console.log("mapId Draw Map", mapId)
 
-  useEffect (() => {
+
+  // useEffect (() => {
     // console.log(`Draw map -> User.id: ${user.id}, mapId: ${mapId}`)
 // console.log('Maps', maps)
-  }, [mapId])
+  // }, [mapId])
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -74,7 +76,6 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) 
   // const defaultPosition = ; // Downtown Vancouver, BC coordinates
 
   const navigate = useNavigate();
-  //  console.log("true or false", user.id === maps[0].createdby )
 
 
   const defaultPosition = useMemo(() => {
@@ -85,86 +86,11 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) 
   // Initialize state variable to hold positions for the polyline
   const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
-  // console.log("defaultBounds", defaultBounds)
-  // console.log("coordinadasPara", coordinadasPara)
-  // console.log("coord", coord)
-  // console.log("coordinatesForPolyline", coordinatesForPolyline)
-  // console.log("mapId", mapId)
-  // console.log("points", points)
-
   //Get data from maps to allow editing only those maps createdby the user, not those public maps created by another user, that can be user by the user, but not edited:
   const userId = user.id;
 
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
 
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3500/maps', {
-          params: { userId },
-          signal: controller.signal
-        });
-        if (isMounted) {
-          setMaps(prevMaps => {
-            // Ensure that only update is made if maps have changed
-            if (JSON.stringify(response.data) !== JSON.stringify(prevMaps)) {
-              return response.data;
-            }
-            return prevMaps; // If maps haven't changed, return previous state
-          });
-          // Set the initial mapId to the id of the first map if available
-          if (response.data.length > 0) {
-            setMapId(response.data[0].id);
-          }
-          setIsLoading(false);
-        }
-      } catch (error) {
-        if (error.name !== 'CanceledError') {
-          console.error(error);
-        }
-      }
-    };
-
-    fetchData();
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, [userId, setMapId]);
-
-  const deleteMap = async (id) => {
-    try {
-      const userId = user.id;
-    const mapCreatedBy = maps.find(map => map.id === id).createdby;
-      await axios.delete(`http://localhost:3500/delete/${id}`, {
-        data: {userId, mapCreatedBy}
-      });
-      // setMaps(maps.filter(map => map.id !== id));
-      setMaps([]) //It will be filled from the parent component through the useEffect
-    
-      console.log(`Map with ${id} id deleted`);
-      // navigate("/");
-    } catch (error) {
-      console.error(error);
-    }
-  };
   
-  const removeFromMyMaps = async (id) => {
-    try {
-      const userId = user.id;
-      await axios.delete(`http://localhost:3500/maps/delete/users/${id}`, {
-        data: {userId}
-      });
-      // setMaps([maps.filter(map => map.id !== id)]);
-      setMaps([]) //It will be filled from the parent component through the useEffect
-      // console.log(`Map with ${id} id removed`);
-      // navigate("/");
-    } catch (error) {
-    }
-  };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -383,8 +309,14 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) 
 
         {
          maps.length && editAllowed ? 
-         <button onClick={() => deleteMap(maps[0].id)}>Delete</button> :
-         <button onClick={() => removeFromMyMaps(maps[0].id)}>Remove from my maps</button>
+         <button onClick={() => 
+          console.log("Delete button pressed")
+          // deleteMap(maps[0].id)
+        }>Delete</button> :
+         <button onClick={() => 
+          console.log("Remove from my maps button pressed")
+          // removeFromMyMaps(maps[0].id)
+        }>Remove from my maps</button>
          }
 
       </>

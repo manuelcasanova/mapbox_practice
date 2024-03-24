@@ -4,9 +4,9 @@ import { useAuth } from "./Context/AuthContext";
 
 import axios from 'axios';
 
-export default function CreateMap({setFromButton}) {
+export default function CreateMap({ setFromButton }) {
 
-  const { user } = useAuth();
+  const { user, mapId, setMapId } = useAuth();
   const [privateMap, setPrivateMap] = useState(true);
   const [publicMap, setPublicMap] = useState(false);
 
@@ -36,13 +36,13 @@ export default function CreateMap({setFromButton}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:3500/createmap`, {
+      const response = await axios.post(`http://localhost:3500/createmap`, {
         title,
         user,
         createdAt,
         privateMap
       });
-
+      setMapId(response.data.id) //Draw Map updates with the new maps's ID
       setTitle('');
       navigate('/maps');
     } catch (err) {
@@ -51,44 +51,48 @@ export default function CreateMap({setFromButton}) {
     }
   };
 
+  useEffect(() => {
+    console.log("map id after", mapId)
+  })
+
 
   return (
 
     <>
-    {user.loggedIn ? (
-    <div className="maps">
-      <form onSubmit={handleSubmit}>
-        <div>STEP 1: Name the map</div>
+      {user.loggedIn ? (
+        <div className="maps">
+          <form onSubmit={handleSubmit}>
+            <div>STEP 1: Name the map</div>
 
-        <input
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-          required></input>
-        <label>
-          Private
-          <input
-            type="checkbox"
-            checked={privateMap}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Public
-          <input
-            type="checkbox"
-            checked={publicMap}
-            onChange={handleChange}
-          />
-        </label>
-        <button
-        disabled={!title}
-        // onClick={navigate('/')}
-        >Create</button>
-      </form>
+            <input
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              required></input>
+            <label>
+              Private
+              <input
+                type="checkbox"
+                checked={privateMap}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Public
+              <input
+                type="checkbox"
+                checked={publicMap}
+                onChange={handleChange}
+              />
+            </label>
+            <button
+              disabled={!title}
+            // onClick={navigate('/')}
+            >Create</button>
+          </form>
 
-      {error && <div className="error">{error}</div>}
-    </div>
-       ) : (
+          {error && <div className="error">{error}</div>}
+        </div>
+      ) : (
         <p>Please log in to create a map</p>
       )}
 
