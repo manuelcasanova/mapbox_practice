@@ -4,7 +4,7 @@ import axios from "axios";
 import { icon_black, icon_green, icon_flag } from "./img/Icons";
 import { useAuth } from "./Context/AuthContext";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition, maps}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition, maps, editAllowed}) {
 
 
 
@@ -25,7 +25,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
 
   useMapEvents({
     click: (e) => {
-      if (maps && user.id === maps[0].createdby) {
+      if (editAllowed) {
       const { lat, lng } = e.latlng;
       const newCoordinate = { lat, lng, timestamp: Date.now() };
       setCoord([...coord, newCoordinate]);

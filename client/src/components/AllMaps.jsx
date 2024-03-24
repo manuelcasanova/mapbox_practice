@@ -13,6 +13,15 @@ export default function AllMaps({ fromButton, setFromButton }) {
   // console.log("frombutton", fromButton)
   //State used to show message "You cannot edit a public map created by another user"
 
+  useEffect(() => {
+    // console.log(`All maps -> User.id: ${user.id}, mapId: ${mapId}`)
+    // console.log('Maps', maps)
+  }, [mapId])
+
+const parseIntMapId = parseInt(mapId)
+
+  const editAllowed = maps.some(obj => obj.createdby === user.id && obj.id === parseIntMapId);
+
   const navigate = useNavigate();
 
   const userId = user.id;
@@ -108,18 +117,18 @@ export default function AllMaps({ fromButton, setFromButton }) {
             </select>}
 
           {
-          // !editAllowed ? (
-          //   <div>Only users that created a map can modify them</div>
-          // ) : (
+            !editAllowed ? (
+              <div>Only users that created a map can modify them</div>
+            ) : (
             fromButton ?
               <div>Add, edit or remove markers</div> :
               <div>STEP 2: Add, edit or remove markers</div>
-          // )
+            )
           }
 
 
 
-          <DrawMap mapId={mapId} maps={maps} setMaps={setMaps} />
+          <DrawMap mapId={mapId} setMapId={setMapId} maps={maps} setMaps={setMaps} editAllowed={editAllowed} />
 
 
           {!fromButton &&

@@ -52,14 +52,18 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 
 
-export default function DrawMap({ maps, setMaps}) {
+export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed}) {
 
-  const { user, mapId, setMapId } = useAuth();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
   const { browCoords } = useCoords();
 
 
+  useEffect (() => {
+    console.log(`Draw map -> User.id: ${user.id}, mapId: ${mapId}`)
+// console.log('Maps', maps)
+  }, [mapId])
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -308,6 +312,7 @@ export default function DrawMap({ maps, setMaps}) {
 
         {
         // maps && user.id === maps[0].createdby &&
+        editAllowed && 
           <div className="deletebuttons">
 
             <img
@@ -344,7 +349,7 @@ export default function DrawMap({ maps, setMaps}) {
             setCoord={setCoord}
             mapId={mapId}
             defaultPosition={defaultPosition}
-      
+      editAllowed={editAllowed}
           />
 
 
