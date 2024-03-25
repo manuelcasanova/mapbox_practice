@@ -189,7 +189,8 @@ const RidesUser = () => {
                   </button>
                  }
               
-                    {ride.map && ride.map !== null && ride.map !== undefined && <PreviewMap mapId={ride.map} />}
+          
+                    {ride.map && ride.map !== null && ride.map !== undefined ? <PreviewMap mapId={ride.map}/> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
           
                   </div>
                 );

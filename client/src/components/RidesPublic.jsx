@@ -233,7 +233,7 @@ const RidesPublic = () => {
 
 
 
-                    {ride.map && ride.map !== null && <PreviewMap mapId={ride.map} />}
+                    {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map}/> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
                   </div>
                 );
               })}
