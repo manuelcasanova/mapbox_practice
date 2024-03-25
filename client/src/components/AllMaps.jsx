@@ -11,6 +11,7 @@ export default function AllMaps({ fromButton, setFromButton }) {
   const userId = user.id;
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
+  const [fake, setFake] = useState(true)
 
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const parseIntMapId = parseInt(mapId)
       isMounted = false;
       controller.abort();
     };
-  }, [userId]);
+  }, [userId, fake]);
 
 
 
@@ -102,7 +103,7 @@ const parseIntMapId = parseInt(mapId)
 
 
 
-          <DrawMap maps={maps} setMaps={setMaps} editAllowed={editAllowed} mapId={mapId} setMapId={setMapId} />
+          <DrawMap maps={maps} setMaps={setMaps} editAllowed={editAllowed} mapId={mapId} setMapId={setMapId} fake={fake} setFake={setFake} />
 
 
           {!fromButton &&

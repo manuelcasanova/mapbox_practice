@@ -382,10 +382,10 @@ app.delete(`/maps/delete/users/:id`, async (req, res) => {
   try {
 
     const userId = parseInt(req.body.userId);
-    const mapId = parseInt(req.params.id);
-    // console.log("req. body", req.body)
-// console.log("userid",  userId)
-// console.log("mapId",  mapId)
+    const mapId = parseInt(req.body.mapId);
+    console.log("req. body", req.body)
+console.log("userid",  userId)
+console.log("mapId",  mapId)
     if (!userId || !mapId) {
       return res.status(400).json({ message: "User ID and map ID are required" });
     }

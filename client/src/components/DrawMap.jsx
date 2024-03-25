@@ -52,7 +52,7 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 
 
-export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed }) {
+export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, fake, setFake }) {
 
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
@@ -60,6 +60,9 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed })
   const [error, setError] = useState(null);
 
   // console.log("add to my maps", addToMyMaps)
+  console.log("mapId draw map", mapId)
+
+console.log("maps in drawmap", maps)
 
   const userIsLoggedIn = user.loggedIn;
 
@@ -240,9 +243,18 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed })
       });
       // console.log(response.data);
  
-      // Handle success, maybe update UI accordingly
+     // If the request is successful, update the state to reflect the changes
+     
+     setMaps(prevMaps => {
+      // Filter out the map that has been removed
 
-   
+
+      return prevMaps.filter(map => map.id !== mapId);
+
+
+    });
+
+    setFake( prev => !prev)
     } catch (error) {
       console.error('Error removing users from map:', error);
       // Handle error, maybe show an error message to the user
@@ -325,7 +337,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed })
 
         {maps.length && editAllowed ?
           <button>Delete map</button> :
-          <button onClick={removeUsersFromMap}>Remove Users from Map</button>
+          <button onClick={removeUsersFromMap}>Remove from my maps</button>
         }
 
 
