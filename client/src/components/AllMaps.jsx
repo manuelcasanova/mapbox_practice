@@ -16,8 +16,8 @@ export default function AllMaps({ fromButton, setFromButton }) {
 
   useEffect(() => {
   // console.log("user", user.id)
-  console.log("mapId All Maps", mapId)
-  console.log("userId ALlMaps", userId)
+  // console.log("mapId All Maps", mapId)
+  // console.log("userId ALlMaps", userId)
  // console.log("maps all maps", maps)
   }, [mapId])
 
@@ -41,7 +41,7 @@ const parseIntMapId = parseInt(mapId)
           params: { userId },
           signal: controller.signal
         });
-        console.log("response data", response.data)
+        // console.log("response data", response.data)
         if (isMounted) {
           setMaps(response.data);
           // Set the initial mapId to the id of the first map if available

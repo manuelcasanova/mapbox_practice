@@ -60,9 +60,9 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, f
   const [error, setError] = useState(null);
 
   // console.log("add to my maps", addToMyMaps)
-  console.log("mapId draw map", mapId)
+  // console.log("mapId draw map", mapId)
 
-console.log("maps in drawmap", maps)
+// console.log("maps in drawmap", maps)
 
   const userIsLoggedIn = user.loggedIn;
 
@@ -96,6 +96,11 @@ console.log("maps in drawmap", maps)
   //Get data from maps to allow editing only those maps createdby the user, not those public maps created by another user, that can be user by the user, but not edited:
   const userId = user.id;
 
+  const isMapCreatedByUser = maps.find(map => map.id === mapId && map.createdby === user.id) !== undefined;
+
+  // console.log("imcby", isMapCreatedByUser)
+
+  
 
 
   //Modifies the frontend message if user can edit the map (created by them) or not. 
@@ -261,6 +266,33 @@ console.log("maps in drawmap", maps)
     }
   };
 
+    //Function to delete map
+    const deleteMap = async () => {
+      try {
+        // Send request to remove users from map
+        const response = await axios.delete(`http://localhost:3500/delete/${mapId}`, {
+          data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
+        });
+        // console.log(response.data);
+   
+       // If the request is successful, update the state to reflect the changes
+       
+       setMaps(prevMaps => {
+        // Filter out the map that has been removed
+  
+  
+        return prevMaps.filter(map => map.id !== mapId);
+  
+  
+      });
+  
+      setFake( prev => !prev)
+      } catch (error) {
+        console.error('Error removing users from map:', error);
+        // Handle error, maybe show an error message to the user
+      }
+    };
+
 
   return (
 
@@ -336,7 +368,7 @@ console.log("maps in drawmap", maps)
         </MapContainer>
 
         {maps.length && editAllowed ?
-          <button>Delete map</button> :
+          <button onClick={deleteMap}>Delete map</button> :
           <button onClick={removeUsersFromMap}>Remove from my maps</button>
         }
 

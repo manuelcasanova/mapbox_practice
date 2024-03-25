@@ -52,7 +52,7 @@ export default function CreateMap({ setFromButton }) {
   };
 
   useEffect(() => {
-    console.log("map id after", mapId)
+    // console.log("map id after", mapId)
   })
 
 

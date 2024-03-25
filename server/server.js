@@ -329,13 +329,17 @@ app.post("/createride", async (req, res) => {
 //Delete a map
 app.delete("/delete/:id", async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = req.body.mapId;
     const userId = req.body.userId
     const mapCreatedBy = req.body.mapCreatedBy
+    const isMapCreatedByUser = req.body.isMapCreatedByUser
+
+    // console.log(req.params)
+    // console.log("req body", req.body)
     
     // console.log("Deleted map id:", id);
 
-if (userId === mapCreatedBy) {
+if (isMapCreatedByUser) {
 
   await pool.query(
     "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
@@ -383,9 +387,9 @@ app.delete(`/maps/delete/users/:id`, async (req, res) => {
 
     const userId = parseInt(req.body.userId);
     const mapId = parseInt(req.body.mapId);
-    console.log("req. body", req.body)
-console.log("userid",  userId)
-console.log("mapId",  mapId)
+//     console.log("req. body", req.body)
+// console.log("userid",  userId)
+// console.log("mapId",  mapId)
     if (!userId || !mapId) {
       return res.status(400).json({ message: "User ID and map ID are required" });
     }
@@ -484,7 +488,7 @@ app.get("/maps/", async (req, res) => {
 
     const userId = req.query.userId;
       // console.log("req query", req.query)
-        console.log("userId serverjs", userId)
+        // console.log("userId serverjs", userId)
     const maps = await pool.query(
       //User's maps only
       //'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
