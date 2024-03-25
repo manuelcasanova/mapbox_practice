@@ -11,10 +11,12 @@ import fetchUsernameAndId from './util_functions/FetchUsername'
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
+  // console.log("Rides", rides)
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRides, setAddToMyRides] = useState([])
   const [userRides, setUserRides] = useState([]);
+  // console.log("userRides", userRides)
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const { user } = useAuth();
 // console.log("user", user)
@@ -191,8 +193,8 @@ const RidesPublic = () => {
 
                     {userRides.length ?
                       <div>
-                        <div>{userRides.filter(ride => ride.isprivate).length} joined this ride privately</div>
-                        <div>{userRides.filter(ride => !ride.isprivate).length} joined this ride publicly:</div>
+                        <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
+                        <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
 
                         <div>
                         {userRides
