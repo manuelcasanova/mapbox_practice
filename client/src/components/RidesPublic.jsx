@@ -71,7 +71,7 @@ const RidesPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const fetchUserRides = async () => {

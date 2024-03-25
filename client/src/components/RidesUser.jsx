@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
@@ -15,13 +15,13 @@ const RidesUser = () => {
   const [userRides, setUserRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [addToMyRides, setAddToMyRides] = useState([])
+  // const [addToMyRides, setAddToMyRides] = useState([])
   const { user } = useAuth();
   const id = user ? user.id : null;
   const userId = id
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     let isMounted = true;
@@ -85,7 +85,9 @@ const RidesUser = () => {
     };
 
     fetchUserRides();
-  }, [userId, addToMyRides]);
+  }, [userId
+    // , addToMyRides
+  ]);
 
   const deleteRide = async (id) => {
     try {
@@ -106,7 +108,7 @@ const RidesUser = () => {
   const removeFromMyRides = async (id) => {
     try {
       const userId = user.id;
-      const rideId = id;
+      // const rideId = id;
       // console.log("remove from my rides", userId, rideId)
       await axios.delete(`http://localhost:3500/rides/delete/users/${id}`, {
         data: {userId}

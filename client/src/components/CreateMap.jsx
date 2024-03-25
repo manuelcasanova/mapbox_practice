@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export default function CreateMap({ setFromButton }) {
 
-  const { user, mapId, setMapId } = useAuth();
+  const { user, setMapId } = useAuth();
   const [privateMap, setPrivateMap] = useState(false);
   const [publicMap, setPublicMap] = useState(true);
 

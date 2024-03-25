@@ -1,7 +1,5 @@
 
-Show hoy many riders joined a ride - DONE, but missing private vs public
-
-Join a ride (privately or not) - DONE, but missing private vs public
+Add a message, this ride has no map. The map might have been deleted by the owner.
 
 Logic to filter rides on rides/public
 
@@ -9,6 +7,9 @@ Logic to filter rides on rides/public
 DONE
 
 
+Show hoy many riders joined a ride - DONE
+
+Join a ride (privately or not) - DONE
 
 Add rides created by other user to my rides if I'm following them
 

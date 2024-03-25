@@ -2,13 +2,9 @@ import { useEffect, useCallback } from "react";
 import { Marker, useMapEvents, Polyline } from "react-leaflet";
 import axios from "axios";
 import { icon_black, icon_green, icon_flag } from "./img/Icons";
-import { useAuth } from "./Context/AuthContext";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, defaultPosition, maps, editAllowed}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, editAllowed}) {
 
-
-
-  const { user } = useAuth();
   const fetchData = useCallback(() => {
     axios.get(`http://localhost:3500/points/${mapId}`)
       .then(function (res) {

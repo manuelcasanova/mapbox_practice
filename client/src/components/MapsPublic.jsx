@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { formatDate } from "./util_functions/FormatDate";
+// import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
 
@@ -63,7 +63,7 @@ const MapsPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const fetchUserMaps = async () => {
@@ -155,8 +155,8 @@ const MapsPublic = () => {
 
 
                 // Extract the date formatting logic here
-                const originalDate = map.starting_date;
-                const formattedDate = formatDate(originalDate);
+                // const originalDate = map.starting_date;
+                // const formattedDate = formatDate(originalDate);
 
 
 

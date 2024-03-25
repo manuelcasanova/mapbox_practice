@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -52,19 +51,9 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 
 
-export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, fake, setFake }) {
+export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, setFake }) {
 
   const { user } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-  const [addToMyMaps, setAddToMyMaps] = useState([])
-  const [error, setError] = useState(null);
-
-  // console.log("add to my maps", addToMyMaps)
-  // console.log("mapId draw map", mapId)
-
-// console.log("maps in drawmap", maps)
-
-  const userIsLoggedIn = user.loggedIn;
 
   const { browCoords } = useCoords();
 
@@ -82,9 +71,6 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, f
   const [removePoint, setRemovePoint] = useState(0)
   // const defaultPosition = ; // Downtown Vancouver, BC coordinates
 
-  const navigate = useNavigate();
-
-
   const defaultPosition = useMemo(() => {
     // Initialize your default position here
     return browCoords || [59.2827, -123.1207]
@@ -100,12 +86,8 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, f
 
   // console.log("imcby", isMapCreatedByUser)
 
-  
-
 
   //Modifies the frontend message if user can edit the map (created by them) or not. 
-
-
 
   // Sets the points of the map when a map is loaded
   useEffect(() => {
@@ -243,7 +225,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, f
   const removeUsersFromMap = async () => {
     try {
       // Send request to remove users from map
-      const response = await axios.delete(`http://localhost:3500/maps/delete/users/${userId}`, {
+      await axios.delete(`http://localhost:3500/maps/delete/users/${userId}`, {
         data: { mapId, userId } // Sending mapId in the request body
       });
       // console.log(response.data);
@@ -270,7 +252,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, f
     const deleteMap = async () => {
       try {
         // Send request to remove users from map
-        const response = await axios.delete(`http://localhost:3500/delete/${mapId}`, {
+        await axios.delete(`http://localhost:3500/delete/${mapId}`, {
           data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
         });
         // console.log(response.data);
