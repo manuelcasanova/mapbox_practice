@@ -5,17 +5,22 @@ import { useAuth } from "./Context/AuthContext";
 import DrawMap from "./DrawMap";
 
 export default function AllMaps({ fromButton, setFromButton }) {
-  const { user, mapId, setMapId } = useAuth();
+  const { user } = useAuth();
   const [maps, setMaps] = useState([]);
+  const [mapId, setMapId] = useState(null) //Declare it here instead of bringin from useAuth
+  const userId = user.id;
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
 
-  // console.log("mapId All Maps", mapId)
 
-  // useEffect(() => {
-    //  console.log(`All maps -> User.id: ${user.id}, mapId: ${mapId}`)
-    // console.log('Maps', maps)
-  // }, [mapId])
+  useEffect(() => {
+  // console.log("user", user.id)
+  console.log("mapId All Maps", mapId)
+  console.log("userId ALlMaps", userId)
+ // console.log("maps all maps", maps)
+  }, [mapId])
+
+
 
 const parseIntMapId = parseInt(mapId)
 
@@ -23,7 +28,7 @@ const parseIntMapId = parseInt(mapId)
 
   const navigate = useNavigate();
 
-  const userId = user.id;
+
 
   useEffect(() => {
     let isMounted = true;
@@ -35,13 +40,12 @@ const parseIntMapId = parseInt(mapId)
           params: { userId },
           signal: controller.signal
         });
+        console.log("response data", response.data)
         if (isMounted) {
-          if (JSON.stringify(response.data) !== JSON.stringify(maps)) {
-            setMaps(response.data);
-            // Set the initial mapId to the id of the first map if available
-            if (response.data.length > 0 && mapId === undefined) {
-              setMapId(response.data[0].id);
-            }
+          setMaps(response.data);
+          // Set the initial mapId to the id of the first map if available
+          if (response.data.length > 0) {
+            setMapId(response.data[0].id);
           }
           setIsLoading(false);
         }
@@ -58,7 +62,7 @@ const parseIntMapId = parseInt(mapId)
       isMounted = false;
       controller.abort();
     };
-  }, [maps, mapId]);
+  }, [userId]);
 
 
 
@@ -98,7 +102,7 @@ const parseIntMapId = parseInt(mapId)
 
 
 
-          <DrawMap maps={maps} setMaps={setMaps} editAllowed={editAllowed} />
+          <DrawMap maps={maps} setMaps={setMaps} editAllowed={editAllowed} mapId={mapId} setMapId={setMapId} />
 
 
           {!fromButton &&

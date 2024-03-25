@@ -380,15 +380,15 @@ if (userId === rideCreatedBy) {
 
 app.delete(`/maps/delete/users/:id`, async (req, res) => {
   try {
+
     const userId = parseInt(req.body.userId);
     const mapId = parseInt(req.params.id);
     // console.log("req. body", req.body)
-console.log("userid",  userId)
-console.log("mapId",  mapId)
+// console.log("userid",  userId)
+// console.log("mapId",  mapId)
     if (!userId || !mapId) {
       return res.status(400).json({ message: "User ID and map ID are required" });
     }
-
 
 
     // Delete the user from the map_users table
@@ -483,8 +483,8 @@ app.get("/maps/", async (req, res) => {
   try {
 
     const userId = req.query.userId;
-    // console.log("req query", req)
-    //  console.log("userId serverjs", userId)
+      // console.log("req query", req.query)
+        console.log("userId serverjs", userId)
     const maps = await pool.query(
       //User's maps only
       //'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]

@@ -52,20 +52,24 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 
 
-export default function DrawMap({ maps, setMaps, editAllowed}) {
+export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed }) {
 
-  const { user, mapId, setMapId } = useAuth();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
+  const [addToMyMaps, setAddToMyMaps] = useState([])
+  const [error, setError] = useState(null);
+
+  // console.log("add to my maps", addToMyMaps)
+
+  const userIsLoggedIn = user.loggedIn;
 
   const { browCoords } = useCoords();
 
-  console.log("mapId Draw Map", mapId)
-
-
-  // useEffect (() => {
-    // console.log(`Draw map -> User.id: ${user.id}, mapId: ${mapId}`)
-// console.log('Maps', maps)
-  // }, [mapId])
+  const foundMap = maps.find(obj => obj.id === parseInt(mapId));
+  if (foundMap) {
+    setMapId(foundMap.id);
+  }
+  
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -90,21 +94,8 @@ export default function DrawMap({ maps, setMaps, editAllowed}) {
   const userId = user.id;
 
 
-  
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3500/maps/${mapId}`);
-        setMaps(response.data)
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    fetchData()
-  }, [mapId])
-
-//Modifies the frontend message if user can edit the map (created by them) or not. 
+  //Modifies the frontend message if user can edit the map (created by them) or not. 
 
 
 
@@ -234,6 +225,31 @@ export default function DrawMap({ maps, setMaps, editAllowed}) {
     e.preventDefault();
     await removeAll();
   };
+
+
+
+  //Delete map
+
+
+  //Function to remove user from map
+  const removeUsersFromMap = async () => {
+    try {
+      // Send request to remove users from map
+      const response = await axios.delete(`http://localhost:3500/maps/delete/users/${userId}`, {
+        data: { mapId, userId } // Sending mapId in the request body
+      });
+      // console.log(response.data);
+ 
+      // Handle success, maybe update UI accordingly
+
+   
+    } catch (error) {
+      console.error('Error removing users from map:', error);
+      // Handle error, maybe show an error message to the user
+    }
+  };
+
+
   return (
 
     <div className="map-outer-container">
@@ -242,11 +258,11 @@ export default function DrawMap({ maps, setMaps, editAllowed}) {
       <p>Latitude: {browCoords[0]}</p>
       <p>Longitude: {browCoords[1]}</p>
     </div> */}
-    {/* {console.log("maps", maps)} */}
+        {/* {console.log("maps", maps)} */}
 
         {
-        // maps && user.id === maps[0].createdby &&
-        editAllowed && 
+          // maps && user.id === maps[0].createdby &&
+          editAllowed &&
           <div className="deletebuttons">
 
             <img
@@ -283,7 +299,7 @@ export default function DrawMap({ maps, setMaps, editAllowed}) {
             setCoord={setCoord}
             mapId={mapId}
             defaultPosition={defaultPosition}
-      editAllowed={editAllowed}
+            editAllowed={editAllowed}
           />
 
 
@@ -307,17 +323,11 @@ export default function DrawMap({ maps, setMaps, editAllowed}) {
 
         </MapContainer>
 
-        {
-         maps.length && editAllowed ? 
-         <button onClick={() => 
-          console.log("Delete button pressed")
-          // deleteMap(maps[0].id)
-        }>Delete</button> :
-         <button onClick={() => 
-          console.log("Remove from my maps button pressed")
-          // removeFromMyMaps(maps[0].id)
-        }>Remove from my maps</button>
-         }
+        {maps.length && editAllowed ?
+          <button>Delete map</button> :
+          <button onClick={removeUsersFromMap}>Remove Users from Map</button>
+        }
+
 
       </>
     </div>

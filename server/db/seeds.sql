@@ -9,7 +9,8 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
 
 INSERT INTO maps (title, createdBy, createdAt, isPrivate) VALUES 
 ('Stanley Park Loop', 2, Now(), true),
-('Grouse Mountain', 3, Now(), false);
+('Grouse Mountain', 3, Now(), false),
+('User1 Public Map', 1, Now(), false);
 
 -- INSERT INTO map_users (map_id, user_id)
 -- VALUES
@@ -227,7 +228,9 @@ INSERT INTO points (lat, lng, map) VALUES
 (49.32711183790902, -123.1195266125724, 2),
 (49.32623971523265, -123.12048093415798, 2),
 (49.32531621012954, -123.12161006033422, 2),
-(49.32457336280254, -123.12281956896189, 2);
+(49.32457336280254, -123.12281956896189, 2),
+(49.2950770378737, -123.13649053685369, 3),
+(49.29538482702951, -123.13628668896855, 3);
 
 
 
