@@ -5,14 +5,31 @@ import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
 
+
+//Util functions
+import fetchUsernameAndId from './util_functions/FetchUsername'
+
+
 const RidesUser = () => {
   const [rides, setRides] = useState([]);
+  const [userRides, setUserRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [addToMyRides, setAddToMyRides] = useState([])
   const { user } = useAuth();
   const id = user ? user.id : null;
+  const userId = id
+  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    return () => {
+      isMounted = false; // Cleanup function to handle unmounting
+    };
+  }, [user]);
 
   useEffect(() => {
     let isMounted = true;
@@ -46,6 +63,29 @@ const RidesUser = () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, [id]);
+
+
+  useEffect(() => {
+    const fetchUserRides = async () => {
+      try {
+        const response = await axios.get('http://localhost:3500/rides/otherusers', {
+          params: {
+            userId
+          }
+        });
+        // Check if the response data is not an empty array before updating the state
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          setUserRides(response.data);
+        } else {
+          setUserRides([])
+        }
+      } catch (error) {
+        console.error('Error fetching user rides:', error);
+      }
+    };
+
+    fetchUserRides();
+  }, [userId, addToMyRides]);
 
   const deleteRide = async (id) => {
     try {
@@ -112,6 +152,30 @@ const RidesUser = () => {
                     <div>Speed: {ride.speed} km/h</div>
                     <div>Meeting Point: {ride.meeting_point}</div>
                     <div>Created By: {ride.createdby}</div>
+
+                    {userRides.length ?
+                      <div>
+                        <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
+                        <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
+
+                        <div>
+                          {userRides
+                            .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
+                            .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+                            .map(userRide => {
+                              const user = users.find(user => user.id === userRide.user_id);
+                              return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                            })
+                            .join(', ')
+                          }
+
+
+                        </div>
+                      </div>
+                      :
+                      <div>No users have joined this ride</div>
+
+                    }
                   
                     {/* {console.log(user.id, ride.createdby)} */}
                     {user.id === ride.createdby ?

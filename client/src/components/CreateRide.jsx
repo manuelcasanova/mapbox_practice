@@ -11,8 +11,8 @@ export default function CreateRide() {
   const { user, mapId, setMapId } = useAuth();
   const userId = user.id;
 
-  const [privateRide, setPrivateRide] = useState(true);
-  const [publicRide, setPublicRide] = useState(false);
+  const [privateRide, setPrivateRide] = useState(false);
+  const [publicRide, setPublicRide] = useState(true);
 
   const navigate = useNavigate();
 
