@@ -212,7 +212,7 @@ app.delete("/maps/removeuser", async (req, res) => {
     if (!userId || !mapId) {
       return res.status(400).json({ message: "User ID and map ID are required" });
     }
-    
+
     // Delete the user from the map_users table
     const query = {
       text: 'DELETE FROM map_users WHERE map_id = $1 AND user_id = $2',
@@ -239,7 +239,7 @@ app.delete("/rides/removeuser", async (req, res) => {
     if (!userId || !rideId) {
       return res.status(400).json({ message: "User ID and ride ID are required" });
     }
-    
+
     // Delete the user from the ride_users table
     const query = {
       text: 'DELETE FROM ride_users WHERE ride_id = $1 AND user_id = $2',
@@ -336,19 +336,19 @@ app.delete("/delete/:id", async (req, res) => {
 
     // console.log(req.params)
     // console.log("req body", req.body)
-    
+
     // console.log("Deleted map id:", id);
 
-if (isMapCreatedByUser) {
+    if (isMapCreatedByUser) {
 
-  await pool.query(
-    "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
-  )
-  res.json("The map was deleted")
+      await pool.query(
+        "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
+      )
+      res.json("The map was deleted")
 
-} else {
-  res.json("Map can only be deleted by creator")
-}
+    } else {
+      res.json("Map can only be deleted by creator")
+    }
 
   } catch (err) {
     console.error(err.message)
@@ -361,19 +361,19 @@ app.delete("/ride/delete/:id", async (req, res) => {
     const id = parseInt(req.params.id);
     const userId = req.body.userId
     const rideCreatedBy = req.body.rideCreatedBy
-    
+
     // console.log("Deleted map id:", id);
 
-if (userId === rideCreatedBy) {
+    if (userId === rideCreatedBy) {
 
-  await pool.query(
-    "DELETE FROM rides WHERE id = $1 RETURNING *", [id]
-  )
-  res.json("The ride was deleted")
+      await pool.query(
+        "DELETE FROM rides WHERE id = $1 RETURNING *", [id]
+      )
+      res.json("The ride was deleted")
 
-} else {
-  res.json("Ride can only be deleted by creator")
-}
+    } else {
+      res.json("Ride can only be deleted by creator")
+    }
 
   } catch (err) {
     console.error(err.message)
@@ -387,9 +387,9 @@ app.delete(`/maps/delete/users/:id`, async (req, res) => {
 
     const userId = parseInt(req.body.userId);
     const mapId = parseInt(req.body.mapId);
-//     console.log("req. body", req.body)
-// console.log("userid",  userId)
-// console.log("mapId",  mapId)
+    //     console.log("req. body", req.body)
+    // console.log("userid",  userId)
+    // console.log("mapId",  mapId)
     if (!userId || !mapId) {
       return res.status(400).json({ message: "User ID and map ID are required" });
     }
@@ -400,9 +400,9 @@ app.delete(`/maps/delete/users/:id`, async (req, res) => {
       text: 'DELETE FROM map_users WHERE map_id = $1 AND user_id = $2',
       values: [mapId, userId]
     };
-    
+
     await pool.query(query);
-    
+
     return res.status(200).json({ message: "User successfully removed from the map" });
   } catch (err) {
     console.error(err.message);
@@ -487,13 +487,13 @@ app.get("/maps/", async (req, res) => {
   try {
 
     const userId = req.query.userId;
-      // console.log("req query", req.query)
-        // console.log("userId serverjs", userId)
+    // console.log("req query", req.query)
+    // console.log("userId serverjs", userId)
     const maps = await pool.query(
       //User's maps only
       //'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
       //User's maps and user in maps
-      'SELECT * FROM maps WHERE createdby = $1 UNION SELECT maps.* FROM maps INNER JOIN map_users ON maps.id = map_users.map_id WHERE map_users.user_id = $1 ORDER BY id DESC', 
+      'SELECT * FROM maps WHERE createdby = $1 UNION SELECT maps.* FROM maps INNER JOIN map_users ON maps.id = map_users.map_id WHERE map_users.user_id = $1 ORDER BY id DESC',
       [userId]
 
     );
@@ -542,7 +542,7 @@ app.get("/rides/otherusers", async (req, res) => {
 app.get("/maps/shared", async (req, res) => {
   try {
     const userId = req.query.userId;
-    
+
     // Query to retrieve maps associated with the user through map_users
     const mapsQuery = `
       SELECT m.*
@@ -556,7 +556,7 @@ app.get("/maps/shared", async (req, res) => {
       FROM maps m
       WHERE m.createdby = $1
       ORDER BY id DESC`;
-    
+
     const maps = await pool.query(mapsQuery, [userId]);
     res.json(maps.rows);
   } catch (err) {
@@ -602,38 +602,54 @@ app.get("/rides", async (req, res) => {
 //Get all public rides (user)
 app.get("/rides/public", async (req, res) => {
   try {
-    
-  
-     console.log("req.query", req.query.filteredRides)
-    // req.query {
-    //   dateRange: {
-    //     start: '2024-03-12T00:00:00.000Z',
-    //     end: '2024-03-28T00:00:00.000Z'
-    //   },
-    //   distanceRange: { min: '1', max: '10' },
-    //   speedRange: { min: '1', max: '10' }  
-    // }
-
-    const dateRangeStart = req.query.filteredRides.dateRange.start;
-    const dateRangeEnd = req.query.filteredRides.dateRange.end;
-    const distanceRangeMin = req.query.filteredRides.distanceRange.min;
-    const distanceRangeMax = req.query.filteredRides.distanceRange.max;
-    const speedRangeMin = req.query.filteredRides.speedRange.min;
-    const speedRangeMax = req.query.filteredRides.speedRange.max;
-
-
-    console.log (dateRangeStart, dateRangeEnd, distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax)
-
 
     if (req.query.user && req.query.user.loggedIn) {
-      const rides = await pool.query(
-         'SELECT * FROM rides WHERE isprivate = false'        
-      );
-      res.json(rides.rows)
+
+      if (req.query.filteredRides) {
+        //  console.log("req.query", req.query.filteredRides)
+
+        const dateRangeStart = req.query.filteredRides.dateRange.start;
+        const dateRangeEnd = req.query.filteredRides.dateRange.end;
+        const distanceRangeMin = req.query.filteredRides.distanceRange.min;
+        const distanceRangeMax = req.query.filteredRides.distanceRange.max;
+        const speedRangeMin = req.query.filteredRides.speedRange.min;
+        const speedRangeMax = req.query.filteredRides.speedRange.max;
+
+
+        // console.log (dateRangeStart, dateRangeEnd, distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax)
+
+        // Construct the SQL query with parameters
+        const ridesQuery = `
+     SELECT *
+     FROM rides
+     WHERE isprivate = false
+       AND starting_date >= $1
+       AND starting_date <= $2
+       AND distance >= $3
+       AND distance <= $4
+       AND speed >= $5
+       AND speed <= $6
+   `;
+
+        // Execute the query with parameters
+        const rides = await pool.query(ridesQuery, [dateRangeStart, dateRangeEnd, distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax]);
+
+
+      } else {
+        console.log("No filtered rides")
+
+        // If there are no filtering parameters provided, return all public rides
+        const rides = await pool.query('SELECT * FROM rides WHERE isprivate = false');
+
+        res.json(rides.rows);
+      }
+
     } else {
       // Return an error message indicating unauthorized access
       res.status(403).json({ error: "Unauthorized access" });
     }
+
+
   } catch (err) {
     console.error(err.message)
   }
@@ -652,8 +668,8 @@ app.get("/rides/user/:id", async (req, res) => {
 
     const rides = await pool.query(
       // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
-      'SELECT * FROM rides WHERE createdby = $1 UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 ORDER BY id DESC' 
-    
+      'SELECT * FROM rides WHERE createdby = $1 UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 ORDER BY id DESC'
+
       , [id]
     );
     res.json(rides.rows)
@@ -664,7 +680,7 @@ app.get("/rides/user/:id", async (req, res) => {
 });
 
 
-    
+
 
 
 // -------- END ROUTES --------

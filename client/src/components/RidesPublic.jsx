@@ -19,7 +19,7 @@ const RidesPublic = () => {
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const { user } = useAuth();
   const [filteredRides, setFilteredRides] = useState([]);
-  console.log("filteredRides", filteredRides)
+  // console.log("filteredRides", filteredRides)
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 
