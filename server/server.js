@@ -602,6 +602,29 @@ app.get("/rides", async (req, res) => {
 //Get all public rides (user)
 app.get("/rides/public", async (req, res) => {
   try {
+    
+  
+     console.log("req.query", req.query.filteredRides)
+    // req.query {
+    //   dateRange: {
+    //     start: '2024-03-12T00:00:00.000Z',
+    //     end: '2024-03-28T00:00:00.000Z'
+    //   },
+    //   distanceRange: { min: '1', max: '10' },
+    //   speedRange: { min: '1', max: '10' }  
+    // }
+
+    const dateRangeStart = req.query.filteredRides.dateRange.start;
+    const dateRangeEnd = req.query.filteredRides.dateRange.end;
+    const distanceRangeMin = req.query.filteredRides.distanceRange.min;
+    const distanceRangeMax = req.query.filteredRides.distanceRange.max;
+    const speedRangeMin = req.query.filteredRides.speedRange.min;
+    const speedRangeMax = req.query.filteredRides.speedRange.max;
+
+
+    console.log (dateRangeStart, dateRangeEnd, distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax)
+
+
     if (req.query.user && req.query.user.loggedIn) {
       const rides = await pool.query(
          'SELECT * FROM rides WHERE isprivate = false'        

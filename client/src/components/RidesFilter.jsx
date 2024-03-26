@@ -1,26 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const RideFilter = ({ rides, onFilter }) => {
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
-  const [allDates, setAllDates] = useState(false);
-  const [allDatesIncludingPast, setAllDatesIncludingPast] = useState(false);
   const [distanceRange, setDistanceRange] = useState({ min: '', max: '' });
   const [speedRange, setSpeedRange] = useState({ min: '', max: '' });
 
+
+
+  
   const handleFilter = () => {
     // Prepare filter criteria
     const filters = {};
-    if (!allDates && !allDatesIncludingPast && dateRange.start && dateRange.end) {
+    
+ 
+
+    if (dateRange.start && dateRange.end) {
       filters.dateRange = {
         start: new Date(dateRange.start),
         end: new Date(dateRange.end),
       };
-    }
-    if (allDates) {
-      filters.dateRange = 'all';
-    }
-    if (allDatesIncludingPast) {
-      filters.dateRange = 'allIncludingPast';
     }
     if (distanceRange.min && distanceRange.max) {
       filters.distanceRange = {
@@ -39,21 +37,6 @@ const RideFilter = ({ rides, onFilter }) => {
     onFilter(filters);
   };
 
-  const handleAllDatesChange = (e) => {
-    const isChecked = e.target.checked;
-    setAllDates(isChecked);
-    if (isChecked) {
-      setAllDatesIncludingPast(false);
-    }
-  };
-
-  const handleAllDatesIncludingPastChange = (e) => {
-    const isChecked = e.target.checked;
-    setAllDatesIncludingPast(isChecked);
-    if (isChecked) {
-      setAllDates(false);
-    }
-  };
 
   return (
     <div>
@@ -64,26 +47,14 @@ const RideFilter = ({ rides, onFilter }) => {
           type="date"
           value={dateRange.start}
           onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-          disabled={allDates || allDatesIncludingPast}
+
         />
         <input
           type="date"
           value={dateRange.end}
           onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-          disabled={allDates || allDatesIncludingPast}
         />
-        <label>
-          <input type="checkbox" checked={allDates} onChange={handleAllDatesChange} />
-          All Dates
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={allDatesIncludingPast}
-            onChange={handleAllDatesIncludingPastChange}
-          />
-          Include past rides
-        </label>
+
       </div>
       <div>
         <label>Distance Range:</label>

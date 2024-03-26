@@ -16,19 +16,23 @@ const RidesPublic = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRides, setAddToMyRides] = useState([])
   const [userRides, setUserRides] = useState([]);
-  // console.log("userRides", userRides)
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const { user } = useAuth();
-// console.log("user", user)
-  //  console.log("rides", rides)
-
-  // console.log("userRides", userRides) //{ride_id: 2, user_id: 2, isprivate: true}
-
-  // console.log("rides", rides)
-  // console.log("users", users)
-
+  const [filteredRides, setFilteredRides] = useState([]);
+  console.log("filteredRides", filteredRides)
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
+
+
+  //Function to get the filters from the child component RidesFilter.
+  // FORMAT: {dateRange: {end: "Mar 27 2024, 17:00:00 GMT-0700 (Pacific Daylight Time", start: "Mar 28 2024, 17:00:00 GMT-0700 (Pacific Daylight Time"}, distanceRange: {min: 1, max: 100}, speedRange: {min: 10, max: 30}}
+
+
+  const onFilter = (filters) => {
+    // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
+    // For simplicity, let's just log the filters for now
+    setFilteredRides(filters)
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -45,7 +49,8 @@ const RidesPublic = () => {
       try {
         const response = await axios.get('http://localhost:3500/rides/public', {
           params: {
-            user: user
+            user: user,
+            filteredRides
           }
         });
         if (isMounted) {
@@ -71,7 +76,7 @@ const RidesPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [user, filteredRides]);
 
   useEffect(() => {
     const fetchUserRides = async () => {
@@ -157,7 +162,7 @@ const RidesPublic = () => {
         <>
           {user.loggedIn ? (
             <div>
-              <RidesFilter />
+              <RidesFilter onFilter={onFilter}/>
               {rides.map((ride, index) => {
                 // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
