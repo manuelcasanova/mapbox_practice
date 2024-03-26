@@ -605,18 +605,19 @@ app.get("/rides/public", async (req, res) => {
 
     if (req.query.user && req.query.user.loggedIn) {
 
+ console.log("req. query", req.query)
+
       if (req.query.filteredRides) {
-        //  console.log("req.query", req.query.filteredRides)
+          // console.log("req.query", req.query.filteredRides)
 
-        const dateRangeStart = req.query.filteredRides.dateRange.start;
-        const dateRangeEnd = req.query.filteredRides.dateRange.end;
-        const distanceRangeMin = req.query.filteredRides.distanceRange.min;
-        const distanceRangeMax = req.query.filteredRides.distanceRange.max;
-        const speedRangeMin = req.query.filteredRides.speedRange.min;
-        const speedRangeMax = req.query.filteredRides.speedRange.max;
+        const dateRangeStart = req.query.filteredRides.dateRange.start || -infinity;
+        const dateRangeEnd = req.query.filteredRides.dateRange.end || -infinity;
+        const distanceRangeMin = req.query.filteredRides.distanceRange.min || 0;
+        const distanceRangeMax = req.query.filteredRides.distanceRange.max || infinity;
+        const speedRangeMin = req.query.filteredRides.speedRange.min || 0;
+        const speedRangeMax = req.query.filteredRides.speedRange.max | infinity;
 
-
-        // console.log (dateRangeStart, dateRangeEnd, distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax)
+         console.log (dateRangeStart, dateRangeEnd, distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax)
 
         // Construct the SQL query with parameters
         const ridesQuery = `

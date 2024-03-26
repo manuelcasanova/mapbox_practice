@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 const RideFilter = ({ rides, onFilter }) => {
-  const [dateRange, setDateRange] = useState({ start: '', end: '' });
-  const [distanceRange, setDistanceRange] = useState({ min: '', max: '' });
-  const [speedRange, setSpeedRange] = useState({ min: '', max: '' });
+  const [dateRange, setDateRange] = useState({
+    start: new Date().toISOString().split('T')[0],
+    end: Infinity
+  });
+  const [distanceRange, setDistanceRange] = useState({ min: 0, max: Infinity });
+  const [speedRange, setSpeedRange] = useState({ min: 0, max: Infinity });
 
 
 

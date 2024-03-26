@@ -19,7 +19,7 @@ const RidesPublic = () => {
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const { user } = useAuth();
   const [filteredRides, setFilteredRides] = useState([]);
-  // console.log("filteredRides", filteredRides)
+   console.log("filteredRides", filteredRides)
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 
@@ -30,7 +30,6 @@ const RidesPublic = () => {
 
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
-    // For simplicity, let's just log the filters for now
     setFilteredRides(filters)
   };
 
