@@ -76,6 +76,20 @@ const RideFilter = ({ rides, onFilter }) => {
     setSpeedMax(value);
   };
 
+  useEffect(() => {
+    // This useEffect will trigger after states modified by clearFilter are updated
+    handleFilter();
+  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax]); // Dependency array includes modified states
+
+
+  const clearFilter = () => {
+    setDateStart(new Date().toISOString().split('T')[0]);
+    setDateEnd('9999-12-31');
+    setDistanceMin(0);
+    setDistanceMax(100000);
+    setSpeedMin(0);
+    setSpeedMax(100000);
+  };
 
   return (
     <div>
@@ -125,8 +139,8 @@ const RideFilter = ({ rides, onFilter }) => {
         />
         <span>km/h</span>
       </div>
-      <button onClick={handleFilter}>Apply Filters</button>
-      <button>Clear Filters</button>
+      {/* <button onClick={handleFilter}>Apply Filters</button> */}
+      <button onClick={() => {clearFilter(); handleFilter();}}>Clear Filters</button>
     </div>
   );
 };
