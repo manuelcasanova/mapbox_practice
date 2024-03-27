@@ -18,8 +18,18 @@ const RidesPublic = () => {
   const [userRides, setUserRides] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const { user } = useAuth();
-  const [filteredRides, setFilteredRides] = useState([]);
-   console.log("filteredRides", filteredRides)
+  const [filteredRides, setFilteredRides] = useState(
+    // {
+    //   dateStart: "2024-03-26", // Default start date
+    //   dateEnd: "",
+    //   distanceMin: "",
+    //   distanceMax: "",
+    //   speedMin: "",
+    //   speedMax: ""
+    // }
+
+  );
+  console.log("filteredRides", filteredRides)
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 
@@ -155,13 +165,14 @@ const RidesPublic = () => {
 
   return (
     <div>
+      <RidesFilter onFilter={onFilter} />
       {rides.length === 0 ? (
         <div>No rides available.</div>
       ) : (
         <>
           {user.loggedIn ? (
             <div>
-              <RidesFilter onFilter={onFilter}/>
+              
               {rides.map((ride, index) => {
                 // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
@@ -201,15 +212,15 @@ const RidesPublic = () => {
                         <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
 
                         <div>
-                        {userRides
-  .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
-  .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
-  .map(userRide => {
-    const user = users.find(user => user.id === userRide.user_id);
-    return user ? user.username : ""; // Return username if user found, otherwise an empty string
-  })
-  .join(', ')
-}
+                          {userRides
+                            .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
+                            .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+                            .map(userRide => {
+                              const user = users.find(user => user.id === userRide.user_id);
+                              return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                            })
+                            .join(', ')
+                          }
 
 
                         </div>
@@ -230,14 +241,14 @@ const RidesPublic = () => {
 
                     ) : (
                       <div>
-                      <button onClick={(e) => addToRide(e, index, ride.id, true)}>Join ride privately</button>
-                      <button onClick={(e) => addToRide(e, index, ride.id, false)}>Join ride publicly</button>
+                        <button onClick={(e) => addToRide(e, index, ride.id, true)}>Join ride privately</button>
+                        <button onClick={(e) => addToRide(e, index, ride.id, false)}>Join ride publicly</button>
                       </div>
                     )}
 
 
 
-                    {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map}/> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
+                    {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
                   </div>
                 );
               })}

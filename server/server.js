@@ -605,36 +605,43 @@ app.get("/rides/public", async (req, res) => {
 
     if (req.query.user && req.query.user.loggedIn) {
 
- console.log("req. query", req.query)
+      console.log("req. query", req.query)
 
       if (req.query.filteredRides) {
-          // console.log("req.query", req.query.filteredRides)
+        // console.log("req.query", req.query.filteredRides)
 
-        const dateRangeStart = req.query.filteredRides.dateRange.start || -infinity;
-        const dateRangeEnd = req.query.filteredRides.dateRange.end || -infinity;
-        const distanceRangeMin = req.query.filteredRides.distanceRange.min || 0;
-        const distanceRangeMax = req.query.filteredRides.distanceRange.max || infinity;
-        const speedRangeMin = req.query.filteredRides.speedRange.min || 0;
-        const speedRangeMax = req.query.filteredRides.speedRange.max | infinity;
+        // const dateRangeStart = req.query.filteredRides.dateStart
+        // const dateRangeEnd = req.query.filteredRides.dateEnd
+        const distanceRangeMin = req.query.filteredRides.distanceMin
+        const distanceRangeMax = req.query.filteredRides.distanceMax
+        const speedRangeMin = req.query.filteredRides.speedMin
+        const speedRangeMax = req.query.filteredRides.speedMax
 
-         console.log (dateRangeStart, dateRangeEnd, distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax)
+        console.log(
+          // dateRangeStart, dateRangeEnd, 
+          distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax)
 
         // Construct the SQL query with parameters
+
+        // AND starting_date >= $1
+        //  AND starting_date <= $2
+
         const ridesQuery = `
      SELECT *
      FROM rides
      WHERE isprivate = false
-       AND starting_date >= $1
-       AND starting_date <= $2
-       AND distance >= $3
-       AND distance <= $4
-       AND speed >= $5
-       AND speed <= $6
+       AND distance >= $1
+       AND distance <= $2
+       AND speed >= $3
+       AND speed <= $4
    `;
 
         // Execute the query with parameters
-        const rides = await pool.query(ridesQuery, [dateRangeStart, dateRangeEnd, distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax]);
+        const rides = await pool.query(ridesQuery, [
+          // dateRangeStart, dateRangeEnd, 
+          distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax]);
 
+          res.json(rides.rows)
 
       } else {
         console.log("No filtered rides")
