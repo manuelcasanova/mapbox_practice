@@ -90,7 +90,7 @@ const RideFilter = ({ rides, onFilter }) => {
         />
         <input
           type="date"
-          // value={dateEnd}
+          value={dateEnd === "9999-12-31" ? "" : dateEnd}
           onChange={handleDateEndChange}
         />
 
@@ -99,13 +99,13 @@ const RideFilter = ({ rides, onFilter }) => {
         <label>Distance Range:</label>
         <input
           type="number"
-          // value={distanceMin}
+          value={distanceMin === 0 ? "" : distanceMin}
           onChange={handleDistanceMinChange}
         />
         <span>km -</span>
         <input
           type="number"
-          // value={distanceMax}
+          value={distanceMax === 100000 ? "" : distanceMax}
           onChange={handleDistanceMaxChange}
         />
         <span>km</span>
@@ -114,18 +114,19 @@ const RideFilter = ({ rides, onFilter }) => {
         <label>Speed Range:</label>
         <input
           type="number"
-          // value={speedMin}
+          value={speedMin === 0 ? "" : speedMin}
           onChange={handleSpeedMinChange}
         />
         <span>km/h -</span>
         <input
           type="number"
-          // value={speedMax}
+          value={speedMax === 100000 ? "" : speedMax}
           onChange={handleSpeedMaxChange}
         />
         <span>km/h</span>
       </div>
       <button onClick={handleFilter}>Apply Filters</button>
+      <button>Clear Filters</button>
     </div>
   );
 };
