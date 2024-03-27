@@ -1,22 +1,21 @@
 
 
-Button to clear filters
 
 Logic to filter rides my rides
 
-If ride is in the past. Show a note.
+If ride is in the past. Show a note. (MISSING in MY RIDES)
 
 DONE
 
-
+Button to clear filters
 
 Logic to filter rides on rides/public
 
 Add a message, this ride has no map. The map might have been deleted by the owner.
 
-Show hoy many riders joined a ride - DONE
+Show hoy many riders joined a ride
 
-Join a ride (privately or not) - DONE
+Join a ride (privately or not)
 
 Add rides created by other user to my rides if I'm following them
 
