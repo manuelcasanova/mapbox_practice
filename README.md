@@ -1,11 +1,18 @@
 
-Add a message, this ride has no map. The map might have been deleted by the owner.
 
-Logic to filter rides on rides/public
+Button to clear filters
 
+Logic to filter rides my rides
+
+If ride is in the past. Show a note.
 
 DONE
 
+
+
+Logic to filter rides on rides/public
+
+Add a message, this ride has no map. The map might have been deleted by the owner.
 
 Show hoy many riders joined a ride - DONE
 

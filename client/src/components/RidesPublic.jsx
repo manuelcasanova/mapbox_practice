@@ -29,7 +29,7 @@ const RidesPublic = () => {
     // }
 
   );
-  console.log("filteredRides", filteredRides)
+  // console.log("filteredRides", filteredRides)
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 

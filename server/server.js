@@ -605,21 +605,21 @@ app.get("/rides/public", async (req, res) => {
 
     if (req.query.user && req.query.user.loggedIn) {
 
-      console.log("req. query", req.query)
+      // console.log("req. query", req.query)
 
       if (req.query.filteredRides) {
         // console.log("req.query", req.query.filteredRides)
 
-        // const dateRangeStart = req.query.filteredRides.dateStart
-        // const dateRangeEnd = req.query.filteredRides.dateEnd
-        const distanceRangeMin = req.query.filteredRides.distanceMin
-        const distanceRangeMax = req.query.filteredRides.distanceMax
+        const dateStart = req.query.filteredRides.dateStart
+        const dateEnd = req.query.filteredRides.dateEnd
+        const distanceMin = req.query.filteredRides.distanceMin
+        const distanceMax = req.query.filteredRides.distanceMax
         const speedRangeMin = req.query.filteredRides.speedMin
         const speedRangeMax = req.query.filteredRides.speedMax
 
-        console.log(
+        // console.log(
           // dateRangeStart, dateRangeEnd, 
-          distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax)
+          // dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax)
 
         // Construct the SQL query with parameters
 
@@ -630,18 +630,20 @@ app.get("/rides/public", async (req, res) => {
      SELECT *
      FROM rides
      WHERE isprivate = false
-       AND distance >= $1
-       AND distance <= $2
-       AND speed >= $3
-       AND speed <= $4
+     AND starting_date >= $1
+     AND starting_date <= $2
+       AND distance >= $3
+       AND distance <= $4
+       AND speed >= $5
+       AND speed <= $6
    `;
 
         // Execute the query with parameters
         const rides = await pool.query(ridesQuery, [
-          // dateRangeStart, dateRangeEnd, 
-          distanceRangeMin, distanceRangeMax, speedRangeMin, speedRangeMax]);
+          dateStart, dateEnd, 
+          distanceMin, distanceMax, speedRangeMin, speedRangeMax]);
 
-          res.json(rides.rows)
+        res.json(rides.rows)
 
       } else {
         console.log("No filtered rides")
