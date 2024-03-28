@@ -29,6 +29,7 @@ const RidesUser = () => {
     setFilteredRides(filters)
   };
 
+
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
@@ -43,7 +44,13 @@ const RidesUser = () => {
     const fetchData = async () => {
       try {
         if (id !== null && id !== undefined) {
-          const response = await axios.get(`http://localhost:3500/rides/user/${id}`);
+          const response = await axios.get(`http://localhost:3500/rides/user/${id}`, {
+            params: {
+              user: user,
+              filteredRides: filteredRides || ''
+            }
+          });
+
           if (isMounted) {
             setRides(response.data);
           }
@@ -68,7 +75,7 @@ const RidesUser = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [id]);
+  }, [id, filteredRides]);
 
 
   useEffect(() => {

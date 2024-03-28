@@ -668,8 +668,16 @@ app.get("/rides/public", async (req, res) => {
 //Get users rides
 app.get("/rides/user/:id", async (req, res) => {
 
+  console.log("req.query", req.query)
+
   try {
     const { id } = req.params;
+    const dateStart = req.query.filteredRides.dateStart
+    const dateEnd = req.query.filteredRides.dateEnd
+    const distanceMin = req.query.filteredRides.distanceMin
+    const distanceMax = req.query.filteredRides.distanceMax
+    const speedRangeMin = req.query.filteredRides.speedMin
+    const speedRangeMax = req.query.filteredRides.speedMax
 
     // Check if id is null or undefined
     if (id === null || id === undefined) {
@@ -678,9 +686,9 @@ app.get("/rides/user/:id", async (req, res) => {
 
     const rides = await pool.query(
       // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
-      'SELECT * FROM rides WHERE createdby = $1 UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 ORDER BY id DESC'
+      'SELECT * FROM rides WHERE createdby = $1 UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND speed >= $6 AND speed <= $7 ORDER BY id DESC'
 
-      , [id]
+      , [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax]
     );
     res.json(rides.rows)
   } catch (err) {
