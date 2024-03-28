@@ -4,7 +4,7 @@ import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import { useAuth } from "./Context/AuthContext";
-
+import RidesFilter from './RidesFilter';
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -15,6 +15,7 @@ const RidesUser = () => {
   const [userRides, setUserRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [filteredRides, setFilteredRides] = useState();
   // const [addToMyRides, setAddToMyRides] = useState([])
   const { user } = useAuth();
   const id = user ? user.id : null;
@@ -22,6 +23,11 @@ const RidesUser = () => {
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
 
   // const navigate = useNavigate();
+
+  const onFilter = (filters) => {
+    // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
+    setFilteredRides(filters)
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -93,9 +99,9 @@ const RidesUser = () => {
     try {
       const userId = user.id;
       // console.log("deleteRide", userId)
-    const rideCreatedBy = rides.find(ride => ride.id === id).createdby;
+      const rideCreatedBy = rides.find(ride => ride.id === id).createdby;
       await axios.delete(`http://localhost:3500/ride/delete/${id}`, {
-        data: {userId, rideCreatedBy}
+        data: { userId, rideCreatedBy }
       });
       setRides(rides.filter(ride => ride.id !== id));
       // console.log(`Ride with ${id} id deleted`);
@@ -111,9 +117,9 @@ const RidesUser = () => {
       // const rideId = id;
       // console.log("remove from my rides", userId, rideId)
       await axios.delete(`http://localhost:3500/rides/delete/users/${id}`, {
-        data: {userId}
+        data: { userId }
       });
-      setRides(rides.filter(ride => ride.id !== id)); 
+      setRides(rides.filter(ride => ride.id !== id));
       // console.log(`Ride with ${id} id deleted`);
       // navigate("/");
     } catch (error) {
@@ -133,6 +139,7 @@ const RidesUser = () => {
     <>
       {user.loggedIn ? (
         <div>
+          <RidesFilter onFilter={onFilter} />
           {rides.length === 0 ? (
             <div>No rides available.</div>
           ) : (
@@ -178,20 +185,20 @@ const RidesUser = () => {
                       <div>No users have joined this ride</div>
 
                     }
-                  
+
                     {/* {console.log(user.id, ride.createdby)} */}
                     {user.id === ride.createdby ?
-                  <button
-                   onClick={() => deleteRide(ride.id)}
-                   >Delete</button> :
-                  <button 
-                  onClick={() => removeFromMyRides(ride.id)}>Remove from my rides
-                  </button>
-                 }
-              
-          
-                    {ride.map && ride.map !== null && ride.map !== undefined ? <PreviewMap mapId={ride.map}/> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
-          
+                      <button
+                        onClick={() => deleteRide(ride.id)}
+                      >Delete</button> :
+                      <button
+                        onClick={() => removeFromMyRides(ride.id)}>Remove from my rides
+                      </button>
+                    }
+
+
+                    {ride.map && ride.map !== null && ride.map !== undefined ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
+
                   </div>
                 );
               })}
