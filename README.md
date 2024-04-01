@@ -1,15 +1,18 @@
-
-
-
-
-
-If ride is in the past. Show a note. (MISSING in MY RIDES)
-
 Rides and maps: Only me, followers, public
 
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
 
+Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
+
+Administrator: admin users, admin maps, admin rides, admin comments. If inappropiate. do not delete, keep in db, but do not show on front end, but a note "message removed due to..."
+
+Login/logout
+
+OAuth
+
 DONE
+
+If ride is in the past. Show a note. 
 
 Logic to filter rides my rides
 

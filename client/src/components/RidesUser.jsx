@@ -138,6 +138,17 @@ const RidesUser = () => {
     }
   };
 
+    // Function to format the current date as 'yyyy-mm-dd'
+    function getCurrentDateFormatted() {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+  
+    const currentDateFormatted = getCurrentDateFormatted();
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -161,12 +172,17 @@ const RidesUser = () => {
                 const originalDate = ride.starting_date;
                 const formattedDate = formatDate(originalDate);
 
+                const isPastDate = formattedDate < currentDateFormatted;
+
                 // Render the JSX elements, including the formatted date
                 return (
                   <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
                     <div>Name: {ride.name}</div>
                     <div>Details: {ride.details}</div>
-                    <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
+                    <div>Date: {formattedDate}</div> 
+                    {isPastDate && (
+                      <div>This ride has already taken place</div>
+                    )}
                     <div>Time: {ride.starting_time}</div>
                     <div>Distance: {ride.distance} km</div>
                     <div>Speed: {ride.speed} km/h</div>
