@@ -1,11 +1,17 @@
 
 
 
-Logic to filter rides my rides
+
 
 If ride is in the past. Show a note. (MISSING in MY RIDES)
 
+Rides and maps: Only me, followers, public
+
+People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
+
 DONE
+
+Logic to filter rides my rides
 
 Button to clear filters
 

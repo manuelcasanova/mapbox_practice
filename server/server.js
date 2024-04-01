@@ -668,7 +668,7 @@ app.get("/rides/public", async (req, res) => {
 //Get users rides
 app.get("/rides/user/:id", async (req, res) => {
 
-  console.log("req.query", req.query)
+  // console.log("req.query.filtered rides", req.query.filteredRides)
 
   try {
     const { id } = req.params;
@@ -679,6 +679,7 @@ app.get("/rides/user/:id", async (req, res) => {
     const speedRangeMin = req.query.filteredRides.speedMin
     const speedRangeMax = req.query.filteredRides.speedMax
 
+
     // Check if id is null or undefined
     if (id === null || id === undefined) {
       return res.status(400).json({ error: 'User ID is required.' });
@@ -686,10 +687,11 @@ app.get("/rides/user/:id", async (req, res) => {
 
     const rides = await pool.query(
       // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
-      'SELECT * FROM rides WHERE createdby = $1 UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND speed >= $6 AND speed <= $7 ORDER BY id DESC'
+      'SELECT * FROM rides WHERE createdby = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4  AND distance <= $5 AND speed >= $6 AND speed <= $7 UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND speed >= $6 AND speed <= $7 ORDER BY id DESC'
 
       , [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax]
     );
+    // console.log("rides rows", rides.rows)
     res.json(rides.rows)
   } catch (err) {
     console.error(err.message);

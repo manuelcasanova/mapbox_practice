@@ -16,6 +16,10 @@ const RidesUser = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [filteredRides, setFilteredRides] = useState();
+
+// console.log("rides", rides)
+// console.log("filtered rides", filteredRides)
+
   // const [addToMyRides, setAddToMyRides] = useState([])
   const { user } = useAuth();
   const id = user ? user.id : null;
