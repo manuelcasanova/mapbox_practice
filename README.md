@@ -1,3 +1,6 @@
+/users/followers
+only get the rows if the user is either the follower or followee, but not the rest.
+
 Follow pending, following, unfollow, follow back:
 
 Idea:
