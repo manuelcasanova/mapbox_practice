@@ -12,6 +12,14 @@ Login/logout
 
 OAuth
 
+Navbar: MAPS (see my maps, see public mas), RIdes (see my rides, see public rides). search (athletes, rides, maps). RIGHT --> login/logout, notifications (private messages, messages on rides)
+
+LEFT MAIN: Picture, Name, Following, Followers, Rides created, Rides joined
+
+CENTER MAIN: Next rides
+
+RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order by how many rides)
+
 DONE
 
 If ride is in the past. Show a note. 
