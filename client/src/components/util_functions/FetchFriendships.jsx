@@ -8,11 +8,11 @@ const fetchFriendships = async (user, setUsers, friendships, setFriendships, set
       }
      
     });
-    console.log("response", response)
+    // console.log("response", response)
     if (isMounted) {
       setFriendships(response.data); //change for setFriendships
-      setIsLoading(false);
     }
+    setIsLoading(false);
   } catch (error) {
     if (isMounted) {
       if (error.response && error.response.data && error.response.data.error) {

@@ -13,10 +13,14 @@ const UsersFollow = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-  console.log("friendships", friendships)
+  useEffect (() => {
+    console.log("friendships", friendships)
+  })
+
 
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
 fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
@@ -25,11 +29,40 @@ fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
 
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
 fetchFriendships(user, setUsers, friendships, setFriendships, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
+      controller.abort();
     };
   }, [user]); //Probably change for friendships
+
+// useEffect(() => {
+//   let isMounted = true;
+//   const controller = new AbortController();
+
+//   const fetchData = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:3500/users/friendships`);
+//       // console.log("API Response:", response.data); // Log API response
+//       if (isMounted) {
+//         setFriendships(response.data);
+
+//       }
+      
+//       setIsLoading(true);
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
+//   fetchData();
+
+//   return () => {
+//     isMounted = false;
+//     controller.abort();
+//   };
+
+// }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
