@@ -1,4 +1,16 @@
-Follow pending, following, unfollow, follow back
+Follow pending, following, unfollow, follow back:
+
+Idea:
+
+Friendships psql table (user1_id, user2_id, status: notconnected (default) pending, accepted, declined, blocked). 
+
+When a user sends a connection request, modify status to pending. Once accepted, modify to accepted.
+
+If blocked, user cannot find other user in list. Give option to unblock (update to default status notconnected)
+
+Show list: Friends, Pending, All
+
+See public maps/rides if user not blocked by user!
 
 Rides and maps: Only me, followers, public
 
@@ -20,7 +32,12 @@ CENTER MAIN: Next rides
 
 RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order by how many rides)
 
+Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
+
+
 DONE
+
+rwithme.com register
 
 If ride is in the past. Show a note. 
 
