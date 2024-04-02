@@ -167,13 +167,15 @@ const RidesPublic = () => {
 
   return (
     <div>
-      <RidesFilter onFilter={onFilter} />
+
       {rides.length === 0 ? (
         <div>No rides available.</div>
       ) : (
         <>
           {user.loggedIn ? (
             <div>
+
+              <RidesFilter onFilter={onFilter} />
 
               {rides.map((ride, index) => {
                 // Extract the date formatting logic here

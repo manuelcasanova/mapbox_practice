@@ -1,3 +1,5 @@
+Follow pending, following, unfollow, follow back
+
 Rides and maps: Only me, followers, public
 
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
