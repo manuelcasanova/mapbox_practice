@@ -4,7 +4,7 @@ import { useAuth } from "./Context/AuthContext";
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
-import fetchFriendships from './util_functions/FetchFriendships';
+import fetchFollowers from './util_functions/FetchFollowers';
 
 const UsersFollow = () => {
   const [users, setUsers] = useState([]);
@@ -30,7 +30,7 @@ fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-fetchFriendships(user, setUsers, friendships, setFriendships, setIsLoading, setError, isMounted)
+fetchFollowers(user, setUsers, friendships, setFriendships, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
       controller.abort();
@@ -43,7 +43,7 @@ fetchFriendships(user, setUsers, friendships, setFriendships, setIsLoading, setE
 
 //   const fetchData = async () => {
 //     try {
-//       const response = await axios.get(`http://localhost:3500/users/friendships`);
+//       const response = await axios.get(`http://localhost:3500/users/followers`);
 //       // console.log("API Response:", response.data); // Log API response
 //       if (isMounted) {
 //         setFriendships(response.data);

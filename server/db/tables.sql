@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS points CASCADE;
 DROP TABLE IF EXISTS rides CASCADE;
 DROP TABLE IF EXISTS map_users CASCADE;
 DROP TABLE IF EXISTS ride_users CASCADE;
-DROP TABLE IF EXISTS friendships CASCADE;
+DROP TABLE IF EXISTS followers CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -70,10 +70,17 @@ CREATE TABLE ride_users (
   isprivate boolean DEFAULT true
 );
 
-CREATE TABLE friendships (
-  user1_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  user2_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  friendship_status TEXT
-)
+-- CREATE TABLE friendships (
+--   user1_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+--   user2_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+--   friendship_status TEXT
+-- )
 
+CREATE TABLE followers (
+  follower_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  followee_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  status VARCHAR(20) DEFAULT 'pending', -- 'pending', 'accepted'
+  PRIMARY KEY (follower_id, followee_id),
+  CHECK (follower_id <> followee_id) -- Users cannot follow themselves
+);
 

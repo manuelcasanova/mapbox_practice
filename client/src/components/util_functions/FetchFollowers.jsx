@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const fetchFriendships = async (user, setUsers, friendships, setFriendships, setIsLoading, setError, isMounted) => {
+const fetchFollowers = async (user, setUsers, friendships, setFriendships, setIsLoading, setError, isMounted) => {
   try {
-    const response = await axios.get('http://localhost:3500/users/friendships', { 
+    const response = await axios.get('http://localhost:3500/users/followers', { 
       params: {
         user: user 
       }
@@ -25,4 +25,4 @@ const fetchFriendships = async (user, setUsers, friendships, setFriendships, set
   }
 };
 
-export default fetchFriendships
+export default fetchFollowers

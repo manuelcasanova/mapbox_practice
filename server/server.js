@@ -71,12 +71,12 @@ app.get("/users/follow", async (req, res) => {
 });
 
 //Get all friendships
-app.get("/users/friendships", async (req, res) => {
+app.get("/users/followers", async (req, res) => {
   try {
 // console.log("req.query", req.query)
     // if (req.query.user && req.query.user.loggedIn) {
       const response = await pool.query(
-        'SELECT * FROM friendships'
+        'SELECT * FROM followers'
       );
       res.json(response.rows)
     // } else {
