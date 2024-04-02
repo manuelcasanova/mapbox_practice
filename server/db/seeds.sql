@@ -243,3 +243,6 @@ VALUES
   ('Grouse Mountain Parking Lot', 10, 18, false, true, 3, NOW(), false, 'grouse.jpg', 'grouse.gpx', '2024-12-18', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famous ''Triple Crown''.', 2);
 
 
+INSERT INTO friendships (user1_id, user2_id, friendship_status)
+VALUES
+(1, 2, 'accepted')

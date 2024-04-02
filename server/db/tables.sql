@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS points CASCADE;
 DROP TABLE IF EXISTS rides CASCADE;
 DROP TABLE IF EXISTS map_users CASCADE;
 DROP TABLE IF EXISTS ride_users CASCADE;
+DROP TABLE IF EXISTS friendships CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -69,6 +70,10 @@ CREATE TABLE ride_users (
   isprivate boolean DEFAULT true
 );
 
-
+CREATE TABLE friendships (
+  user1_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  user2_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  friendship_status TEXT
+)
 
 

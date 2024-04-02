@@ -4,14 +4,16 @@ import { useAuth } from "./Context/AuthContext";
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
+import fetchFriendships from './util_functions/FetchFriendships';
 
 const UsersFollow = () => {
   const [users, setUsers] = useState([]);
+  const [friendships, setFriendships] = useState([])
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-//  console.log("users", users)
+  console.log("friendships", friendships)
 
   useEffect(() => {
     let isMounted = true;
@@ -20,6 +22,14 @@ fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, [user]);
+
+  useEffect(() => {
+    let isMounted = true;
+fetchFriendships(user, setUsers, friendships, setFriendships, setIsLoading, setError, isMounted)
+    return () => {
+      isMounted = false; // Cleanup function to handle unmounting
+    };
+  }, [user]); //Probably change for friendships
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -44,8 +54,6 @@ fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
         {user.loggedIn  ? (
         <div>
 {users.map(user => {
-
-
 
 
   // Render the JSX elements, including the formatted date
