@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useAuth } from "./Context/AuthContext";
 
 //Util functions
@@ -13,8 +12,8 @@ const UsersFollow = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-const userLoggedin = user.id
-// console.log("user logged in", userLoggedin)
+  const userLoggedin = user.id
+  // console.log("user logged in", userLoggedin)
 
   useEffect(() => {
     console.log("followers", followers)
@@ -40,32 +39,17 @@ const userLoggedin = user.id
     };
   }, [user]); //Probably change for friendships
 
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   const controller = new AbortController();
+  const isFollowing = (followerId, followeeId) => {
+    return followers.some(follower => {
+      return follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'accepted';
+    });
+  };
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:3500/users/followers`);
-  //       // console.log("API Response:", response.data); // Log API response
-  //       if (isMounted) {
-  //         setFriendships(response.data);
-
-  //       }
-
-  //       setIsLoading(true);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-  //   fetchData();
-
-  //   return () => {
-  //     isMounted = false;
-  //     controller.abort();
-  //   };
-
-  // }, []);
+  const isFollower = (followerId, followeeId) => {
+    return followers.some(follower => {
+      return follower.follower_id === followeeId && follower.followee_id === followerId && follower.status === 'accepted';
+    });
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -91,7 +75,7 @@ const userLoggedin = user.id
             <div>
               {users.map(user => {
 
-console.log("user mapped", user)
+                console.log("user mapped", user)
 
                 // Render the JSX elements, including the formatted date
                 return (
@@ -101,7 +85,13 @@ console.log("user mapped", user)
 
                     <div>Id: {user.id}</div>  {/* Hide on production */}
                     <div>{user.username}</div>
-                    <button>Following</button> {/*Show if followerId === userloggedin.id and followee_id === user.id*/}
+                    {user.id !== userLoggedin.id && (
+                      <>
+                        {isFollowing(userLoggedin.id, user.id) && <button>Following</button>}
+                        {isFollower(userLoggedin.id, user.id) && <button>Follower</button>}
+                        {!isFollowing(userLoggedin.id, user.id) && !isFollower(userLoggedin.id, user.id) && <button>Follow</button>}
+                      </>
+                    )}
                   </div>
                 );
               })}
