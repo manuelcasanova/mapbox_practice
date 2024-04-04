@@ -34,18 +34,6 @@ const UsersFollow = () => {
     };
   }, [user]);
 
-  // const isFollowing = (followerId, followeeId) => {
-  //   return followers.some(follower => {
-  //     return follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'accepted';
-  //   });
-  // };
-
-  // const isFollower = (followerId, followeeId) => {
-  //   return followers.some(follower => {
-  //     return follower.follower_id === followeeId && follower.followee_id === followerId && follower.status === 'accepted';
-  //   });
-  // };
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -80,13 +68,7 @@ const UsersFollow = () => {
 
                     <div>Id: {user.id}</div>  {/* Hide on production */}
                     <div>{user.username}</div>
-                    {/* {user.id !== userLoggedin.id && (
-                      <>
-                        {isFollowing(userLoggedin.id, user.id) && <button>Following</button>}
-                        {isFollower(userLoggedin.id, user.id) && <button>Follower</button>}
-                        {!isFollowing(userLoggedin.id, user.id) && !isFollower(userLoggedin.id, user.id) && <button>Follow</button>}
-                      </>
-                    )} */}
+
                   </div>
                 );
               })}

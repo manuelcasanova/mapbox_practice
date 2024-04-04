@@ -14,7 +14,6 @@ import RidesAll from './components/RidesAll';
 import UsersAdmin from './components/UsersAdmin';
 import MapsPublic from './components/MapsPublic';
 import UsersFollow from './components/UsersFollow';
-import TestFollow from './components/TestFollow';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -173,17 +172,7 @@ function App() {
                 }>
               </Route>
 
-              <Route
-                exact path="/test/follow"
-                element={
-                  <>
-                    <Title />
-                    <Information setFromButton={setFromButton} />
-                   <TestFollow />
-                    <Footer />
-                  </>
-                }>
-              </Route>
+
 
             </Routes>
           </div>

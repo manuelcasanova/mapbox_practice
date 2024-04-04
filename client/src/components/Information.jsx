@@ -35,9 +35,6 @@ export default function
         <button className="navbar_button"
           onClick={() => navigate("/users/follow")}
         >Follow</button>
-        <button className="navbar_button"
-          onClick={() => navigate("/test/follow")}
-        >Test follow</button>
       </div>
 
       {user.isAdmin &&
