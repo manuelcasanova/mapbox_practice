@@ -7,6 +7,13 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
        ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true, '[]', '[3]');
 
 
+INSERT INTO followers (follower_id, followee_id, estado) VALUES
+(1, 2, 'accepted'), -- user1 follows user2 (accepted)
+(1, 3, 'accepted'), -- user1 follows user3 (accepted)
+(2, 1, 'pending'),  -- user2 follows user1 (pending)
+(3, 1, 'pending'),  -- user3 follows user1 (pending)
+(4, 1, 'accepted'); -- user4 follows user1 (accepted)
+
 INSERT INTO maps (title, createdBy, createdAt, isPrivate) VALUES 
 ('Stanley Park Loop', 2, Now(), true),
 ('Grouse Mountain', 3, Now(), false),
@@ -243,9 +250,3 @@ VALUES
   ('Grouse Mountain Parking Lot', 10, 18, false, true, 3, NOW(), false, 'grouse.jpg', 'grouse.gpx', '2024-12-18', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famous ''Triple Crown''.', 2);
 
 
-INSERT INTO followers (follower_id, followee_id, status) VALUES
-(1, 2, 'accepted'), -- user1 follows user2 (accepted)
-(1, 3, 'accepted'), -- user1 follows user3 (accepted)
-(2, 1, 'pending'),  -- user2 follows user1 (pending)
-(3, 1, 'pending'),  -- user3 follows user1 (pending)
-(4, 1, 'accepted'); -- user4 follows user1 (accepted)

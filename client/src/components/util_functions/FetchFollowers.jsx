@@ -1,18 +1,16 @@
 import axios from "axios";
 
-const fetchFollowers = async (user, setUsers, friendships, setFriendships, setIsLoading, setError, isMounted) => {
+const fetchFollowers = async (user, setFollowers, setIsLoading, setError, isMounted) => {
   try {
     const response = await axios.get('http://localhost:3500/users/followers', { 
       params: {
         user: user 
       }
-     
     });
-    // console.log("response", response)
     if (isMounted) {
-      setFriendships(response.data); //change for setFriendships
+      setFollowers(response.data); 
+      setIsLoading(false);
     }
-    setIsLoading(false);
   } catch (error) {
     if (isMounted) {
       if (error.response && error.response.data && error.response.data.error) {

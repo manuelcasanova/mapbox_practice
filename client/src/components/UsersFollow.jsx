@@ -7,7 +7,7 @@ import fetchFollowers from './util_functions/FetchFollowers';
 
 const UsersFollow = () => {
   const [users, setUsers] = useState([]);
-  const [followers, setFollowers] = useState([])
+  const [followers, setFollowers] = useState()
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
@@ -23,33 +23,28 @@ const UsersFollow = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
+
+    
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+
+    fetchFollowers(user, setFollowers, setIsLoading, setError, isMounted)
+
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, [user]);
 
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-    fetchFollowers(user, setUsers, followers, setFollowers, setIsLoading, setError, isMounted)
-    return () => {
-      isMounted = false; // Cleanup function to handle unmounting
-      controller.abort();
-    };
-  }, [user]); //Probably change for friendships
+  // const isFollowing = (followerId, followeeId) => {
+  //   return followers.some(follower => {
+  //     return follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'accepted';
+  //   });
+  // };
 
-  const isFollowing = (followerId, followeeId) => {
-    return followers.some(follower => {
-      return follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'accepted';
-    });
-  };
-
-  const isFollower = (followerId, followeeId) => {
-    return followers.some(follower => {
-      return follower.follower_id === followeeId && follower.followee_id === followerId && follower.status === 'accepted';
-    });
-  };
+  // const isFollower = (followerId, followeeId) => {
+  //   return followers.some(follower => {
+  //     return follower.follower_id === followeeId && follower.followee_id === followerId && follower.status === 'accepted';
+  //   });
+  // };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -75,7 +70,7 @@ const UsersFollow = () => {
             <div>
               {users.map(user => {
 
-                console.log("user mapped", user)
+                // console.log("user mapped", user)
 
                 // Render the JSX elements, including the formatted date
                 return (
@@ -85,13 +80,13 @@ const UsersFollow = () => {
 
                     <div>Id: {user.id}</div>  {/* Hide on production */}
                     <div>{user.username}</div>
-                    {user.id !== userLoggedin.id && (
+                    {/* {user.id !== userLoggedin.id && (
                       <>
                         {isFollowing(userLoggedin.id, user.id) && <button>Following</button>}
                         {isFollower(userLoggedin.id, user.id) && <button>Follower</button>}
                         {!isFollowing(userLoggedin.id, user.id) && !isFollower(userLoggedin.id, user.id) && <button>Follow</button>}
                       </>
-                    )}
+                    )} */}
                   </div>
                 );
               })}
