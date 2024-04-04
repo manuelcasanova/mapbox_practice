@@ -73,14 +73,15 @@ app.get("/users/follow", async (req, res) => {
 //Get all followers
 app.get("/users/followers", async (req, res) => {
   try {
-// console.log("req.query", req.query)
+
     if (req.query.user && req.query.user.loggedIn) {
       // console.log("user id", req.query.user.id)
-      const followers = await pool.query(
+      const fetchFollowers = await pool.query(
         'SELECT * FROM followers WHERE follower_id = $1 OR followee_id = $1',
         [req.query.user.id]
       );
-      res.json(followers.rows)
+      res.json(fetchFollowers.rows)
+      // res.json("hello")
      } else {
       //  Return an error message indicating unauthorized access
        res.status(403).json({ error: "Unauthorized access" });

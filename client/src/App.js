@@ -14,6 +14,7 @@ import RidesAll from './components/RidesAll';
 import UsersAdmin from './components/UsersAdmin';
 import MapsPublic from './components/MapsPublic';
 import UsersFollow from './components/UsersFollow';
+import TestFollow from './components/TestFollow';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -34,148 +35,160 @@ function App() {
 
   return (
     <AuthProvider>
-    <BrowserCoordsProvider>
-    <Router>
-      <div className='app'>
-        <Authentication/>
-        <Routes>
-          <Route
-            exact path="/"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton}/>
-              </>
+      <BrowserCoordsProvider>
+        <Router>
+          <div className='app'>
+            <Authentication />
+            <Routes>
+              <Route
+                exact path="/"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                  </>
 
-            }>
-          </Route>
+                }>
+              </Route>
 
-          <Route
-            exact path="/maps"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-                {/* <CreateMap /> */}
-                <AllMaps fromButton={fromButton}  setFromButton={setFromButton} />
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/maps"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    {/* <CreateMap /> */}
+                    <AllMaps fromButton={fromButton} setFromButton={setFromButton} />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-          <Route
-            exact path="/maps/public"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-                {/* <CreateMap /> */}
-               <MapsPublic />
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/maps/public"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    {/* <CreateMap /> */}
+                    <MapsPublic />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-          <Route
-            exact path="/maps/create"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-                <CreateMap setFromButton={setFromButton}/>
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/maps/create"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <CreateMap setFromButton={setFromButton} />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-          <Route
-            exact path="/maps/:id"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-                <SeeMap/>
-              </>
+              <Route
+                exact path="/maps/:id"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <SeeMap />
+                  </>
 
-            }>
-          </Route>
+                }>
+              </Route>
 
-          <Route
-            exact path="/ride"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-                <CreateRide />
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/ride"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <CreateRide />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-          <Route
-            exact path="/rides/public"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-                <RidesPublic />
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/rides/public"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <RidesPublic />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-          <Route
-            exact path="/rides/mine"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-              <RidesUser />
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/rides/mine"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <RidesUser />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-          <Route
-            exact path="/rides/all"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-              <RidesAll />
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/rides/all"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <RidesAll />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-          <Route
-            exact path="/users/all"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-              <UsersAdmin />
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/users/all"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <UsersAdmin />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-          <Route
-            exact path="/users/follow"
-            element={
-              <>
-                <Title />
-                <Information setFromButton={setFromButton} />
-              <UsersFollow />
-                <Footer />
-              </>
-            }>
-          </Route>
+              <Route
+                exact path="/users/follow"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <UsersFollow />
+                    <Footer />
+                  </>
+                }>
+              </Route>
 
-        </Routes>
-      </div>
-    </Router >
-    </BrowserCoordsProvider>
+              <Route
+                exact path="/test/follow"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                   <TestFollow />
+                    <Footer />
+                  </>
+                }>
+              </Route>
+
+            </Routes>
+          </div>
+        </Router >
+      </BrowserCoordsProvider>
     </AuthProvider>
   );
 }

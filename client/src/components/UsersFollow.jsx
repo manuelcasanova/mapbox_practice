@@ -7,7 +7,7 @@ import fetchFollowers from './util_functions/FetchFollowers';
 
 const UsersFollow = () => {
   const [users, setUsers] = useState([]);
-  const [followers, setFollowers] = useState()
+  const [followers, setFollowers] = useState([])
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
