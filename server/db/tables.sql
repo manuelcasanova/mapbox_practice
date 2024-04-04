@@ -25,7 +25,7 @@ CREATE TABLE users (
 CREATE TABLE followers (
   follower_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   followee_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  estado VARCHAR(20),
+  status VARCHAR(20),
   PRIMARY KEY (follower_id, followee_id),
   CHECK (follower_id <> followee_id) -- Users cannot follow themselves
 );

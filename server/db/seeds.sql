@@ -7,8 +7,9 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
        ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true, '[]', '[3]');
 
 
-INSERT INTO followers (follower_id, followee_id, estado) VALUES
+INSERT INTO followers (follower_id, followee_id, status) VALUES
 (1, 2, 'accepted'), -- user1 follows user2 (accepted)
+(1, 4, 'accepted'),
 (1, 3, 'accepted'), -- user1 follows user3 (accepted)
 (2, 1, 'pending'),  -- user2 follows user1 (pending)
 (3, 1, 'pending'),  -- user3 follows user1 (pending)
