@@ -33,8 +33,11 @@ export default function
           onClick={() => navigate("/rides/mine")}
         >See my rides</button>
         <button className="navbar_button"
-          onClick={() => navigate("/users/follow")}
-        >Follow</button>
+          onClick={() => navigate("/users/followee")}
+        >Following</button>
+        <button className="navbar_button"
+          onClick={() => navigate("/users/followers")}
+        >Follower</button>
       </div>
 
       {user.isAdmin &&

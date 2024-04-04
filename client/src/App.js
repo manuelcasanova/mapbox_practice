@@ -13,7 +13,8 @@ import RidesUser from './components/RidesUser'
 import RidesAll from './components/RidesAll';
 import UsersAdmin from './components/UsersAdmin';
 import MapsPublic from './components/MapsPublic';
-import UsersFollow from './components/UsersFollow';
+import Followee from './components/Followee';
+import Followers from './components/Followers';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -161,12 +162,25 @@ function App() {
               </Route>
 
               <Route
-                exact path="/users/follow"
+                exact path="/users/followee"
                 element={
                   <>
                     <Title />
                     <Information setFromButton={setFromButton} />
-                    <UsersFollow />
+                    <Followee />
+                    <Footer />
+                  </>
+                }>
+              </Route>
+
+
+              <Route
+                exact path="/users/followers"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <Followers />
                     <Footer />
                   </>
                 }>

@@ -70,6 +70,27 @@ app.get("/users/follow", async (req, res) => {
   }
 });
 
+//Get all followees
+app.get("/users/followee", async (req, res) => {
+  try {
+
+    if (req.query.user && req.query.user.loggedIn) {
+      // console.log("user id", req.query.user.id)
+      const fetchFollowee = await pool.query(
+        'SELECT * FROM followers WHERE follower_id = $1',
+        [req.query.user.id]
+      );
+      res.json(fetchFollowee.rows)
+     } else {
+      //  Return an error message indicating unauthorized access
+       res.status(403).json({ error: "Unauthorized access" });
+     }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
 //Get all followers
 app.get("/users/followers", async (req, res) => {
   try {
@@ -77,11 +98,10 @@ app.get("/users/followers", async (req, res) => {
     if (req.query.user && req.query.user.loggedIn) {
       // console.log("user id", req.query.user.id)
       const fetchFollowers = await pool.query(
-        'SELECT * FROM followers WHERE follower_id = $1 OR followee_id = $1',
+        'SELECT * FROM followers WHERE followee_id = $1',
         [req.query.user.id]
       );
       res.json(fetchFollowers.rows)
-      // res.json("hello")
      } else {
       //  Return an error message indicating unauthorized access
        res.status(403).json({ error: "Unauthorized access" });

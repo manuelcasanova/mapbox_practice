@@ -17,6 +17,10 @@ See public maps/rides if user not blocked by user!
 
 Rides and maps: Only me, followers, public
 
+If following someone: option to unfollow, but also to mute. Also mute someone if not following. For instance, someone publishes all the time rides that I'm not interested, but I'm not following. Mute them from the feed.
+
+Show a component with muted users, and allow to unmute.
+
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
 
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
