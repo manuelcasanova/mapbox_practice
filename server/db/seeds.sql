@@ -13,7 +13,7 @@ INSERT INTO followers (follower_id, followee_id, status) VALUES
 (1, 3, 'accepted'), -- user1 follows user3 (accepted)
 (2, 1, 'pending'),  -- user2 follows user1 (pending)
 (3, 1, 'pending'),  -- user3 follows user1 (pending)
-(4, 1, 'accepted'); -- user4 follows user1 (accepted)
+(4, 1, 'pending'); -- user4 follows user1 (accepted)
 
 INSERT INTO maps (title, createdBy, createdAt, isPrivate) VALUES 
 ('Stanley Park Loop', 2, Now(), true),

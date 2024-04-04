@@ -1,7 +1,14 @@
 /users/followers
 only get the rows if the user is either the follower or followee, but not the rest.
 
-Follow pending, following, unfollow, follow back:
+
+USERS page with 4 subpages
+
+MAIN PAGE: FOLLOW, REQUEST PENDING, FOLLOWING, MUTE/UNMUTE
+FOLLOWING: UNFOLLOW
+FOLLOWERS: MUTE (do not allow the to see your "followers rides/maps". Do not see theirs). They are still your followers, though.
+MUTED: Show all muted users. Button/logic: UNMUTE
+
 
 Idea:
 
