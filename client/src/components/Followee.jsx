@@ -13,7 +13,6 @@ const Followee = () => {
   const { user } = useAuth();
 
   const userLoggedin = user.id
-  // console.log("user logged in", userLoggedin)
 
   useEffect(() => {
     console.log("followers", followers)
@@ -23,12 +22,8 @@ const Followee = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-
-
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
-
     fetchFollowee(user, setFollowers, setIsLoading, setError, isMounted)
-
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -53,8 +48,6 @@ const Followee = () => {
             <div>
               {users.map(user => {
 
-                //  console.log("user mapped", user)
-
                 const amFollowingThem = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'accepted'
                 );
@@ -71,21 +64,16 @@ const Followee = () => {
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
                 );
 
-                // Render the JSX elements, including the formatted date
-
                 if (amFollowingThem) {
 
                   return (
-
 
                     <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>
 
-{/* {amFollowingThem && <div>I'm following them</div>} */}
-
-{pendingAcceptThem && <div>Accept them</div>}
+                      {pendingAcceptThem && <div>Accept them</div>}
 
                     </div>
                   );
