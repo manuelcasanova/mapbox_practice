@@ -13,7 +13,6 @@ const Followers = () => {
   const { user } = useAuth();
 
   const userLoggedin = user.id
-  // console.log("user logged in", userLoggedin)
 
   useEffect(() => {
     console.log("followers", followers)
@@ -23,12 +22,8 @@ const Followers = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-
-
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
-
     fetchFollowers(user, setFollowers, setIsLoading, setError, isMounted)
-
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -53,42 +48,33 @@ const Followers = () => {
             <div>
               {users.map(user => {
 
-                //  console.log("user mapped", user)
-
-                // Check if the current user is being followed by the logged-in user
-                const isFollowing = followers.some(follower =>
+                const amFollowingThem = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'accepted'
                 );
 
-                const isPendingFollowee = followers.some(follower =>
+                const pendingAcceptMe = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
                 );
 
-                const isFollower = followers.some(follower =>
+                const areFollowingMe = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'accepted'
                 );
 
-                const isPendingFollower = followers.some(follower =>
+                const pendingAcceptThem = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
                 );
 
-                // Render the JSX elements, including the formatted date
-
-                if (isFollower || isPendingFollower) {
+                if (areFollowingMe) {
 
                   return (
-
 
                     <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>
 
-                  
-                      {isFollowing && <div>Following</div>}
-                      {!isFollowing && isFollower && <div>Follow back</div>}
-                      {isPendingFollower && <div>Accept request</div>}
-                 
+                      {amFollowingThem && <div>I'm following them back</div>}
+                      {!amFollowingThem && <div>Follow them back</div>}
 
                     </div>
                   );

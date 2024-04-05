@@ -55,26 +55,25 @@ const Followee = () => {
 
                 //  console.log("user mapped", user)
 
-                // Check if the current user is being followed by the logged-in user
-                const isFollowing = followers.some(follower =>
+                const amFollowingThem = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'accepted'
                 );
 
-                const isPendingFollowee = followers.some(follower =>
+                const pendingAcceptMe = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
                 );
 
-                const isFollower = followers.some(follower =>
+                const areFollowingMe = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'accepted'
                 );
 
-                const isPendingFollower = followers.some(follower =>
+                const pendingAcceptThem = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
                 );
 
                 // Render the JSX elements, including the formatted date
 
-                if (isFollowing || isPendingFollowee) {
+                if (amFollowingThem) {
 
                   return (
 
@@ -84,12 +83,9 @@ const Followee = () => {
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>
 
+{/* {amFollowingThem && <div>I'm following them</div>} */}
 
-                      {isFollowing && <div>Following</div>}
-                      {isFollower && !isFollowing && !isPendingFollowee && <div>Follow back</div>}
-                      {isPendingFollowee && <div>Request pending</div>}
-                      {isPendingFollower && <div>Accept request</div>}
-
+{pendingAcceptThem && <div>Accept them</div>}
 
                     </div>
                   );

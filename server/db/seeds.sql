@@ -8,12 +8,15 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
 
 
 INSERT INTO followers (follower_id, followee_id, status) VALUES
-(1, 2, 'accepted'), -- user1 follows user2 (accepted)
+(1, 2, 'accepted'), 
+(1, 3, 'pending'),
 (1, 4, 'accepted'),
-(1, 3, 'accepted'), -- user1 follows user3 (accepted)
-(2, 1, 'pending'),  -- user2 follows user1 (pending)
-(3, 1, 'pending'),  -- user3 follows user1 (pending)
-(4, 1, 'pending'); -- user4 follows user1 (accepted)
+(1, 5, 'accepted'), 
+(2, 1, 'pending'),  
+(3, 1, 'accepted'),  
+(4, 1, 'accepted'),
+(5, 1, 'pending')
+; 
 
 INSERT INTO maps (title, createdBy, createdAt, isPrivate) VALUES 
 ('Stanley Park Loop', 2, Now(), true),
