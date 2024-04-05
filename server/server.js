@@ -101,7 +101,7 @@ app.get("/users/followers", async (req, res) => {
         'SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1',
         [req.query.user.id]
       );
-      console.log(fetchFollowers.rows)
+      // console.log(fetchFollowers.rows)
       res.json(fetchFollowers.rows)
      } else {
       //  Return an error message indicating unauthorized access

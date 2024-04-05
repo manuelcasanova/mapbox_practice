@@ -64,6 +64,10 @@ const Followers = () => {
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
                 );
 
+                const isMuted = followers.some(follower =>
+                  follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.mute === true
+                );
+
                 if (areFollowingMe) {
 
                   return (
@@ -73,8 +77,11 @@ const Followers = () => {
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>
 
-                      {amFollowingThem && <div>I'm following them back</div>}
-                      {!amFollowingThem && <div>Follow back or Mute</div>}
+                      {amFollowingThem && <div>Following</div>}
+                      {!amFollowingThem && <div>Follow back</div>}
+
+                      {isMuted && <div>Unmute</div>}
+                      {!isMuted && <div>Mute</div>}
 
                     </div>
                   );

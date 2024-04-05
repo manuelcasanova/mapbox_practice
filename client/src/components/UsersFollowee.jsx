@@ -64,6 +64,10 @@ const Followee = () => {
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
                 );
 
+                const isMuted = followers.some(follower =>
+                  follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.mute === true
+                );
+
                 if (amFollowingThem) {
 
                   return (
@@ -74,6 +78,10 @@ const Followee = () => {
                       <div>{user.username}</div>
 
                       {pendingAcceptThem && <div>Accept them</div>}
+
+
+                      {isMuted && <div>Unmute</div>}
+                      {!isMuted && <div>Mute</div>}
 
                     </div>
                   );
