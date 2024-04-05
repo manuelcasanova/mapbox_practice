@@ -12,9 +12,10 @@ import RidesPublic from './components/RidesPublic';
 import RidesUser from './components/RidesUser'
 import RidesAll from './components/RidesAll';
 import UsersAdmin from './components/UsersAdmin';
+import UsersAll from './components/UsersAll';
 import MapsPublic from './components/MapsPublic';
-import Followee from './components/Followee';
-import Followers from './components/Followers';
+import Followee from './components/UsersFollowee';
+import Followers from './components/UsersFollowers';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -150,12 +151,24 @@ function App() {
               </Route>
 
               <Route
-                exact path="/users/all"
+                exact path="/users/admin"
                 element={
                   <>
                     <Title />
                     <Information setFromButton={setFromButton} />
                     <UsersAdmin />
+                    <Footer />
+                  </>
+                }>
+              </Route>
+
+              <Route
+                exact path="/users/all"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <UsersAll />
                     <Footer />
                   </>
                 }>

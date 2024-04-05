@@ -3,16 +3,20 @@ import { useAuth } from "./Context/AuthContext";
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
-import fetchFollowers from './util_functions/FetchFollowers';
+import fetchFollowee from './util_functions/FetchFollowee';
 
-const Followers = () => {
+const UsersAll = () => {
   const [users, setUsers] = useState([]);
   const [followers, setFollowers] = useState([])
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
+
+
   const userLoggedin = user.id
+
+  const usersExceptMe = users.filter(user => user.id !== userLoggedin);
 
   useEffect(() => {
     console.log("followers", followers)
@@ -23,7 +27,7 @@ const Followers = () => {
     let isMounted = true;
     const controller = new AbortController();
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
-    fetchFollowers(user, setFollowers, setIsLoading, setError, isMounted)
+    fetchFollowee(user, setFollowers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -46,7 +50,7 @@ const Followers = () => {
 
           {user.loggedIn ? (
             <div>
-              {users.map(user => {
+              {usersExceptMe.map(user => {
 
                 const amFollowingThem = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'accepted'
@@ -64,7 +68,7 @@ const Followers = () => {
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
                 );
 
-                if (areFollowingMe) {
+         
 
                   return (
 
@@ -72,15 +76,20 @@ const Followers = () => {
 
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>
+                      
+                      {pendingAcceptThem && <div>Accept them</div>}
 
-                      {amFollowingThem && <div>I'm following them back</div>}
-                      {!amFollowingThem && <div>Follow them back</div>}
+                      {amFollowingThem && !areFollowingMe && <div>I'm following them, they are not</div>}
+                      {amFollowingThem && areFollowingMe && <div>I'm following them back</div>}
+
+
+                      {!amFollowingThem && areFollowingMe && <div>Follow back or Mute</div>}
+                      {!amFollowingThem && !areFollowingMe && <div>Not following them, not being followed</div>}
+                
 
                     </div>
                   );
-                } else {
-                  return null
-                }
+        
 
               })}
 
@@ -95,4 +104,4 @@ const Followers = () => {
   );
 };
 
-export default Followers;
+export default UsersAll;

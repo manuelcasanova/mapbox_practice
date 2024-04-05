@@ -7,16 +7,15 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
        ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true, '[]', '[3]');
 
 
-INSERT INTO followers (follower_id, followee_id, status) VALUES
-(1, 2, 'accepted'), 
-(1, 3, 'pending'),
-(1, 4, 'accepted'),
-(1, 5, 'accepted'), 
-(2, 1, 'pending'),  
-(3, 1, 'accepted'),  
-(4, 1, 'accepted'),
-(5, 1, 'pending')
-; 
+INSERT INTO followers (follower_id, followee_id, status, mute) VALUES
+(1, 2, 'accepted', false), 
+(1, 3, 'pending', false),
+(1, 4, 'accepted', false),
+(1, 5, 'accepted', false), 
+(2, 1, 'pending', false),  
+(3, 1, 'accepted', true),  --3 is following 1, but 1 has muted them, which means 3 should not see 1's maps or rides
+(4, 1, 'accepted', false),
+(5, 1, 'pending', false); 
 
 INSERT INTO maps (title, createdBy, createdAt, isPrivate) VALUES 
 ('Stanley Park Loop', 2, Now(), true),

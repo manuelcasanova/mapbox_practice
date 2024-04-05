@@ -32,6 +32,9 @@ export default function
         <button className="navbar_button"
           onClick={() => navigate("/rides/mine")}
         >See my rides</button>
+               <button className="navbar_button"
+          onClick={() => navigate("/users/all")}
+        >Users</button>
         <button className="navbar_button"
           onClick={() => navigate("/users/followee")}
         >Following</button>
@@ -49,7 +52,7 @@ export default function
           // onClick={() => navigate("/rides/mine")}
           >Admin maps</button>
           <button className="navbar_button"
-            onClick={() => navigate("/users/all")}
+            onClick={() => navigate("/users/admin")}
           >Admin users</button>
         </div>
       }
