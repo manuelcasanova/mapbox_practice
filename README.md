@@ -1,9 +1,18 @@
 
-Rides and maps: Only me, followers, public
+
+
+In "See maps" show also "followee's maps"
+
+Modify this query for that purpose: app.get("/maps/public"
+
+See public maps if user not muted by user!
+
+See public rides if user not muted by user!
 
 
 
-See public maps/rides if user not muted by user!
+
+
 
 If muted, user cannot find other user in list. Give option to unmute (update to default status notconnected)
 
@@ -56,6 +65,8 @@ Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 
 
 DONE
+
+Rides and maps: Only me, followers, public
 
 rwithme.com register
 

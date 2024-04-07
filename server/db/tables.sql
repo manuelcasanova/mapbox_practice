@@ -37,7 +37,7 @@ CREATE TABLE maps (
   title VARCHAR(255),
   createdBy INTEGER REFERENCES users(id) ON DELETE CASCADE,
   createdAt timestamp,
-  isPrivate boolean DEFAULT false
+  mapType VARCHAR(10) DEFAULT 'public'
 );
 
 CREATE TABLE points (

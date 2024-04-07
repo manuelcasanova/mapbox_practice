@@ -205,7 +205,7 @@ app.post("/createmap", async (req, res) => {
       return res.status(401).json({ message: "A user needs to be logged in to create a map" });
     }
 
-    const newMap = await pool.query("INSERT INTO maps (title, createdby, createdAt, isPrivate) VALUES($1, $2, $3, $4) RETURNING *", [req.body.title, req.body.user.id, req.body.createdAt, req.body.privateMap]);
+    const newMap = await pool.query("INSERT INTO maps (title, createdby, createdAt, mapType) VALUES($1, $2, $3, $4) RETURNING *", [req.body.title, req.body.user.id, req.body.createdAt, req.body.mapType]);
 
     if (newMap.rows.length === 0) {
       return res.status(500).json({ message: "Failed to create map" });
@@ -517,7 +517,7 @@ app.get("/maps/public", async (req, res) => {
     // console.log("req query", req)
     //  console.log("userId serverjs", userId)
     const maps = await pool.query(
-      'SELECT * FROM maps WHERE isprivate = false ORDER BY id DESC'
+      `SELECT * FROM maps WHERE mapType = 'public' ORDER BY id DESC`
     );
     res.json(maps.rows)
   } catch (err) {
