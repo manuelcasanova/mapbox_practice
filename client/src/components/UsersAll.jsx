@@ -80,11 +80,13 @@ const UsersAll = () => {
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>
                       
-                      {pendingAcceptThem && <div>Accept them</div>}
+                     
 
                       {amFollowingThem && !areFollowingMe && <div>Following</div>}
                       {amFollowingThem && areFollowingMe && <div>Following</div>}
 
+
+                      {pendingAcceptThem && <div>Accept them</div>}
 
                       {!amFollowingThem && areFollowingMe && <div>Follow back</div>}
                       {!amFollowingThem && !areFollowingMe && <div>Follow</div>}

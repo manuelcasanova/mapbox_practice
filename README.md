@@ -1,5 +1,17 @@
-/users/followers
-only get the rows if the user is either the follower or followee, but not the rest.
+
+Rides and maps: Only me, followers, public
+
+
+
+See public maps/rides if user not muted by user!
+
+If muted, user cannot find other user in list. Give option to unmute (update to default status notconnected)
+
+Show a component with muted users, and allow to unmute.
+
+If following someone: option to unfollow, but also to mute. Also mute someone if not following. For instance, someone publishes all the time rides that I'm not interested, but I'm not following. Mute them from the feed.
+
+
 
 
 USERS page with 4 subpages
@@ -10,23 +22,17 @@ FOLLOWERS: MUTE (do not allow the to see your "followers rides/maps". Do not see
 MUTED: Show all muted users. Button/logic: UNMUTE
 
 
-Idea:
-
-Friendships psql table (user1_id, user2_id, status: notconnected (default) pending, accepted, declined, blocked). 
-
 When a user sends a connection request, modify status to pending. Once accepted, modify to accepted.
 
-If blocked, user cannot find other user in list. Give option to unblock (update to default status notconnected)
 
 Show list: Friends, Pending, All
 
-See public maps/rides if user not blocked by user!
 
-Rides and maps: Only me, followers, public
 
-If following someone: option to unfollow, but also to mute. Also mute someone if not following. For instance, someone publishes all the time rides that I'm not interested, but I'm not following. Mute them from the feed.
 
-Show a component with muted users, and allow to unmute.
+
+
+
 
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
 

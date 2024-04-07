@@ -83,6 +83,8 @@ const Followee = () => {
                       {isMuted && <div>Unmute</div>}
                       {!isMuted && <div>Mute</div>}
 
+                      {amFollowingThem && <div>Unfollow</div>}
+
                     </div>
                   );
                 } else {
