@@ -20,7 +20,7 @@ INSERT INTO followers (follower_id, followee_id, status, mute) VALUES
 
 INSERT INTO maps (title, createdBy, createdAt, mapType) VALUES 
 ('Stanley Park Loop', 2, Now(), 'private'),
-('Grouse Mountain', 3, Now(), 'followers'),
+('Grouse Mountain', 5, Now(), 'followers'),
 ('User1 Public Map', 1, Now(), 'public');
 
 -- INSERT INTO map_users (map_id, user_id)

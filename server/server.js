@@ -515,10 +515,28 @@ app.get("/maps/public", async (req, res) => {
 
     const userId = req.query.userId;
     // console.log("req query", req)
-    //  console.log("userId serverjs", userId)
+      // console.log("userId serverjs", userId)
     const maps = await pool.query(
-      `SELECT * FROM maps WHERE mapType = 'public' ORDER BY id DESC`
+      // `SELECT * FROM maps WHERE mapType = 'public' ORDER BY id DESC`
+  
+      // `SELECT * from maps WHERE mapType = 'public' OR (maps.mapType = 'followers' 
+      //     AND EXISTS (SELECT 1 FROM followers WHERE maps.createdBy = followers.follower_id AND followers.userId = $1))
+      // ORDER BY maps.id DESC`
+  
+      // `SELECT * FROM maps WHERE mapType = 'public' OR 
+      // (mapType = 'followers' ) ORDER BY id DESC`
+
+      `SELECT DISTINCT m.* 
+      FROM maps m
+      LEFT JOIN followers f ON m.createdBy = f.followee_id
+      WHERE (m.mapType = 'public' OR (m.mapType = 'followers' AND f.follower_id = $1))
+      ORDER BY m.id DESC
+      
+    `, [userId]
+
+
     );
+    // console.log("maps. rows", maps.rows)
     res.json(maps.rows)
   } catch (err) {
     console.error(err.message)

@@ -16,6 +16,8 @@ const MapsPublic = () => {
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
   const { user } = useAuth();
 
+  // console.log("maps", maps)
+
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 
@@ -37,7 +39,7 @@ const MapsPublic = () => {
         setIsLoading(true); // Set loading to true before API call
         const response = await axios.get('http://localhost:3500/maps/public', {
           params: {
-            user: user
+            userId: userId
           }
         });
         if (isMounted) {
