@@ -180,9 +180,16 @@ const RidesPublic = () => {
               {rides.map((ride, index) => {
                 // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
+// console.log("original date", originalDate)
+
                 const formattedDate = formatDate(originalDate);
 
+console.log("formatted Date fecha del ride", formattedDate)
+console.log("currentDateFormatted fecha de hoy", currentDateFormatted)
+
                 const isPastDate = formattedDate < currentDateFormatted;
+
+                
 
                 // console.log("isPastDate", isPastDate)
 

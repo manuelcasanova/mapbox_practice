@@ -25,7 +25,7 @@ export default function
         >Create ride</button>
         <button className="navbar_button"
           onClick={() => navigate("/rides/public")}
-        >See public rides</button>
+        >See rides</button>
         <button className="navbar_button"
           onClick={() => navigate("/maps/public")}
         >See maps</button>

@@ -698,11 +698,11 @@ app.get("/rides/public", async (req, res) => {
         const rides = await pool.query(ridesQuery, [
           dateStart, dateEnd, 
           distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId]);
-          console.log("rides.rows YES filtered rides", rides.rows)
+          // console.log("rides.rows YES filtered rides", rides.rows)
         res.json(rides.rows)
 
       } else {
-        console.log("No filtered rides")
+        // console.log("No filtered rides")
 
         // If there are no filtering parameters provided, return all public rides
         // const rides = await pool.query(`
@@ -725,7 +725,7 @@ app.get("/rides/public", async (req, res) => {
 //    ORDER BY m.id DESC
    
 //  `, [userId]
-console.log("rides.rows no filtered rides", rides.rows)
+// console.log("rides.rows no filtered rides", rides.rows)
         res.json(rides.rows);
       }
 
