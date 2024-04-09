@@ -57,7 +57,7 @@ CREATE TABLE rides (
   isActive boolean DEFAULT true,
   createdBy INTEGER REFERENCES users(id) ON DELETE CASCADE,
   createdAt timestamp,
-  isPrivate boolean DEFAULT false,
+  rideType VARCHAR(10) DEFAULT 'public',
   image VARCHAR(255),
   gpx VARCHAR(255),
   starting_date DATE,

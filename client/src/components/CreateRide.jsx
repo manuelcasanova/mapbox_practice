@@ -11,8 +11,9 @@ export default function CreateRide() {
   const { user, mapId, setMapId } = useAuth();
   const userId = user.id;
 
-  const [privateRide, setPrivateRide] = useState(false);
-  const [publicRide, setPublicRide] = useState(true);
+  const [rideType, setRideType] = useState("public"); 
+
+// console.log(rideType)
 
   const navigate = useNavigate();
 
@@ -36,9 +37,23 @@ export default function CreateRide() {
   const [error, setError] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const handleChange = () => {
-    setPrivateRide(!privateRide);
-    setPublicRide(!publicRide);
+  const handleChange = (e) => {
+    const { name, checked } = e.target;
+
+    // Update rideType based on which checkbox is clicked
+    switch (name) {
+      case "private":
+        setRideType(checked ? "private" : rideType);
+        break;
+      case "public":
+        setRideType(checked ? "public" : rideType);
+        break;
+      case "followers":
+        setRideType(checked ? "followers" : rideType);
+        break;
+      default:
+        break;
+    }
   };
 
   useEffect(() => {
@@ -102,7 +117,7 @@ export default function CreateRide() {
       mapId,
       createdAt,
       dateString,
-      privateRide,
+      rideType,
       userId,
       meetingPoint
     };
@@ -147,22 +162,33 @@ export default function CreateRide() {
                 value={title}
                 required></input>
 
-              <label>
-                Private
-                <input
-                  type="checkbox"
-                  checked={privateRide}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Public
-                <input
-                  type="checkbox"
-                  checked={publicRide}
-                  onChange={handleChange}
-                />
-              </label>
+<label>
+              Public
+              <input
+                type="checkbox"
+                name="public"
+                checked={rideType === "public"}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Followers
+              <input
+                type="checkbox"
+                name="followers"
+                checked={rideType === "followers"}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Private
+              <input
+                type="checkbox"
+                name="private"
+                checked={rideType === "private"}
+                onChange={handleChange}
+              />
+            </label>
 
               <label>Date</label>
 

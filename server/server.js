@@ -325,7 +325,7 @@ app.post("/rides/adduser", async (req, res) => {
 //Create a ride
 app.post("/createride", async (req, res) => {
   try {
-    const { title, distance, speed, date, time, details, mapId, createdAt, dateString, privateRide, userId, meetingPoint } = req.body
+    const { title, distance, speed, date, time, details, mapId, createdAt, dateString, rideType, userId, meetingPoint } = req.body
 
     // console.log("req.body", req.body)
 
@@ -362,7 +362,7 @@ app.post("/createride", async (req, res) => {
     //Converts 13/01/2023 to 2023-01-13
     const psqlDate = `${dateString[6] + dateString[7] + dateString[8] + dateString[9] + `-` + dateString[3] + dateString[4] + `-` + dateString[0] + dateString[1]}`
 
-    const newRide = await pool.query(`INSERT INTO rides (name, distance, speed, createdat, map, starting_date, starting_time, isprivate, createdBy, details, meeting_point) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`, [title, distance, speed, createdAt, mapId, psqlDate, time, privateRide, userId, details, meetingPoint])
+    const newRide = await pool.query(`INSERT INTO rides (name, distance, speed, createdat, map, starting_date, starting_time, ridetype, createdBy, details, meeting_point) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`, [title, distance, speed, createdAt, mapId, psqlDate, time, rideType, userId, details, meetingPoint])
     res.json(newRide.rows[0])
   } catch (err) {
     console.error(err.message)
