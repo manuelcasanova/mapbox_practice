@@ -7,7 +7,7 @@ import axios from 'axios';
 export default function CreateMap({ setFromButton }) {
 
   const { user, setMapId } = useAuth();
-  const [mapType, setMapType] = useState("public"); 
+  const [mapType, setMapType] = useState("public");
 
   // console.log("user", user)
 
@@ -39,7 +39,7 @@ export default function CreateMap({ setFromButton }) {
     e.preventDefault();
     try {
 
-   
+
       const response = await axios.post(`http://localhost:3500/createmap`, {
         title,
         user,
@@ -73,18 +73,18 @@ export default function CreateMap({ setFromButton }) {
               value={title}
               required></input>
 
-<label>
-  Visibility
-  <select
-    value={mapType}
-    onChange={handleChange}
-    name="mapType"
-  >
-    <option value="public">Everyone</option>
-    <option value="followers">Followers</option>
-    <option value="private">Only me</option>
-  </select>
-</label>
+            <label>
+              Visibility
+              <select
+                value={mapType}
+                onChange={handleChange}
+                name="mapType"
+              >
+                <option value="public">Everyone</option>
+                <option value="followers">Followers</option>
+                <option value="private">Only me</option>
+              </select>
+            </label>
 
             <button
               disabled={!title}

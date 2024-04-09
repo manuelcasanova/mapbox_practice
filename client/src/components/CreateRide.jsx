@@ -11,9 +11,9 @@ export default function CreateRide() {
   const { user, mapId, setMapId } = useAuth();
   const userId = user.id;
 
-  const [rideType, setRideType] = useState("public"); 
+  const [rideType, setRideType] = useState("public");
 
-// console.log(rideType)
+  // console.log(rideType)
 
   const navigate = useNavigate();
 
@@ -38,22 +38,9 @@ export default function CreateRide() {
   const [showCalendar, setShowCalendar] = useState(false);
 
   const handleChange = (e) => {
-    const { name, checked } = e.target;
+    const { value } = e.target;
 
-    // Update rideType based on which checkbox is clicked
-    switch (name) {
-      case "private":
-        setRideType(checked ? "private" : rideType);
-        break;
-      case "public":
-        setRideType(checked ? "public" : rideType);
-        break;
-      case "followers":
-        setRideType(checked ? "followers" : rideType);
-        break;
-      default:
-        break;
-    }
+    setRideType(value);
   };
 
   useEffect(() => {
@@ -163,31 +150,16 @@ export default function CreateRide() {
                 required></input>
 
 <label>
-              Public
-              <input
-                type="checkbox"
-                name="public"
-                checked={rideType === "public"}
+              Visibility
+              <select
+                value={rideType}
                 onChange={handleChange}
-              />
-            </label>
-            <label>
-              Followers
-              <input
-                type="checkbox"
-                name="followers"
-                checked={rideType === "followers"}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Private
-              <input
-                type="checkbox"
-                name="private"
-                checked={rideType === "private"}
-                onChange={handleChange}
-              />
+                name="rideType"
+              >
+                <option value="public">Everyone</option>
+                <option value="followers">Followers</option>
+                <option value="private">Only me</option>
+              </select>
             </label>
 
               <label>Date</label>
