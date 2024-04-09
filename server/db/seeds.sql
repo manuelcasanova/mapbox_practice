@@ -19,9 +19,9 @@ INSERT INTO followers (follower_id, followee_id, status, mute) VALUES
 (5, 1, 'pending', false); 
 
 INSERT INTO maps (title, createdBy, createdAt, mapType) VALUES 
-('Stanley Park Loop', 2, Now(), 'private'),
-('Grouse Mountain', 5, Now(), 'followers'),
-('User1 Public Map', 1, Now(), 'public');
+('Stanley Park Loop PRIVATE', 1, Now(), 'private'),
+('Grouse Mountain FOLLOWERS', 5, Now(), 'followers'),
+('User1 Public Map PUBLIC', 1, Now(), 'public');
 
 -- INSERT INTO map_users (map_id, user_id)
 -- VALUES
@@ -240,6 +240,7 @@ INSERT INTO points (lat, lng, map) VALUES
 (49.32623971523265, -123.12048093415798, 2),
 (49.32531621012954, -123.12161006033422, 2),
 (49.32457336280254, -123.12281956896189, 2),
+
 (49.2950770378737, -123.13649053685369, 3),
 (49.29538482702951, -123.13628668896855, 3);
 
@@ -252,6 +253,6 @@ INSERT INTO rides (name, distance, speed, isSelected, isActive, createdBy, creat
 VALUES 
   ('Stanley Park Bike Ride PUBLIC', 20, 23, false, true, 2, NOW(), 'public', 'stanley_park_bike.jpg', 'stanley_park_bike.gpx', '2024-03-10', '10:00:00', 'Vancouver Art Gallery', 'Enjoy a bike ride around Stanley Park.', 1),
   ('Grouse Mountain Parking Lot FOLLOWERS', 10, 18, false, true, 3, NOW(), 'followers', 'grouse.jpg', 'grouse.gpx', '2024-12-18', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famous ''Triple Crown''.', 2),
-    ('Grouse Mountain Parking Lot PUBLIC', 10, 18, false, true, 4, NOW(), 'public', 'grouse.jpg', 'grouse.gpx', '2024-12-19', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famous ''Triple Crown''.', 2);
+    ('Stanley Park Short PUBLIC', 10, 18, false, true, 4, NOW(), 'public', 'stanley.jpg', 'stanley.gpx', '2024-12-19', '11:00:00', 'Bridge', 'Stanley short.', 3);
 
 

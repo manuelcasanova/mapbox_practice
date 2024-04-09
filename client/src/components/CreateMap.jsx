@@ -20,22 +20,9 @@ export default function CreateMap({ setFromButton }) {
   const createdAt = new Date().toISOString();
 
   const handleChange = (e) => {
-    const { name, checked } = e.target;
+    const { value } = e.target;
 
-    // Update mapType based on which checkbox is clicked
-    switch (name) {
-      case "private":
-        setMapType(checked ? "private" : mapType);
-        break;
-      case "public":
-        setMapType(checked ? "public" : mapType);
-        break;
-      case "followers":
-        setMapType(checked ? "followers" : mapType);
-        break;
-      default:
-        break;
-    }
+    setMapType(value);
   };
 
 
@@ -86,33 +73,18 @@ export default function CreateMap({ setFromButton }) {
               value={title}
               required></input>
 
-            <label>
-              Public
-              <input
-                type="checkbox"
-                name="public"
-                checked={mapType === "public"}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Followers
-              <input
-                type="checkbox"
-                name="followers"
-                checked={mapType === "followers"}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Private
-              <input
-                type="checkbox"
-                name="private"
-                checked={mapType === "private"}
-                onChange={handleChange}
-              />
-            </label>
+<label>
+  Visibility
+  <select
+    value={mapType}
+    onChange={handleChange}
+    name="mapType"
+  >
+    <option value="public">Everyone</option>
+    <option value="followers">Followers</option>
+    <option value="private">Only me</option>
+  </select>
+</label>
 
             <button
               disabled={!title}

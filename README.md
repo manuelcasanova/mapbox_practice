@@ -1,5 +1,3 @@
-Create ride: Followers option
-
 Create map/ride Who can see it? Dropdown instead of three checkboxes
 
 If following someone: option to unfollow, but also to mute. Also mute someone if not following. For instance, someone publishes all the time rides that I'm not interested, but I'm not following. Mute them from the feed.
@@ -11,11 +9,6 @@ See public rides if user not muted by user!
 If muted, user cannot find other user in list. Give option to unmute (update to default status notconnected)
 
 Show a component with muted users, and allow to unmute.
-
-
-
-
-
 
 USERS page with 4 subpages
 
@@ -59,6 +52,8 @@ Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 
 
 DONE
+
+Create ride: Followers option
 
 In "See maps" show also "followee's maps"
 
