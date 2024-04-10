@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "./Context/AuthContext";
+import axios from 'axios'
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -32,6 +33,28 @@ const UsersAll = () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, [user]);
+
+  const followUser = (followeeId, followerId) => {
+  
+    console.log(`Following user with ID ${followeeId} from user with ID ${followerId}`);
+  
+    const data = {
+      followeeId: followeeId,
+      followerId: followerId,
+      user: user
+    };
+
+    axios.post('http://localhost:3500/users/follow', data)
+    .then(response => {
+      
+      console.log('Follow request sent successfully:', response.data);
+
+    })
+    .catch(error => {
+      console.error('Error sending follow request:', error);
+    });
+
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -71,33 +94,60 @@ const UsersAll = () => {
                 const isMuted = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.mute === true
                 );
-         
-
-                  return (
-
-                    <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-
-                      <div>Id: {user.id}</div>  {/* Hide on production */}
-                      <div>{user.username}</div>
-                      
-                     
-
-                      {amFollowingThem && !areFollowingMe && <button>Unfollow</button>}
-                      {amFollowingThem && areFollowingMe && <button>Unfollow</button>}
 
 
-                      {pendingAcceptThem && <button>Approve follower</button>}
+                return (
 
-                      {!amFollowingThem && areFollowingMe && <button>Follow back</button>}
-                      {!amFollowingThem && !areFollowingMe && <button>Follow</button>}
+                  <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 
-                      {isMuted && <button>Unmute</button>}
-                      {!isMuted && <button>Mute</button>}
-                
+                    <div>Id: {user.id}</div>  {/* Hide on production */}
+                    <div>{user.username}</div>
 
-                    </div>
-                  );
-        
+
+                    {amFollowingThem && !areFollowingMe && <button
+                      onClick={() => {
+                        followUser(user.id, userLoggedin)
+                      }}
+                    >Unfollow</button>}
+                    {amFollowingThem && areFollowingMe && <button
+                      onClick={() => {
+                        console.log("Unfollow")
+                      }}
+                    >Unfollow</button>}
+
+
+                    {pendingAcceptThem && <button
+                      onClick={() => {
+                        console.log("Approve follower")
+                      }}
+                    >Approve follower</button>}
+
+                    {!amFollowingThem && areFollowingMe && <button
+                      onClick={() => {
+                        followUser(user.id, userLoggedin)
+                      }}
+                    >Follow back</button>}
+                    {!amFollowingThem && !areFollowingMe && <button
+                      onClick={() => {
+                        followUser(user.id, userLoggedin)
+                      }}
+                    >Follow</button>}
+
+                    {isMuted && <button
+                      onClick={() => {
+                        console.log("Unmute")
+                      }}
+                    >Unmute</button>}
+                    {!isMuted && <button
+                      onClick={() => {
+                        console.log("Mute")
+                      }}
+                    >Mute</button>}
+
+
+                  </div>
+                );
+
 
               })}
 

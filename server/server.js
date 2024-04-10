@@ -52,7 +52,7 @@ app.get("/users", async (req, res) => {
 
 
 //Get all users (name only)
-app.get("/users/follow", async (req, res) => {
+app.get("/users/names", async (req, res) => {
   try {
 
     if (req.query.user && req.query.user.loggedIn) {
@@ -70,6 +70,35 @@ app.get("/users/follow", async (req, res) => {
   }
 });
 
+//Follow a user
+app.post("/users/follow", async (req, res) => {
+  try {
+
+
+    console.log("hit users/follow")
+    console.log("req", req.body)
+
+    const followeeId = req.body.followeeId;
+    const followerId = req.body.followerId;
+    const user = req.body.user;
+
+    if (req.body.user && req.body.user.loggedIn) {
+      console.log("follow")
+
+
+
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+
+
 //Get all followees
 app.get("/users/followee", async (req, res) => {
   try {
@@ -81,10 +110,10 @@ app.get("/users/followee", async (req, res) => {
         [req.query.user.id]
       );
       res.json(fetchFollowee.rows)
-     } else {
+    } else {
       //  Return an error message indicating unauthorized access
-       res.status(403).json({ error: "Unauthorized access" });
-     }
+      res.status(403).json({ error: "Unauthorized access" });
+    }
 
   } catch (err) {
     console.error(err.message)
@@ -103,10 +132,10 @@ app.get("/users/followers", async (req, res) => {
       );
       // console.log(fetchFollowers.rows)
       res.json(fetchFollowers.rows)
-     } else {
+    } else {
       //  Return an error message indicating unauthorized access
-       res.status(403).json({ error: "Unauthorized access" });
-     }
+      res.status(403).json({ error: "Unauthorized access" });
+    }
 
   } catch (err) {
     console.error(err.message)
@@ -515,7 +544,7 @@ app.get("/maps/public", async (req, res) => {
 
     const userId = req.query.userId;
     // console.log("req query", req)
-      // console.log("userId serverjs", userId)
+    // console.log("userId serverjs", userId)
     const maps = await pool.query(
 
       `SELECT DISTINCT m.* 
@@ -672,8 +701,8 @@ app.get("/rides/public", async (req, res) => {
         const speedRangeMax = req.query.filteredRides.speedMax
 
         // console.log(
-          // dateRangeStart, dateRangeEnd, 
-          // dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax)
+        // dateRangeStart, dateRangeEnd, 
+        // dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax)
 
         // Construct the SQL query with parameters
 
@@ -696,9 +725,9 @@ app.get("/rides/public", async (req, res) => {
 
         // Execute the query with parameters
         const rides = await pool.query(ridesQuery, [
-          dateStart, dateEnd, 
+          dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId]);
-          // console.log("rides.rows YES filtered rides", rides.rows)
+        // console.log("rides.rows YES filtered rides", rides.rows)
         res.json(rides.rows)
 
       } else {
@@ -717,15 +746,15 @@ app.get("/rides/public", async (req, res) => {
         WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $1))
         `, [userId]);
 
-        
+
         //    `SELECT DISTINCT m.* 
-//    FROM maps m
-//    LEFT JOIN followers f ON m.createdBy = f.followee_id
-//    WHERE (m.mapType = 'public' OR (m.mapType = 'followers' AND f.follower_id = $1))
-//    ORDER BY m.id DESC
-   
-//  `, [userId]
-// console.log("rides.rows no filtered rides", rides.rows)
+        //    FROM maps m
+        //    LEFT JOIN followers f ON m.createdBy = f.followee_id
+        //    WHERE (m.mapType = 'public' OR (m.mapType = 'followers' AND f.follower_id = $1))
+        //    ORDER BY m.id DESC
+
+        //  `, [userId]
+        // console.log("rides.rows no filtered rides", rides.rows)
         res.json(rides.rows);
       }
 
