@@ -74,10 +74,6 @@ app.get("/users/names", async (req, res) => {
 app.post("/users/follow", async (req, res) => {
   try {
 
-
-    console.log("hit users/follow")
-    console.log("req", req.body)
-
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
@@ -85,7 +81,15 @@ app.post("/users/follow", async (req, res) => {
     if (req.body.user && req.body.user.loggedIn) {
       console.log("follow")
 
-
+      const insertFollowee = await pool.query(
+        `
+        INSERT INTO followers (follower_id, followee_id, status)
+        VALUES ($1, $2, 'pending')
+        ON CONFLICT (follower_id, followee_id)
+        DO UPDATE SET status = 'accepted'`,
+        [followerId, followeeId]
+      );
+      res.json(insertFollowee.rows)
 
     } else {
       // Return an error message indicating unauthorized access
