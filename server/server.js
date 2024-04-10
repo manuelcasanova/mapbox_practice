@@ -103,6 +103,43 @@ app.post("/users/follow", async (req, res) => {
   }
 });
 
+//Approve followee
+
+app.post("/users/approvefollower", async (req, res) => {
+  try {
+
+    const followeeId = req.body.followeeId;
+    const followerId = req.body.followerId;
+    const user = req.body.user;
+
+    if (req.body.user && req.body.user.loggedIn) {
+    
+
+      const insertFollower = await pool.query(
+        `
+        INSERT INTO followers (follower_id, followee_id, status)
+        VALUES ($1, $2, 'accepted')
+        ON CONFLICT (follower_id, followee_id)
+        DO UPDATE SET status = 'accepted'
+        RETURNING *
+        `,
+        [followerId, followeeId]
+      );
+// console.log("inserFolloweerows0", insertFollower.rows[0])
+      res.json(insertFollower.rows[0])
+
+
+
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
 
 
 //Get all followees

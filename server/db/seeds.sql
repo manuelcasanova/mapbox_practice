@@ -7,16 +7,16 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
        ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true, '[]', '[3]');
 
 
-INSERT INTO followers (follower_id, followee_id, status, mute) VALUES
-(1, 2, 'accepted', false), 
-(1, 3, 'pending', false),
-(1, 4, 'accepted', false),
-(1, 5, 'accepted', false), 
-(2, 1, 'pending', false),  
-(3, 1, 'accepted', true),
-(3, 2, 'accepted', false),
-(4, 1, 'accepted', false),
-(5, 1, 'pending', false); 
+-- INSERT INTO followers (follower_id, followee_id, status, mute) VALUES
+-- (1, 2, 'accepted', false), 
+-- (1, 3, 'pending', false),
+-- (1, 4, 'accepted', false),
+-- (1, 5, 'accepted', false), 
+-- (2, 1, 'pending', false),  
+-- (3, 1, 'accepted', true),
+-- (3, 2, 'accepted', false),
+-- (4, 1, 'accepted', false),
+-- (5, 1, 'pending', false); 
 
 INSERT INTO maps (title, createdBy, createdAt, mapType) VALUES 
 ('Stanley Park Loop PRIVATE', 1, Now(), 'private'),
