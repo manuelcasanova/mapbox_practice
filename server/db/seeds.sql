@@ -13,7 +13,7 @@ INSERT INTO followers (follower_id, followee_id, status, mute) VALUES
 (1, 4, 'accepted', false),
 (1, 5, 'accepted', false), 
 (2, 1, 'pending', false),  
-(3, 1, 'accepted', true),  --3 is following 1, but 1 has muted them, which means 3 should not see 1's maps or rides
+(3, 1, 'accepted', true),
 (3, 2, 'accepted', false),
 (4, 1, 'accepted', false),
 (5, 1, 'pending', false); 

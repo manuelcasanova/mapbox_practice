@@ -79,17 +79,19 @@ app.post("/users/follow", async (req, res) => {
     const user = req.body.user;
 
     if (req.body.user && req.body.user.loggedIn) {
-      console.log("follow")
+      // console.log("follow")
 
       const insertFollowee = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status)
         VALUES ($1, $2, 'pending')
         ON CONFLICT (follower_id, followee_id)
-        DO UPDATE SET status = 'accepted'`,
+        DO UPDATE SET status = 'accepted' RETURNING *`,
         [followerId, followeeId]
       );
-      res.json(insertFollowee.rows)
+// console.log("inserFolloweerows0", insertFollowee.rows[0])
+      res.json(insertFollowee.rows[0])
+
 
     } else {
       // Return an error message indicating unauthorized access

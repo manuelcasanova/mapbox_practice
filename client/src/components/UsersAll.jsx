@@ -13,14 +13,13 @@ const UsersAll = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-
-
   const userLoggedin = user.id
 
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
 
   useEffect(() => {
-    console.log("followers", followers)
+      console.log("followers", followers)
+    console.log("users", users)
   })
 
 
@@ -48,6 +47,26 @@ const UsersAll = () => {
     .then(response => {
       
       console.log('Follow request sent successfully:', response.data);
+
+      const newFollower = response.data;
+
+// Check if the new follower already exists in the state
+const existingFollowerIndex = followers.findIndex(follower =>
+  follower.follower_id === newFollower.follower_id &&
+  follower.followee_id === newFollower.followee_id
+);
+
+// If an existing follower is found, replace it with the new follower
+if (existingFollowerIndex !== -1) {
+  const updatedFollowers = [...followers];
+  updatedFollowers[existingFollowerIndex] = newFollower;
+  setFollowers(updatedFollowers);
+  console.log('Follower replaced in state:', newFollower);
+} else {
+  // If no existing follower found, add the new follower to the state
+  setFollowers(prevFollowers => [...prevFollowers, newFollower]);
+  console.log('New follower added to state:', newFollower);
+}
 
     })
     .catch(error => {
@@ -127,11 +146,13 @@ const UsersAll = () => {
                         followUser(user.id, userLoggedin)
                       }}
                     >Follow back</button>}
-                    {!amFollowingThem && !areFollowingMe && <button
+                    {!amFollowingThem && !areFollowingMe && !pendingAcceptMe && <button
                       onClick={() => {
                         followUser(user.id, userLoggedin)
                       }}
                     >Follow</button>}
+
+                    {pendingAcceptMe && <div>Requested to follow</div>}
 
                     {isMuted && <button
                       onClick={() => {
