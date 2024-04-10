@@ -77,11 +77,11 @@ const Followers = () => {
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>
 
-                      {amFollowingThem && <div>Following</div>}
-                      {!amFollowingThem && <div>Follow back</div>}
+                      {amFollowingThem && <button>Unfollow</button>}
+                      {!amFollowingThem && <button>Follow back</button>}
 
-                      {isMuted && <div>Unmute</div>}
-                      {!isMuted && <div>Mute</div>}
+                      {isMuted && <button>Unmute</button>}
+                      {!isMuted && <button>Mute</button>}
 
                     </div>
                   );

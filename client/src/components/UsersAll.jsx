@@ -82,17 +82,17 @@ const UsersAll = () => {
                       
                      
 
-                      {amFollowingThem && !areFollowingMe && <div>Following</div>}
-                      {amFollowingThem && areFollowingMe && <div>Following</div>}
+                      {amFollowingThem && !areFollowingMe && <button>Unfollow</button>}
+                      {amFollowingThem && areFollowingMe && <button>Unfollow</button>}
 
 
-                      {pendingAcceptThem && <div>Accept them</div>}
+                      {pendingAcceptThem && <button>Approve follower</button>}
 
-                      {!amFollowingThem && areFollowingMe && <div>Follow back</div>}
-                      {!amFollowingThem && !areFollowingMe && <div>Follow</div>}
+                      {!amFollowingThem && areFollowingMe && <button>Follow back</button>}
+                      {!amFollowingThem && !areFollowingMe && <button>Follow</button>}
 
-                      {isMuted && <div>Unmute</div>}
-                      {!isMuted && <div>Mute</div>}
+                      {isMuted && <button>Unmute</button>}
+                      {!isMuted && <button>Mute</button>}
                 
 
                     </div>

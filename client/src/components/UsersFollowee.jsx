@@ -77,13 +77,13 @@ const Followee = () => {
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>
 
-                      {pendingAcceptThem && <div>Accept them</div>}
+                      {pendingAcceptThem && <button>Approve follower</button>}
 
 
-                      {isMuted && <div>Unmute</div>}
-                      {!isMuted && <div>Mute</div>}
+                      {isMuted && <button>Unmute</button>}
+                      {!isMuted && <button>Mute</button>}
 
-                      {amFollowingThem && <div>Unfollow</div>}
+                      {amFollowingThem && <button>Unfollow</button>}
 
                     </div>
                   );

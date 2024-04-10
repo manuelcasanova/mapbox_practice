@@ -1,4 +1,10 @@
-Create map/ride Who can see it? Dropdown instead of three checkboxes
+Functions:
+
+FOLLOW
+UNFOLLOW
+MUTE
+UNMUTE
+
 
 If following someone: option to unfollow, but also to mute. Also mute someone if not following. For instance, someone publishes all the time rides that I'm not interested, but I'm not following. Mute them from the feed.
 
@@ -52,6 +58,9 @@ Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 
 
 DONE
+
+Create map/ride Who can see it? Dropdown instead of three checkboxes
+
 
 Create ride: Followers option
 
