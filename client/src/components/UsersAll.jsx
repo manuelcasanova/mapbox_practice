@@ -18,8 +18,8 @@ const UsersAll = () => {
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
 
   useEffect(() => {
-    console.log("followers", followers)
-    console.log("users", users)
+    // console.log("followers", followers)
+    // console.log("users", users)
   })
 
 
@@ -37,7 +37,7 @@ const UsersAll = () => {
 
   const followUser = (followeeId, followerId) => {
 
-    console.log(`Following user with ID ${followeeId} from user with ID ${followerId}`);
+    // console.log(`Following user with ID ${followeeId} from user with ID ${followerId}`);
 
     const data = {
       followeeId: followeeId,
@@ -48,7 +48,7 @@ const UsersAll = () => {
     axios.post('http://localhost:3500/users/follow', data)
       .then(response => {
 
-        console.log('Follow request sent successfully:', response.data);
+        // console.log('Follow request sent successfully:', response.data);
 
         const newFollower = response.data;
 
@@ -67,7 +67,7 @@ const UsersAll = () => {
         } else {
           // If no existing follower found, add the new follower to the state
           setFollowers(prevFollowers => [...prevFollowers, newFollower]);
-          console.log('New follower added to state:', newFollower);
+          // console.log('New follower added to state:', newFollower);
         }
 
       })
@@ -80,7 +80,7 @@ const UsersAll = () => {
   //Function to unfollow a user
 
   const unFollowUser = (followeeId, followerId) => {
-    console.log(`Unfollowing user with ID ${followeeId} from user with ID ${followerId}`);
+    // console.log(`Unfollowing user with ID ${followeeId} from user with ID ${followerId}`);
   
     const data = {
       followeeId: followeeId,
@@ -90,7 +90,7 @@ const UsersAll = () => {
   
     axios.post('http://localhost:3500/users/unfollow', data)
       .then(response => {
-        console.log('Unfollow request sent successfully');
+        // console.log('Unfollow request sent successfully');
   
         const removedFollower = response.data;
   
@@ -101,7 +101,7 @@ const UsersAll = () => {
         );
   
         setFollowers(updatedFollowers);
-        console.log('Follower removed from state:', removedFollower);
+        // console.log('Follower removed from state:', removedFollower);
       })
       .catch(error => {
         console.error('Error sending unfollow request:', error);
@@ -111,7 +111,7 @@ const UsersAll = () => {
   // Function to approve a follow request
 
   const approveFollower = (followeeId, followerId) => {
-    console.log(`Approving follower with ID ${followerId} for user with ID ${followeeId}`);
+    // console.log(`Approving follower with ID ${followerId} for user with ID ${followeeId}`);
 
     const data = {
       followeeId: followeeId,
@@ -121,7 +121,7 @@ const UsersAll = () => {
  
     axios.post('http://localhost:3500/users/approvefollower', data)
       .then(response => {
-        console.log('Follower approved successfully:', response.data);
+        // console.log('Follower approved successfully:', response.data);
      
         const newFollower = response.data;
 
@@ -136,7 +136,7 @@ const UsersAll = () => {
           const updatedFollowers = [...followers];
           updatedFollowers[existingFollowerIndex] = newFollower;
           setFollowers(updatedFollowers);
-          console.log('Follower replaced in state:', newFollower);
+          // console.log('Follower replaced in state:', newFollower);
         } else {
           // If no existing follower found, add the new follower to the state
           setFollowers(prevFollowers => [...prevFollowers, newFollower]);

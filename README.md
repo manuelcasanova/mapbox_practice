@@ -1,9 +1,8 @@
 Functions:
 
-FOLLOW
-UNFOLLOW
 MUTE
 UNMUTE
+MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
 
 If following someone: option to unfollow, but also to mute. Also mute someone if not following. For instance, someone publishes all the time rides that I'm not interested, but I'm not following. Mute them from the feed.
@@ -23,24 +22,27 @@ FOLLOWING: UNFOLLOW
 FOLLOWERS: MUTE (do not allow the to see your "followers rides/maps". Do not see theirs). They are still your followers, though.
 MUTED: Show all muted users. Button/logic: UNMUTE
 
-
-When a user sends a connection request, modify status to pending. Once accepted, modify to accepted.
-
-
 Show list: Friends, Pending, All
-
-
-
-
-
-
-
 
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
 
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
 
 Administrator: admin users, admin maps, admin rides, admin comments. If inappropiate. do not delete, keep in db, but do not show on front end, but a note "message removed due to..."
+
+Ride messaging
+
+Personal messaging between followers
+
+
+Follow request notifications
+
+Message notifications
+
+Possibility of receving email when:
+message notifications
+someone joins a ride
+someone writes a message in your ride
 
 Login/logout
 
@@ -58,6 +60,11 @@ Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 
 
 DONE
+
+Functions:
+
+FOLLOW
+UNFOLLOW
 
 Create map/ride Who can see it? Dropdown instead of three checkboxes
 
