@@ -103,6 +103,41 @@ app.post("/users/follow", async (req, res) => {
   }
 });
 
+//Unfollow a user
+
+
+app.post("/users/unfollow", async (req, res) => {
+  try {
+    const followeeId = req.body.followeeId;
+    const followerId = req.body.followerId;
+    const user = req.body.user;
+
+    if (req.body.user && req.body.user.loggedIn) {
+      const deleteFollower = await pool.query(
+        `
+        DELETE FROM followers
+        WHERE follower_id = $1 AND followee_id = $2
+        RETURNING *
+        `,
+        [followerId, followeeId]
+      );
+
+      if (deleteFollower.rows.length === 0) {
+        res.status(404).json({ error: "Follower not found" });
+      } else {
+        res.json(deleteFollower.rows[0]);
+      }
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal Server Error" }); // Handle internal server error
+  }
+});
+
+
 //Approve followee
 
 app.post("/users/approvefollower", async (req, res) => {

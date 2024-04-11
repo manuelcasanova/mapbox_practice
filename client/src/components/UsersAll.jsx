@@ -77,6 +77,37 @@ const UsersAll = () => {
 
   };
 
+  //Function to unfollow a user
+
+  const unFollowUser = (followeeId, followerId) => {
+    console.log(`Unfollowing user with ID ${followeeId} from user with ID ${followerId}`);
+  
+    const data = {
+      followeeId: followeeId,
+      followerId: followerId,
+      user: user
+    };
+  
+    axios.post('http://localhost:3500/users/unfollow', data)
+      .then(response => {
+        console.log('Unfollow request sent successfully');
+  
+        const removedFollower = response.data;
+  
+        // Remove the unfollowed user from the state
+        const updatedFollowers = followers.filter(follower =>
+          !(follower.follower_id === removedFollower.follower_id &&
+            follower.followee_id === removedFollower.followee_id)
+        );
+  
+        setFollowers(updatedFollowers);
+        console.log('Follower removed from state:', removedFollower);
+      })
+      .catch(error => {
+        console.error('Error sending unfollow request:', error);
+      });
+  };
+
   // Function to approve a follow request
 
   const approveFollower = (followeeId, followerId) => {
@@ -169,12 +200,12 @@ const UsersAll = () => {
 
                     {amFollowingThem && !areFollowingMe && <button
                       onClick={() => {
-                        followUser(user.id, userLoggedin)
+                        unFollowUser(user.id, userLoggedin)
                       }}
                     >Unfollow</button>}
                     {amFollowingThem && areFollowingMe && <button
                       onClick={() => {
-                        console.log("Unfollow")
+                        unFollowUser(user.id, userLoggedin)
                       }}
                     >Unfollow</button>}
 
