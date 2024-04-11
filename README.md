@@ -1,11 +1,6 @@
 Functions:
 
-MUTE
-UNMUTE
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
-
-
-If following someone: option to unfollow, but also to mute. Also mute someone if not following. For instance, someone publishes all the time rides that I'm not interested, but I'm not following. Mute them from the feed.
 
 See public maps if user not muted by user!
 
@@ -65,6 +60,8 @@ Functions:
 
 FOLLOW
 UNFOLLOW
+MUTE
+UNMUTE
 
 Create map/ride Who can see it? Dropdown instead of three checkboxes
 

@@ -8,6 +8,7 @@ import fetchFollowee from './util_functions/FetchFollowee';
 
 const UsersAll = () => {
   const [users, setUsers] = useState([]);
+  const [mutedUsers, setMutedUsers] = useState([]);
   const [followers, setFollowers] = useState([])
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,6 +29,17 @@ const UsersAll = () => {
     const controller = new AbortController();
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
     fetchFollowee(user, setFollowers, setIsLoading, setError, isMounted)
+    
+    // Fetch muted users
+    axios.get('http://localhost:3500/users/muted', { params: { userId: userLoggedin } })
+      .then(response => {
+        setMutedUsers(response.data.mutedUsers);
+      })
+      .catch(error => {
+        console.error('Error fetching muted users:', error);
+      });
+
+
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -150,6 +162,34 @@ const UsersAll = () => {
       });
   };
 
+    // Function to mute a user
+    const muteUser = (userId) => {
+      // Send request to backend to mute user
+      axios.post('http://localhost:3500/users/mute', { userLoggedin: user.id, userId })
+        .then(response => {
+          // Handle response if needed
+          // console.log(`User with ID ${userId} muted.`);
+          setMutedUsers([...mutedUsers, userId]); // Update mutedUsers state
+        })
+        .catch(error => {
+          console.error('Error muting user:', error);
+        });
+    };
+  
+    // Function to unmute a user
+    const unmuteUser = (userId) => {
+      // Send request to backend to unmute user
+      axios.post('http://localhost:3500/users/unmute', { userLoggedin: user.id, userId })
+        .then(response => {
+          // Handle response if needed
+          // console.log(`User with ID ${userId} unmuted.`);
+          setMutedUsers(mutedUsers.filter(id => id !== userId)); // Remove user from mutedUsers state
+        })
+        .catch(error => {
+          console.error('Error unmuting user:', error);
+        });
+    };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -185,9 +225,7 @@ const UsersAll = () => {
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
                 );
 
-                const isMuted = followers.some(follower =>
-                  follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.mute === true
-                );
+                const isMuted = mutedUsers.includes(user.id); 
 
 
                 return (
@@ -229,16 +267,11 @@ const UsersAll = () => {
 
                     {pendingAcceptMe && <div>Requested to follow</div>}
 
-                    {isMuted && <button
-                      onClick={() => {
-                        console.log("Unmute")
-                      }}
-                    >Unmute</button>}
-                    {!isMuted && <button
-                      onClick={() => {
-                        console.log("Mute")
-                      }}
-                    >Mute</button>}
+                    {isMuted ? (
+            <button onClick={() => unmuteUser(user.id)}>Unmute</button>
+          ) : (
+            <button onClick={() => muteUser(user.id)}>Mute</button>
+          )}
 
 
                   </div>

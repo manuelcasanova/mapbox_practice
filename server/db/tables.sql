@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS followers CASCADE;
+DROP TABLE IF EXISTS muted CASCADE;
 DROP TABLE IF EXISTS maps CASCADE;
 DROP TABLE IF EXISTS points CASCADE;
 DROP TABLE IF EXISTS rides CASCADE;
@@ -26,11 +27,17 @@ CREATE TABLE followers (
   follower_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   followee_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   status VARCHAR(20),
-  mute boolean DEFAULT false,
   PRIMARY KEY (follower_id, followee_id),
   CHECK (follower_id <> followee_id) -- Users cannot follow themselves
 );
 
+CREATE TABLE muted (
+  muter INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  mutee INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  mute boolean DEFAULT false,
+  PRIMARY KEY (muter, mutee),
+  CHECK (muter <> mutee) -- Users cannot mute themselves
+);
 
 CREATE TABLE maps (
   id SERIAL PRIMARY KEY NOT NULL,

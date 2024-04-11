@@ -70,6 +70,64 @@ app.get("/users/names", async (req, res) => {
   }
 });
 
+//Get muted users
+app.get('/users/muted', async (req, res) => {
+  const userId = req.query.userId; 
+  try {
+   
+    const result = await pool.query('SELECT mutee FROM muted WHERE muter = $1 AND mute = true', [userId]);
+    const mutedUsers = result.rows.map(row => row.mutee);
+    res.json({ mutedUsers });
+  } catch (error) {
+    console.error('Error fetching muted users:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+// Mute user route
+app.post('/users/mute', async (req, res) => {
+  const { userLoggedin, userId } = req.body;
+  try {
+    // Check if the record already exists
+    const existingRecord = await pool.query('SELECT * FROM muted WHERE muter = $1 AND mutee = $2', [userLoggedin, userId]);
+    if (existingRecord.rows.length === 0) {
+      // If record doesn't exist, insert a new one
+      await pool.query('INSERT INTO muted (muter, mutee, mute) VALUES ($1, $2, true)', [userLoggedin, userId]);
+      res.send('User muted successfully.');
+    } else {
+      // If record exists, update it
+      await pool.query('UPDATE muted SET mute = true WHERE muter = $1 AND mutee = $2', [userLoggedin, userId]);
+      res.send('User unmuted successfully.');
+    }
+  } catch (error) {
+    console.error('Error muting user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Unmute user route
+app.post('/users/unmute', async (req, res) => {
+  const { userLoggedin, userId } = req.body;
+  try {
+    // Check if the record already exists
+    const existingRecord = await pool.query('SELECT * FROM muted WHERE muter = $1 AND mutee = $2', [userLoggedin, userId]);
+    if (existingRecord.rows.length === 0) {
+      // If record doesn't exist, send a message indicating that the user is not muted
+      res.send('User is not muted.');
+    } else {
+      // If record exists, update it to unmute the user
+      await pool.query('UPDATE muted SET mute = false WHERE muter = $1 AND mutee = $2', [userLoggedin, userId]);
+      res.send('User unmuted successfully.');
+    }
+  } catch (error) {
+    console.error('Error unmuting user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
 //Follow a user
 app.post("/users/follow", async (req, res) => {
   try {
