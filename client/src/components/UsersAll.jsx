@@ -5,6 +5,7 @@ import axios from 'axios'
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchFollowee from './util_functions/FetchFollowee';
+import fetchMutedUsers from './util_functions/FetchMutedUsers';
 
 const UsersAll = () => {
   const [users, setUsers] = useState([]);
@@ -29,16 +30,7 @@ const UsersAll = () => {
     const controller = new AbortController();
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
     fetchFollowee(user, setFollowers, setIsLoading, setError, isMounted)
-    
-    // Fetch muted users
-    axios.get('http://localhost:3500/users/muted', { params: { userId: userLoggedin } })
-      .then(response => {
-        setMutedUsers(response.data.mutedUsers);
-      })
-      .catch(error => {
-        console.error('Error fetching muted users:', error);
-      });
-
+    fetchMutedUsers(userLoggedin, setMutedUsers, setIsLoading, setError, isMounted)
 
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
