@@ -6,6 +6,7 @@ import axios from 'axios'
 import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchFollowee from './util_functions/FetchFollowee';
 import fetchMutedUsers from './util_functions/FetchMutedUsers';
+import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 
 const UsersAll = () => {
   const [users, setUsers] = useState([]);
@@ -259,11 +260,12 @@ const UsersAll = () => {
 
                     {pendingAcceptMe && <div>Requested to follow</div>}
 
-                    {isMuted ? (
-            <button onClick={() => unmuteUser(user.id)}>Unmute</button>
-          ) : (
-            <button onClick={() => muteUser(user.id)}>Mute</button>
-          )}
+                    <MuteUserButton 
+                    userId={user.id}
+                    userLoggedin={userLoggedin}
+                    isMuted={mutedUsers.includes(user.id)}
+                    setMutedUsers={setMutedUsers}
+                  />
 
 
                   </div>
