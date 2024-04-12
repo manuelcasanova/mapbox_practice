@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "./Context/AuthContext";
-import axios from 'axios'
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -8,6 +7,7 @@ import fetchFollowee from './util_functions/FetchFollowee';
 import fetchMutedUsers from './util_functions/FetchMutedUsers';
 import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
+import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 
 const UsersAll = () => {
   const [users, setUsers] = useState([]);
@@ -16,11 +16,8 @@ const UsersAll = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-
   const userLoggedin = user.id
-
   const userLoggedInObject = user
-
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
 
   useEffect(() => {
@@ -35,47 +32,6 @@ const UsersAll = () => {
     };
   }, [user]);
 
-  // Function to approve a follow request
-
-  const approveFollower = (followeeId, followerId) => {
-    // console.log(`Approving follower with ID ${followerId} for user with ID ${followeeId}`);
-
-    const data = {
-      followeeId: followeeId,
-      followerId: followerId,
-      user: user
-    };
-
-    axios.post('http://localhost:3500/users/approvefollower', data)
-      .then(response => {
-        // console.log('Follower approved successfully:', response.data);
-
-        const newFollower = response.data;
-
-        // Check if the new follower already exists in the state
-        const existingFollowerIndex = followers.findIndex(follower =>
-          follower.follower_id === newFollower.follower_id &&
-          follower.followee_id === newFollower.followee_id
-        );
-
-        // If an existing follower is found, replace it with the new follower
-        if (existingFollowerIndex !== -1) {
-          const updatedFollowers = [...followers];
-          updatedFollowers[existingFollowerIndex] = newFollower;
-          setFollowers(updatedFollowers);
-          // console.log('Follower replaced in state:', newFollower);
-        } else {
-          // If no existing follower found, add the new follower to the state
-          setFollowers(prevFollowers => [...prevFollowers, newFollower]);
-          console.log('New follower added to state:', newFollower);
-        }
-
-
-      })
-      .catch(error => {
-        console.error('Error approving follower:', error);
-      });
-  };
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -112,28 +68,13 @@ const UsersAll = () => {
 
                     <div>Id: {user.id}</div>  {/* Hide on production */}
                     <div>{user.username}</div>
-
                     <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-
-                    {pendingAcceptThem && <button
-                      onClick={() => {
-                        approveFollower(userLoggedin, user.id)
-                      }}
-                    >Approve follower</button>}
-
-                    {pendingAcceptMe && <div>Requested to follow</div>}
-
                     <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers}
                     />
-
-
+                    <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />
                   </div>
                 );
-
-
               })}
-
-
             </div>
           ) : (
             <p>Please log in to see users.</p>

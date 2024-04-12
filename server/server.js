@@ -204,10 +204,10 @@ app.post("/users/approvefollower", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
+console.log(req.body)
 
     if (req.body.user && req.body.user.loggedIn) {
-    
-
+  
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status)
@@ -216,9 +216,8 @@ app.post("/users/approvefollower", async (req, res) => {
         DO UPDATE SET status = 'accepted'
         RETURNING *
         `,
-        [followerId, followeeId]
+        [followeeId, followerId]
       );
-// console.log("inserFolloweerows0", insertFollower.rows[0])
       res.json(insertFollower.rows[0])
 
 
