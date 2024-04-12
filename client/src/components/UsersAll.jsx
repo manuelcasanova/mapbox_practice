@@ -95,16 +95,8 @@ const UsersAll = () => {
             <div>
               {usersExceptMe.map(user => {
 
-                const amFollowingThem = followers.some(follower =>
-                  follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'accepted'
-                );
-
                 const pendingAcceptMe = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
-                );
-
-                const areFollowingMe = followers.some(follower =>
-                  follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'accepted'
                 );
 
                 const pendingAcceptThem = followers.some(follower =>
@@ -121,14 +113,7 @@ const UsersAll = () => {
                     <div>Id: {user.id}</div>  {/* Hide on production */}
                     <div>{user.username}</div>
 
-
-                    {amFollowingThem && !areFollowingMe && 
-                    <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers = {followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject}/>
-                    }
-                    {amFollowingThem && areFollowingMe && 
-                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers = {followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject}/>
-                    }
-
+                    <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
 
                     {pendingAcceptThem && <button
                       onClick={() => {
@@ -136,20 +121,9 @@ const UsersAll = () => {
                       }}
                     >Approve follower</button>}
 
-                    {!amFollowingThem && areFollowingMe && !pendingAcceptMe &&
-                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers = {followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-                    }
-                    {!amFollowingThem && !areFollowingMe && !pendingAcceptMe &&
-                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers = {followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-                    }
-
                     {pendingAcceptMe && <div>Requested to follow</div>}
 
-                    <MuteUserButton
-                      userId={user.id}
-                      userLoggedin={userLoggedin}
-                      isMuted={mutedUsers.includes(user.id)}
-                      setMutedUsers={setMutedUsers}
+                    <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers}
                     />
 
 
