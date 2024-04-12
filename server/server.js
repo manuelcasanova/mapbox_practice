@@ -135,7 +135,7 @@ app.post("/users/follow", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
-
+// console.log("req body", req.body)
     if (req.body.user && req.body.user.loggedIn) {
       // console.log("follow")
 
