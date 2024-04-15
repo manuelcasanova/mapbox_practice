@@ -863,6 +863,8 @@ app.get("/rides/public", async (req, res) => {
      SELECT DISTINCT r.*
      FROM rides r
      LEFT JOIN followers f ON r.createdby = f.followee_id
+     LEFT JOIN muted mute1 ON mute1.muter = $7 AND mute1.mutee = r.createdby
+     LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $7
      WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $7))
      AND starting_date >= $1
      AND starting_date <= $2
@@ -870,8 +872,11 @@ app.get("/rides/public", async (req, res) => {
        AND distance <= $4
        AND speed >= $5
        AND speed <= $6
+       AND (mute1.mute IS NULL OR mute1.mute = false)
+       AND (mute2.mute IS NULL OR mute2.mute = false)
    `;
 
+   
 
         // Execute the query with parameters
         const rides = await pool.query(ridesQuery, [

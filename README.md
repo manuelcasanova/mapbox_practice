@@ -2,9 +2,6 @@ Functions:
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-See public maps if user not muted by user!
-
-See public rides if user not muted by user!
 
 If muted, user cannot find other user in list. Give option to unmute (update to default status notconnected)
 
@@ -55,6 +52,10 @@ Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 
 
 DONE
+
+See public maps if user not muted by user
+
+See public rides if user not muted by user
 
 Functions:
 
