@@ -72,26 +72,26 @@ app.get("/users/names", async (req, res) => {
 
 //Get muted users
 app.get('/users/muted', async (req, res) => {
-  const userId = req.query.userId; 
+  const userId = req.query.userId;
   const isLoggedIn = req.query.isLoggedIn
 
   if (isLoggedIn) {
 
-  try {
-   
-    const result = await pool.query('SELECT mutee FROM muted WHERE muter = $1 AND mute = true', [userId]);
-    //  const result = await pool.query('SELECT * from muted');
-    const mutedUsers = result.rows.map(row => row.mutee);
-    res.json({ mutedUsers });
-  } catch (error) {
-    console.error('Error fetching muted users:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    try {
 
-} else {
-  // Return an error message indicating unauthorized access
-  res.status(403).json({ error: "Unauthorized access" });
-}
+      const result = await pool.query('SELECT mutee FROM muted WHERE muter = $1 AND mute = true', [userId]);
+      //  const result = await pool.query('SELECT * from muted');
+      const mutedUsers = result.rows.map(row => row.mutee);
+      res.json({ mutedUsers });
+    } catch (error) {
+      console.error('Error fetching muted users:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
+  }
 });
 
 
@@ -145,7 +145,7 @@ app.post("/users/follow", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
-// console.log("req body", req.body)
+    // console.log("req body", req.body)
     if (req.body.user && req.body.user.loggedIn) {
       // console.log("follow")
 
@@ -157,7 +157,7 @@ app.post("/users/follow", async (req, res) => {
         DO UPDATE SET status = 'accepted' RETURNING *`,
         [followerId, followeeId]
       );
-// console.log("inserFolloweerows0", insertFollowee.rows[0])
+      // console.log("inserFolloweerows0", insertFollowee.rows[0])
       res.json(insertFollowee.rows[0])
 
 
@@ -214,10 +214,10 @@ app.post("/users/approvefollower", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
-console.log(req.body)
+    console.log(req.body)
 
     if (req.body.user && req.body.user.loggedIn) {
-  
+
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status)
@@ -692,10 +692,15 @@ app.get("/maps/public", async (req, res) => {
     // console.log("userId serverjs", userId)
     const maps = await pool.query(
 
-      `SELECT DISTINCT m.* 
+      `
+      SELECT DISTINCT m.* 
       FROM maps m
       LEFT JOIN followers f ON m.createdBy = f.followee_id
+      LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = m.createdBy
+      LEFT JOIN muted mute2 ON mute2.muter = m.createdBy AND mute2.mutee = $1
       WHERE (m.mapType = 'public' OR (m.mapType = 'followers' AND f.follower_id = $1))
+      AND (mute1.mute IS NULL OR mute1.mute = false)
+AND (mute2.mute IS NULL OR mute2.mute = false)
       ORDER BY m.id DESC
       
     `, [userId]
