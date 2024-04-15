@@ -73,15 +73,25 @@ app.get("/users/names", async (req, res) => {
 //Get muted users
 app.get('/users/muted', async (req, res) => {
   const userId = req.query.userId; 
+  const isLoggedIn = req.query.isLoggedIn
+
+  if (isLoggedIn) {
+
   try {
    
     const result = await pool.query('SELECT mutee FROM muted WHERE muter = $1 AND mute = true', [userId]);
+    //  const result = await pool.query('SELECT * from muted');
     const mutedUsers = result.rows.map(row => row.mutee);
     res.json({ mutedUsers });
   } catch (error) {
     console.error('Error fetching muted users:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+
+} else {
+  // Return an error message indicating unauthorized access
+  res.status(403).json({ error: "Unauthorized access" });
+}
 });
 
 

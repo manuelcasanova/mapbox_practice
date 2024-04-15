@@ -19,13 +19,14 @@ const UsersAll = () => {
   const userLoggedin = user.id
   const userLoggedInObject = user
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
+  const isLoggedIn = user.loggedIn
 
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
     fetchFollowee(user, setFollowers, setIsLoading, setError, isMounted)
-    fetchMutedUsers(userLoggedin, setMutedUsers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
 
     return () => {
       isMounted = false; // Cleanup function to handle unmounting

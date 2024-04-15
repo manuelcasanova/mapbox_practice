@@ -6,6 +6,7 @@ import { useAuth } from "./Context/AuthContext";
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
+import fetchMutedUsers from './util_functions/FetchMutedUsers';
 
 const MapsPublic = () => {
   const [maps, setMaps] = useState([]);
@@ -15,15 +16,21 @@ const MapsPublic = () => {
   const [userMaps, setUserMaps] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
   const { user } = useAuth();
+  const [mutedUsers, setMutedUsers] = useState([])
 
   // console.log("maps", maps)
 
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
+  const isLoggedIn = userIsLoggedIn;
+  const userLoggedin = userId
+
+  console.log("mutedUsers", mutedUsers)
 
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
