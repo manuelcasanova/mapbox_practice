@@ -39,8 +39,8 @@ const Followers = () => {
 
   return (
     <div>
-      {users.length === 0 ? (
-        <div>No users available.</div>
+      {users.length === 0  || users.length ===1 && users[0].id === user.id ? (
+        <div>You don't have followers.</div>
       ) : (
         <>
 

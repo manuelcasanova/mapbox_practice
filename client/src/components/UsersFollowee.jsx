@@ -37,10 +37,12 @@ const Followee = () => {
     return <div>Error: {error}</div>;
   }
 
+  console.log("users", users)
+
   return (
     <div>
-      {users.length === 0 ? (
-        <div>No users available.</div>
+      {users.length === 0  || users.length ===1 && users[0].id === user.id ? (
+        <div>You are not following anybody.</div>
       ) : (
         <>
 
