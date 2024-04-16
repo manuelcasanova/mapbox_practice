@@ -2,9 +2,6 @@ Functions:
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-
-If muted, user cannot find other user in list. Give option to unmute (update to default status notconnected)
-
 Show a component with muted users, and allow to unmute.
 
 USERS page with 4 subpages
@@ -52,6 +49,8 @@ Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 
 
 DONE
+
+If muted, user cannot find other user in list.
 
 See public maps if user not muted by user
 

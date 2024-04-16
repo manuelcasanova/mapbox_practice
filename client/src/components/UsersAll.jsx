@@ -16,11 +16,13 @@ const UsersAll = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
+  const [hasMutedChanges, setHasMutedChanges] = useState(false);
   const userLoggedin = user.id
   const userLoggedInObject = user
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
   const isLoggedIn = user.loggedIn
 
+  // console.log("users", users)
 
 
   useEffect(() => {
@@ -33,7 +35,11 @@ const UsersAll = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [user, hasMutedChanges]);
+
+  const handleMutedChanges = () => {
+    setHasMutedChanges(prevState => !prevState);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -45,7 +51,7 @@ const UsersAll = () => {
 
   return (
     <div>
-      {users.length === 0 ? (
+      {users.length === 0  || users.length ===1 && users[0].id === user.id ? (
         <div>No users available.</div>
       ) : (
         <>
@@ -72,7 +78,7 @@ const UsersAll = () => {
                     <div>Id: {user.id}</div>  {/* Hide on production */}
                     <div>{user.username}</div>
                     <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-                    <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers}
+                    <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} 
                     />
                     <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />
                   </div>
