@@ -26,7 +26,6 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
       user: userLoggedInObject
     };
 
-
     axios.post('http://localhost:3500/users/follow', data)
       .then(response => {
 

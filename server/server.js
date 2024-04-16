@@ -223,7 +223,7 @@ app.post("/users/approvefollower", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
-    console.log(req.body)
+    // console.log(req.body)
 
     if (req.body.user && req.body.user.loggedIn) {
 
