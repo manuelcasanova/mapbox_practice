@@ -14,9 +14,9 @@ const Followers = () => {
 
   const userLoggedin = user.id
 
-  // useEffect(() => {
-  //   console.log("followers", followers)
-  // })
+  useEffect(() => {
+    console.log("followers", followers)
+  })
 
 
   useEffect(() => {
@@ -37,9 +37,15 @@ const Followers = () => {
     return <div>Error: {error}</div>;
   }
 
+  const areAnyFollowingMe = followers.some(follower =>
+    follower.followee_id === userLoggedin && follower.status === 'accepted'
+  );
+
+console.log("areanyfm", areAnyFollowingMe)
+
   return (
     <div>
-      {users.length === 0  || users.length ===1 && users[0].id === user.id ? (
+      {!areAnyFollowingMe ? (
         <div>You don't have followers.</div>
       ) : (
         <>
