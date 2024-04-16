@@ -17,8 +17,6 @@ CREATE TABLE users (
   is_selected BOOLEAN DEFAULT false,
   is_active BOOLEAN DEFAULT true,
   refresh_token VARCHAR(255),
-  follows JSONB,
-  followed JSONB,
   profile_picture VARCHAR(255),
   location VARCHAR(255)
 );

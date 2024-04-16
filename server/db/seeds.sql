@@ -1,10 +1,10 @@
 -- Insert users
-INSERT INTO users (username, roles, email, password, is_selected, is_active, follows, followed)
-VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'password123', true, true, '[]', '[]'),
-       ('Laura Admin', '{"Registered_user": 2005}', 'laura@example.com', 'password456', true, true, '[]', '[]'),
-       ('Alice_wonder', '{"Registered_user": 2001}', 'alice@example.com', 'password789', true, true, '[4, 5]', '[]'),
-       ('Bob_robinson', '{"Registered_user": 2001}', 'bob@example.com', 'passwordabc', true, true, '[3]', '[3]'),
-       ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true, '[]', '[3]');
+INSERT INTO users (username, roles, email, password, is_selected, is_active)
+VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'password123', true, true),
+       ('Laura Admin', '{"Registered_user": 2005}', 'laura@example.com', 'password456', true, true),
+       ('Alice_wonder', '{"Registered_user": 2001}', 'alice@example.com', 'password789', true, true),
+       ('Bob_robinson', '{"Registered_user": 2001}', 'bob@example.com', 'passwordabc', true, true),
+       ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true);
 
 
 -- INSERT INTO followers (follower_id, followee_id, status, mute) VALUES
