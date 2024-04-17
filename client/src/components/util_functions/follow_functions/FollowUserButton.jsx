@@ -3,16 +3,22 @@ import axios from 'axios';
 
 const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerId, userLoggedInObject }) => {
 
-  const isFollowing = followers.some(follower =>
-    follower.follower_id === followerId && follower.followee_id === followeeId
+  const amFollowingThem = followers.some(follower =>
+    follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'accepted'
   );
 
-  const isFollowedByOtherUser = followers.some(follower =>
-    follower.follower_id === followeeId && follower.followee_id === followerId
+  const amBeingFollowedByThem = followers.some(follower =>
+    follower.follower_id === followeeId && follower.followee_id === followerId && follower.status === 'accepted'
   );
 
-  const isPendingFollowRequest = followers.some(follower =>
-    follower.follower_id === followeeId && follower.followee_id === followerId && follower.status === 'pending'
+  const pendingAcceptMe = followers.some(follower =>
+    follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'pending'
+  );
+
+  console.log(pendingAcceptMe)
+
+  const pendingAcceptThem = followers.some(follower =>
+    follower.followee_id === followerId && follower.followee_id === followerId && follower.status === 'pending'
   );
 
   // Function to follow a user
@@ -62,25 +68,25 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
   // Function to unfollow a user
   const unfollowUser = (followeeId, followerId) => {
     // console.log(`Unfollowing user with ID ${followeeId} from user with ID ${followerId}`);
-  
+
     const data = {
       followeeId: followeeId,
       followerId: followerId,
       user: userLoggedInObject
     };
-  
+
     axios.post('http://localhost:3500/users/unfollow', data)
       .then(response => {
         // console.log('Unfollow request sent successfully');
-  
+
         const removedFollower = response.data;
-  
+
         // Remove the unfollowed user from the state
         const updatedFollowers = followers.filter(follower =>
           !(follower.follower_id === removedFollower.follower_id &&
             follower.followee_id === removedFollower.followee_id)
         );
-  
+
         setFollowers(updatedFollowers);
         // console.log('Follower removed from state:', removedFollower);
       })
@@ -99,18 +105,19 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
 
   return (
     <div>
-      {isFollowing ? (
-        <button onClick={handleUnfollow}>Unfollow</button>
-      ) : (
-        <>
-          {isFollowedByOtherUser && !isPendingFollowRequest ? (
-            <button onClick={handleFollow}>Follow Back</button>
-          ) : (
-            <button onClick={handleFollow}>Follow</button>
-          )}
-        </>
-      )}
+
+
+      {!amFollowingThem && !pendingAcceptMe && !amBeingFollowedByThem && <button onClick={handleFollow}>Follow</button>}
+
+      {amFollowingThem && <button onClick={handleUnfollow}>Unfollow</button>}
+
+      {!amFollowingThem && amBeingFollowedByThem && !pendingAcceptMe && <button onClick={handleFollow}>Follow back</button>}
+
+
     </div>
+
+
+
   );
 };
 

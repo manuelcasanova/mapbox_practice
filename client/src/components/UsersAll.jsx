@@ -23,7 +23,7 @@ const UsersAll = () => {
   const isLoggedIn = user.loggedIn
 
   console.log("users", users)
-  console.log("muted Users", mutedUsers)
+  console.log("followers", followers)
 
   useEffect(() => {
     let isMounted = true;

@@ -4,6 +4,8 @@ MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
 Show a component with muted users, and allow to unmute.
 
+Cancel request to follow
+
 Mute/unmute, follow/unfollow from Followers and following
 
 USERS page with 4 subpages
