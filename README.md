@@ -2,11 +2,7 @@ Functions:
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-Show a component with muted users, and allow to unmute.
-
 Cancel request to follow
-
-Mute/unmute, follow/unfollow from Followers and following
 
 USERS page with 4 subpages
 
@@ -26,7 +22,6 @@ Administrator: admin users, admin maps, admin rides, admin comments. If inapprop
 Ride messaging
 
 Personal messaging between followers
-
 
 Follow request notifications
 
@@ -53,6 +48,10 @@ Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 
 
 DONE
+
+Mute/unmute, follow/unfollow from Followers and following
+
+Show a component with muted users, and allow to unmute.
 
 If muted, user cannot find other user in list.
 

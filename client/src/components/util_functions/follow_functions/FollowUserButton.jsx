@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerId, userLoggedInObject }) => {
 
+  const userLoggedin = userLoggedInObject.id
+
+
   const amFollowingThem = followers.some(follower =>
     follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'accepted'
   );
@@ -15,11 +18,21 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
     follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'pending'
   );
 
-  console.log(pendingAcceptMe)
+  // const pendingAcceptMe2 = followers.some(follower =>
+  //   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
+  // );
 
   const pendingAcceptThem = followers.some(follower =>
-    follower.followee_id === followerId && follower.followee_id === followerId && follower.status === 'pending'
+    follower.followee_id === followerId && follower.follower_id === followeeId && follower.status === 'pending'
   );
+
+
+  // const pendingAcceptThem2 = followers.some(follower =>
+  //   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
+  // );
+
+
+  // console.log("pendingAcceptme1", pendingAcceptMe, "pendinAcceptme2", pendingAcceptMe2, "pendingAccempthem1", pendingAcceptThem, "pendingacceptthem2", pendingAcceptThem2)
 
   // Function to follow a user
   const followUser = (followeeId, followerId) => {
@@ -95,6 +108,35 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
       });
   };
 
+  const approveFollower = (followeeId, followerId) => {
+    const data = {
+      followeeId: followeeId,
+      followerId: followerId,
+      user: userLoggedInObject
+    };
+
+    axios.post('http://localhost:3500/users/approvefollower', data)
+      .then(response => {
+        const newFollower = response.data;
+
+        const existingFollowerIndex = followers.findIndex(follower =>
+          follower.follower_id === newFollower.follower_id &&
+          follower.followee_id === newFollower.followee_id
+        );
+
+        if (existingFollowerIndex !== -1) {
+          const updatedFollowers = [...followers];
+          updatedFollowers[existingFollowerIndex] = newFollower;
+          setFollowers(updatedFollowers);
+        } else {
+          setFollowers(prevFollowers => [...prevFollowers, newFollower]);
+        }
+      })
+      .catch(error => {
+        console.error('Error approving follower:', error);
+      });
+};
+
   const handleFollow = () => {
     followUser(followeeId, followerId);
   };
@@ -113,6 +155,10 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
 
       {!amFollowingThem && amBeingFollowedByThem && !pendingAcceptMe && <button onClick={handleFollow}>Follow back</button>}
 
+
+{pendingAcceptMe && <div>Request sent</div>}
+
+{pendingAcceptThem && <button onClick={() => { approveFollower(followeeId, followerId)}}>Approve request</button>}
 
     </div>
 

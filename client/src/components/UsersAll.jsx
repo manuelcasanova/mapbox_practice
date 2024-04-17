@@ -7,7 +7,7 @@ import fetchFollowee from './util_functions/FetchFollowee';
 import fetchMutedUsers from './util_functions/FetchMutedUsers';
 import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
-import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
+// import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 
 const UsersAll = () => {
   const [users, setUsers] = useState([]);
@@ -22,8 +22,8 @@ const UsersAll = () => {
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
   const isLoggedIn = user.loggedIn
 
-  console.log("users", users)
-  console.log("followers", followers)
+  // console.log("users", users)
+  // console.log("followers", followers)
 
   useEffect(() => {
     let isMounted = true;
@@ -84,7 +84,7 @@ if (!isMuted) {
                     <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
                     <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges}
                     />
-                    <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />
+                    {/* <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} /> */}
                   </div>
 
                 );
