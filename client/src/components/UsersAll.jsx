@@ -22,8 +22,8 @@ const UsersAll = () => {
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
   const isLoggedIn = user.loggedIn
 
-  // console.log("users", users)
-
+  console.log("users", users)
+  console.log("muted Users", mutedUsers)
 
   useEffect(() => {
     let isMounted = true;
@@ -49,10 +49,12 @@ const UsersAll = () => {
     return <div>Error: {error}</div>;
   }
 
+  const allUsersMutedOrMe = usersExceptMe.every(user => mutedUsers.includes(user.id));
+
   return (
     <div>
-      {users.length === 0  || users.length ===1 && users[0].id === user.id ? (
-        <div>No users available.</div>
+      {allUsersMutedOrMe ? (
+        <div>No users available or all users are muted.</div>
       ) : (
         <>
 
@@ -70,19 +72,24 @@ const UsersAll = () => {
 
                 const isMuted = mutedUsers.includes(user.id);
 
+if (!isMuted) {
 
                 return (
+
 
                   <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 
                     <div>Id: {user.id}</div>  {/* Hide on production */}
                     <div>{user.username}</div>
                     <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-                    <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} 
+                    <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges}
                     />
                     <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />
                   </div>
+
                 );
+
+              }
               })}
             </div>
           ) : (

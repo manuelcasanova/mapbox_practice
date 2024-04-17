@@ -38,13 +38,13 @@ const MutedUsers = () => {
   // console.log("user", user)
   // console.log("loggedInUserId", userLoggedin)
   // console.log("isUserLoggedIn", isLoggedIn)
-  // useEffect(() => {
-  //   console.log("mutedUsers", mutedUsers)
-  // }, [mutedUsers])
+  useEffect(() => {
+    console.log("mutedUsers", mutedUsers)
+  }, [mutedUsers])
 
-  // useEffect(() => {
-  //   console.log("users", users)
-  // }, [users])
+  useEffect(() => {
+    console.log("users", users)
+  }, [users])
 
   if (isLoading) {
     return <div>Loading...</div>;
