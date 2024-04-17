@@ -41,6 +41,9 @@ export default function
         <button className="navbar_button"
           onClick={() => navigate("/users/followers")}
         >Followers</button>
+                <button className="navbar_button"
+          onClick={() => navigate("/users/muted")}
+        >Muted</button>
       </div>
 
       {user.isAdmin &&

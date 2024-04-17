@@ -59,14 +59,14 @@ const loggedInUserId = req.query.user.id
 
     if (req.query.user && req.query.user.loggedIn) {
       const users = await pool.query(
-        // 'SELECT id, username FROM users ORDER BY username'
-                `SELECT u.id, u.username 
-                FROM users u
-                LEFT JOIN muted m ON (m.mutee = u.id AND m.muter = $1) OR (m.mutee = $1 AND m.muter = u.id)
-                WHERE m.mute IS NULL OR m.mute = false
-                ORDER BY u.username
-                `,
-        [loggedInUserId]
+         'SELECT id, username FROM users ORDER BY username'
+        //         `SELECT u.id, u.username 
+        //         FROM users u
+        //         LEFT JOIN muted m ON (m.mutee = u.id AND m.muter = $1) OR (m.mutee = $1 AND m.muter = u.id)
+        //         WHERE m.mute IS NULL OR m.mute = false
+        //         ORDER BY u.username
+        //         `,
+        // [loggedInUserId]
       );
       res.json(users.rows)
     } else {

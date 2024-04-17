@@ -16,6 +16,7 @@ import UsersAll from './components/UsersAll';
 import MapsPublic from './components/MapsPublic';
 import Followee from './components/UsersFollowee';
 import Followers from './components/UsersFollowers';
+import MutedUsers from './components/UsersMuted';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -194,6 +195,18 @@ function App() {
                     <Title />
                     <Information setFromButton={setFromButton} />
                     <Followers />
+                    <Footer />
+                  </>
+                }>
+              </Route>
+
+              <Route
+                exact path="/users/muted"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <MutedUsers />
                     <Footer />
                   </>
                 }>
