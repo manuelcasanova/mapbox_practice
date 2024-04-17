@@ -5,6 +5,7 @@ import { useAuth } from "./Context/AuthContext";
 
 import fetchMutedUsers from "./util_functions/FetchMutedUsers";
 import fetchUsernameAndId from "./util_functions/FetchUsername";
+import MuteUserButton from "./util_functions/mute_functions/MuteUserButton";
 
 const MutedUsers = () => {
 
@@ -65,7 +66,7 @@ const MutedUsers = () => {
             <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
               <div>Id: {user.id}</div>
               <div>{user.username}</div>
-              <button>Unmute</button>
+              <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers}/>
             </div>
           ))}
         </div>
