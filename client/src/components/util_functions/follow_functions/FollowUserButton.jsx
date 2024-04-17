@@ -135,7 +135,32 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
       .catch(error => {
         console.error('Error approving follower:', error);
       });
-};
+  };
+
+  const cancelFollowRequest = (followeeId, followerId) => {
+    const data = {
+      followeeId: followeeId,
+      followerId: followerId,
+      user: userLoggedInObject
+    };
+  
+    axios.delete('http://localhost:3500/users/cancel-follow', { data: data })
+      .then(response => {
+        const canceledFollower = response.data;
+  
+        // Remove the canceled follower from the state
+        const updatedFollowers = followers.filter(follower =>
+          !(follower.follower_id === canceledFollower.follower_id &&
+            follower.followee_id === canceledFollower.followee_id)
+        );
+        setFollowers(updatedFollowers);
+        // console.log('Follow request canceled successfully:', canceledFollower);
+      })
+      .catch(error => {
+        console.error('Error canceling follow request:', error);
+      });
+  };
+  
 
   const handleFollow = () => {
     followUser(followeeId, followerId);
@@ -144,6 +169,10 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
   const handleUnfollow = () => {
     unfollowUser(followeeId, followerId);
   };
+
+  const handleCancelRequest = () => {
+    cancelFollowRequest(followeeId, followerId);
+  }
 
   return (
     <div>
@@ -155,10 +184,9 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
 
       {!amFollowingThem && amBeingFollowedByThem && !pendingAcceptMe && <button onClick={handleFollow}>Follow back</button>}
 
+      {pendingAcceptMe && <button onClick={handleCancelRequest}>Cancel request</button>}
 
-{pendingAcceptMe && <div>Request sent</div>}
-
-{pendingAcceptThem && <button onClick={() => { approveFollower(followeeId, followerId)}}>Approve request</button>}
+      {pendingAcceptThem && <button onClick={() => { approveFollower(followeeId, followerId) }}>Approve request</button>}
 
     </div>
 

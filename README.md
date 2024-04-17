@@ -2,16 +2,9 @@ Functions:
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-Cancel request to follow
-
 USERS page with 4 subpages
 
-MAIN PAGE: FOLLOW, REQUEST PENDING, FOLLOWING, MUTE/UNMUTE
-FOLLOWING: UNFOLLOW
-FOLLOWERS: MUTE (do not allow the to see your "followers rides/maps". Do not see theirs). They are still your followers, though.
-MUTED: Show all muted users. Button/logic: UNMUTE
-
-Show list: Friends, Pending, All
+Pending requests
 
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
 
@@ -48,6 +41,8 @@ Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 
 
 DONE
+
+Cancel request to follow
 
 Mute/unmute, follow/unfollow from Followers and following
 

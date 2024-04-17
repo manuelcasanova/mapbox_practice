@@ -180,6 +180,42 @@ app.post("/users/follow", async (req, res) => {
   }
 });
 
+//Cancel request to follow a user
+app.delete("/users/cancel-follow", async (req, res) => {
+  try {
+    const followeeId = req.body.followeeId;
+    const followerId = req.body.followerId;
+    const user = req.body.user;
+
+    if (req.body.user && req.body.user.loggedIn) {
+      // Delete the follow request from the database
+      const deleteFollowRequest = await pool.query(
+        `
+        DELETE FROM followers
+        WHERE follower_id = $1 AND followee_id = $2
+        RETURNING *
+        `,
+        [followerId, followeeId]
+      );
+
+      if (deleteFollowRequest.rows.length === 0) {
+        // If no follow request was found to delete, send an error response
+        res.status(404).json({ error: "Follow request not found" });
+      } else {
+        // Send the deleted follow request as response
+        res.json(deleteFollowRequest.rows[0]);
+      }
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 //Unfollow a user
 
 
