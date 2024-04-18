@@ -2,12 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "./Context/AuthContext";
 
-export default function Information({ setFromButton }) {
+export default function Information({ setFromButton, rideApp }) {
   const navigate = useNavigate();
   const { user } = useAuth();
 
   const [selectedMapOption, setSelectedMapOption] = useState("/maps/public");
   const [selectedRideOption, setSelectedRideOption] = useState("/rides/public");
+  const [selectedRunOption, setSelectedRunOption] = useState("/");
   const [selectedUserOption, setSelectedUserOption] = useState("/users/all");
 
   const handleMapSelectOption = (event) => {
@@ -37,6 +38,8 @@ export default function Information({ setFromButton }) {
   return (
     <div className="navbar">
       <div className="navbar-public">
+
+        {rideApp && 
         <select
           value={selectedRideOption}
           onChange={handleRideSelectOption}
@@ -46,6 +49,19 @@ export default function Information({ setFromButton }) {
           <option value="/rides/mine">See my rides</option>
           <option value="/ride">Create ride</option>
         </select>
+      }
+
+{!rideApp && 
+        <select
+          value={selectedRunOption}
+          onChange={handleRideSelectOption}
+          onClick={handleRideSelectOption}
+        >
+          <option value="/run">See runs</option>
+          <option value="/run">See my runs</option>
+          <option value="/run">Create run</option>
+        </select>
+}
 
         <select
           value={selectedMapOption}

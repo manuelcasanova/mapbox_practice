@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-export default function Title() {
+export default function Title({rideApp, setRideApp}) {
 
   const navigate = useNavigate()
   const [showUn, setShowUn] = useState(true);
@@ -19,6 +19,7 @@ export default function Title() {
 
   const handleClick = () => {
     setShowUn(!showUn);
+    setRideApp(!rideApp)
     if (showUn) {
       navigate("/run");
     } else {
