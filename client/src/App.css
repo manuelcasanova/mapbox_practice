@@ -286,6 +286,10 @@
   margin: 5px;
 }
 
+.container > div:not(:first-child) {
+  margin: 5px;
+}
+
 .container > div:nth-child(2) {
   margin-left: 0; /* No left margin for the second div */
 }
@@ -300,6 +304,33 @@
 }
 
 .title-modify {
-  /* background-color: green; */
-  color: #d83a00 !important
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
 }
+
+.title-modify::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px; /* Adjust the height of the bottom line as needed */
+  background-color: orange; /* Initial color */
+  animation: fillEffect 8s linear infinite;
+}
+
+@keyframes fillEffect {
+  0%, 100% {
+    width: 0; /* Start and end with no width */
+    background-color: white; /* Initial and final color */
+  }
+  50% {
+    width: 100%; /* Fill the width */
+    background-color: orange; /* Fill with orange color */
+  }
+}
+
+
+
+

@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function Title() {
 
   const navigate = useNavigate()
-  const [showUn, setShowUn] = useState(false);
+  const [showUn, setShowUn] = useState(true);
 
   const [hover, setHover] = useState(false);
 
@@ -22,12 +22,12 @@ export default function Title() {
     if (showUn) {
       navigate("/run");
     } else {
-      navigate("/");
+      navigate("/rides");
     }
   };
 
   return (
-<div className="container">
+    <div className="container">
       <div style={{ display: 'inline-block' }}>R</div>
       <div
         className="title-modify"

@@ -2,6 +2,7 @@ import './App.css';
 
 import Title from './components/Title'
 import Information from './components/Information'
+import InformationRun from './components/InformationRun';
 import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
@@ -43,8 +44,20 @@ function App() {
           <div className='app'>
             <Authentication />
             <Routes>
-              <Route
+
+            <Route
                 exact path="/"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                  </>
+
+                }>
+              </Route>
+
+              <Route
+                exact path="/rides"
                 element={
                   <>
                     <Title />
@@ -59,6 +72,7 @@ function App() {
                 element={
                   <>
                     <Title />
+                    <InformationRun />
                   </>
 
                 }>
