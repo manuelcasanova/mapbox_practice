@@ -55,6 +55,16 @@ function App() {
               </Route>
 
               <Route
+                exact path="/run"
+                element={
+                  <>
+                    <Title />
+                  </>
+
+                }>
+              </Route>
+
+              <Route
                 exact path="/maps"
                 element={
                   <>
