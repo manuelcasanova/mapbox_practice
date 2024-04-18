@@ -16,6 +16,7 @@ const UsersAll = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
+  console.log("user", user)
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
   const userLoggedin = user.id
   const userLoggedInObject = user

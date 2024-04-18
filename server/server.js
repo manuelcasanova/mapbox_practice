@@ -31,6 +31,31 @@ app.get('/', (req, res) => {
   res.json("Test")
 })
 
+// PUT route to update user's last login
+app.post('/users/lastlogin/', async (req, res) => {
+  try {
+    const { userId, lastlogin } = req.body; // Extract userId and lastlogin from request body
+
+    // console.log(req.body)
+
+    const insertLastLogin = await pool.query(
+      `
+      INSERT INTO users (id, lastlogin)
+      VALUES ($1, $2)
+      ON CONFLICT (id)
+      DO UPDATE SET lastlogin = EXCLUDED.lastlogin
+      RETURNING *
+      `,
+      [userId, lastlogin]
+    );
+    res.json(insertLastLogin.rows[0])
+
+  } catch (error) {
+    console.error("Error updating user last login", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 //Get all users (Admin)
 app.get("/users", async (req, res) => {
   try {

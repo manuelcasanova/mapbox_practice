@@ -18,7 +18,8 @@ CREATE TABLE users (
   is_active BOOLEAN DEFAULT true,
   refresh_token VARCHAR(255),
   profile_picture VARCHAR(255),
-  location VARCHAR(255)
+  location VARCHAR(255),
+  lastlogin timestamp
 );
 
 CREATE TABLE followers (
