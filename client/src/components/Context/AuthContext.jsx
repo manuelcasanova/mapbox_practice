@@ -31,41 +31,23 @@ export const AuthProvider = ({ children }) => {
   }, [user.loggedIn]);
 
   const logInUser1 = () => {
-    setUser({ id: 1, isAdmin: true, isSuperAdmin: true, loggedIn: true, username: 'Manuel', lastlogin: Now() }, () => {
-      updateUserLastLogin();
-    });
+    setUser({ id: 1, isAdmin: true, isSuperAdmin: true, loggedIn: true, username: 'Manuel', lastlogin: Now() });
   };
 
   const logInUser2 = () => {
-    setUser({ id: 2, isAdmin: true, isSuperAdmin: false, loggedIn: true, username: 'Laura', lastlogin: Now() },
-      () => {
-        updateUserLastLogin();
-
-      });
+    setUser({ id: 2, isAdmin: true, isSuperAdmin: false, loggedIn: true, username: 'Laura', lastlogin: Now() });
   };
 
   const logInUser3 = () => {
-    setUser({ id: 3, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Alice', lastlogin: Now() },
-    () => {
-      updateUserLastLogin();
-
-    });
+    setUser({ id: 3, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Alice', lastlogin: Now() });
 };
 
   const logInUser4 = () => {
-    setUser({ id: 4, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Bob', lastlogin: Now() },
-    () => {
-      updateUserLastLogin();
-
-    });
+    setUser({ id: 4, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Bob', lastlogin: Now() });
 };
 
   const logInUser5 = () => {
-    setUser({ id: 5, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Emma', lastlogin: Now() },
-    () => {
-      updateUserLastLogin();
-
-    });
+    setUser({ id: 5, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Emma', lastlogin: Now() });
 };
 
   const logOut = () => {
