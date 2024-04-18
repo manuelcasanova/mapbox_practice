@@ -186,8 +186,8 @@ app.post("/users/follow", async (req, res) => {
 
       const insertFollowee = await pool.query(
         `
-        INSERT INTO followers (follower_id, followee_id, status, lastmodification)
-        VALUES ($1, $2, 'pending', $3)
+        INSERT INTO followers (follower_id, followee_id, status, lastmodification, newrequest)
+        VALUES ($1, $2, 'pending', $3, true)
         ON CONFLICT (follower_id, followee_id)
         DO UPDATE SET status = 'accepted' RETURNING *`,
         [followerId, followeeId, date]
@@ -286,11 +286,12 @@ app.get('/users/pending', async (req, res) => {
 
     try {
 
-      const result = await pool.query(`SELECT lastmodification, follower_id FROM followers WHERE followee_id = $1 AND status = 'pending'`, [userId]);
+      const result = await pool.query(`SELECT lastmodification, newrequest, follower_id FROM followers WHERE followee_id = $1 AND status = 'pending'`, [userId]);
    
       const pendingUsers = result.rows.map(row => ({
         follower_id: row.follower_id,
-        lastmodification: row.lastmodification
+        lastmodification: row.lastmodification,
+        newrequest: row.newrequest
       })
       );
       

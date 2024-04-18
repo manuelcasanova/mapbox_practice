@@ -2,7 +2,11 @@ Functions:
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-Follow request notifications. If they were made after the last log in of the user. Otherwise do not show.
+Follow request notifications. Show in General Notifications
+On Follow request: Show how long ago "Less than 1 day" or 1, 2, 3 days, etc. 
+Ddismiss each notification
+Dismiss request
+Order by date requested, new on top
 
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
 
