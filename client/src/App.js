@@ -17,6 +17,7 @@ import MapsPublic from './components/MapsPublic';
 import Followee from './components/UsersFollowee';
 import Followers from './components/UsersFollowers';
 import MutedUsers from './components/UsersMuted';
+import PendingUsers from './components/UsersPending';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -207,6 +208,18 @@ function App() {
                     <Title />
                     <Information setFromButton={setFromButton} />
                     <MutedUsers />
+                    <Footer />
+                  </>
+                }>
+              </Route>
+
+              <Route
+                exact path="/users/pending"
+                element={
+                  <>
+                    <Title />
+                    <Information setFromButton={setFromButton} />
+                    <PendingUsers />
                     <Footer />
                   </>
                 }>

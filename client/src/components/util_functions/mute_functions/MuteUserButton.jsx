@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers, onMutedChange }) => {
+const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers }) => {
 
   const muteUser = () => {
     axios.post('http://localhost:3500/users/mute', { userLoggedin, userId })
       .then(response => {
         setMutedUsers(prevMutedUsers => [...prevMutedUsers, userId]);
-        onMutedChange()
       })
       .catch(error => {
         console.error('Error muting user:', error);
@@ -17,7 +16,6 @@ const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers, onMutedC
     axios.post('http://localhost:3500/users/unmute', { userLoggedin, userId })
       .then(response => {
         setMutedUsers(prevMutedUsers => prevMutedUsers.filter(id => id !== userId));
-        onMutedChange()
       })
       .catch(error => {
         console.error('Error unmuting user:', error);

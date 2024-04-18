@@ -65,6 +65,7 @@ export default function Information({ setFromButton }) {
           <option value="/users/all">Users</option>
           <option value="/users/followee">Following</option>
           <option value="/users/followers">Followers</option>
+          <option value="/users/pending">Request Pending</option>
           <option value="/users/muted">Muted</option>
         </select>
       </div>

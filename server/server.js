@@ -251,6 +251,32 @@ app.post("/users/unfollow", async (req, res) => {
 });
 
 
+//Get pending request users
+app.get('/users/pending', async (req, res) => {
+  const userId = req.query.userId;
+  const isLoggedIn = req.query.isLoggedIn
+
+  if (isLoggedIn) {
+
+    try {
+
+      const result = await pool.query(`SELECT follower_id FROM followers WHERE followee_id = $1 AND status = 'pending'`, [userId]);
+   
+      const pendingUsers = result.rows.map(row => row.follower_id);
+      
+      res.json({ pendingUsers });
+    } catch (error) {
+      console.error('Error fetching pending request users:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
+  }
+});
+
+
 //Approve followee
 
 app.post("/users/approvefollower", async (req, res) => {
@@ -259,10 +285,9 @@ app.post("/users/approvefollower", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
-    // console.log(req.body)
+     
 
     if (req.body.user && req.body.user.loggedIn) {
-
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status)
