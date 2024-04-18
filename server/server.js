@@ -179,17 +179,18 @@ app.post("/users/follow", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
-    // console.log("req body", req.body)
+    const date = req.body.date || new Date()
+    // console.log("follow date", req.body.date)
     if (req.body.user && req.body.user.loggedIn) {
       // console.log("follow")
 
       const insertFollowee = await pool.query(
         `
-        INSERT INTO followers (follower_id, followee_id, status)
-        VALUES ($1, $2, 'pending')
+        INSERT INTO followers (follower_id, followee_id, status, lastmodification)
+        VALUES ($1, $2, 'pending', $3)
         ON CONFLICT (follower_id, followee_id)
         DO UPDATE SET status = 'accepted' RETURNING *`,
-        [followerId, followeeId]
+        [followerId, followeeId, date]
       );
       // console.log("inserFolloweerows0", insertFollowee.rows[0])
       res.json(insertFollowee.rows[0])
@@ -310,18 +311,20 @@ app.post("/users/approvefollower", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
+    const date = req.body.date || new Date()
      
+    // console.log("approver follower date", date)
 
     if (req.body.user && req.body.user.loggedIn) {
       const insertFollower = await pool.query(
         `
-        INSERT INTO followers (follower_id, followee_id, status)
-        VALUES ($1, $2, 'accepted')
+        INSERT INTO followers (follower_id, followee_id, status, lastmodification)
+        VALUES ($1, $2, 'accepted', $3)
         ON CONFLICT (follower_id, followee_id)
-        DO UPDATE SET status = 'accepted'
+        DO UPDATE SET status = 'accepted', lastmodification = $3
         RETURNING *
         `,
-        [followeeId, followerId]
+        [followeeId, followerId, date]
       );
       res.json(insertFollower.rows[0])
 

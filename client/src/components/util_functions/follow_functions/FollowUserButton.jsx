@@ -42,7 +42,8 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
     const data = {
       followeeId: followeeId,
       followerId: followerId,
-      user: userLoggedInObject
+      user: userLoggedInObject,
+      date: new Date()
     };
 
     axios.post('http://localhost:3500/users/follow', data)
@@ -112,7 +113,8 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
     const data = {
       followeeId: followeeId,
       followerId: followerId,
-      user: userLoggedInObject
+      user: userLoggedInObject,
+      date: new Date()
     };
 
     axios.post('http://localhost:3500/users/approvefollower', data)
