@@ -278,7 +278,7 @@
   font-weight: 900;
   font-family: 'Rams W01 Black', sans-serif; 
   /* margin: 5px; */
-  cursor: pointer;
+  /* cursor: pointer; */
   color: #fc4c02;
 }
 
@@ -288,6 +288,10 @@
 
 .container > div:nth-child(2) {
   margin-left: 0; /* No left margin for the second div */
+}
+
+.container > div:nth-child(2) {
+  cursor: pointer; /* Apply cursor pointer only to the second child div */
 }
 
 
