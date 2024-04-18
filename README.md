@@ -2,7 +2,7 @@ Functions:
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
+Follow request notifications. If they were made after the last log in of the user. Otherwise do not show.
 
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
 
@@ -11,8 +11,6 @@ Administrator: admin users, admin maps, admin rides, admin comments. If inapprop
 Ride messaging
 
 Personal messaging between followers
-
-Follow request notifications
 
 Message notifications
 
@@ -35,6 +33,8 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 
 DONE
+
+People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
 
 Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
 

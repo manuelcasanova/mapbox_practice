@@ -17,6 +17,7 @@ const RidesPublic = () => {
   const [addToMyRides, setAddToMyRides] = useState([])
   const [userRides, setUserRides] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
+  const [showUsers, setShowUsers] = useState(false)
   const { user } = useAuth();
   const [filteredRides, setFilteredRides] = useState();
   // console.log("filteredRides", filteredRides)
@@ -180,13 +181,13 @@ const RidesPublic = () => {
               {rides.map((ride, index) => {
                 // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
-// console.log("original date", originalDate)
+                // console.log("original date", originalDate)
 
                 const formattedDate = formatDate(originalDate);
 
                 const isPastDate = formattedDate < currentDateFormatted;
 
-                
+
 
                 // console.log("isPastDate", isPastDate)
 
@@ -223,23 +224,30 @@ const RidesPublic = () => {
                     }</div>
 
                     {userRides.length ?
+
                       <div>
-                        <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
-                        <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
+                        <div>{userRides.length} joined this ride, {userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} publicaly</div>
 
-                        <div>
-                          {userRides
-                            .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
-                            .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
-                            .map(userRide => {
-                              const user = users.find(user => user.id === userRide.user_id);
-                              return user ? user.username : ""; // Return username if user found, otherwise an empty string
-                            })
-                            .join(', ')
-                          }
+                        {/* <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
+                        <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div> */}
 
+                        {!showUsers && <div onClick={() => setShowUsers(!showUsers)}>+</div> }
 
-                        </div>
+                        {showUsers && <div onClick={() => setShowUsers(!showUsers)}>-</div> }
+
+                        {showUsers &&
+                          <div>
+                            {userRides
+                              .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
+                              .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+                              .map(userRide => {
+                                const user = users.find(user => user.id === userRide.user_id);
+                                return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                              })
+                              .join(', ')
+                            }
+                          </div>
+                        }
                       </div>
                       :
                       <div>No users have joined this ride</div>
