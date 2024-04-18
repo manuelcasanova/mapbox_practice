@@ -286,9 +286,13 @@ app.get('/users/pending', async (req, res) => {
 
     try {
 
-      const result = await pool.query(`SELECT follower_id FROM followers WHERE followee_id = $1 AND status = 'pending'`, [userId]);
+      const result = await pool.query(`SELECT lastmodification, follower_id FROM followers WHERE followee_id = $1 AND status = 'pending'`, [userId]);
    
-      const pendingUsers = result.rows.map(row => row.follower_id);
+      const pendingUsers = result.rows.map(row => ({
+        follower_id: row.follower_id,
+        lastmodification: row.lastmodification
+      })
+      );
       
       res.json({ pendingUsers });
     } catch (error) {

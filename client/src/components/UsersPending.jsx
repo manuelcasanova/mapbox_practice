@@ -20,6 +20,12 @@ const PendingUsers = () => {
   const [users, setUsers] = useState([])
   const [pendingUsers, setPendingUsers] = useState([])
   const [fake, setFake] = useState(true)
+  const [newRequest, setNewRequest] = useState(false)
+const currentDate = new Date ();
+
+  // console.log("users", users)
+  // console.log("pend", pendingUsers)
+  // console.log("current date", currentDate)
 
   // Function to approve pending users
 
@@ -64,7 +70,33 @@ const PendingUsers = () => {
     };
   }, [userLoggedin, fake]);
 
-  const pendingUsersObject = users.filter(user => pendingUsers.includes(user.id));
+  const pendingUsersObject = users.filter(user => {
+    const pendingUser = pendingUsers.find(pUser => pUser.follower_id === user.id);
+    if (pendingUser) {
+      return {
+        ...user,
+        follower_id: pendingUser.follower_id,
+        lastmodification: pendingUser.lastmodification
+      };
+    }
+  });
+
+
+  const pendingUsersObjectWithDateComparison = pendingUsersObject.map(user => {
+    const pendingUser = pendingUsers.find(pUser => pUser.follower_id === user.id);
+    if (pendingUser) {
+      const lastModificationDate = new Date(pendingUser.lastmodification);
+      return {
+        ...user,
+        follower_id: pendingUser.follower_id,
+        lastmodification: lastModificationDate,
+        isLaterThanCurrentDate: lastModificationDate > currentDate
+      };
+    }
+  });
+
+  
+  // console.log("puobjwithdatecom", pendingUsersObjectWithDateComparison);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -78,14 +110,20 @@ const PendingUsers = () => {
     <div>
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
-      ) : pendingUsersObject.length === 0 ? (
+      ) : pendingUsersObjectWithDateComparison.length === 0 ? (
         <div>No requests pending.</div>
       ) : (
         <div>
-          {pendingUsersObject.map(user => (
+          {pendingUsersObjectWithDateComparison.map(user => (
+
+            
             <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+              {user.isLaterThanCurrentDate && <div>New request</div>}
+              <div>{console.log("inside user", user)}</div>
+              <div>{console.log(currentDate)}</div>
               <div>Id: {user.id}</div>
               <div>{user.username}</div>
+            
               <button onClick={() => {approveFollower(user.id, userLoggedin)}}>Accept request</button>
 
             </div>
