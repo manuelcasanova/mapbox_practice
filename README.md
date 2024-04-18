@@ -2,8 +2,6 @@ Functions:
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-Pending requests
-
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
 
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
@@ -35,10 +33,12 @@ CENTER MAIN: Next rides
 
 RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order by how many rides)
 
-Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
-
 
 DONE
+
+Logo orange rwithme ("un" or "ide" between "r" and with in grey?)
+
+Pending requests
 
 Cancel request to follow
 

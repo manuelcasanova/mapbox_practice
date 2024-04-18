@@ -1,3 +1,5 @@
+@import url(https://db.onlinewebfonts.com/c/ef37d5a2aade0e1cb69df8d3f5f2aa60?family=Rams+W01+Black);
+
 /* || RESET */
 * {
   margin: 0;
@@ -261,3 +263,39 @@
     height: 50vh;
   }
 } */
+
+/* TITLE */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+}
+
+.container div {
+  font-size: 32px;
+  font-weight: 900;
+  font-family: 'Rams W01 Black', sans-serif; 
+  /* margin: 5px; */
+  cursor: pointer;
+  color: #fc4c02;
+}
+
+.container > div:not(:first-child) {
+  margin: 5px;
+}
+
+.container > div:nth-child(2) {
+  margin-left: 0; /* No left margin for the second div */
+}
+
+
+.container div.active {
+  color: blue; /* Blue color when active */
+}
+
+.title-modify {
+  /* background-color: green; */
+  color: #d83a00 !important
+}
