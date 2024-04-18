@@ -38,30 +38,30 @@ export default function Information({ setFromButton }) {
     <div className="navbar">
       <div className="navbar-public">
         <select
-          value={selectedMapOption}
-          onChange={handleMapSelectOption}
+          value={selectedRideOption}
+          onChange={handleRideSelectOption}
+          onClick={handleRideSelectOption}
         >
-          <option value="/maps/public">MAPS</option>
-          <option value="/maps/create">Create a map</option>
-          <option value="/maps">Manage my maps</option>
-          <option value="/maps/public">See maps</option>
+          <option value="/rides/public">See rides</option>
+          <option value="/rides/mine">See my rides</option>
+          <option value="/ride">Create ride</option>
         </select>
 
         <select
-          value={selectedRideOption}
-          onChange={handleRideSelectOption}
+          value={selectedMapOption}
+          onChange={handleMapSelectOption}
+          onClick={handleMapSelectOption}
         >
-          <option value="/rides/public">RIDES</option>
-          <option value="/ride">Create ride</option>
-          <option value="/rides/public">See rides</option>
-          <option value="/rides/mine">See my rides</option>
+          <option value="/maps/public">See maps</option>
+          <option value="/maps">Manage my maps</option>
+          <option value="/maps/create">Create a map</option>
         </select>
 
         <select
           value={selectedUserOption}
           onChange={handleUserSelectOption}
+          onClick={handleUserSelectOption}
         >
-          <option value="/users/all">USERS</option>
           <option value="/users/all">Users</option>
           <option value="/users/followee">Following</option>
           <option value="/users/followers">Followers</option>
@@ -70,15 +70,16 @@ export default function Information({ setFromButton }) {
       </div>
 
       {user.isAdmin && (
-  <div className="admin-navbar">
-    <select onChange={(e) => navigate(e.target.value)}>
-    <option value="/">ADMIN</option>
-      <option value="/">Admin rides</option>
-      <option value="/">Admin maps</option>
-      <option value="/">Admin users</option>
-    </select>
-  </div>
-)}
+        <div className="admin-navbar">
+          <select
+            onChange={(e) => navigate(e.target.value)}>
+            onClick={handleUserSelectOption}
+            <option value="/">Admin rides</option>
+            <option value="/">Admin maps</option>
+            <option value="/">Admin users</option>
+          </select>
+        </div>
+      )}
 
     </div>
   );

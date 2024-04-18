@@ -2,8 +2,6 @@ Functions:
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-USERS page with 4 subpages
-
 Pending requests
 
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
