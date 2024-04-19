@@ -286,7 +286,7 @@ app.get('/users/pending', async (req, res) => {
 
     try {
 
-      const result = await pool.query(`SELECT lastmodification, newrequest, follower_id FROM followers WHERE followee_id = $1 AND status = 'pending'`, [userId]);
+      const result = await pool.query(`SELECT lastmodification, newrequest, follower_id FROM followers WHERE followee_id = $1 AND status = 'pending' ORDER BY lastmodification DESC`, [userId]);
    
       const pendingUsers = result.rows.map(row => ({
         follower_id: row.follower_id,
@@ -380,7 +380,40 @@ app.post("/users/dismissfollower", async (req, res) => {
   }
 });
 
+//Dismiss new message follow request
 
+app.post("/users/dismissmessagefollowrequest", async (req, res) => {
+  try {
+
+    const followeeId = req.body.followeeId;
+    const followerId = req.body.followerId;
+    const user = req.body.user;
+    const date = req.body.date || new Date()
+
+    if (req.body.user && req.body.user.loggedIn) {
+      const insertFollower = await pool.query(
+        `
+        INSERT INTO followers (follower_id, followee_id, newrequest)
+        VALUES ($1, $2, false)
+        ON CONFLICT (follower_id, followee_id)
+        DO UPDATE SET newrequest = false
+        RETURNING *
+        `,
+        [followeeId, followerId]
+      );
+      res.json(insertFollower.rows[0])
+
+
+
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
 
 //Get all followees
 app.get("/users/followee", async (req, res) => {
@@ -410,7 +443,7 @@ app.get("/users/followers", async (req, res) => {
     if (req.query.user && req.query.user.loggedIn) {
       // console.log("user id", req.query.user.id)
       const fetchFollowers = await pool.query(
-        'SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1',
+        'SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC',
         [req.query.user.id]
       );
       // console.log(fetchFollowers.rows)

@@ -1,12 +1,6 @@
-Functions:
-
-MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
-
 Follow request notifications. Show in General Notifications
+
 On Follow request: Show how long ago "Less than 1 day" or 1, 2, 3 days, etc. 
-Ddismiss each notification
-Dismiss request
-Order by date requested, new on top
 
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
 
@@ -27,6 +21,12 @@ Login/logout
 
 OAuth
 
+MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
+
+Remove logs and unused dependencies
+
+Fix eslint errors
+
 Navbar: MAPS (see my maps, see public mas), RIdes (see my rides, see public rides). search (athletes, rides, maps). RIGHT --> login/logout, notifications (private messages, messages on rides)
 
 LEFT MAIN: Picture, Name, Following, Followers, Rides created, Rides joined
@@ -37,6 +37,12 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 
 DONE
+
+In pending: Order by date requested, new on top
+
+Dismiss each follow request notification
+
+Dismiss request follow
 
 People who joined a ride: "Joined by, x people" info button show list, how many privately, names and pictures of following publicly
 

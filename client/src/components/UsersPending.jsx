@@ -24,7 +24,7 @@ const PendingUsers = () => {
   const currentDate = new Date();
 
   // console.log("users", users)
-  // console.log("pend", pendingUsers)
+  // console.log("pend front", pendingUsers)
   // console.log("current date", currentDate)
 
   // Function to approve pending users
@@ -66,8 +66,6 @@ const PendingUsers = () => {
       user: userLoggedInObject //para saber si esta loggedin
     };
 
-console.log("dismiss follower")
-
     axios.post('http://localhost:3500/users/dismissfollower', data)
       .then(response => {
         const newFollower = response.data;
@@ -91,6 +89,36 @@ console.log("dismiss follower")
       });
   };
 
+  const dismissMessageFollowRequest = (followeeId, followerId) => {
+    const data = {
+      followeeId: followeeId, //para saber el followee
+      followerId: followerId, //para saber el follower
+      user: userLoggedInObject //para saber si esta loggedin
+    };
+
+    axios.post('http://localhost:3500/users/dismissmessagefollowrequest', data)
+      .then(response => {
+        const newFollower = response.data;
+
+        const existingFollowerIndex = pendingUsers.findIndex(follower =>
+          follower.follower_id === newFollower.follower_id &&
+          follower.followee_id === newFollower.followee_id
+        );
+
+        if (existingFollowerIndex !== -1) {
+          const updatedFollowers = [...pendingUsers];
+          updatedFollowers[existingFollowerIndex] = newFollower;
+          setPendingUsers(updatedFollowers);
+        } else {
+          setPendingUsers(prevFollowers => [...prevFollowers, newFollower]);
+          setFake(prev => !prev)
+        }
+      })
+      .catch(error => {
+        console.error('Error dismissing message:', error);
+      });
+  };
+
 
   useEffect(() => {
     let isMounted = true;
@@ -102,17 +130,36 @@ console.log("dismiss follower")
     };
   }, [userLoggedin, fake]);
 
-  const pendingUsersObject = users.filter(user => {
-    const pendingUser = pendingUsers.find(pUser => pUser.follower_id === user.id);
-    if (pendingUser) {
-      return {
-        ...user,
-        follower_id: pendingUser.follower_id,
-        lastmodification: pendingUser.lastmodification
-      };
-    }
+
+  //ORIGINAL
+  // const pendingUsersObject = users.filter(user => {
+  //   const pendingUser = pendingUsers.find(pUser => pUser.follower_id === user.id);
+  //   if (pendingUser) {
+  //     return {
+  //       ...user,
+  //       follower_id: pendingUser.follower_id,
+  //       lastmodification: pendingUser.lastmodification
+  //     };
+  //   }
+  // });
+
+
+  const pendingUsersObject = users
+  .filter(user => {
+      const pendingUser = pendingUsers.find(pUser => pUser.follower_id === user.id);
+      return pendingUser; 
+  })
+  .map(user => ({
+      ...user,
+      follower_id: pendingUsers.find(pUser => pUser.follower_id === user.id).follower_id,
+      lastmodification: new Date(pendingUsers.find(pUser => pUser.follower_id === user.id).lastmodification).getTime(), // Convert to timestamp
+  }))
+  .sort((a, b) => {
+      // Sort by lastmodification (it comes like that from backend, but changes due to map)
+      return b.lastmodification - a.lastmodification;
   });
 
+  
 
   const pendingUsersObjectWithMoreInfo = pendingUsersObject.map(user => {
     const pendingUser = pendingUsers.find(pUser => pUser.follower_id === user.id);
@@ -127,6 +174,8 @@ console.log("dismiss follower")
       };
     }
   });
+
+  // console.log("PUOWMI", pendingUsersObjectWithMoreInfo)
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -151,7 +200,7 @@ console.log("dismiss follower")
 
 
               {user.newrequest && <div>New request</div>}
-              <button onClick={() => { console.log("Dismiss message") }}>Dismiss Message</button>
+              {user.newrequest &&<button onClick={() => { dismissMessageFollowRequest(user.id, userLoggedin) }}>x</button>}
               <div>Id: {user.id}</div>
               <div>{user.username}</div>
 

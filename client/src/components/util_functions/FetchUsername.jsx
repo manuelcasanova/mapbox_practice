@@ -9,6 +9,7 @@ const fetchUsernameAndId = async (user, setUsers, setIsLoading, setError, isMoun
     });
     if (isMounted) {
       setUsers(response.data);
+      // console.log("users in fetch nameid", response.data)
       setIsLoading(false);
     }
   } catch (error) {
