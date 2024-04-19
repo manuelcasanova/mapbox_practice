@@ -25,7 +25,7 @@ const PendingUsers = () => {
 
   // console.log("users", users)
   // console.log("pend front", pendingUsers)
-  // console.log("current date", currentDate)
+  //  console.log("current date", currentDate)
 
   // Function to approve pending users
 
@@ -175,7 +175,7 @@ const PendingUsers = () => {
     }
   });
 
-  // console.log("PUOWMI", pendingUsersObjectWithMoreInfo)
+  //  console.log("PUOWMI", pendingUsersObjectWithMoreInfo)
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -199,7 +199,22 @@ const PendingUsers = () => {
             <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 
 
-              {user.newrequest && <div>New request</div>}
+
+              {user.newrequest && <div>New request made {
+              
+
+              //  Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24))
+
+
+              Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24)) < 1
+              ? "less than a day ago"
+              : Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24)) === 1
+              ? "day ago"
+              : Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24)) + " days ago"
+                
+                } </div>}
+
+                
               {user.newrequest &&<button onClick={() => { dismissMessageFollowRequest(user.id, userLoggedin) }}>x</button>}
               <div>Id: {user.id}</div>
               <div>{user.username}</div>

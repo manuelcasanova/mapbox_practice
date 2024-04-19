@@ -495,13 +495,15 @@ app.get("/points/:id", async (req, res) => {
 //Create a point
 app.post("/points", async (req, res) => {
   // console.log("req body", req.body)
+  const now = new Date();
+
   try {
     let lat = req.body.coords[0];
     let lng = req.body.coords[1];
     let mapId = req.body.mapId;
 
     const newPoint = await pool.query(
-      'INSERT INTO points (lat, lng, map) VALUES ($1, $2, $3)  RETURNING *', [lat, lng, mapId]
+      'INSERT INTO points (lat, lng, map, createdat) VALUES ($1, $2, $3, $4)  RETURNING *', [lat, lng, mapId, now]
     );
     res.json(newPoint.rows[0])
   } catch (err) {
@@ -671,7 +673,7 @@ app.post("/rides/adduser", async (req, res) => {
 app.post("/createride", async (req, res) => {
   try {
     const { title, distance, speed, date, time, details, mapId, createdAt, dateString, rideType, userId, meetingPoint } = req.body
-
+    const now = new Date();
     // console.log("req.body", req.body)
 
     // Check if the date has the format DD/MM/YYYY
@@ -707,7 +709,7 @@ app.post("/createride", async (req, res) => {
     //Converts 13/01/2023 to 2023-01-13
     const psqlDate = `${dateString[6] + dateString[7] + dateString[8] + dateString[9] + `-` + dateString[3] + dateString[4] + `-` + dateString[0] + dateString[1]}`
 
-    const newRide = await pool.query(`INSERT INTO rides (name, distance, speed, createdat, map, starting_date, starting_time, ridetype, createdBy, details, meeting_point) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`, [title, distance, speed, createdAt, mapId, psqlDate, time, rideType, userId, details, meetingPoint])
+    const newRide = await pool.query(`INSERT INTO rides (name, distance, speed, createdat, map, starting_date, starting_time, ridetype, createdBy, details, meeting_point) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`, [title, distance, speed, now, mapId, psqlDate, time, rideType, userId, details, meetingPoint])
     res.json(newRide.rows[0])
   } catch (err) {
     console.error(err.message)

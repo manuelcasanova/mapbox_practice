@@ -1,7 +1,5 @@
 Follow request notifications. Show in General Notifications
 
-On Follow request: Show how long ago "Less than 1 day" or 1, 2, 3 days, etc. 
-
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
 
 Administrator: admin users, admin maps, admin rides, admin comments. If inappropiate. do not delete, keep in db, but do not show on front end, but a note "message removed due to..."
@@ -37,6 +35,8 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 
 DONE
+
+On Follow request: Show how long ago "Less than 1 day" or 1, 2, 3 days, etc. 
 
 In pending: Order by date requested, new on top
 
