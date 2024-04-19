@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS points CASCADE;
 DROP TABLE IF EXISTS rides CASCADE;
 DROP TABLE IF EXISTS map_users CASCADE;
 DROP TABLE IF EXISTS ride_users CASCADE;
+DROP TABLE IF EXISTS ride_message CASCADE;
 
 
 CREATE TABLE users (
@@ -88,5 +89,13 @@ CREATE TABLE ride_users (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   isprivate boolean DEFAULT true
 );
+
+CREATE TABLE ride_message (
+  id SERIAL PRIMARY KEY,
+  createdat timestamp,
+  createdby INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  ride_id INTEGER REFERENCES rides(id) ON DELETE CASCADE,
+  status VARCHAR(20)--inappropiate, deleted
+)
 
 
