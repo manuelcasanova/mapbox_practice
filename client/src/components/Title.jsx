@@ -1,8 +1,16 @@
 //Hooks
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Title({rideApp, setRideApp}) {
+
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints);
+  }, []);
+
+  console.log(isTouchDevice)
 
   const navigate = useNavigate()
   const [showUn, setShowUn] = useState(true);
@@ -28,8 +36,13 @@ export default function Title({rideApp, setRideApp}) {
   };
 
   return (
+    <>
+    <div>{isTouchDevice ? <>Touch</> : <>No touch</>}</div>
     <div className="container">
       <div style={{ display: 'inline-block' }}>R</div>
+
+
+{!isTouchDevice ? (
       <div
         className="title-modify"
         onClick={handleClick}
@@ -38,8 +51,25 @@ export default function Title({rideApp, setRideApp}) {
       >
         {hover ? (showUn ? 'UN' : 'IDE') : (showUn ? 'IDE' : 'UN')}
       </div>
+
+ ) : (
+
+  <div
+  className="title-modify"
+  onClick={handleClick}
+  // onMouseEnter={handleHover}
+  // onMouseLeave={handleMouseLeave}
+>
+  {!showUn ? 'UN' : 'IDE'}
+</div>
+
+)}
+
+
       <div>WITH</div>
       <div>ME</div>
     </div>
+    </>
   );
+  
 }

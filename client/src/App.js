@@ -52,7 +52,7 @@ function App() {
                   <>
                     <Title rideApp={rideApp} setRideApp={setRideApp}/>
                     <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
-                    <IsTouchDevice />
+            
                   </>
 
                 }>

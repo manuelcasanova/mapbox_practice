@@ -7,6 +7,7 @@ function IsTouchDevice() {
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints);
   }, []);
 
+
   return (
     <div>
       {isTouchDevice ? (

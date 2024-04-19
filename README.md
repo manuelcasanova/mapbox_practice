@@ -36,6 +36,8 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 DONE
 
+Detect touch screen or not and display title accordingly
+
 On Follow request: Show how long ago "Less than 1 day" or 1, 2, 3 days, etc. 
 
 In pending: Order by date requested, new on top

@@ -1,11 +1,12 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import axios from 'axios';
 // import Now from "../Now";
+
+
 // Create a context for authentication
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-
 
   const [user, setUser] = useState({ id: null, isAdmin: false, isSuperAdmin: false, loggedIn: false, username: null, lastlogin: null });
   const [mapId, setMapId] = useState(); // Add mapId state
