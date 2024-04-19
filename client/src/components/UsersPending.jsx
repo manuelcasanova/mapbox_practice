@@ -60,35 +60,35 @@ const PendingUsers = () => {
   };
 
   const dismissFollower = (followeeId, followerId) => {
-    // const data = {
-    //   followeeId: followeeId,
-    //   followerId: followerId,
-    //   user: userLoggedInObject
-    // };
+    const data = {
+      followeeId: followeeId, //para saber el followee
+      followerId: followerId, //para saber el follower
+      user: userLoggedInObject //para saber si esta loggedin
+    };
 
 console.log("dismiss follower")
 
-    // axios.post('http://localhost:3500/users/dismissfollower', data)
-    //   .then(response => {
-    //     const newFollower = response.data;
+    axios.post('http://localhost:3500/users/dismissfollower', data)
+      .then(response => {
+        const newFollower = response.data;
 
-    //     const existingFollowerIndex = pendingUsers.findIndex(follower =>
-    //       follower.follower_id === newFollower.follower_id &&
-    //       follower.followee_id === newFollower.followee_id
-    //     );
+        const existingFollowerIndex = pendingUsers.findIndex(follower =>
+          follower.follower_id === newFollower.follower_id &&
+          follower.followee_id === newFollower.followee_id
+        );
 
-    //     if (existingFollowerIndex !== -1) {
-    //       const updatedFollowers = [...pendingUsers];
-    //       updatedFollowers[existingFollowerIndex] = newFollower;
-    //       setPendingUsers(updatedFollowers);
-    //     } else {
-    //       setPendingUsers(prevFollowers => [...prevFollowers, newFollower]);
-    //       setFake(prev => !prev)
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error('Error approving follower:', error);
-    //   });
+        if (existingFollowerIndex !== -1) {
+          const updatedFollowers = [...pendingUsers];
+          updatedFollowers[existingFollowerIndex] = newFollower;
+          setPendingUsers(updatedFollowers);
+        } else {
+          setPendingUsers(prevFollowers => [...prevFollowers, newFollower]);
+          setFake(prev => !prev)
+        }
+      })
+      .catch(error => {
+        console.error('Error dismissing follower:', error);
+      });
   };
 
 

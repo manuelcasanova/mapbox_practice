@@ -189,7 +189,7 @@ app.post("/users/follow", async (req, res) => {
         INSERT INTO followers (follower_id, followee_id, status, lastmodification, newrequest)
         VALUES ($1, $2, 'pending', $3, true)
         ON CONFLICT (follower_id, followee_id)
-        DO UPDATE SET status = 'accepted' RETURNING *`,
+        DO UPDATE SET status = 'pending' RETURNING *`,
         [followerId, followeeId, date]
       );
       // console.log("inserFolloweerows0", insertFollowee.rows[0])
@@ -327,6 +327,41 @@ app.post("/users/approvefollower", async (req, res) => {
         VALUES ($1, $2, 'accepted', $3)
         ON CONFLICT (follower_id, followee_id)
         DO UPDATE SET status = 'accepted', lastmodification = $3
+        RETURNING *
+        `,
+        [followeeId, followerId, date]
+      );
+      res.json(insertFollower.rows[0])
+
+
+
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+//Dismiss follow request
+
+app.post("/users/dismissfollower", async (req, res) => {
+  try {
+
+    const followeeId = req.body.followeeId;
+    const followerId = req.body.followerId;
+    const user = req.body.user;
+    const date = req.body.date || new Date()
+
+    if (req.body.user && req.body.user.loggedIn) {
+      const insertFollower = await pool.query(
+        `
+        INSERT INTO followers (follower_id, followee_id, status, lastmodification)
+        VALUES ($1, $2, 'rejected', $3)
+        ON CONFLICT (follower_id, followee_id)
+        DO UPDATE SET status = 'rejected', lastmodification = $3
         RETURNING *
         `,
         [followeeId, followerId, date]

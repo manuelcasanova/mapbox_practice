@@ -64,7 +64,7 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
           const updatedFollowers = [...followers];
           updatedFollowers[existingFollowerIndex] = newFollower;
           setFollowers(updatedFollowers);
-          console.log('Follower replaced in state:', newFollower);
+          // console.log('Follower replaced in state:', newFollower);
         } else {
           // If no existing follower found, add the new follower to the state
           setFollowers(prevFollowers => [...prevFollowers, newFollower]);
