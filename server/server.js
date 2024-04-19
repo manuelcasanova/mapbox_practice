@@ -36,7 +36,7 @@ app.post('/users/lastlogin/', async (req, res) => {
   try {
     const { userId, lastlogin } = req.body; // Extract userId and lastlogin from request body
 
-    // console.log(req.body)
+    //  console.log(req.body.lastlogin)
 
     const insertLastLogin = await pool.query(
       `
@@ -179,7 +179,7 @@ app.post("/users/follow", async (req, res) => {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
-    const date = req.body.date || new Date()
+    const now = new Date();
     // console.log("follow date", req.body.date)
     if (req.body.user && req.body.user.loggedIn) {
       // console.log("follow")
@@ -190,7 +190,7 @@ app.post("/users/follow", async (req, res) => {
         VALUES ($1, $2, 'pending', $3, true)
         ON CONFLICT (follower_id, followee_id)
         DO UPDATE SET status = 'pending' RETURNING *`,
-        [followerId, followeeId, date]
+        [followerId, followeeId, now]
       );
       // console.log("inserFolloweerows0", insertFollowee.rows[0])
       res.json(insertFollowee.rows[0])

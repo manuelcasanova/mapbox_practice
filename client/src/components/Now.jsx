@@ -1,18 +1,20 @@
-export default function Now() {
+// export default function Now() {
 
-  const timestamp = Date.now();
-  // console.log("date now", timestamp)
   
-  const dateCreatedAt = new Date(timestamp).toLocaleDateString("en-GB")
-  // console.log("dateCreatedAt", dateCreatedAt)
+//   // const timestamp = Date.now();
+//   const timestamp = new Date();
+//   //  console.log("date now", timestamp)
   
-  const timeCreatedAt = new Date(timestamp).toLocaleTimeString("en-GB")
-  //console.log(timeCreatedAt)
+//   const dateCreatedAt = new Date(timestamp).toLocaleDateString("en-GB")
+//   // console.log("dateCreatedAt", dateCreatedAt)
   
-  const createdAt = dateCreatedAt + ` ${timeCreatedAt}`
-  //console.log("createdAt", createdAt)
-  return (
+//   const timeCreatedAt = new Date(timestamp).toLocaleTimeString("en-GB")
+//   //console.log(timeCreatedAt)
+  
+//   const createdAt = dateCreatedAt + ` ${timeCreatedAt}`
+//   //console.log("createdAt", createdAt)
+//   return (
 
-    createdAt
-  )
-}
+//     createdAt
+//   )
+// }
