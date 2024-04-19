@@ -18,6 +18,7 @@ import Followee from './components/UsersFollowee';
 import Followers from './components/UsersFollowers';
 import MutedUsers from './components/UsersMuted';
 import PendingUsers from './components/UsersPending';
+import IsTouchDevice from './components/util_functions/IsTouchDevice';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -51,6 +52,7 @@ function App() {
                   <>
                     <Title rideApp={rideApp} setRideApp={setRideApp}/>
                     <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+                    <IsTouchDevice />
                   </>
 
                 }>
