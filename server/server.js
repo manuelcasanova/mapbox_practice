@@ -1055,7 +1055,7 @@ app.get("/rides/public", async (req, res) => {
         const rides = await pool.query(ridesQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId]);
-        // console.log("rides.rows YES filtered rides", rides.rows)
+        //  console.log("rides.rows YES filtered rides", rides.rows)
         res.json(rides.rows)
 
       } else {
@@ -1131,7 +1131,19 @@ app.get("/rides/user/:id", async (req, res) => {
   }
 });
 
-
+app.get('/rides/messages', async (req, res) => {
+   const { ride_id } = req.query;
+//  console.log("ride_id", ride_id)
+  try {
+    const rideMessages = await pool.query('SELECT * FROM ride_message WHERE ride_id = $1', [ride_id]);
+    console.log(rideMessages.rows)
+    res.json(rideMessages.rows);
+    
+  } catch (err) {
+    console.error('Error fetching ride messages:', err);
+    res.status(500).json({ error: 'An error occurred while fetching ride messages' });
+  }
+});
 
 
 

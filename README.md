@@ -2,9 +2,12 @@ Follow request notifications. Show in General Notifications
 
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
 
-Administrator: admin users, admin maps, admin rides, admin comments. If inappropiate. do not delete, keep in db, but do not show on front end, but a note "message removed due to..."
+Rides: Messages - Read messages
+Rides: Messages - Report messages (status -reported. Inform admin. Admin can modifiy to status: ok or inappropiate)
+Rides: Messages - Add messages
+Rides: Messages - Delete my messages (do not delete from db. status -deleted)
+Rides: Messages - Mark as innapropiate (do not delete from db, status -inappropiate - show message in frontend. Removed for inappopiate language)
 
-Ride messaging
 
 Personal messaging between followers
 

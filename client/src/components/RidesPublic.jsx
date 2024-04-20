@@ -8,6 +8,7 @@ import RidesFilter from './RidesFilter';
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
+import fetchRideMessages from './util_functions/FetchRideMessages';
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
@@ -20,7 +21,8 @@ const RidesPublic = () => {
   const [showUsers, setShowUsers] = useState(false)
   const { user } = useAuth();
   const [filteredRides, setFilteredRides] = useState();
-  // console.log("filteredRides", filteredRides)
+
+  //  console.log("filteredRides", filteredRides)
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 
@@ -58,7 +60,19 @@ const RidesPublic = () => {
           setAddToMyRides(new Array(response.data.length).fill(false));
           setRides(response.data);
           setIsLoading(false);
+
+
+          // Fetch messages for each ride
+          const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id));
+          const rideMessages = await Promise.all(rideMessagesPromises);
+          setRides(prevRides => {
+            return prevRides.map((ride, index) => {
+              return { ...ride, messages: rideMessages[index] };
+            });
+          });
         }
+
+
       } catch (error) {
         if (isMounted) {
           if (error.response && error.response.data && error.response.data.error) {
@@ -202,12 +216,15 @@ const RidesPublic = () => {
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInRide = userRides.some(userRide => userRide.user_id === user.id && userRide.ride_id === ride.id);
 
+
+
                 // console.log("is use in ride?", isUserInRide)
                 // Render the JSX elements, including the formatted date
                 return (
 
 
                   <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                    {/* {console.log("ride.id", ride.id)} */}
                     <div>Name: {ride.name}</div>
                     <div>Details: {ride.details}</div>
                     <div>Date: {formattedDate}</div>
@@ -223,6 +240,21 @@ const RidesPublic = () => {
                       users.find(user => user.id === ride.createdby)?.username || "Unknown User"
                     }</div>
 
+                    {/* {console.log("ride messages", ride.messages)} */}
+
+                    {ride.messages && (
+                      <div>
+                        {ride.messages.map(message => (
+                          <div key={message.id}>
+                            <p>{message.message}</p>
+                            <p>Message by: {message.createdby}</p>
+                            <p>Message time: {message.createdat}</p>
+                          </div>
+                        ))}
+
+                      </div>
+                    )}
+
                     {userRides.length ?
 
                       <div>
@@ -231,9 +263,9 @@ const RidesPublic = () => {
                         {/* <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
                         <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div> */}
 
-                        {!showUsers && <div onClick={() => setShowUsers(!showUsers)}>+</div> }
+                        {!showUsers && <div onClick={() => setShowUsers(!showUsers)}>+</div>}
 
-                        {showUsers && <div onClick={() => setShowUsers(!showUsers)}>-</div> }
+                        {showUsers && <div onClick={() => setShowUsers(!showUsers)}>-</div>}
 
                         {showUsers &&
                           <div>

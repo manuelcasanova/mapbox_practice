@@ -10,7 +10,7 @@ export default function Title({rideApp, setRideApp}) {
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints);
   }, []);
 
-  console.log(isTouchDevice)
+  // console.log(isTouchDevice)
 
   const navigate = useNavigate()
   const [showUn, setShowUn] = useState(true);
