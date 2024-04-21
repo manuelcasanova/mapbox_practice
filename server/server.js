@@ -80,11 +80,11 @@ app.get("/users", async (req, res) => {
 app.get("/users/names", async (req, res) => {
   try {
 
-const loggedInUserId = req.query.user.id
+    const loggedInUserId = req.query.user.id
 
     if (req.query.user && req.query.user.loggedIn) {
       const users = await pool.query(
-          'SELECT id, username FROM users ORDER BY username'
+        'SELECT id, username FROM users ORDER BY username'
         //         `SELECT u.id, u.username 
         //         FROM users u
         //         LEFT JOIN muted m ON (m.mutee = u.id AND m.muter = $1) OR (m.mutee = $1 AND m.muter = u.id)
@@ -287,14 +287,14 @@ app.get('/users/pending', async (req, res) => {
     try {
 
       const result = await pool.query(`SELECT lastmodification, newrequest, follower_id FROM followers WHERE followee_id = $1 AND status = 'pending' ORDER BY lastmodification DESC`, [userId]);
-   
+
       const pendingUsers = result.rows.map(row => ({
         follower_id: row.follower_id,
         lastmodification: row.lastmodification,
         newrequest: row.newrequest
       })
       );
-      
+
       res.json({ pendingUsers });
     } catch (error) {
       console.error('Error fetching pending request users:', error);
@@ -317,7 +317,7 @@ app.post("/users/approvefollower", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
     const date = req.body.date || new Date()
-     
+
     // console.log("approver follower date", date)
 
     if (req.body.user && req.body.user.loggedIn) {
@@ -1049,7 +1049,7 @@ app.get("/rides/public", async (req, res) => {
        AND (mute2.mute IS NULL OR mute2.mute = false)
    `;
 
-   
+
 
         // Execute the query with parameters
         const rides = await pool.query(ridesQuery, [
@@ -1132,18 +1132,60 @@ app.get("/rides/user/:id", async (req, res) => {
 });
 
 app.get('/rides/messages', async (req, res) => {
-   const { ride_id } = req.query;
-//  console.log("ride_id", ride_id)
+  const { ride_id } = req.query;
+  //  console.log("ride_id", ride_id)
   try {
-    const rideMessages = await pool.query('SELECT * FROM ride_message WHERE ride_id = $1', [ride_id]);
-    console.log(rideMessages.rows)
+    const rideMessages = await pool.query('SELECT * FROM ride_message WHERE ride_id = $1 ORDER BY createdat DESC', [ride_id]);
+    // console.log(rideMessages.rows)
     res.json(rideMessages.rows);
-    
+
   } catch (err) {
     console.error('Error fetching ride messages:', err);
     res.status(500).json({ error: 'An error occurred while fetching ride messages' });
   }
 });
+
+app.post("/rides/addmessage", async (req, res) => {
+  if (req.body.userIsLoggedIn 
+    && req.body.message !== ""
+  ) {
+    try {
+      const rideId = req.body.rideId;
+      const createdBy = req.body.userId;
+      const message = req.body.message;
+      const now = new Date();
+
+      const insertMessageQuery = {
+        text: `
+          INSERT INTO ride_message (ride_id, createdby, message, createdat)
+          VALUES ($1, $2, $3, $4)
+          RETURNING *
+        `,
+        values: [rideId, createdBy, message, now]
+      };
+
+      const insertedMessage = await pool.query(insertMessageQuery);
+
+      // console.log(insertedMessage.rows); // Logging the inserted message
+
+      res.status(201).json({ message: "Message added successfully", data: insertedMessage.rows });
+    } catch (error) {
+      console.error("Error:", error.message);
+      res.status(500).json({ error: "An error occurred while adding the message" });
+    }
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
+  }
+});
+
+
+
+
+
+
+
+
 
 
 

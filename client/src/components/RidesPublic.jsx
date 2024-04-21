@@ -8,7 +8,8 @@ import RidesFilter from './RidesFilter';
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
-import fetchRideMessages from './util_functions/FetchRideMessages';
+import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
+import AddRideMessage from './util_functions/messaging/AddRideMessage';
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
@@ -21,6 +22,7 @@ const RidesPublic = () => {
   const [showUsers, setShowUsers] = useState(false)
   const { user } = useAuth();
   const [filteredRides, setFilteredRides] = useState();
+  const [messageSent, setMessageSent] = useState(false)
 
   //  console.log("filteredRides", filteredRides)
   const userId = user.id;
@@ -90,7 +92,7 @@ const RidesPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, filteredRides]);
+  }, [user, filteredRides, messageSent]);
 
   useEffect(() => {
     const fetchUserRides = async () => {
@@ -240,20 +242,7 @@ const RidesPublic = () => {
                       users.find(user => user.id === ride.createdby)?.username || "Unknown User"
                     }</div>
 
-                    {/* {console.log("ride messages", ride.messages)} */}
 
-                    {ride.messages && (
-                      <div>
-                        {ride.messages.map(message => (
-                          <div key={message.id}>
-                            <p>{message.message}</p>
-                            <p>Message by: {message.createdby}</p>
-                            <p>Message time: {message.createdat}</p>
-                          </div>
-                        ))}
-
-                      </div>
-                    )}
 
                     {userRides.length ?
 
@@ -261,7 +250,7 @@ const RidesPublic = () => {
                         <div>{userRides.length} joined this ride, {userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} publicaly</div>
 
                         {/* <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
-                        <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div> */}
+  <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div> */}
 
                         {!showUsers && <div onClick={() => setShowUsers(!showUsers)}>+</div>}
 
@@ -286,8 +275,6 @@ const RidesPublic = () => {
 
                     }
 
-
-
                     {isUserRide ? (
                       <div></div>
                     ) : isUserInRide ? (
@@ -302,7 +289,22 @@ const RidesPublic = () => {
                       </div>
                     )}
 
+                    {/* {console.log("ride messages", ride.messages)} */}
 
+                    <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent}/>
+
+                    {ride.messages && (
+                      <div>
+                        {ride.messages.map(message => (
+                          <div key={message.id}>
+                            <p>{message.message}</p>
+                            <p>Message by: {message.createdby}</p>
+                            <p>Message time: {message.createdat}</p>
+                          </div>
+                        ))}
+
+                      </div>
+                    )}
 
                     {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
                   </div>
