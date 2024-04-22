@@ -8,8 +8,8 @@ export default function DeleteRideMessage({ messageId, setMessageDeleted }) {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:3500/rides/deletemessage/${messageId}`, {
-        method: "DELETE",
+      const response = await fetch(`http://localhost:3500/rides/message/delete/${messageId}`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
