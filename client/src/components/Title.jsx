@@ -37,7 +37,7 @@ export default function Title({rideApp, setRideApp}) {
 
   return (
     <>
-    <div>{isTouchDevice ? <>Touch</> : <>No touch</>}</div>
+    {/* <div>{isTouchDevice ? <>Touch</> : <>No touch</>}</div> */}
     <div className="container">
       <div style={{ display: 'inline-block' }}>R</div>
 

@@ -8,6 +8,9 @@ import RidesFilter from './RidesFilter';
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
+import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
+import AddRideMessage from './util_functions/messaging/AddRideMessage';
+import MappedMessage from './util_functions/messaging/MappedMessage';
 
 
 const RidesUser = () => {
@@ -16,12 +19,18 @@ const RidesUser = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [filteredRides, setFilteredRides] = useState();
+  const [addToMyRides, setAddToMyRides] = useState([])
+  const [messageSent, setMessageSent] = useState(false)
+  const [messageDeleted, setMessageDeleted] = useState(false)
+  const [messageFlagged, setMessageFlagged] = useState(false)
+  const [messageReported, setMessageReported] = useState(false)
 
-// console.log("rides", rides)
-// console.log("filtered rides", filteredRides)
+  // console.log("rides", rides)
+  // console.log("filtered rides", filteredRides)
 
   // const [addToMyRides, setAddToMyRides] = useState([])
   const { user } = useAuth();
+  const userIsLoggedIn = user.loggedIn;
   const id = user ? user.id : null;
   const userId = id
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
@@ -57,14 +66,28 @@ const RidesUser = () => {
 
           if (isMounted) {
             setRides(response.data);
+            setAddToMyRides(new Array(response.data.length).fill(false));
+            setIsLoading(false);
+
+
+            // Fetch messages for each ride
+            const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id));
+            const rideMessages = await Promise.all(rideMessagesPromises);
+            setRides(prevRides => {
+              return prevRides.map((ride, index) => {
+                return { ...ride, messages: rideMessages[index] };
+              });
+            });
+
           }
         }
       } catch (error) {
         if (isMounted) {
-          setError(error.message);
-        }
-      } finally {
-        if (isMounted) {
+          if (error.response && error.response.data && error.response.data.error) {
+            setError(error.response.data.error)
+          } else {
+            setError(error.message)
+          }
           setIsLoading(false);
         }
       }
@@ -79,7 +102,7 @@ const RidesUser = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [id, filteredRides]);
+  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged]);
 
 
   useEffect(() => {
@@ -138,16 +161,16 @@ const RidesUser = () => {
     }
   };
 
-    // Function to format the current date as 'yyyy-mm-dd'
-    function getCurrentDateFormatted() {
-      const currentDate = new Date();
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-      const day = String(currentDate.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    }
-  
-    const currentDateFormatted = getCurrentDateFormatted();
+  // Function to format the current date as 'yyyy-mm-dd'
+  function getCurrentDateFormatted() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  const currentDateFormatted = getCurrentDateFormatted();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -179,7 +202,7 @@ const RidesUser = () => {
                   <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
                     <div>Name: {ride.name}</div>
                     <div>Details: {ride.details}</div>
-                    <div>Date: {formattedDate}</div> 
+                    <div>Date: {formattedDate}</div>
                     {isPastDate && (
                       <div>This ride has already taken place</div>
                     )}
@@ -222,6 +245,31 @@ const RidesUser = () => {
                         onClick={() => removeFromMyRides(ride.id)}>Remove from my rides
                       </button>
                     }
+
+
+                    <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
+
+                    {ride.messages && (
+                      <div>
+                        {ride.messages.map(message => (
+
+
+                          message.status !== 'deleted' && (
+                            <div>
+                              {message.status === 'flagged' && message.createdby === userId && (
+                                <div>
+                                  <div>Flagged as inappropiate. Not visible for other users</div>
+                                  <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                </div>
+                              )}
+                              {message.status !== 'flagged' && <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                            </div>
+                          )
+                        )
+                        )}
+                      </div>
+                    )}
+
 
 
                     {ride.map && ride.map !== null && ride.map !== undefined ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}

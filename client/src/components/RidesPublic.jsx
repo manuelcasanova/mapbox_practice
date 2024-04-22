@@ -303,25 +303,17 @@ const RidesPublic = () => {
 
                           message.status !== 'deleted' && (
                             <div>
-
                               {message.status === 'flagged' && message.createdby === userId && (
                                 <div>
                                   <div>Flagged as inappropiate. Not visible for other users</div>
                                   <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                 </div>
                               )}
-
                               {message.status !== 'flagged' && <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
-
-
                             </div>
-
-
                           )
                         )
-
                         )}
-
                       </div>
                     )}
 

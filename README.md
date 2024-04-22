@@ -1,7 +1,5 @@
 Follow request notifications. Show in General Notifications
 
-Do all messages thing in my rides, etc. Not only on public rides.
-
 Personal messaging between followers
 
 Message notifications
@@ -31,6 +29,8 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 
 DONE
+
+See messages in "My rides"
 
 Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
 
