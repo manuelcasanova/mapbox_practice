@@ -256,8 +256,9 @@ VALUES
     ('Stanley Park Short PUBLIC', 10, 18, false, true, 4, NOW(), 'public', 'stanley.jpg', 'stanley.gpx', '2024-12-19', '11:00:00', 'Bridge', 'Stanley short.', 3);
 
 
-INSERT INTO ride_message (createdAt, createdby, ride_id, message)
+INSERT INTO ride_message (createdAt, createdby, ride_id, message, status)
 VALUES
-(Now(), 1, 3, 'Looking forward to join this ride! Is it really hard?'),
-(Now(), 4, 3, 'Hey, no, it is actually pretty easy' )
+(Now(), 3, 3, 'Clean message', null),
+(Now(), 4, 3, 'Reported message', 'reported'),
+(Now(), 5, 3, 'Flagged message', 'flagged')
 

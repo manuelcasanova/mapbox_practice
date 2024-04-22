@@ -11,8 +11,9 @@ import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import DeleteRideMessage from './util_functions/messaging/DeleteRideMessage';
-import FlagInnapropiateMessage from './util_functions/messaging/FlagInappropiateMessage';
+import FlagInapropiateMessage from './util_functions/messaging/FlagInappropiateMessage';
 import ReportInappropiateMessage from './util_functions/messaging/ReportInappropiateMessage';
+import MappedMessage from './util_functions/messaging/MappedMessage';
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
@@ -323,26 +324,27 @@ const RidesPublic = () => {
                       <div>
                         {ride.messages.map(message => (
 
-                          <div key={message.id}>
-                            {/* {console.log("meesage", message)} */}
-                            <p>{message.message}</p>
-                            <p>Message by: {message.createdby}</p>
-                            <p>Message time: {message.createdat}</p>
-                            {message.createdby === user.id && (
-                              <DeleteRideMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
-                            )}
 
-                            {message.createdby !== user.id && 
-                              <ReportInappropiateMessage messageId={message.id} setMessageReported={setMessageReported} />
-                            }
+                          message.status !== 'deleted' && (
+                            <div>
+
+                              {message.status === 'flagged' && message.createdby === userId && (
+                                <div>
+                                  <div>Flagged as inappropiate. Not visible for other users</div>
+                                  <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                </div>
+                              )}
+
+                              {message.status !== 'flagged' && <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
 
 
-                            {user.isAdmin && message.createdby !== user.id && (
-                              <FlagInnapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged} />
-                            )}
+                            </div>
 
-                          </div>
-                        ))}
+
+                          )
+                        )
+
+                        )}
 
                       </div>
                     )}

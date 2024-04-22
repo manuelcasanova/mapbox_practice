@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function FlagInnapropiateMessage({ messageId, setMessageFlagged }) {
+export default function FlagInapropiateMessage({ messageId, setMessageFlagged }) {
 
 // console.log("messageId in util func delete ride", messageId)
 
