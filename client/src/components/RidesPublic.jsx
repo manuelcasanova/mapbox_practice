@@ -24,6 +24,7 @@ const RidesPublic = () => {
   const [filteredRides, setFilteredRides] = useState();
   const [messageSent, setMessageSent] = useState(false)
 
+
   //  console.log("filteredRides", filteredRides)
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
@@ -173,6 +174,37 @@ const RidesPublic = () => {
 
   const currentDateFormatted = getCurrentDateFormatted();
 
+  //Function to delete message
+  const deleteMessage = async (e) => {
+    e.preventDefault();
+    try {
+       console.log("Deleting message...");
+    } catch (err) {
+      console.log("error", err);
+      setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
+    }
+  };
+
+  const reportMessage = async (e) => {
+    e.preventDefault();
+    try {
+       console.log("Reporting message...");
+    } catch (err) {
+      console.log("error", err);
+      setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
+    }
+  };
+
+  const markInappropiate = async (e) => {
+    e.preventDefault();
+    try {
+       console.log("Marking message as inappropiate...");
+    } catch (err) {
+      console.log("error", err);
+      setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
+    }
+  };
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -296,10 +328,16 @@ const RidesPublic = () => {
                     {ride.messages && (
                       <div>
                         {ride.messages.map(message => (
+                       
                           <div key={message.id}>
+                               {/* {console.log("meesage", message)} */}
                             <p>{message.message}</p>
                             <p>Message by: {message.createdby}</p>
                             <p>Message time: {message.createdat}</p>
+                            {message.createdby === user.id && <button onClick={(e) => deleteMessage(e)}>Delete</button>}
+                            {message.createdby !== user.id && <button onClick={(e) => reportMessage(e)}>Report</button>}
+                            {user.isAdmin && message.createdby !== user.id && <button onClick={(e) => markInappropiate(e)}>Inappropiate</button>}
+                            
                           </div>
                         ))}
 
