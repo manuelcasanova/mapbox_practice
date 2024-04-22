@@ -12,6 +12,7 @@ import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import DeleteRideMessage from './util_functions/messaging/DeleteRideMessage';
 import FlagInnapropiateMessage from './util_functions/messaging/FlagInappropiateMessage';
+import ReportInappropiateMessage from './util_functions/messaging/ReportInappropiateMessage';
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
@@ -27,6 +28,7 @@ const RidesPublic = () => {
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
+  const [messageReported, setMessageReported] = useState(false)
 
   //  console.log("filteredRides", filteredRides)
   const userId = user.id;
@@ -96,7 +98,7 @@ const RidesPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, filteredRides, messageSent, messageDeleted]);
+  }, [user, filteredRides, messageSent, messageDeleted, messageReported]);
 
   useEffect(() => {
     const fetchUserRides = async () => {
@@ -329,8 +331,11 @@ const RidesPublic = () => {
                             {message.createdby === user.id && (
                               <DeleteRideMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
                             )}
-                            {message.createdby !== user.id && <button onClick={(e) => reportMessage(e)}>Report</button>}
-                    
+
+                            {message.createdby !== user.id && 
+                              <ReportInappropiateMessage messageId={message.id} setMessageReported={setMessageReported} />
+                            }
+
 
                             {user.isAdmin && message.createdby !== user.id && (
                               <FlagInnapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged} />
