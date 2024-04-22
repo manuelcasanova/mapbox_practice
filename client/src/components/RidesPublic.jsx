@@ -11,6 +11,7 @@ import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import DeleteRideMessage from './util_functions/messaging/DeleteRideMessage';
+import FlagInnapropiateMessage from './util_functions/messaging/FlagInappropiateMessage';
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
@@ -25,6 +26,7 @@ const RidesPublic = () => {
   const [filteredRides, setFilteredRides] = useState();
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
+  const [messageFlagged, setMessageFlagged] = useState(false)
 
   //  console.log("filteredRides", filteredRides)
   const userId = user.id;
@@ -328,7 +330,11 @@ const RidesPublic = () => {
                               <DeleteRideMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
                             )}
                             {message.createdby !== user.id && <button onClick={(e) => reportMessage(e)}>Report</button>}
-                            {user.isAdmin && message.createdby !== user.id && <button onClick={(e) => markInappropiate(e)}>Inappropiate</button>}
+                    
+
+                            {user.isAdmin && message.createdby !== user.id && (
+                              <FlagInnapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged} />
+                            )}
 
                           </div>
                         ))}
