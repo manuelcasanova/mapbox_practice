@@ -1180,9 +1180,26 @@ app.post("/rides/addmessage", async (req, res) => {
 });
 
 
+app.delete("/rides/deletemessage/:messageId", async (req, res) => {
+  const messageId = parseInt(req.params.messageId);
 
+  try {
+    const result = await pool.query("DELETE FROM ride_message WHERE id = $1", [messageId]);
 
-
+    // Check if any rows were affected
+    if (result.rowCount === 1) {
+      // If a row was affected, respond with success
+      res.status(200).json({ message: "Message deleted successfully" });
+    } else {
+      // If no row was affected, respond with error (message not found)
+      res.status(404).json({ error: "Message not found" });
+    }
+  } catch (error) {
+    // If an error occurs during the database operation, respond with an error
+    console.error('Error:', error.message);
+    res.status(500).json({ error: "An error occurred while deleting the message" });
+  }
+});
 
 
 

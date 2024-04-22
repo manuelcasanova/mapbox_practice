@@ -1,0 +1,37 @@
+import { useState } from "react";
+
+export default function DeleteRideMessage({ messageId, setMessageDeleted }) {
+
+// console.log("messageId in util func delete ride", messageId)
+
+  const [error, setError] = useState("");
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`http://localhost:3500/rides/deletemessage/${messageId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete message");
+      }
+
+      setError("");
+      setMessageDeleted(prev => !prev);
+    }
+    catch (error) {
+      console.error('Error:', error.message);
+      setError('An error occurred while deleting the message.');
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handleDelete}>Delete Message</button>
+      {error && <p>{error}</p>}
+    </div>
+  );
+}

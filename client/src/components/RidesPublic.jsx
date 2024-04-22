@@ -10,6 +10,7 @@ import RidesFilter from './RidesFilter';
 import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
+import DeleteRideMessage from './util_functions/messaging/DeleteRideMessage';
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
@@ -23,7 +24,7 @@ const RidesPublic = () => {
   const { user } = useAuth();
   const [filteredRides, setFilteredRides] = useState();
   const [messageSent, setMessageSent] = useState(false)
-
+  const [messageDeleted, setMessageDeleted] = useState(false)
 
   //  console.log("filteredRides", filteredRides)
   const userId = user.id;
@@ -93,7 +94,7 @@ const RidesPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, filteredRides, messageSent]);
+  }, [user, filteredRides, messageSent, messageDeleted]);
 
   useEffect(() => {
     const fetchUserRides = async () => {
@@ -174,21 +175,10 @@ const RidesPublic = () => {
 
   const currentDateFormatted = getCurrentDateFormatted();
 
-  //Function to delete message
-  const deleteMessage = async (e) => {
-    e.preventDefault();
-    try {
-       console.log("Deleting message...");
-    } catch (err) {
-      console.log("error", err);
-      setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
-    }
-  };
-
   const reportMessage = async (e) => {
     e.preventDefault();
     try {
-       console.log("Reporting message...");
+      console.log("Reporting message...");
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
@@ -198,7 +188,7 @@ const RidesPublic = () => {
   const markInappropiate = async (e) => {
     e.preventDefault();
     try {
-       console.log("Marking message as inappropiate...");
+      console.log("Marking message as inappropiate...");
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
@@ -323,21 +313,23 @@ const RidesPublic = () => {
 
                     {/* {console.log("ride messages", ride.messages)} */}
 
-                    <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent}/>
+                    <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
 
                     {ride.messages && (
                       <div>
                         {ride.messages.map(message => (
-                       
+
                           <div key={message.id}>
-                               {/* {console.log("meesage", message)} */}
+                            {/* {console.log("meesage", message)} */}
                             <p>{message.message}</p>
                             <p>Message by: {message.createdby}</p>
                             <p>Message time: {message.createdat}</p>
-                            {message.createdby === user.id && <button onClick={(e) => deleteMessage(e)}>Delete</button>}
+                            {message.createdby === user.id && (
+                              <DeleteRideMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
+                            )}
                             {message.createdby !== user.id && <button onClick={(e) => reportMessage(e)}>Report</button>}
                             {user.isAdmin && message.createdby !== user.id && <button onClick={(e) => markInappropiate(e)}>Inappropiate</button>}
-                            
+
                           </div>
                         ))}
 
