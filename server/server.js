@@ -1257,6 +1257,31 @@ app.post("/rides/message/flag/:messageId", async (req, res) => {
   }
 });
 
+app.post("/rides/message/ok/:messageId", async (req, res) => {
+  try {
+
+    // console.log("req.params", req.params)
+
+    const messageId = req.params.messageId
+ 
+    const modifyStatus = await pool.query(
+      `
+      INSERT INTO ride_message (id)
+      VALUES ($1)
+      ON CONFLICT (id)
+      DO UPDATE SET status = null
+      RETURNING *
+      `,
+      [messageId]
+    );
+    res.json(modifyStatus.rows[0])
+
+  } catch (error) {
+    console.error("Error okying message", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 
 

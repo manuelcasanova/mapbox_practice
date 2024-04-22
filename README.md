@@ -1,11 +1,5 @@
 Follow request notifications. Show in General Notifications
 
-Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
-
-Rides: Messages - Report messages (status -reported. Inform admin. Admin can modifiy to status: ok or inappropiate)
-Rides: Messages - Delete my messages (do not delete from db. status -deleted)
-Rides: Messages - Mark as innapropiate (do not delete from db, status -inappropiate - show message in frontend. Removed for inappopiate language)
-
 Do all messages thing in my rides, etc. Not only on public rides.
 
 Personal messaging between followers
@@ -37,6 +31,12 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 
 DONE
+
+Rides - discussion. Messages (from: name and picture, date and time, comment. ADD a comment, delete a comment)
+
+Rides: Messages - Report messages (status -reported. Inform admin. Admin can modifiy to status: ok or inappropiate)
+Rides: Messages - Delete my messages (do not delete from db. status -deleted)
+Rides: Messages - Mark as innapropiate (do not delete from db, status -inappropiate - show message in frontend. Removed for inappopiate language)
 
 
 Rides: Messages - Read messages

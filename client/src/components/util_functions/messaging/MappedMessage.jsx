@@ -1,6 +1,7 @@
 import DeleteRideMessage from "./DeleteRideMessage"
 import ReportInappropiateMessage from "./ReportInappropiateMessage"
 import FlagInapropiateMessage from "./FlagInappropiateMessage"
+import AdminOkReportedMessage from "./AdminOkReportedMessage"
 
 export default function MappedMessage({ message, user, setMessageDeleted, setMessageReported, setMessageFlagged }) {
 
@@ -17,6 +18,10 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
         (message.createdby !== user.id &&
           <ReportInappropiateMessage messageId={message.id} setMessageReported={setMessageReported} />
         )
+      }
+
+      {message.status === "reported" && user.isAdmin &&
+      <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported}/>
       }
 
       {user.isAdmin && message.createdby !== user.id && (

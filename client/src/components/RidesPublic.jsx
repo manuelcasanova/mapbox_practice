@@ -10,9 +10,6 @@ import RidesFilter from './RidesFilter';
 import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
-import DeleteRideMessage from './util_functions/messaging/DeleteRideMessage';
-import FlagInapropiateMessage from './util_functions/messaging/FlagInappropiateMessage';
-import ReportInappropiateMessage from './util_functions/messaging/ReportInappropiateMessage';
 import MappedMessage from './util_functions/messaging/MappedMessage';
 
 const RidesPublic = () => {
@@ -99,7 +96,7 @@ const RidesPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, filteredRides, messageSent, messageDeleted, messageReported]);
+  }, [user, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged]);
 
   useEffect(() => {
     const fetchUserRides = async () => {
@@ -179,27 +176,6 @@ const RidesPublic = () => {
   }
 
   const currentDateFormatted = getCurrentDateFormatted();
-
-  const reportMessage = async (e) => {
-    e.preventDefault();
-    try {
-      console.log("Reporting message...");
-    } catch (err) {
-      console.log("error", err);
-      setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
-    }
-  };
-
-  const markInappropiate = async (e) => {
-    e.preventDefault();
-    try {
-      console.log("Marking message as inappropiate...");
-    } catch (err) {
-      console.log("error", err);
-      setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
-    }
-  };
-
 
   if (isLoading) {
     return <div>Loading...</div>;
