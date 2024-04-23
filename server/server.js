@@ -1282,6 +1282,26 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
   }
 });
 
+app.get('/users/messages', async (req, res) => {
+  const { sender, receiver } = req.query;
+  //  console.log("ride_id", ride_id)
+  try {
+    const userMessages = await pool.query(
+      `SELECT * FROM user_messages WHERE sender = $1 AND receiver = $2
+      UNION ALL
+      SELECT * FROM user_messages WHERE sender = $2 AND receiver = $1
+      ORDER BY date DESC;
+      `
+      , [sender, receiver]);
+    // console.log(userMessages.rows)
+    res.json(userMessages.rows);
+
+  } catch (err) {
+    console.error('Error fetching user messages:', err);
+    res.status(500).json({ error: 'An error occurred while fetching user messages' });
+  }
+});
+
 
 
 
