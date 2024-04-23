@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "./Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -10,6 +11,7 @@ import FollowUserButton from './util_functions/follow_functions/FollowUserButton
 // import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 
 const UsersAll = () => {
+  const navigate = useNavigate()
   const [users, setUsers] = useState([]);
   const [mutedUsers, setMutedUsers] = useState([]);
   const [followers, setFollowers] = useState([])
@@ -25,6 +27,7 @@ const UsersAll = () => {
 
   // console.log("users", users)
   // console.log("followers", followers)
+  // console.log("userLoggedin", userLoggedin)
 
   useEffect(() => {
     let isMounted = true;
@@ -41,6 +44,23 @@ const UsersAll = () => {
   const handleMutedChanges = () => {
     setHasMutedChanges(prevState => !prevState);
   };
+
+  const followingEachOther = usersExceptMe.map(otherUser => {
+    const followFromLoggedIn = followers.find(follower =>
+        follower.follower_id === userLoggedin &&
+        follower.followee_id === otherUser.id &&
+        follower.status === 'accepted'
+    );
+
+    const followToLoggedIn = followers.find(follower =>
+        follower.follower_id === otherUser.id &&
+        follower.followee_id === userLoggedin &&
+        follower.status === 'accepted'
+    );
+
+    return !!(followFromLoggedIn && followToLoggedIn); // Convert to boolean
+});
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -61,37 +81,22 @@ const UsersAll = () => {
 
           {user.loggedIn ? (
             <div>
-              {usersExceptMe.map(user => {
+{followingEachOther.map((isFollowing, index) => {
+    const user = usersExceptMe[index];
+    const isMuted = mutedUsers.includes(user.id);
 
-                const pendingAcceptMe = followers.some(follower =>
-                  follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
-                );
-
-                const pendingAcceptThem = followers.some(follower =>
-                  follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
-                );
-
-                const isMuted = mutedUsers.includes(user.id);
-
-if (!isMuted) {
-
-                return (
-
-
-                  <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-
-                    <div>Id: {user.id}</div>  {/* Hide on production */}
-                    <div>{user.username}</div>
-                    <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-                    <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges}
-                    />
-                    {/* <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} /> */}
-                  </div>
-
-                );
-
-              }
-              })}
+    if (!isMuted) {
+        return (
+            <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                <div>Id: {user.id}</div>
+                <div>{user.username}</div>
+                <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
+                <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+                {isFollowing && <button onClick={() => { navigate("/users/messaging") }}>Messages</button>}
+            </div>
+        );
+    }
+})}
             </div>
           ) : (
             <p>Please log in to see users.</p>

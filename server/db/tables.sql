@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS rides CASCADE;
 DROP TABLE IF EXISTS map_users CASCADE;
 DROP TABLE IF EXISTS ride_users CASCADE;
 DROP TABLE IF EXISTS ride_message CASCADE;
-
+DROP TABLE IF EXISTS user_messages CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -97,6 +97,16 @@ CREATE TABLE ride_message (
   ride_id INTEGER REFERENCES rides(id) ON DELETE CASCADE,
   status VARCHAR(20),--inappropiate, deleted
   message TEXT
-)
+);
+
+CREATE TABLE user_messages (
+    id SERIAL PRIMARY KEY,
+    sender INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    receiver INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    content TEXT,
+    date timestamp
+);
+
+
 
 

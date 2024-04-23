@@ -1,8 +1,10 @@
 Follow request notifications. Show in General Notifications
 
-Personal messaging between followers
+Personal messaging between followers (start with refresh, then move to websocket)
 
-Message notifications
+Message notifications 
+
+User login timestamps more than one, for notifications if new messages since last login?
 
 Possibility of receving email when:
 message notifications
@@ -14,6 +16,8 @@ Login/logout
 OAuth
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
+
+Change <div> top <> where appropiate
 
 Remove logs and unused dependencies
 

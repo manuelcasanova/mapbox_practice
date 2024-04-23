@@ -18,7 +18,7 @@ import Followee from './components/UsersFollowee';
 import Followers from './components/UsersFollowers';
 import MutedUsers from './components/UsersMuted';
 import PendingUsers from './components/UsersPending';
-import IsTouchDevice from './components/util_functions/IsTouchDevice';
+import UsersMessaging from './components/messaging/UsersMessaging';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -246,6 +246,18 @@ function App() {
                     <Title rideApp={rideApp} setRideApp={setRideApp}/>
                     <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
                     <PendingUsers />
+                    <Footer />
+                  </>
+                }>
+              </Route>
+
+              <Route
+                exact path="/users/messaging"
+                element={
+                  <>
+                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
+                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+                    <UsersMessaging />
                     <Footer />
                   </>
                 }>

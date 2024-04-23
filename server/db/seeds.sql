@@ -7,16 +7,9 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
        ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true);
 
 
--- INSERT INTO followers (follower_id, followee_id, status, mute) VALUES
--- (1, 2, 'accepted', false), 
--- (1, 3, 'pending', false),
--- (1, 4, 'accepted', false),
--- (1, 5, 'accepted', false), 
--- (2, 1, 'pending', false),  
--- (3, 1, 'accepted', true),
--- (3, 2, 'accepted', false),
--- (4, 1, 'accepted', false),
--- (5, 1, 'pending', false); 
+INSERT INTO followers (follower_id, followee_id, status) VALUES
+(1, 2, 'accepted'), 
+(2, 1, 'accepted');
 
 INSERT INTO maps (title, createdBy, createdAt, mapType) VALUES 
 ('Stanley Park Loop PRIVATE', 1, Now(), 'private'),
@@ -258,7 +251,13 @@ VALUES
 
 INSERT INTO ride_message (createdAt, createdby, ride_id, message, status)
 VALUES
-(Now(), 3, 3, 'Clean message', null),
-(Now(), 4, 3, 'Reported message', 'reported'),
-(Now(), 5, 3, 'Flagged message', 'flagged')
+('2028-04-23 08:00:04', 3, 3, 'Clean message 4', null),
+('2028-04-23 08:00:03', 3, 3, 'Clean message 3', null),
+('2028-04-23 08:00:02', 4, 3, 'Reported message 2', 'reported'),
+('2028-04-23 08:00:01', 5, 3, 'Flagged message 1', 'flagged');
+
+INSERT INTO user_messages (sender, receiver, content, date)
+VALUES
+(1, 2, 'Hey', '2028-04-23 08:00:00'),
+(2, 1, 'Hey BACK', '2028-04-23 08:00:01')
 

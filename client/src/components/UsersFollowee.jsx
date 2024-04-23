@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "./Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -9,6 +10,7 @@ import FollowUserButton from './util_functions/follow_functions/FollowUserButton
 import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 
 const Followee = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [mutedUsers, setMutedUsers] = useState([]);
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
@@ -93,9 +95,11 @@ const Followee = () => {
 
                       {pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
 
-                     <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+                      <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
 
                       {amFollowingThem && <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />}
+
+                      <button onClick={() => { navigate("/users/messaging") }}>Messages</button>
 
                     </div>
                   );
