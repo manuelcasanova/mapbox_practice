@@ -13,8 +13,8 @@ export default function UsersMessaging() {
   const { state } = useLocation();
   const userForMessages = state?.userForMessages; // Access userForMessages from state
 
-  console.log("userForMessages", userForMessages);
-  console.log("user.id", user.id)
+  // console.log("userForMessages", userForMessages);
+  // console.log("user.id", user.id)
 
   return (
     <>

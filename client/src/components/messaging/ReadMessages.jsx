@@ -25,7 +25,7 @@ export default function ReadMessages({ userForMessages }) {
 
   // console.log("users", users)
 
-   console.log("messages in UsersMessagging", messages)
+  //  console.log("messages in UsersMessagging", messages)
 
   // console.log("sender", sender, "receiver", receiver)
 
