@@ -1,6 +1,9 @@
+
 Follow request notifications. Show in General Notifications
 
 Personal messaging between followers (start with refresh, then move to websocket)
+
+NOTE: $2, from button messages.
 
 Message notifications 
 

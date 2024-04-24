@@ -1283,17 +1283,25 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
 });
 
 app.get('/users/messages', async (req, res) => {
-  const { sender, receiver } = req.query;
+  let { sender, receiver } = req.query;
   //  console.log("ride_id", ride_id)
+  console.log("req.query", typeof req.query.sender)
+
+   // Convert strings to numbers
+   sender = parseInt(sender);
+   receiver = parseInt(receiver);
+
+console.log("typeofsender,receiver", typeof sender, typeof receiver)
+
   try {
     const userMessages = await pool.query(
-      `SELECT * FROM user_messages WHERE sender = $1 AND receiver = $2
+      `SELECT * FROM user_messages WHERE sender = $1 OR receiver = $2
       UNION ALL
       SELECT * FROM user_messages WHERE sender = $2 AND receiver = $1
       ORDER BY date DESC;
       `
       , [sender, receiver]);
-    // console.log(userMessages.rows)
+     console.log(userMessages.rows)
     res.json(userMessages.rows);
 
   } catch (err) {

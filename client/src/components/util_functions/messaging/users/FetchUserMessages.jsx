@@ -10,7 +10,7 @@ const fetchUserMessages = async (sender, receiver, messages, setMessages) => {
       }
     });
     setMessages(response.data)
-     console.log("response.data", response.data)
+      console.log("response.data in fetchUserMessages", response.data)
     return response.data;
   } catch (error) {
     console.error('Error fetching user messages:', error);
