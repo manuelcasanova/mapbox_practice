@@ -18,7 +18,7 @@ const UsersAll = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-  // console.log("user", user)
+  // console.log("user in Users All", user.id)
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
   const userLoggedin = user.id
   const userLoggedInObject = user
@@ -92,7 +92,12 @@ const UsersAll = () => {
                       <div>{user.username}</div>
                       <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
                       <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
-                      {isFollowing && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { userId: user.id }) }}>Messages</button>}
+                      {isFollowing && 
+                      
+                      <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>
+
+                      
+                      }
                     </div>
                   );
                 }

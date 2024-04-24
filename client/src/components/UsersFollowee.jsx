@@ -20,6 +20,7 @@ const Followee = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   const userLoggedInObject = user
+  // console.log("user in Users Followee", user.id)
 
   const userLoggedin = user.id
 
@@ -103,7 +104,9 @@ const Followee = () => {
 
                       {amFollowingThem && <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />}
 
-                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { userId: user.id }) }}>Messages</button>}
+                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>}
+
+
 
                     </div>
                   );

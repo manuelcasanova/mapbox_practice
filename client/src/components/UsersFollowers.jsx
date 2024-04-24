@@ -20,6 +20,8 @@ const Followers = () => {
   const { user } = useAuth();
   const userLoggedInObject = user;
 
+  // console.log("user in Users FOllowers", user.id)
+
   const userLoggedin = user.id
 
   useEffect(() => {
@@ -106,7 +108,7 @@ const Followers = () => {
                    
                       <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
 
-                     {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { userId: user.id }) }}>Messages</button>}
+                     {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>}
 
                     </div>
                   );

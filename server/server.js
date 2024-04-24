@@ -1283,11 +1283,16 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
 });
 
 app.get('/users/messages', async (req, res) => {
-  let { user, sender, receiver } = req.query;
+  let { userForMessages, sender, receiver } = req.query;
+
+  // console.log("req.query.userForMessages", req.query.userForMessages)
+  // console.log("req.query user logged in Id", req.query.user.id)
 
   // Convert strings to numbers
-  sender = parseInt(sender);
-  receiver = parseInt(receiver);
+  userForMessages = parseInt(req.query.userForMessages);
+  userLoggedIn = parseInt(req.query.user.id);
+
+  // console.log(userForMessages, userLoggedIn)
 
   try {
     const userMessages = await pool.query(
@@ -1295,11 +1300,20 @@ app.get('/users/messages', async (req, res) => {
       FROM user_messages AS um
       LEFT JOIN followers AS f1 ON um.sender = f1.follower_id AND um.receiver = f1.followee_id AND f1.status = 'accepted'
       LEFT JOIN followers AS f2 ON um.receiver = f2.follower_id AND um.sender = f2.followee_id AND f2.status = 'accepted'
-      WHERE ((um.sender = $1 AND um.receiver = $2) OR (um.receiver = $1 AND um.sender = $2)) 
-      AND (($1 = f1.follower_id AND $2 = f1.followee_id) OR ($1 = f2.followee_id AND $2 = f2.follower_id))
+      WHERE (
+          (um.sender = $1 AND um.receiver = $2) -- UserForMessages as sender, UserLoggedIn as receiver
+          OR
+          (um.receiver = $1 AND um.sender = $2) -- UserForMessages as receiver, UserLoggedIn as sender
+      )
+      AND (
+          (f1.follower_id = $1 AND f1.followee_id = $2) -- UserForMessages is follower, UserLoggedIn is followee
+          OR
+          (f2.follower_id = $1 AND f2.followee_id = $2) -- UserForMessages is followee, UserLoggedIn is follower
+      )
       ORDER BY um.date DESC;
+      
       `,
-      [sender, receiver]
+      [userForMessages, userLoggedIn]
     );
     // console.log(userMessages.rows);
     res.json(userMessages.rows);
