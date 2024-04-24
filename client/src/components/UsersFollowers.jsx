@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "./Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -9,6 +10,7 @@ import ApproveFollowerButton from './util_functions/follow_functions/ApproveFoll
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
 
 const Followers = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [mutedUsers, setMutedUsers] = useState([]);
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
@@ -85,6 +87,10 @@ const Followers = () => {
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.mute === true
                 );
 
+
+                // Check if both users are following each other and they are not muted
+            const canMessage = amFollowingThem && areFollowingMe && !isMuted;
+
                 if (areFollowingMe) {
 
                   return (
@@ -99,6 +105,8 @@ const Followers = () => {
                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
                    
                       <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+
+                     {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { userId: user.id }) }}>Messages</button>}
 
                     </div>
                   );

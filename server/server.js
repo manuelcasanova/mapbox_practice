@@ -1283,32 +1283,32 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
 });
 
 app.get('/users/messages', async (req, res) => {
-  let { sender, receiver } = req.query;
-  //  console.log("ride_id", ride_id)
-  console.log("req.query", typeof req.query.sender)
+  let { user, sender, receiver } = req.query;
 
-   // Convert strings to numbers
-   sender = parseInt(sender);
-   receiver = parseInt(receiver);
-
-console.log("typeofsender,receiver", typeof sender, typeof receiver)
+  // Convert strings to numbers
+  sender = parseInt(sender);
+  receiver = parseInt(receiver);
 
   try {
     const userMessages = await pool.query(
-      `SELECT * FROM user_messages WHERE sender = $1 OR receiver = $2
-      UNION ALL
-      SELECT * FROM user_messages WHERE sender = $2 AND receiver = $1
-      ORDER BY date DESC;
-      `
-      , [sender, receiver]);
-     console.log(userMessages.rows)
+      `SELECT um.*
+      FROM user_messages AS um
+      LEFT JOIN followers AS f1 ON um.sender = f1.follower_id AND um.receiver = f1.followee_id AND f1.status = 'accepted'
+      LEFT JOIN followers AS f2 ON um.receiver = f2.follower_id AND um.sender = f2.followee_id AND f2.status = 'accepted'
+      WHERE ((um.sender = $1 AND um.receiver = $2) OR (um.receiver = $1 AND um.sender = $2)) 
+      AND (($1 = f1.follower_id AND $2 = f1.followee_id) OR ($1 = f2.followee_id AND $2 = f2.follower_id))
+      ORDER BY um.date DESC;
+      `,
+      [sender, receiver]
+    );
+    // console.log(userMessages.rows);
     res.json(userMessages.rows);
-
   } catch (err) {
     console.error('Error fetching user messages:', err);
     res.status(500).json({ error: 'An error occurred while fetching user messages' });
   }
 });
+
 
 
 

@@ -1,3 +1,4 @@
+//Hooks
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "./Context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +24,7 @@ const Followee = () => {
   const userLoggedin = user.id
 
   useEffect(() => {
-    //  console.log("followers", followers)
+      console.log("followers in UsersFollowee", followers)
   })
 
 
@@ -84,6 +85,9 @@ const Followee = () => {
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.mute === true
                 );
 
+                // Check if both users are following each other and they are not muted
+            const canMessage = amFollowingThem && areFollowingMe && !isMuted;
+
                 if (amFollowingThem) {
 
                   return (
@@ -99,7 +103,7 @@ const Followee = () => {
 
                       {amFollowingThem && <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />}
 
-                      <button onClick={() => { navigate("/users/messaging") }}>Messages</button>
+                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { userId: user.id }) }}>Messages</button>}
 
                     </div>
                   );

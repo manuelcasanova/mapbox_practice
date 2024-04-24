@@ -252,7 +252,7 @@ function App() {
               </Route>
 
               <Route
-                exact path="/users/messaging"
+                exact path="/users/messaging/:userId"
                 element={
                   <>
                     <Title rideApp={rideApp} setRideApp={setRideApp}/>

@@ -259,5 +259,7 @@ VALUES
 INSERT INTO user_messages (sender, receiver, content, date)
 VALUES
 (1, 2, 'Hey', '2028-04-23 08:00:00'),
-(2, 1, 'Hey BACK', '2028-04-23 08:00:01')
+(2, 1, 'Hey BACK', '2028-04-23 08:00:01'),
+(3, 5, 'Hey BACK', '2028-04-23 08:00:07'),
+(5, 3, 'Hey', '2028-04-23 08:00:03')
 

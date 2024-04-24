@@ -47,19 +47,19 @@ const UsersAll = () => {
 
   const followingEachOther = usersExceptMe.map(otherUser => {
     const followFromLoggedIn = followers.find(follower =>
-        follower.follower_id === userLoggedin &&
-        follower.followee_id === otherUser.id &&
-        follower.status === 'accepted'
+      follower.follower_id === userLoggedin &&
+      follower.followee_id === otherUser.id &&
+      follower.status === 'accepted'
     );
 
     const followToLoggedIn = followers.find(follower =>
-        follower.follower_id === otherUser.id &&
-        follower.followee_id === userLoggedin &&
-        follower.status === 'accepted'
+      follower.follower_id === otherUser.id &&
+      follower.followee_id === userLoggedin &&
+      follower.status === 'accepted'
     );
 
     return !!(followFromLoggedIn && followToLoggedIn); // Convert to boolean
-});
+  });
 
 
   if (isLoading) {
@@ -81,22 +81,22 @@ const UsersAll = () => {
 
           {user.loggedIn ? (
             <div>
-{followingEachOther.map((isFollowing, index) => {
-    const user = usersExceptMe[index];
-    const isMuted = mutedUsers.includes(user.id);
+              {followingEachOther.map((isFollowing, index) => {
+                const user = usersExceptMe[index];
+                const isMuted = mutedUsers.includes(user.id);
 
-    if (!isMuted) {
-        return (
-            <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-                <div>Id: {user.id}</div>
-                <div>{user.username}</div>
-                <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-                <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
-                {isFollowing && <button onClick={() => { navigate("/users/messaging") }}>Messages</button>}
-            </div>
-        );
-    }
-})}
+                if (!isMuted) {
+                  return (
+                    <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                      <div>Id: {user.id}</div>
+                      <div>{user.username}</div>
+                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
+                      <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+                      {isFollowing && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { userId: user.id }) }}>Messages</button>}
+                    </div>
+                  );
+                }
+              })}
             </div>
           ) : (
             <p>Please log in to see users.</p>
