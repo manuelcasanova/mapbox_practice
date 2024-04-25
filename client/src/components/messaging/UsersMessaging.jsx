@@ -21,7 +21,7 @@ export default function UsersMessaging() {
       {user.loggedIn ? (
         <>
           <div>Users Messaging</div>
-         <WriteMessage />
+         <WriteMessage userForMessages={userForMessages}/>
          <ReadMessage userForMessages={userForMessages}/>
         </>
       ) : (
