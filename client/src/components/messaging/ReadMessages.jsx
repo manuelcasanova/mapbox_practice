@@ -10,7 +10,7 @@ import fetchUsernameAndId from "../util_functions/FetchUsername"
 import fetchUserMessages from "../util_functions/messaging/users/FetchUserMessages";
 
 
-export default function ReadMessages({ userForMessages }) {
+export default function ReadMessages({ userForMessages, updateMessages }) {
 
   //Variables
   const { user } = useAuth();
@@ -33,10 +33,17 @@ export default function ReadMessages({ userForMessages }) {
     let isMounted = true;
     fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
     fetchUserMessages(user, userForMessages, messages, setMessages)
+
+    const interval = setInterval(() => {
+      fetchUserMessages(user, userForMessages, messages, setMessages);
+      // console.log("interval, fetchuserMessages")
+    }, 10000); // 10 seconds
+
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
+      clearInterval(interval);
     };
-  }, []);
+  }, [updateMessages]);
 
 
 // // Render messages

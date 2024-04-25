@@ -1,9 +1,6 @@
 
 Follow request notifications. Show in General Notifications
 
-Personal messaging between followers (start with refresh, then move to websocket)
-Write message
-
 Message notifications 
 
 User login timestamps more than one, for notifications if new messages since last login?
@@ -35,6 +32,9 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 
 DONE
+
+Personal messaging between followers (start with refresh, then move to websocket)
+Write message
 
 See messages in "My rides"
 

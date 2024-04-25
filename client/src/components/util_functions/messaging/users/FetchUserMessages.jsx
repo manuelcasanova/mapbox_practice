@@ -3,7 +3,7 @@ import axios from 'axios';
 const fetchUserMessages = async (user, userForMessages, messages, setMessages) => {
   //  console.log("rideId fetchRideMessage", rideId)
   try {
-    const response = await axios.get(`http://localhost:3500/users/messages`, {
+    const response = await axios.get(`http://localhost:3500/users/messages/read`, {
       params: {
         userForMessages: userForMessages,
         user: user

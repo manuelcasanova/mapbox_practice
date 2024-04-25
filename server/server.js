@@ -1282,7 +1282,7 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
   }
 });
 
-app.get('/users/messages', async (req, res) => {
+app.get('/users/messages/read', async (req, res) => {
   let { userForMessages, sender, receiver } = req.query;
 
   // console.log("req.query.userForMessages", req.query.userForMessages)
@@ -1324,7 +1324,39 @@ app.get('/users/messages', async (req, res) => {
 });
 
 
+app.post("/users/messages/send", async (req, res) => {
 
+  const now = new Date();
+  const { newMessage, receiver, sender, isLoggedIn, userLoggedIn } = req.body; 
+
+if (isLoggedIn && sender === userLoggedIn && newMessage !== "") {
+  try {
+
+    //  console.log("req.body", req.body)
+
+
+     console.log("Backend x 4:", newMessage, receiver, sender, isLoggedIn)
+ 
+    const addMessage = await pool.query(
+      `
+      INSERT INTO user_messages (content, receiver, sender, date)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+      `,
+      [newMessage, receiver, sender, now]
+    );
+    res.json(addMessage.rows[0])
+
+  } catch (error) {
+    console.error("Error sending message", error);
+    res.status(500).send("Internal Server Error");
+  }
+
+} else {
+  // Return an error message indicating unauthorized access
+  res.status(403).json({ error: "Unauthorized access" });
+}
+});
 
 
 
