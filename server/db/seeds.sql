@@ -7,10 +7,6 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
        ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true);
 
 
-INSERT INTO followers (follower_id, followee_id, status) VALUES
-(1, 2, 'accepted'), 
-(2, 1, 'accepted');
-
 INSERT INTO maps (title, createdBy, createdAt, mapType) VALUES 
 ('Stanley Park Loop PRIVATE', 1, Now(), 'private'),
 ('Grouse Mountain FOLLOWERS', 5, Now(), 'followers'),

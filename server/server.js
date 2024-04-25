@@ -1144,7 +1144,7 @@ app.get('/rides/messages', async (req, res) => {
 });
 
 app.post("/rides/addmessage", async (req, res) => {
-  if (req.body.userIsLoggedIn 
+  if (req.body.userIsLoggedIn
     && req.body.message !== ""
   ) {
     try {
@@ -1185,7 +1185,7 @@ app.post("/rides/message/delete/:messageId", async (req, res) => {
     // console.log("req.params", req.params)
 
     const messageId = req.params.messageId
- 
+
     const modifyStatus = await pool.query(
       `
       INSERT INTO ride_message (id)
@@ -1210,7 +1210,7 @@ app.post("/rides/message/report/:messageId", async (req, res) => {
     // console.log("req.params", req.params)
 
     const messageId = req.params.messageId
- 
+
     const modifyStatus = await pool.query(
       `
       INSERT INTO ride_message (id)
@@ -1236,7 +1236,7 @@ app.post("/rides/message/flag/:messageId", async (req, res) => {
     // console.log("req.params", req.params)
 
     const messageId = req.params.messageId
- 
+
     const modifyStatus = await pool.query(
       `
       INSERT INTO ride_message (id)
@@ -1261,7 +1261,7 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
     // console.log("req.params", req.params)
 
     const messageId = req.params.messageId
- 
+
     const modifyStatus = await pool.query(
       `
       INSERT INTO ride_message (id)
@@ -1325,35 +1325,35 @@ app.get('/users/messages/read', async (req, res) => {
 app.post("/users/messages/send", async (req, res) => {
 
   const now = new Date();
-  const { newMessage, receiver, sender, isLoggedIn, userLoggedIn } = req.body; 
+  const { newMessage, receiver, sender, isLoggedIn, userLoggedIn } = req.body;
 
-if (isLoggedIn && sender === userLoggedIn && newMessage !== "") {
-  try {
+  if (isLoggedIn && sender === userLoggedIn && newMessage !== "") {
+    try {
 
-    //  console.log("req.body", req.body)
+      //  console.log("req.body", req.body)
 
 
-     console.log("Backend x 4:", newMessage, receiver, sender, isLoggedIn)
- 
-    const addMessage = await pool.query(
-      `
+      console.log("Backend x 4:", newMessage, receiver, sender, isLoggedIn)
+
+      const addMessage = await pool.query(
+        `
       INSERT INTO user_messages (content, receiver, sender, date)
       VALUES ($1, $2, $3, $4)
       RETURNING *
       `,
-      [newMessage, receiver, sender, now]
-    );
-    res.json(addMessage.rows[0])
+        [newMessage, receiver, sender, now]
+      );
+      res.json(addMessage.rows[0])
 
-  } catch (error) {
-    console.error("Error sending message", error);
-    res.status(500).send("Internal Server Error");
+    } catch (error) {
+      console.error("Error sending message", error);
+      res.status(500).send("Internal Server Error");
+    }
+
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
   }
-
-} else {
-  // Return an error message indicating unauthorized access
-  res.status(403).json({ error: "Unauthorized access" });
-}
 });
 
 //Get pending request users
@@ -1361,7 +1361,7 @@ app.get('/users/loginhistory', async (req, res) => {
 
   // console.log(req.query.user)
 
-  const {id, loggedIn, username} = req.query.user
+  const { id, loggedIn, username } = req.query.user
 
   //  console.log("backend", id, loggedIn, username)
 
@@ -1370,7 +1370,7 @@ app.get('/users/loginhistory', async (req, res) => {
     try {
 
       const result = await pool.query(`SELECT * FROM login_history WHERE user_id = $1 ORDER BY login_time DESC`, [id]);
-// console.log("rd", result)
+      // console.log("rd", result)
       res.json(result.rows);
     } catch (error) {
       console.error('Error fetching login history:', error);
@@ -1382,6 +1382,33 @@ app.get('/users/loginhistory', async (req, res) => {
     res.status(403).json({ error: "Unauthorized access" });
   }
 });
+
+app.get('/users/follownotifications', async (req, res) => {
+  try {
+    const result = await pool.query(
+      `WITH SecondLastLogin AS (
+    SELECT user_id, login_time,
+           ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_time DESC) AS rn
+    FROM login_history
+  )
+  SELECT DISTINCT f.*
+  FROM followers f
+  JOIN SecondLastLogin sll ON f.followee_id = sll.user_id
+  WHERE f.lastmodification > (
+    SELECT MAX(login_time)
+    FROM SecondLastLogin
+    WHERE user_id = f.followee_id AND rn = 2
+  );
+  `
+    )
+    res.json(result.rows)
+    // console.log(result.rows)
+
+  } catch (error) {
+    console.error('Error fetching login history:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
 
 
 
