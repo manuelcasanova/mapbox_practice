@@ -198,6 +198,7 @@ const RidesPublic = () => {
               <RidesFilter onFilter={onFilter} />
 
               {rides.map((ride, index) => {
+                //  console.log("Ride ID:", ride.id);
                 // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
                 // console.log("original date", originalDate)
@@ -228,7 +229,7 @@ const RidesPublic = () => {
                 return (
 
 
-                  <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                  <div key={`${ride.id}-${index}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
                     {/* {console.log("ride.id", ride.id)} */}
                     <div>Name: {ride.name}</div>
                     <div>Details: {ride.details}</div>

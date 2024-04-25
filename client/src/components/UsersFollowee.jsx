@@ -25,7 +25,7 @@ const Followee = () => {
   const userLoggedin = user.id
 
   useEffect(() => {
-      console.log("followers in UsersFollowee", followers)
+      // console.log("followers in UsersFollowee", followers)
   })
 
 
