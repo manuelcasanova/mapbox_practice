@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS login_history CASCADE;
 DROP TABLE IF EXISTS followers CASCADE;
 DROP TABLE IF EXISTS muted CASCADE;
 DROP TABLE IF EXISTS maps CASCADE;
@@ -19,8 +20,13 @@ CREATE TABLE users (
   is_active BOOLEAN DEFAULT true,
   refresh_token VARCHAR(255),
   profile_picture VARCHAR(255),
-  location VARCHAR(255),
-  lastlogin timestamp
+  location VARCHAR(255)
+);
+
+CREATE TABLE login_history (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id),
+  login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE followers (

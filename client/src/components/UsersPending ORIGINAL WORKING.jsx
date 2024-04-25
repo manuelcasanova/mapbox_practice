@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import fetchUsernameAndId from "./util_functions/FetchUsername";
 import fetchPendingUsers from "./util_functions/FetchPendingUsers";
+import FollowUserButton from "./util_functions/follow_functions/FollowUserButton";
 import fetchLoginHistory from "./util_functions/FetchLoginHistory";
 
 const PendingUsers = () => {
@@ -24,8 +25,25 @@ const PendingUsers = () => {
   const currentDate = new Date();
   const [loginhistory, setLoginHistory] = useState([]);
 
-
-
+  // Sort the login history array by login time in descending order
+  loginhistory.sort((a, b) => new Date(b.login_time) - new Date(a.login_time));
+  
+  console.log("lhs", loginhistory)
+  // Check if there are at least two login entries
+  if (loginhistory.length >= 2) {
+    // Extract the second-to-last login time
+    const secondToLastLoginTime = new Date(loginhistory[1].login_time);
+    
+    // Display the second-to-last login time
+    console.log('Second-to-last login time:', secondToLastLoginTime);
+  } else if (loginhistory.length === 1) {
+    // If there is only one login entry
+    const onlyLoginTime = new Date(loginhistory[0].login_time);
+    console.log('Only login time available:', onlyLoginTime);
+  } else {
+    // If there are no login entries
+    console.log('User has no login entries.');
+  }
   
 
   // console.log("users", users)
@@ -137,7 +155,7 @@ const PendingUsers = () => {
   }, [userLoggedin, fake]);
 
   useEffect(() => {
-    // console.log("lh", loginhistory)
+    console.log("lh", loginhistory)
   }, [loginhistory])
 
   const pendingUsersObject = users
@@ -155,32 +173,24 @@ const PendingUsers = () => {
       return b.lastmodification - a.lastmodification;
   });
 
-  console.log("pendingUsersObject", pendingUsersObject)
   
-  // Sort the login history array by login time in descending order
-loginhistory.sort((a, b) => new Date(b.login_time) - new Date(a.login_time));
 
-let isNewRequest = false;
+  const pendingUsersObjectWithMoreInfo = pendingUsersObject.map(user => {
+    const pendingUser = pendingUsers.find(pUser => pUser.follower_id === user.id);
+    if (pendingUser) {
+      const lastModificationDate = new Date(pendingUser.lastmodification);
+      const newrequest = pendingUser.newrequest
+      console.log("newrequest", newrequest)
+      return {
+        ...user,
+        follower_id: pendingUser.follower_id,
+        lastmodification: lastModificationDate,
+        newrequest: newrequest
+      };
+    }
+  });
 
-// Check if there are at least two login entries
-if (loginhistory.length >= 2) {
-  // Extract the second-to-last login time
-  const secondToLastLoginTime = new Date(loginhistory[1].login_time);
-
-  // Compare the lastmodification timestamp with the second-to-last login time
-  isNewRequest = pendingUsersObject.some(user => user.lastmodification > secondToLastLoginTime);
-  
-} else if (loginhistory.length === 1) {
-  // If there is only one login entry
-  const onlyLoginTime = new Date(loginhistory[0].login_time);
-  isNewRequest = pendingUsersObject.some(user => user.lastmodification > onlyLoginTime);
-} else {
-  // If there are no login entries
-  console.log('User has no login entries.');
-}
-
-console.log('isNewRequest:', isNewRequest);
-
+  //  console.log("PUOWMI", pendingUsersObjectWithMoreInfo)
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -194,18 +204,18 @@ console.log('isNewRequest:', isNewRequest);
     <div>
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
-      ) : pendingUsersObject.length === 0 ? (
+      ) : pendingUsersObjectWithMoreInfo.length === 0 ? (
         <div>No requests pending.</div>
       ) : (
         <div>
-          {pendingUsersObject.map(user => (
+          {pendingUsersObjectWithMoreInfo.map(user => (
 
 
             <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 
 
 
-              {<div>Request made {
+              {user.newrequest && <div>Request made {
               
 
               //  Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24))
@@ -220,7 +230,7 @@ console.log('isNewRequest:', isNewRequest);
                 } </div>}
 
                 
-              {isNewRequest &&<button onClick={() => { dismissMessageFollowRequest(user.id, userLoggedin) }}>x</button>}
+              {user.newrequest &&<button onClick={() => { dismissMessageFollowRequest(user.id, userLoggedin) }}>x</button>}
               <div>Id: {user.id}</div>
               <div>{user.username}</div>
 

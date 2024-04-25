@@ -40,10 +40,8 @@ app.post('/users/lastlogin/', async (req, res) => {
 
     const insertLastLogin = await pool.query(
       `
-      INSERT INTO users (id, lastlogin)
+      INSERT INTO login_history (user_id, login_time)
       VALUES ($1, $2)
-      ON CONFLICT (id)
-      DO UPDATE SET lastlogin = EXCLUDED.lastlogin
       RETURNING *
       `,
       [userId, lastlogin]
@@ -1356,6 +1354,33 @@ if (isLoggedIn && sender === userLoggedIn && newMessage !== "") {
   // Return an error message indicating unauthorized access
   res.status(403).json({ error: "Unauthorized access" });
 }
+});
+
+//Get pending request users
+app.get('/users/loginhistory', async (req, res) => {
+
+  // console.log(req.query.user)
+
+  const {id, loggedIn, username} = req.query.user
+
+  //  console.log("backend", id, loggedIn, username)
+
+  if (loggedIn) {
+
+    try {
+
+      const result = await pool.query(`SELECT * FROM login_history WHERE user_id = $1 ORDER BY login_time DESC`, [id]);
+// console.log("rd", result)
+      res.json(result.rows);
+    } catch (error) {
+      console.error('Error fetching login history:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
+  }
 });
 
 
