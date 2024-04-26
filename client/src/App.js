@@ -19,6 +19,7 @@ import Followers from './components/UsersFollowers';
 import MutedUsers from './components/UsersMuted';
 import PendingUsers from './components/UsersPending';
 import UsersMessaging from './components/messaging/UsersMessaging';
+import FollowNotifications from './components/notifications/FollowNotifications';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -29,7 +30,17 @@ import { useState } from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-
+// Define a layout component to wrap the routes
+const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton }) => (
+  <div className='app'>
+    <Authentication />
+    <FollowNotifications />
+    <Title rideApp={rideApp} setRideApp={setRideApp} />
+    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+    {children}
+    <Footer />
+  </div>
+);
 
 
 function App() {
@@ -42,28 +53,22 @@ function App() {
     <AuthProvider>
       <BrowserCoordsProvider>
         <Router>
-          <div className='app'>
-            <Authentication />
+
+          <Layout
+              rideApp={rideApp}
+              setRideApp={setRideApp}
+              fromButton={fromButton}
+              setFromButton={setFromButton}
+          >
             <Routes>
 
-            <Route
-                exact path="/"
-                element={
-                  <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
-            
-                  </>
-
-                }>
-              </Route>
+            <Route exact path="/" element={<></>}></Route>
 
               <Route
                 exact path="/rides"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+     
                   </>
 
                 }>
@@ -73,8 +78,7 @@ function App() {
                 exact path="/run"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information />
+     
                   </>
 
                 }>
@@ -84,11 +88,10 @@ function App() {
                 exact path="/maps"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+          
                     {/* <CreateMap /> */}
                     <AllMaps fromButton={fromButton} setFromButton={setFromButton} />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -97,11 +100,10 @@ function App() {
                 exact path="/maps/public"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     {/* <CreateMap /> */}
                     <MapsPublic />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -110,10 +112,9 @@ function App() {
                 exact path="/maps/create"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <CreateMap setFromButton={setFromButton} />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -122,8 +123,7 @@ function App() {
                 exact path="/maps/:id"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <SeeMap />
                   </>
 
@@ -134,10 +134,9 @@ function App() {
                 exact path="/ride"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <CreateRide />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -146,10 +145,9 @@ function App() {
                 exact path="/rides/public"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <RidesPublic />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -158,10 +156,9 @@ function App() {
                 exact path="/rides/mine"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <RidesUser />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -170,10 +167,9 @@ function App() {
                 exact path="/rides/all"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <RidesAll />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -182,10 +178,9 @@ function App() {
                 exact path="/users/admin"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <UsersAdmin />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -194,10 +189,9 @@ function App() {
                 exact path="/users/all"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <UsersAll />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -206,10 +200,9 @@ function App() {
                 exact path="/users/followee"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <Followee />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -219,10 +212,9 @@ function App() {
                 exact path="/users/followers"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <Followers />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -231,10 +223,9 @@ function App() {
                 exact path="/users/muted"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <MutedUsers />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -243,10 +234,9 @@ function App() {
                 exact path="/users/pending"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <PendingUsers />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -255,10 +245,9 @@ function App() {
                 exact path="/users/messaging/:userId"
                 element={
                   <>
-                    <Title rideApp={rideApp} setRideApp={setRideApp}/>
-                    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+           
                     <UsersMessaging />
-                    <Footer />
+              
                   </>
                 }>
               </Route>
@@ -266,8 +255,9 @@ function App() {
 
 
             </Routes>
-          </div>
+          </Layout>
         </Router >
+
       </BrowserCoordsProvider>
     </AuthProvider>
   );
