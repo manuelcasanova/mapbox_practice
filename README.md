@@ -1,5 +1,4 @@
 
-Follow request notifications. Show in General Notifications
 
 Message notifications 
 
@@ -32,6 +31,9 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 
 DONE
+
+
+Follow request notifications. Show in General Notifications
 
 Personal messaging between followers (start with refresh, then move to websocket)
 Write message

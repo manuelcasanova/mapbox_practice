@@ -20,7 +20,7 @@ const fetchIsNewRequest = (pendingUsersObject, loginhistory) => {
     isNewRequest = pendingUsersObject.some(user => user.lastmodification > onlyLoginTime);
   } else {
     // If there are no login entries
-    console.log('User has no login entries.');
+    // console.log('User has no login entries.');
   }
 
   return isNewRequest;

@@ -156,7 +156,7 @@ const PendingUsers = () => {
       return b.lastmodification - a.lastmodification;
   });
 
-  console.log("pendingUsersObject", pendingUsersObject)
+  // console.log("pendingUsersObject", pendingUsersObject)
   
   // Sort the login history array by login time in descending order
 loginhistory.sort((a, b) => new Date(b.login_time) - new Date(a.login_time));

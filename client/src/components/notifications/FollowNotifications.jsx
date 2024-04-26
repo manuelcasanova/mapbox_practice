@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { useAuth } from "../Context/AuthContext";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; 
 
 export default function FollowNotifications () {
   const { user } = useAuth();
@@ -27,7 +28,7 @@ export default function FollowNotifications () {
       if (isMounted) {
         // console.log("response.data", response.data)
         setFollowNotifications(response.data);
-         console.log("follow notifications in jsx", response.data)
+        //  console.log("follow notifications in jsx", response.data)
         setIsLoading(false);
       }
     } catch (error) {
@@ -50,9 +51,16 @@ export default function FollowNotifications () {
     };
   }, [user]);
 
-return (
-  <div>Follow notifications component</div>
-)
+  return (
+    <>
+      {followNotifications.length ? (
+        <Link to="/users/pending">
+          Notification: New follow requests.
+          </Link>
+      ) : <></>}
+    </>
+  );
+  
 
 }
 

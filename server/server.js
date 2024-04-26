@@ -1384,6 +1384,7 @@ app.get('/users/loginhistory', async (req, res) => {
 });
 
 app.get('/users/follownotifications', async (req, res) => {
+  const loggedInUserId = req.query.user.id
   try {
     const result = await pool.query(
       `WITH SecondLastLogin AS (
@@ -1398,11 +1399,14 @@ app.get('/users/follownotifications', async (req, res) => {
     SELECT MAX(login_time)
     FROM SecondLastLogin
     WHERE user_id = f.followee_id AND rn = 2
-  );
-  `
+  )
+  AND f.followee_id = $1
+  
+  `,
+  [loggedInUserId]
     )
     res.json(result.rows)
-    // console.log(result.rows)
+      // console.log(result.rows)
 
   } catch (error) {
     console.error('Error fetching login history:', error);
