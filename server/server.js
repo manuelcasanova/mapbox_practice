@@ -1384,7 +1384,12 @@ app.get('/users/loginhistory', async (req, res) => {
 });
 
 app.get('/users/follownotifications', async (req, res) => {
-  const loggedInUserId = req.query.user.id
+  
+
+  const { loggedIn, id } = req.query.user
+
+if (loggedIn) {
+
   try {
     const result = await pool.query(
       `WITH SecondLastLogin AS (
@@ -1403,7 +1408,7 @@ app.get('/users/follownotifications', async (req, res) => {
   AND f.followee_id = $1
   
   `,
-  [loggedInUserId]
+  [id]
     )
     res.json(result.rows)
       // console.log(result.rows)
@@ -1412,6 +1417,14 @@ app.get('/users/follownotifications', async (req, res) => {
     console.error('Error fetching login history:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+
+} else {
+  // Return an error message indicating unauthorized access
+  res.status(403).json({ error: "Unauthorized access" });
+
+}
+
+
 })
 
 

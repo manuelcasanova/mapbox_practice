@@ -15,6 +15,7 @@ export default function FollowNotifications () {
   const [isMounted, setIsMounted] = useState(false)
   const [followNotifications, setFollowNotifications] = useState(false)
 
+  //  console.log("user", user)
 
   const fetchFollowNotifications = async (user, setFollowNotifications, setIsLoading, setError, isMounted) => {
 
@@ -53,11 +54,15 @@ export default function FollowNotifications () {
 
   return (
     <>
+ 
       {followNotifications.length ? (
+           user.loggedIn &&
         <Link to="/users/pending">
           Notification: New follow requests.
           </Link>
+           
       ) : <></>}
+
     </>
   );
   
