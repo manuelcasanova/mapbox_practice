@@ -37,6 +37,10 @@ const RidesUser = () => {
   const [confirmDelete, setConfirmDelete] = useState(false)
   // const navigate = useNavigate();
 
+  // console.log("rides", rides)
+
+  const isRideCreatedByUser = rides.find(ride => ride.createdby === user.id) !== undefined;
+// console.log("isrcbyser", isRideCreatedByUser)
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
     setFilteredRides(filters)
@@ -146,6 +150,26 @@ const RidesUser = () => {
     }
   };
 
+  const deactivateRide = async (id) => {
+    try {
+      const userId = user.id;
+      // console.log("deleteRide", userId)
+      const rideCreatedBy = rides.find(ride => ride.id === id).createdby;
+      await axios.post(`http://localhost:3500/ride/deactivate/${id}`, {
+        data: { userId, rideCreatedBy, isRideCreatedByUser }
+      });
+
+      setRides(prevRides => {
+        // Filter out the map that has been removed
+        return prevRides.filter(ride => ride.id !== ride.id);
+      });
+
+      setConfirmDelete(false)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const removeFromMyRides = async (id) => {
     try {
       const userId = user.id;
@@ -245,7 +269,7 @@ const RidesUser = () => {
                     {/* {console.log(user.id, ride.createdby)} */}
                     {confirmDelete ? (
   rides.length ? (
-    <button onClick={() => deleteRide(ride.id)}>Confirm delete</button>
+    <button onClick={() => deactivateRide(ride.id)}>Confirm delete</button>
   ) : (
     <button onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
   )

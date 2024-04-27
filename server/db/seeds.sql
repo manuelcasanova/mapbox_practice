@@ -240,7 +240,7 @@ INSERT INTO points (lat, lng, map) VALUES
 -- Insert rides
 INSERT INTO rides (name, distance, speed, isSelected, isActive, createdBy, createdAt, rideType, image, gpx, starting_date, starting_time, meeting_point, details, map)
 VALUES 
-  ('Stanley Park Bike Ride PUBLIC', 20, 23, false, true, 2, NOW(), 'public', 'stanley_park_bike.jpg', 'stanley_park_bike.gpx', '2024-03-10', '10:00:00', 'Vancouver Art Gallery', 'Enjoy a bike ride around Stanley Park.', 1),
+  ('Stanley Park Bike Ride PUBLIC', 20, 23, false, true, 2, NOW(), 'public', 'stanley_park_bike.jpg', 'stanley_park_bike.gpx', '2024-09-10', '10:00:00', 'Vancouver Art Gallery', 'Enjoy a bike ride around Stanley Park.', 1),
   ('Grouse Mountain Parking Lot FOLLOWERS', 10, 18, false, true, 3, NOW(), 'followers', 'grouse.jpg', 'grouse.gpx', '2024-12-18', '11:00:00', 'Gas station', 'Experience the thrill of climbing one of the North Sore''s iconic mountains, part of the famous ''Triple Crown''.', 2),
     ('Stanley Park Short PUBLIC', 10, 18, false, true, 4, NOW(), 'public', 'stanley.jpg', 'stanley.gpx', '2024-12-19', '11:00:00', 'Bridge', 'Stanley short.', 3);
 

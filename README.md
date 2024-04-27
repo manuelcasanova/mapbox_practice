@@ -1,5 +1,5 @@
-Maps, rides: if deleted only isActive = false
-Delete definitively only by superAdmin
+
+Delete maps and definitively by superAdmin
 
 Users: delete by superadmin
 
@@ -31,6 +31,8 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 Show notifications above everything else on the right if open them
 
 DONE
+
+Maps, rides: if deleted only isActive = false
 
 CONFIRM DELETE: Delete map, delete ride
 

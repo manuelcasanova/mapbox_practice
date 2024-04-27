@@ -800,6 +800,38 @@ app.delete("/ride/delete/:id", async (req, res) => {
   }
 })
 
+//Deactivate a ride
+app.post("/ride/deactivate/:id", async (req, res) => {
+  console.log(req.body)
+  try {
+    const rideId = req.params.id;
+    const userId = req.body.data.userId
+    const rideCreatedBy = req.body.data.rideCreatedBy
+    const isRideCreatedByUser = req.body.data.isRideCreatedByUser
+
+    // console.log(req.params)
+    // console.log("req body", typeof req.body.data.mapId)
+    //console.log("rq body", req.body)
+
+    //  console.log("Deactivated map id:", typeof id);
+
+    if (isRideCreatedByUser) {
+
+
+      const deactivatedRide = await pool.query(
+        "UPDATE rides SET isactive = false WHERE id = $1 RETURNING *", [rideId]
+      )
+      res.json(deactivatedRide.rows[0])
+
+    } else {
+      res.json("Ride can only be deactivated by creator")
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
 //Remove users from map
 
 app.delete(`/maps/delete/users/:id`, async (req, res) => {
@@ -1078,6 +1110,7 @@ app.get("/rides/public", async (req, res) => {
        AND speed <= $6
        AND (mute1.mute IS NULL OR mute1.mute = false)
        AND (mute2.mute IS NULL OR mute2.mute = false)
+       AND r.isactive = true
    `;
 
 
@@ -1150,7 +1183,7 @@ app.get("/rides/user/:id", async (req, res) => {
 
     const rides = await pool.query(
       // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
-      'SELECT * FROM rides WHERE createdby = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4  AND distance <= $5 AND speed >= $6 AND speed <= $7 UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND speed >= $6 AND speed <= $7 ORDER BY id DESC'
+      'SELECT * FROM rides WHERE createdby = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4  AND distance <= $5 AND speed >= $6 AND speed <= $7 AND isactive = true UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND speed >= $6 AND speed <= $7 ORDER BY id DESC'
 
       , [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax]
     );
@@ -1420,7 +1453,9 @@ app.get('/users/loginhistory', async (req, res) => {
 //New follow request notification
 
 app.get('/users/follownotifications', async (req, res) => {
+  // console.log("req", req)
   const { loggedIn, id } = req.query.user
+  // console.log(loggedIn)
   if (loggedIn) {
     try {
       const result = await pool.query(
