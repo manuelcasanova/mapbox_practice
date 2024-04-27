@@ -1283,6 +1283,7 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
 app.get('/users/messages/read', async (req, res) => {
   let { userForMessages, sender, receiver } = req.query;
 
+  // console.log("req.query", req.query)
   // console.log("req.query.userForMessages", req.query.userForMessages)
   // console.log("req.query user logged in Id", req.query.user.id)
 
@@ -1333,7 +1334,7 @@ app.post("/users/messages/send", async (req, res) => {
       //  console.log("req.body", req.body)
 
 
-      console.log("Backend x 4:", newMessage, receiver, sender, isLoggedIn)
+      // console.log("Backend x 4:", newMessage, receiver, sender, isLoggedIn)
 
       const addMessage = await pool.query(
         `
@@ -1383,16 +1384,14 @@ app.get('/users/loginhistory', async (req, res) => {
   }
 });
 
+//New follow request notification
+
 app.get('/users/follownotifications', async (req, res) => {
-  
-
   const { loggedIn, id } = req.query.user
-
-if (loggedIn) {
-
-  try {
-    const result = await pool.query(
-      `WITH SecondLastLogin AS (
+  if (loggedIn) {
+    try {
+      const result = await pool.query(
+        `WITH SecondLastLogin AS (
     SELECT user_id, login_time,
            ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_time DESC) AS rn
     FROM login_history
@@ -1408,24 +1407,56 @@ if (loggedIn) {
   AND f.followee_id = $1
   AND f.status = 'pending'
   `,
-  [id]
-    )
-    res.json(result.rows)
+        [id]
+      )
+      res.json(result.rows)
       // console.log(result.rows)
+    } catch (error) {
+      console.error('Error fetching login history:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
 
-  } catch (error) {
-    console.error('Error fetching login history:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
   }
-
-} else {
-  // Return an error message indicating unauthorized access
-  res.status(403).json({ error: "Unauthorized access" });
-
-}
-
-
 })
+
+//New message notification
+app.get('/messages/notifications', async (req, res) => {
+  const { loggedIn, id } = req.query.user;
+  // console.log("rq", req.query)
+  if (loggedIn) {
+    try {
+      const result = await pool.query(
+        `WITH SecondLastLogin AS (
+          SELECT user_id, login_time,
+                 ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_time DESC) AS rn
+          FROM login_history
+        )
+        SELECT DISTINCT um.*
+        FROM user_messages um
+        JOIN SecondLastLogin sll ON um.receiver = sll.user_id
+        WHERE um.date > (
+          SELECT MAX(login_time)
+          FROM SecondLastLogin
+          WHERE user_id = um.receiver AND rn = 2
+        )
+        AND um.receiver = $1;
+      `,
+        [id]
+      );
+      res.json(result.rows);
+      // console.log(result.rows);
+    } catch (error) {
+      console.error('Error fetching message notifications:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
+  }
+});
 
 
 

@@ -20,6 +20,7 @@ import MutedUsers from './components/UsersMuted';
 import PendingUsers from './components/UsersPending';
 import UsersMessaging from './components/messaging/UsersMessaging';
 import FollowNotifications from './components/notifications/FollowNotifications';
+import MessagesNotifications from './components/notifications/MessagesNotifications';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -35,6 +36,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton }) =>
   <div className='app'>
     <Authentication />
     <FollowNotifications />
+    <MessagesNotifications />
     <Title rideApp={rideApp} setRideApp={setRideApp} />
     <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
     {children}
