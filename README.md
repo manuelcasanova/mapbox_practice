@@ -2,7 +2,7 @@
 
 Message notifications 
 
-User login timestamps more than one, for notifications if new messages since last login?
+CONFIRM DELETE: Delete map, delete ride
 
 Possibility of receving email when:
 message notifications

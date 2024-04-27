@@ -1406,7 +1406,7 @@ if (loggedIn) {
     WHERE user_id = f.followee_id AND rn = 2
   )
   AND f.followee_id = $1
-  
+  AND f.status = 'pending'
   `,
   [id]
     )
