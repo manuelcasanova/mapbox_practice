@@ -54,7 +54,7 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, setFake }) {
 
   const { user } = useAuth();
-
+  const isSuperAdmin = user.isSuperAdmin;
   const { browCoords } = useCoords();
 
   const foundMap = maps.find(obj => obj.id === parseInt(mapId));
@@ -278,6 +278,34 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
     }
   };
 
+    //Function to deactivate map
+    const deactivateMap = async () => {
+      try {
+        // Send request to remove users from map
+        await axios.post(`http://localhost:3500/deactivate/${mapId}`, {
+          data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
+        });
+        // console.log(response.data);
+  
+        // If the request is successful, update the state to reflect the changes
+  
+        setMaps(prevMaps => {
+          // Filter out the map that has been removed
+  
+  
+          return prevMaps.filter(map => map.id !== mapId);
+  
+  
+        });
+  
+        setFake(prev => !prev)
+        setConfirmDelete(false)
+      } catch (error) {
+        console.error('Error deactivating map:', error);
+        // Handle error, maybe show an error message to the user
+      }
+    };
+
   const handleConfirmDelete = () => {
     setConfirmDelete(prev => !prev)
   }
@@ -357,22 +385,21 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
         </MapContainer>
 
 
-
-        {confirmDelete ? (
-          maps.length && editAllowed ? (
-            <button onClick={deleteMap}>Confirm delete</button>
-          ) : (
-            <button onClick={removeUsersFromMap}>Confirm remove from my maps</button>
-          )
-        ) : (
-          maps.length && editAllowed ? (
-            <button onClick={handleConfirmDelete}>Delete map</button>
-          ) : (
-            <button onClick={handleConfirmDelete}>Remove from my maps</button>
-          )
-        )}
-
-
+        {
+  maps.length && editAllowed ? (
+    confirmDelete ? (
+      <button onClick={deactivateMap}>Confirm delete</button>
+    ) : (
+      <button onClick={handleConfirmDelete}>Delete map</button>
+    )
+  ) : (
+    confirmDelete ? (
+      <button onClick={removeUsersFromMap}>Confirm remove from my maps</button>
+    ) : (
+      <button onClick={handleConfirmDelete}>Remove from my maps</button>
+    )
+  )
+}
 
 
 

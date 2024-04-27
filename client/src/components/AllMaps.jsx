@@ -13,7 +13,7 @@ export default function AllMaps({ fromButton, setFromButton }) {
   const [done, setDone] = useState(false)
   const [fake, setFake] = useState(true)
 
-
+// console.log("done", done)
   useEffect(() => {
   // console.log("user", user.id)
   // console.log("mapId All Maps", mapId)
@@ -121,7 +121,7 @@ const parseIntMapId = parseInt(mapId)
             // </div> :
             <div>
               {!done && <button
-                onClick={() => setDone(true)}
+                onClick={() => setDone(prev => !prev)}
               >Done</button>}
 
 
@@ -140,7 +140,7 @@ const parseIntMapId = parseInt(mapId)
               onClick={() => {
                 setFromButton(true)
                 navigate("/maps");
-                setDone(false)
+                setDone(true)
               }}
             >Manage all maps</button>
             <button

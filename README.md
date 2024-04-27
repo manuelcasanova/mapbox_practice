@@ -1,7 +1,7 @@
+Maps, rides: if deleted only isActive = false
+Delete definitively only by superAdmin
 
-
-
-CONFIRM DELETE: Delete map, delete ride
+Users: delete by superadmin
 
 Possibility of receving email when:
 message notifications
@@ -31,6 +31,8 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 Show notifications above everything else on the right if open them
 
 DONE
+
+CONFIRM DELETE: Delete map, delete ride
 
 Ride messages only if user joined ride
 

@@ -34,7 +34,7 @@ const RidesUser = () => {
   const id = user ? user.id : null;
   const userId = id
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
-
+  const [confirmDelete, setConfirmDelete] = useState(false)
   // const navigate = useNavigate();
 
   const onFilter = (filters) => {
@@ -140,6 +140,7 @@ const RidesUser = () => {
       setRides(rides.filter(ride => ride.id !== id));
       // console.log(`Ride with ${id} id deleted`);
       // navigate("/");
+      setConfirmDelete(false);
     } catch (error) {
       console.error(error);
     }
@@ -171,6 +172,11 @@ const RidesUser = () => {
   }
 
   const currentDateFormatted = getCurrentDateFormatted();
+
+  const handleConfirmDelete = () => {
+    setConfirmDelete(prev => !prev)
+  }
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -237,14 +243,20 @@ const RidesUser = () => {
                     }
 
                     {/* {console.log(user.id, ride.createdby)} */}
-                    {user.id === ride.createdby ?
-                      <button
-                        onClick={() => deleteRide(ride.id)}
-                      >Delete</button> :
-                      <button
-                        onClick={() => removeFromMyRides(ride.id)}>Remove from my rides
-                      </button>
-                    }
+                    {confirmDelete ? (
+  rides.length ? (
+    <button onClick={() => deleteRide(ride.id)}>Confirm delete</button>
+  ) : (
+    <button onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
+  )
+) : (
+  rides.length ? (
+    <button onClick={handleConfirmDelete}>Delete</button>
+  ) : (
+    <button onClick={handleConfirmDelete}>Remove from my rides</button>
+  )
+)}
+
 
 
                     <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />

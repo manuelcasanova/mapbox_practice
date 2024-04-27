@@ -743,6 +743,38 @@ app.delete("/delete/:id", async (req, res) => {
   }
 })
 
+//Deactivate a map
+app.post("/deactivate/:id", async (req, res) => {
+  try {
+    const mapId = req.params.id;
+    const userId = req.body.data.userId
+    const mapCreatedBy = req.body.data.mapCreatedBy
+    const isMapCreatedByUser = req.body.data.isMapCreatedByUser
+
+    // console.log(req.params)
+    // console.log("req body", typeof req.body.data.mapId)
+    //console.log("rq body", req.body)
+
+    //  console.log("Deactivated map id:", typeof id);
+
+    if (isMapCreatedByUser) {
+
+
+      const deactivateMap = await pool.query(
+        "UPDATE maps SET isactive = false WHERE id = $1 RETURNING *", [mapId]
+      )
+      res.json(deactivateMap.rows[0])
+
+    } else {
+      res.json("Map can only be deactivated by creator")
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
+
 //Delete a ride
 app.delete("/ride/delete/:id", async (req, res) => {
   try {
@@ -872,6 +904,7 @@ app.get("/maps/public", async (req, res) => {
       WHERE (m.mapType = 'public' OR (m.mapType = 'followers' AND f.follower_id = $1))
       AND (mute1.mute IS NULL OR mute1.mute = false)
 AND (mute2.mute IS NULL OR mute2.mute = false)
+AND m.isactive = true
       ORDER BY m.id DESC
       
     `, [userId]
@@ -896,7 +929,7 @@ app.get("/maps/", async (req, res) => {
       //User's maps only
       //'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
       //User's maps and user in maps
-      'SELECT * FROM maps WHERE createdby = $1 UNION SELECT maps.* FROM maps INNER JOIN map_users ON maps.id = map_users.map_id WHERE map_users.user_id = $1 ORDER BY id DESC',
+      'SELECT * FROM maps WHERE createdby = $1 AND isactive = true UNION SELECT maps.* FROM maps INNER JOIN map_users ON maps.id = map_users.map_id WHERE map_users.user_id = $1 AND maps.isactive = true ORDER BY id DESC',
       [userId]
 
     );

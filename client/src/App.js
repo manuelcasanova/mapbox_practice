@@ -34,7 +34,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Define a layout component to wrap the routes
 const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton }) => (
   <div className='app'>
-    <Authentication />
+    <Authentication setFromButton={setFromButton}/>
     <FollowNotifications />
     <MessagesNotifications />
     <Title rideApp={rideApp} setRideApp={setRideApp} />
@@ -49,6 +49,7 @@ function App() {
 
 
   const [fromButton, setFromButton] = useState(false)
+  console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState(true)
 
   return (
