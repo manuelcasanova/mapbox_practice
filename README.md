@@ -1,6 +1,5 @@
 
 
-Message notifications 
 
 CONFIRM DELETE: Delete map, delete ride
 
@@ -29,9 +28,13 @@ CENTER MAIN: Next rides
 
 RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order by how many rides)
 
+Show notifications above everything else on the right if open them
 
 DONE
 
+Ride messages only if user joined ride
+
+Message notifications 
 
 Follow request notifications. Show in General Notifications
 

@@ -295,9 +295,11 @@ const RidesPublic = () => {
 
                     {/* {console.log("ride messages", ride.messages)} */}
 
-                    <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
+                    {isUserInRide &&
 
-                    {ride.messages && (
+                      <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
+                    }
+                    {ride.messages && isUserInRide && (
                       <div>
                         {ride.messages.map(message => (
 
