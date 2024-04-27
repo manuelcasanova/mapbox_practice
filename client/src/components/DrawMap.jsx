@@ -61,7 +61,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   if (foundMap) {
     setMapId(foundMap.id);
   }
-  
+
 
   const [points, setPoints] = useState();
   const [loading, setLoading] = useState(false);
@@ -70,6 +70,8 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
   // const defaultPosition = ; // Downtown Vancouver, BC coordinates
+
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   const defaultPosition = useMemo(() => {
     // Initialize your default position here
@@ -229,51 +231,56 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
         data: { mapId, userId } // Sending mapId in the request body
       });
       // console.log(response.data);
- 
-     // If the request is successful, update the state to reflect the changes
-     
-     setMaps(prevMaps => {
-      // Filter out the map that has been removed
+
+      // If the request is successful, update the state to reflect the changes
+
+      setMaps(prevMaps => {
+        // Filter out the map that has been removed
 
 
-      return prevMaps.filter(map => map.id !== mapId);
+        return prevMaps.filter(map => map.id !== mapId);
 
 
-    });
+      });
 
-    setFake( prev => !prev)
+      setFake(prev => !prev)
     } catch (error) {
       console.error('Error removing users from map:', error);
       // Handle error, maybe show an error message to the user
     }
   };
 
-    //Function to delete map
-    const deleteMap = async () => {
-      try {
-        // Send request to remove users from map
-        await axios.delete(`http://localhost:3500/delete/${mapId}`, {
-          data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
-        });
-        // console.log(response.data);
-   
-       // If the request is successful, update the state to reflect the changes
-       
-       setMaps(prevMaps => {
-        // Filter out the map that has been removed
-  
-  
-        return prevMaps.filter(map => map.id !== mapId);
-  
-  
+  //Function to delete map
+  const deleteMap = async () => {
+    try {
+      // Send request to remove users from map
+      await axios.delete(`http://localhost:3500/delete/${mapId}`, {
+        data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
       });
-  
-      setFake( prev => !prev)
-      } catch (error) {
-        console.error('Error removing users from map:', error);
-        // Handle error, maybe show an error message to the user
-      }
-    };
+      // console.log(response.data);
+
+      // If the request is successful, update the state to reflect the changes
+
+      setMaps(prevMaps => {
+        // Filter out the map that has been removed
+
+
+        return prevMaps.filter(map => map.id !== mapId);
+
+
+      });
+
+      setFake(prev => !prev)
+      setConfirmDelete(false)
+    } catch (error) {
+      console.error('Error removing users from map:', error);
+      // Handle error, maybe show an error message to the user
+    }
+  };
+
+  const handleConfirmDelete = () => {
+    setConfirmDelete(prev => !prev)
+  }
 
 
   return (
@@ -349,10 +356,24 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
 
         </MapContainer>
 
-        {maps.length && editAllowed ?
-          <button onClick={deleteMap}>Delete map</button> :
-          <button onClick={removeUsersFromMap}>Remove from my maps</button>
-        }
+
+
+        {confirmDelete ? (
+          maps.length && editAllowed ? (
+            <button onClick={deleteMap}>Confirm delete</button>
+          ) : (
+            <button onClick={removeUsersFromMap}>Confirm remove from my maps</button>
+          )
+        ) : (
+          maps.length && editAllowed ? (
+            <button onClick={handleConfirmDelete}>Delete map</button>
+          ) : (
+            <button onClick={handleConfirmDelete}>Remove from my maps</button>
+          )
+        )}
+
+
+
 
 
       </>
