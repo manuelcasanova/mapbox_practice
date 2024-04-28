@@ -9,8 +9,13 @@ import recyclingBin from '../components/img/delete.png'
 import undo from '../components/img/undo.png'
 import AddMarker from "./AddMarker";
 import { useAuth } from "./Context/AuthContext";
-
 import { useCoords } from '../components/util_functions/GetBrowserLocation';
+
+//Util functions
+
+import { removeUsersFromMap } from "./util_functions/map_functions.jsx";
+import { deleteMap } from "./util_functions/map_functions.jsx";
+import { deactivateMap } from "./util_functions/map_functions.jsx";
 
 L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
@@ -219,93 +224,6 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   };
 
 
-
-  //Delete map
-
-
-  //Function to remove user from map
-  const removeUsersFromMap = async () => {
-    try {
-      // Send request to remove users from map
-      await axios.delete(`http://localhost:3500/maps/delete/users/${userId}`, {
-        data: { mapId, userId } // Sending mapId in the request body
-      });
-      // console.log(response.data);
-
-      // If the request is successful, update the state to reflect the changes
-
-      setMaps(prevMaps => {
-        // Filter out the map that has been removed
-
-
-        return prevMaps.filter(map => map.id !== mapId);
-
-
-      });
-
-      setFake(prev => !prev)
-    } catch (error) {
-      console.error('Error removing users from map:', error);
-      // Handle error, maybe show an error message to the user
-    }
-  };
-
-  //Function to delete map
-  const deleteMap = async () => {
-    try {
-      // Send request to remove users from map
-      await axios.delete(`http://localhost:3500/delete/${mapId}`, {
-        data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
-      });
-      // console.log(response.data);
-
-      // If the request is successful, update the state to reflect the changes
-
-      setMaps(prevMaps => {
-        // Filter out the map that has been removed
-
-
-        return prevMaps.filter(map => map.id !== mapId);
-
-
-      });
-
-      setFake(prev => !prev)
-      setConfirmDelete(false)
-    } catch (error) {
-      console.error('Error removing users from map:', error);
-      // Handle error, maybe show an error message to the user
-    }
-  };
-
-    //Function to deactivate map
-    const deactivateMap = async () => {
-      try {
-        // Send request to remove users from map
-        await axios.post(`http://localhost:3500/deactivate/${mapId}`, {
-          data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
-        });
-        // console.log(response.data);
-  
-        // If the request is successful, update the state to reflect the changes
-  
-        setMaps(prevMaps => {
-          // Filter out the map that has been removed
-  
-  
-          return prevMaps.filter(map => map.id !== mapId);
-  
-  
-        });
-  
-        setFake(prev => !prev)
-        setConfirmDelete(false)
-      } catch (error) {
-        console.error('Error deactivating map:', error);
-        // Handle error, maybe show an error message to the user
-      }
-    };
-
   const handleConfirmDelete = () => {
     setConfirmDelete(prev => !prev)
   }
@@ -385,21 +303,23 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
         </MapContainer>
 
 
-        {
+        {!isSuperAdmin && (
   maps.length && editAllowed ? (
     confirmDelete ? (
-      <button onClick={deactivateMap}>Confirm delete</button>
+      <button onClick={() => deactivateMap(mapId, userId, isMapCreatedByUser, setMaps, setFake, setConfirmDelete)}>Confirm delete</button>
     ) : (
       <button onClick={handleConfirmDelete}>Delete map</button>
     )
   ) : (
     confirmDelete ? (
-      <button onClick={removeUsersFromMap}>Confirm remove from my maps</button>
+      <button onClick={() => removeUsersFromMap(userId, mapId, setFake)}>Confirm remove from my maps</button>
     ) : (
       <button onClick={handleConfirmDelete}>Remove from my maps</button>
     )
   )
-}
+)}
+
+
 
 
 
