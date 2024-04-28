@@ -802,9 +802,10 @@ app.delete("/ride/delete/:id", async (req, res) => {
 
 //Deactivate a ride
 app.post("/ride/deactivate/:id", async (req, res) => {
-  console.log(req.body)
+  console.log("req.body", req.body)
+  console.log("req params", typeof req.params.id)
   try {
-    const rideId = req.params.id;
+    const rideId = Number(req.params.id);
     const userId = req.body.data.userId
     const rideCreatedBy = req.body.data.rideCreatedBy
     const isRideCreatedByUser = req.body.data.isRideCreatedByUser

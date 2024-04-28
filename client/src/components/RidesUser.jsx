@@ -11,6 +11,8 @@ import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import MappedMessage from './util_functions/messaging/MappedMessage';
+import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
+import { removeFromMyRides } from './util_functions/ride_functions/DeleteRide';
 
 
 const RidesUser = () => {
@@ -133,42 +135,6 @@ const RidesUser = () => {
     // , addToMyRides
   ]);
 
-  const deleteRide = async (id) => {
-    try {
-      const userId = user.id;
-      // console.log("deleteRide", userId)
-      const rideCreatedBy = rides.find(ride => ride.id === id).createdby;
-      await axios.delete(`http://localhost:3500/ride/delete/${id}`, {
-        data: { userId, rideCreatedBy }
-      });
-      setRides(rides.filter(ride => ride.id !== id));
-      // console.log(`Ride with ${id} id deleted`);
-      // navigate("/");
-      setConfirmDelete(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deactivateRide = async (id) => {
-    try {
-      const userId = user.id;
-      // console.log("deleteRide", userId)
-      const rideCreatedBy = rides.find(ride => ride.id === id).createdby;
-      await axios.post(`http://localhost:3500/ride/deactivate/${id}`, {
-        data: { userId, rideCreatedBy, isRideCreatedByUser }
-      });
-
-      setRides(prevRides => {
-        // Filter out the map that has been removed
-        return prevRides.filter(ride => ride.id !== ride.id);
-      });
-
-      setConfirmDelete(false)
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const removeFromMyRides = async (id) => {
     try {
@@ -269,7 +235,7 @@ const RidesUser = () => {
                     {/* {console.log(user.id, ride.createdby)} */}
                     {confirmDelete ? (
   rides.length ? (
-    <button onClick={() => deactivateRide(ride.id)}>Confirm delete</button>
+    <button onClick={() => deactivateRide(ride.id, user, rides, setRides, setConfirmDelete, isRideCreatedByUser)}>Confirm delete</button>
   ) : (
     <button onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
   )

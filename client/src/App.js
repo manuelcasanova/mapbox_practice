@@ -10,7 +10,7 @@ import Authentication from './components/authentication/Authentication'
 import AllMaps from './components/AllMaps';
 import RidesPublic from './components/RidesPublic';
 import RidesUser from './components/RidesUser'
-import RidesAll from './components/RidesAll';
+import RidesAll from './components/admin_components/RidesAll';
 import UsersAdmin from './components/UsersAdmin';
 import UsersAll from './components/UsersAll';
 import MapsPublic from './components/MapsPublic';

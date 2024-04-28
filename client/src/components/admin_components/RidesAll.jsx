@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { formatDate } from "./util_functions/FormatDate";
-import PreviewMap from './PreviewMap';
-import { useAuth } from "./Context/AuthContext";
+import { formatDate } from "../util_functions/FormatDate";
+import PreviewMap from '../PreviewMap';
+import { useAuth } from "../Context/AuthContext";
 
 const RidesAll = () => {
   const [rides, setRides] = useState([]);
