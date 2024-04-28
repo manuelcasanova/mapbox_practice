@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-export const deactivateRide = async (id, user, rides, setRides, setConfirmDelete, isRideDreatedByUser) => {
+export const deactivateRide = async (id, user, rides, setRides, setConfirmDelete, isRideCreatedByUser) => {
   try {
     const userId = user.id;
     const rideCreatedBy = rides.find(ride => ride.id === id).createdby;
     await axios.post(`http://localhost:3500/ride/deactivate/${id}`, {
-      data: { userId, rideCreatedBy, isRideDreatedByUser }
+      data: { userId, rideCreatedBy, isRideCreatedByUser }
     });
 
     setRides(prevRides => {
