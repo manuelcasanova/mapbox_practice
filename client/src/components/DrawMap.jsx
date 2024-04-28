@@ -13,9 +13,9 @@ import { useCoords } from '../components/util_functions/GetBrowserLocation';
 
 //Util functions
 
-import { removeUsersFromMap } from "./util_functions/map_functions.jsx";
-import { deleteMap } from "./util_functions/map_functions.jsx";
-import { deactivateMap } from "./util_functions/map_functions.jsx";
+import { removeUsersFromMap } from "./util_functions/map_functions/map_functions.jsx";
+import { deleteMap } from "./util_functions/map_functions/map_functions.jsx";
+import { deactivateMap } from "./util_functions/map_functions/map_functions.jsx";
 
 L.Marker.prototype.options.icon = L.icon({
   // iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
@@ -303,10 +303,10 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
         </MapContainer>
 
 
-        {!isSuperAdmin && (
-  maps.length && editAllowed ? (
+  
+  {maps.length && editAllowed ? (
     confirmDelete ? (
-      <button onClick={() => deactivateMap(mapId, userId, isMapCreatedByUser, setMaps, setFake, setConfirmDelete)}>Confirm delete</button>
+      <button onClick={() => deactivateMap(mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete)}>Confirm delete</button>
     ) : (
       <button onClick={handleConfirmDelete}>Delete map</button>
     )
@@ -316,8 +316,8 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
     ) : (
       <button onClick={handleConfirmDelete}>Remove from my maps</button>
     )
-  )
-)}
+  )}
+
 
 
 
