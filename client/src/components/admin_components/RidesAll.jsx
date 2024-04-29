@@ -1,17 +1,41 @@
-import React, { useState, useEffect } from 'react';
+//Libraries
 import axios from 'axios';
-import { formatDate } from "../util_functions/FormatDate";
-import PreviewMap from '../PreviewMap';
+
+//Hooks
+import React, { useState, useEffect } from 'react';
 import { useAuth } from "../Context/AuthContext";
+
+
+//Util functions
+import { formatDate } from "../util_functions/FormatDate";
+import fetchUsernameAndId from '../util_functions/FetchUsername'
+import fetchRideMessages from '../util_functions/messaging/FetchRideMessages';
+import AddRideMessage from '../util_functions/messaging/AddRideMessage';
+import MappedMessage from '../util_functions/messaging/MappedMessage';
+
+//Components
+import PreviewMap from '../PreviewMap';
 
 const RidesAll = () => {
   const [rides, setRides] = useState([]);
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
+  const userId = user.id;
+  const userIsLoggedIn = user.loggedIn;
+
+  const [messageDeleted, setMessageDeleted] = useState(false)
+  const [messageFlagged, setMessageFlagged] = useState(false)
+  const [messageReported, setMessageReported] = useState(false)
+
+  // console.log("ridesl all", rides)
+
   useEffect(() => {
     let isMounted = true;
+
+    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
 
     const fetchData = async () => {
       try {
@@ -23,6 +47,17 @@ const RidesAll = () => {
         if (isMounted) {
           setRides(response.data);
           setIsLoading(false);
+
+          // Fetch messages for each ride
+          const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id));
+          const rideMessages = await Promise.all(rideMessagesPromises);
+          setRides(prevRides => {
+            return prevRides.map((ride, index) => {
+              return { ...ride, messages: rideMessages[index] };
+            });
+          });
+
+
         }
       } catch (error) {
         if (isMounted) {
@@ -41,7 +76,7 @@ const RidesAll = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [user, messageDeleted, messageReported, messageFlagged]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -71,6 +106,10 @@ const RidesAll = () => {
     
     
 <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+{ride.isactive === false && <div>Inactive ride</div>}
+{ride.isactive === false &&<button>Definitively delete</button>}
+<button>Inactivate</button>
+
       <div>Name: {ride.name}</div>
       <div>Details: {ride.details}</div>
       <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
@@ -79,6 +118,30 @@ const RidesAll = () => {
       <div>Speed: {ride.speed} km/h</div>
       <div>Meeting Point: {ride.meeting_point}</div>
       <div>Created By: {ride.createdby}</div>
+
+
+      {ride.messages && (
+                      <div>
+                        {ride.messages.map(message => (
+
+                          message.status !== 'deleted' && (
+                            <div>
+                              {message.status === 'flagged' && (
+                                <div>
+                                  <div>Flagged as inappropiate. Not visible for other users</div>
+                                  <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                </div>
+                              )}
+                              {message.status !== 'flagged' && <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                            </div>
+                          )
+                        )
+                        )}
+                      </div>
+                    )}
+
+
+
       {ride.map && ride.map !== null && <PreviewMap mapId={ride.map} />}
     </div>
   );
