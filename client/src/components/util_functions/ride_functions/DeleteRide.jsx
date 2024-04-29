@@ -30,3 +30,15 @@ export const removeFromMyRides = async (id, user, rides, setRides) => {
     console.error(error);
   }
 };
+
+export const deleteRide = async (id, user, setRides) => {
+  try {
+    const userId = user.id;
+    await axios.delete(`http://localhost:3500/rides/delete/${id}`, {
+      data: { userId, user }
+    });
+    setRides(prevRides => prevRides.filter(ride => ride.id !== id));
+  } catch (error) {
+    console.error(error);
+  }
+};

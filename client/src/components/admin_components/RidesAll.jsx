@@ -12,6 +12,9 @@ import fetchUsernameAndId from '../util_functions/FetchUsername'
 import fetchRideMessages from '../util_functions/messaging/FetchRideMessages';
 import AddRideMessage from '../util_functions/messaging/AddRideMessage';
 import MappedMessage from '../util_functions/messaging/MappedMessage';
+import { deactivateRide } from '../util_functions/ride_functions/DeleteRide';
+import { deleteRide } from '../util_functions/ride_functions/DeleteRide';
+
 
 //Components
 import PreviewMap from '../PreviewMap';
@@ -106,9 +109,10 @@ const RidesAll = () => {
     
     
 <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-{ride.isactive === false && <div>Inactive ride</div>}
-{ride.isactive === false &&<button>Definitively delete</button>}
-<button>Inactivate</button>
+{!ride.isactive && <div>Inactive ride</div>}
+{!ride.isactive &&<button onClick={()=>{deleteRide(ride.id, user, setRides)}}>Definitively delete</button>}
+{ride.isactive && <button>Inactivate</button>}
+
 
       <div>Name: {ride.name}</div>
       <div>Details: {ride.details}</div>

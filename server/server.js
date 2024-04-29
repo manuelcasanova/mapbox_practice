@@ -776,23 +776,24 @@ app.post("/deactivate/:id", async (req, res) => {
 
 
 //Delete a ride
-app.delete("/ride/delete/:id", async (req, res) => {
+app.delete("/rides/delete/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const userId = req.body.userId
-    const rideCreatedBy = req.body.rideCreatedBy
+    const user = req.body.user;
+  // console.log(req.body)
 
     // console.log("Deleted map id:", id);
 
-    if (userId === rideCreatedBy) {
+     if (user.isAdmin) {
 
+ 
       await pool.query(
         "DELETE FROM rides WHERE id = $1 RETURNING *", [id]
       )
       res.json("The ride was deleted")
 
     } else {
-      res.json("Ride can only be deleted by creator")
+      res.json("Ride can only be deleted by administrator")
     }
 
   } catch (err) {
