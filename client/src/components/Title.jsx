@@ -1,20 +1,8 @@
-//Hooks
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function Title({rideApp, setRideApp}) {
-
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-
-  useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints);
-  }, []);
-
-  // console.log(isTouchDevice)
-
-  const navigate = useNavigate()
-  const [showUn, setShowUn] = useState(true);
-
+// Component for non-touch devices
+function TitleNonTouch({ showUn, toggleShowUn }) {
   const [hover, setHover] = useState(false);
 
   const handleHover = () => {
@@ -25,9 +13,34 @@ export default function Title({rideApp, setRideApp}) {
     setHover(false);
   };
 
-  const handleClick = () => {
+  return (
+    <div
+      className="title-modify"
+      onClick={toggleShowUn}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleMouseLeave}
+    >
+      {hover ? (showUn ? 'UN' : 'IDE') : (showUn ? 'IDE' : 'UN')}
+    </div>
+  );
+}
+
+// Component for touch devices
+function TitleTouch({ showUn, toggleShowUn }) {
+  return (
+    <div className="title-modify" onClick={toggleShowUn}>
+      {!showUn ? 'UN' : 'IDE'}
+    </div>
+  );
+}
+
+export default function Title({ rideApp, setRideApp }) {
+  const navigate = useNavigate();
+  const [showUn, setShowUn] = useState(true);
+
+  const toggleShowUn = () => {
     setShowUn(!showUn);
-    setRideApp(!rideApp)
+    setRideApp(!rideApp);
     if (showUn) {
       navigate("/run");
     } else {
@@ -36,40 +49,15 @@ export default function Title({rideApp, setRideApp}) {
   };
 
   return (
-    <>
-    {/* <div>{isTouchDevice ? <>Touch</> : <>No touch</>}</div> */}
     <div className="container">
       <div style={{ display: 'inline-block' }}>R</div>
-
-
-{!isTouchDevice ? (
-      <div
-        className="title-modify"
-        onClick={handleClick}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleMouseLeave}
-      >
-        {hover ? (showUn ? 'UN' : 'IDE') : (showUn ? 'IDE' : 'UN')}
-      </div>
-
- ) : (
-
-  <div
-  className="title-modify"
-  onClick={handleClick}
-  // onMouseEnter={handleHover}
-  // onMouseLeave={handleMouseLeave}
->
-  {!showUn ? 'UN' : 'IDE'}
-</div>
-
-)}
-
-
+      {('ontouchstart' in window || navigator.maxTouchPoints) ? (
+        <TitleTouch showUn={showUn} toggleShowUn={toggleShowUn} />
+      ) : (
+        <TitleNonTouch showUn={showUn} toggleShowUn={toggleShowUn} />
+      )}
       <div>WITH</div>
       <div>ME</div>
     </div>
-    </>
   );
-  
 }

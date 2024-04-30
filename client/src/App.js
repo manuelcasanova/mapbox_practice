@@ -51,7 +51,7 @@ function App() {
   const [fromButton, setFromButton] = useState(false)
   // console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState(true)
-
+// console.log("rideApp in Appjs", rideApp)
   return (
     <AuthProvider>
       <BrowserCoordsProvider>

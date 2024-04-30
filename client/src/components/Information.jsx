@@ -95,7 +95,13 @@ export default function Information({ setFromButton, rideApp }) {
             <button onClick={() => () => handleMouseEnter("admin")}>Admin</button>
             {showOptions.admin && (
               <div className="dropdown">
-                <button onClick={() => handleSelectOption("/rides/all", "admin")}>Admin rides</button>
+
+
+{rideApp ? <button onClick={() => handleSelectOption("/rides/all", "admin")}>Admin rides</button> : <button onClick={() => handleSelectOption("/runs/all", "admin")}>Admin runs</button>}
+
+                
+
+
                 <button onClick={() => handleSelectOption("/", "admin")}>Admin users</button>
               </div>
             )}

@@ -1,3 +1,7 @@
+localhost:3000
+
+"Ready to seize the day? Run with me or ride with me?"
+
 User profile:
 Username
 Email
