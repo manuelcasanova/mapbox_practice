@@ -803,7 +803,7 @@ app.delete("/rides/delete/:id", async (req, res) => {
 
 //Deactivate a ride
 app.post("/ride/deactivate/:id", async (req, res) => {
-  // console.log("req.body", req.body)
+  //  console.log("req.body", req.body)
   // console.log("req params", typeof req.params.id)
   try {
     const rideId = Number(req.params.id);
@@ -811,6 +811,7 @@ app.post("/ride/deactivate/:id", async (req, res) => {
     const userId = req.body.data.userId
     const rideCreatedBy = req.body.data.rideCreatedBy
     const isRideCreatedByUser = req.body.data.isRideCreatedByUser
+    const isAdmin = req.body.data.user.isAdmin
 
     // console.log(req.params)
     // console.log("req body", typeof req.body.data.mapId)
@@ -818,7 +819,7 @@ app.post("/ride/deactivate/:id", async (req, res) => {
 
     //  console.log("Deactivated map id:", typeof id);
 
-    if (isRideCreatedByUser) {
+    if (isRideCreatedByUser || isAdmin) {
 
       const deactivatedRide = await pool.query(
         "UPDATE rides SET isactive = false WHERE id = $1 RETURNING *", [rideId]

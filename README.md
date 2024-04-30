@@ -1,7 +1,12 @@
+User profile:
+Username
+Email
+Password
+Edit password
+Delete account
+Confirm delete account (inactive user - rename email address INACTIVE-email@email.com)
 
-Delete maps and definitively by superAdmin
-
-Users: delete by superadmin
+Users: delete definitively by superadmin
 
 Possibility of receving email when:
 message notifications
@@ -31,6 +36,9 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 Show notifications above everything else on the right if open them
 
 DONE
+
+
+Delete maps and definitively by superAdmin
 
 Maps, rides: if deleted only isActive = false
 

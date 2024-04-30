@@ -92,7 +92,6 @@ export default function Information({ setFromButton, rideApp }) {
             onChange={(e) => navigate(e.target.value)}>
             onClick={handleUserSelectOption}
             <option value="/rides/all">Admin rides</option>
-            <option value="/">Admin maps</option>
             <option value="/">Admin users</option>
           </select>
         </div>

@@ -29,9 +29,14 @@ const RidesAll = () => {
   const userId = user.id;
   const userIsLoggedIn = user.loggedIn;
 
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
+
+  const [rideStatusUpdated, setRideStatusUpdated] = useState(false)
+
+  const isRideCreatedByUser = rides.find(ride => ride.createdby === user.id) !== undefined;
 
   // console.log("ridesl all", rides)
 
@@ -79,7 +84,7 @@ const RidesAll = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, messageDeleted, messageReported, messageFlagged]);
+  }, [user, messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -111,7 +116,7 @@ const RidesAll = () => {
 <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 {!ride.isactive && <div>Inactive ride</div>}
 {!ride.isactive &&<button onClick={()=>{deleteRide(ride.id, user, setRides)}}>Definitively delete</button>}
-{ride.isactive && <button>Inactivate</button>}
+{ride.isactive && <button onClick={()=>{deactivateRide(ride.id, user, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}}>Inactivate</button>}
 
 
       <div>Name: {ride.name}</div>
