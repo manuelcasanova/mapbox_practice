@@ -10,6 +10,8 @@ export default function Information({ setFromButton, rideApp }) {
   const [selectedRideOption, setSelectedRideOption] = useState("/rides/public");
   const [selectedRunOption, setSelectedRunOption] = useState("/");
   const [selectedUserOption, setSelectedUserOption] = useState("/users/all");
+  const [selectedAdminOption, setSelectedAdminOption] = useState("/rides/all");
+
 
   const handleMapSelectOption = (event) => {
     const route = event.target.value;
@@ -26,6 +28,12 @@ export default function Information({ setFromButton, rideApp }) {
   const handleUserSelectOption = (event) => {
     const route = event.target.value;
     setSelectedUserOption(route);
+    navigate(route);
+  };
+
+  const handleAdminSelectOption = (event) => {
+    const route = event.target.value;
+    setSelectedAdminOption(route);
     navigate(route);
   };
 
@@ -89,8 +97,9 @@ export default function Information({ setFromButton, rideApp }) {
       {user.isAdmin && (
         <div className="admin-navbar">
           <select
-            onChange={(e) => navigate(e.target.value)}>
-            onClick={handleUserSelectOption}
+          value={selectedAdminOption}
+          onChange={handleAdminSelectOption}
+          onClick={handleAdminSelectOption}>
             <option value="/rides/all">Admin rides</option>
             <option value="/">Admin users</option>
           </select>
