@@ -1,111 +1,107 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "./Context/AuthContext";
 
 export default function Information({ setFromButton, rideApp }) {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const [selectedMapOption, setSelectedMapOption] = useState("/maps/public");
-  const [selectedRideOption, setSelectedRideOption] = useState("/rides/public");
-  const [selectedRunOption, setSelectedRunOption] = useState("/");
-  const [selectedUserOption, setSelectedUserOption] = useState("/users/all");
-  const [selectedAdminOption, setSelectedAdminOption] = useState("/rides/all");
+  const [showOptions, setShowOptions] = useState({
+    ride: false,
+    map: false,
+    user: false,
+    admin: false,
+  });
 
-
-  const handleMapSelectOption = (event) => {
-    const route = event.target.value;
-    setSelectedMapOption(route);
+  const handleSelectOption = (route, category) => {
     navigate(route);
+    setShowOptions({ ...showOptions, [category]: false });
   };
 
-  const handleRideSelectOption = (event) => {
-    const route = event.target.value;
-    setSelectedRideOption(route);
-    navigate(route);
+  const handleMouseEnter = (category) => {
+    setShowOptions({ ...showOptions, [category]: true });
+    // Hide other dropdowns
+    Object.keys(showOptions).forEach((key) => {
+      if (key !== category) {
+        setShowOptions((prev) => ({ ...prev, [key]: false }));
+      }
+    });
   };
 
-  const handleUserSelectOption = (event) => {
-    const route = event.target.value;
-    setSelectedUserOption(route);
-    navigate(route);
+  const handleMouseLeave = (category) => {
+    setShowOptions({ ...showOptions, [category]: false });
   };
-
-  const handleAdminSelectOption = (event) => {
-    const route = event.target.value;
-    setSelectedAdminOption(route);
-    navigate(route);
-  };
-
-
-  // useEffect(() => {
-  //   navigate(selectedRideOption);
-  // }, [navigate, selectedRideOption]);
-
 
   return (
     <div className="navbar">
       <div className="navbar-public">
-
-        {rideApp && 
-        <select
-          value={selectedRideOption}
-          onChange={handleRideSelectOption}
-          onClick={handleRideSelectOption}
+        <div
+          className="dropdown-wrapper"
+          onMouseEnter={() => handleMouseEnter("ride")}
+          onMouseLeave={() => handleMouseLeave("ride")}
         >
-          <option value="/rides/public">See rides</option>
-          <option value="/rides/mine">See my rides</option>
-          <option value="/ride">Create ride</option>
-        </select>
-      }
+          <button onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
+            {rideApp ? "Rides" : "Runs"}
+          </button>
+          {showOptions.ride && (
+            <div className="dropdown">
+              <button onClick={() => handleSelectOption("/rides/public", "ride")}>See rides</button>
+              <button onClick={() => handleSelectOption("/rides/mine", "ride")}>See my rides</button>
+              <button onClick={() => handleSelectOption("/ride", "ride")}>Create ride</button>
+            </div>
+          )}
+        </div>
 
-{!rideApp && 
-        <select
-          value={selectedRunOption}
-          onChange={handleRideSelectOption}
-          onClick={handleRideSelectOption}
+        <div
+          className="dropdown-wrapper"
+          onMouseEnter={() => handleMouseEnter("map")}
+          onMouseLeave={() => handleMouseLeave("map")}
         >
-          <option value="/run">See runs</option>
-          <option value="/run">See my runs</option>
-          <option value="/run">Create run</option>
-        </select>
-}
+          <button onClick={() => handleMouseEnter("map")}>Maps</button>
+          {showOptions.map && (
+            <div className="dropdown">
+              <button onClick={() => handleSelectOption("/maps/public", "map")}>See maps</button>
+              <button onClick={() => handleSelectOption("/maps", "map")}>Manage my maps</button>
+              <button onClick={() => handleSelectOption("/maps/create", "map")}>Create a map</button>
+            </div>
+          )}
+        </div>
 
-        <select
-          value={selectedMapOption}
-          onChange={handleMapSelectOption}
-          onClick={handleMapSelectOption}
+        <div
+          className="dropdown-wrapper"
+          onMouseEnter={() => handleMouseEnter("user")}
+          onMouseLeave={() => handleMouseLeave("user")}
         >
-          <option value="/maps/public">See maps</option>
-          <option value="/maps">Manage my maps</option>
-          <option value="/maps/create">Create a map</option>
-        </select>
-
-        <select
-          value={selectedUserOption}
-          onChange={handleUserSelectOption}
-          onClick={handleUserSelectOption}
-        >
-          <option value="/users/all">Users</option>
-          <option value="/users/followee">Following</option>
-          <option value="/users/followers">Followers</option>
-          <option value="/users/pending">Request Pending</option>
-          <option value="/users/muted">Muted</option>
-        </select>
+          <button onClick={() => handleMouseEnter("user")}>Users</button>
+          {showOptions.user && (
+            <div className="dropdown">
+              <button onClick={() => handleSelectOption("/users/all", "user")}>Users</button>
+              <button onClick={() => handleSelectOption("/users/followee", "user")}>Following</button>
+              <button onClick={() => handleSelectOption("/users/followers", "user")}>Followers</button>
+              <button onClick={() => handleSelectOption("/users/pending", "user")}>Request Pending</button>
+              <button onClick={() => handleSelectOption("/users/muted", "user")}>Muted</button>
+            </div>
+          )}
+        </div>
       </div>
 
       {user.isAdmin && (
         <div className="admin-navbar">
-          <select
-          value={selectedAdminOption}
-          onChange={handleAdminSelectOption}
-          onClick={handleAdminSelectOption}>
-            <option value="/rides/all">Admin rides</option>
-            <option value="/">Admin users</option>
-          </select>
+          <div
+            className="dropdown-wrapper"
+            onMouseEnter={() => handleMouseEnter("admin")}
+            onMouseLeave={() => handleMouseLeave("admin")}
+          >
+            <button onClick={() => () => handleMouseEnter("admin")}>Admin</button>
+            {showOptions.admin && (
+              <div className="dropdown">
+                <button onClick={() => handleSelectOption("/rides/all", "admin")}>Admin rides</button>
+                <button onClick={() => handleSelectOption("/", "admin")}>Admin users</button>
+              </div>
+            )}
+          </div>
         </div>
       )}
-
     </div>
   );
 }

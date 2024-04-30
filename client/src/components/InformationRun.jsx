@@ -9,6 +9,7 @@ export default function InformationRun({ setFromButton }) {
   const [selectedMapOption, setSelectedMapOption] = useState("/maps/public");
   const [selectedRunOption, setSelectedRunOption] = useState("/");
   const [selectedUserOption, setSelectedUserOption] = useState("/users/all");
+  const [selectedAdminOption, setSelectedAdminOption] = useState("/");
 
   const handleMapSelectOption = (event) => {
     const route = event.target.value;
@@ -27,6 +28,13 @@ export default function InformationRun({ setFromButton }) {
     setSelectedUserOption(route);
     navigate(route);
   };
+
+  const handleAdminSelectOption = (event) => {
+    const route = event.target.value;
+    setSelectedAdminOption(route);
+    navigate(route);
+  };
+
 
   return (
     <div className="navbar">
@@ -67,14 +75,15 @@ export default function InformationRun({ setFromButton }) {
       {user.isAdmin && (
         <div className="admin-navbar">
           <select
-            onChange={(e) => navigate(e.target.value)}>
-            onClick={handleUserSelectOption}
-            <option value="/">Admin rides</option>
-            <option value="/">Admin maps</option>
+          value={selectedAdminOption}
+          onChange={handleAdminSelectOption}
+          onClick={handleAdminSelectOption}>
+            <option value="/">Admin runs</option>
             <option value="/">Admin users</option>
           </select>
         </div>
       )}
+
 
     </div>
   );
