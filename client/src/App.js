@@ -57,30 +57,30 @@ function App() {
     <AuthProvider>
       <BrowserCoordsProvider>
         <Router>
+          <Layout rideApp={rideApp} setRideApp={setRideApp} fromButton={fromButton} setFromButton={setFromButton}>
             <Routes>
-              <Route exact path="/" element={<Welcome />} />
-              <Route element={<Layout rideApp={rideApp} setRideApp={setRideApp} fromButton={fromButton} setFromButton={setFromButton} />}>
-                <Route exact path="/" element={<Welcome />} />
-                <Route exact path="/rides" element={<></>}></Route>
-                <Route exact path="/run" element={<></>}></Route>
-                <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} /></>}> </Route>
-                <Route exact path="/maps/public" element={<><MapsPublic /></>}></Route>
-                <Route exact path="/maps/create" element={<><CreateMap setFromButton={setFromButton} /></>}></Route>
-                <Route exact path="/maps/:id" element={<><SeeMap /></>}></Route>
-                <Route exact path="/ride" element={<><CreateRide /></>}></Route>
-                <Route exact path="/rides/public" element={<><RidesPublic /></>}></Route>
-                <Route exact path="/rides/mine" element={<><RidesUser /></>}></Route>
-                <Route exact path="/rides/all" element={<><RidesAll /></>}></Route>
-                <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>
-                <Route exact path="/users/all" element={<><UsersAll /></>}></Route>
-                <Route exact path="/users/followee" element={<><Followee /></>}></Route>
-                <Route exact path="/users/followers" element={<><Followers /></>}></Route>
-                <Route exact path="/users/muted" element={<><MutedUsers /></>}></Route>
-                <Route exact path="/users/pending" element={<><PendingUsers /></>}></Route>
-                <Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}></Route>
-              </Route>
+              <Route exact path="/" element={<Welcome />}></Route>
+              <Route exact path="/rides" element={<></>}></Route>
+              <Route exact path="/run" element={<></>}></Route>
+              <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} /></>}> </Route>
+              <Route exact path="/maps/public" element={<><MapsPublic /></>}></Route>
+              <Route exact path="/maps/create" element={<><CreateMap setFromButton={setFromButton} /></>}></Route>
+              <Route exact path="/maps/:id" element={<><SeeMap /></>}></Route>
+              <Route exact path="/ride" element={<><CreateRide /></>}></Route>
+              <Route exact path="/rides/public" element={<><RidesPublic /></>}></Route>
+              <Route exact path="/rides/mine" element={<><RidesUser /></>}></Route>
+              <Route exact path="/rides/all" element={<><RidesAll /></>}></Route>
+              <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>
+              <Route exact path="/users/all" element={<><UsersAll /></>}></Route>
+              <Route exact path="/users/followee" element={<><Followee /></>}></Route>
+              <Route exact path="/users/followers" element={<><Followers /></>}></Route>
+              <Route exact path="/users/muted" element={<><MutedUsers /></>}></Route>
+              <Route exact path="/users/pending" element={<><PendingUsers /></>}></Route>
+              <Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}></Route>
             </Routes>
+          </Layout>
         </Router >
+
       </BrowserCoordsProvider>
     </AuthProvider>
   );

@@ -11,7 +11,7 @@ export default function Welcome() {
       <div>
         <button
         onClick={() => {
-          navigate("/ride");
+          navigate("/rides");
 
         }}
         >Ride with me</button>
