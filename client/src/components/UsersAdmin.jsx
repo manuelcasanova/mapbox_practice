@@ -20,6 +20,7 @@ const UsersAdmin = () => {
 //  console.log("users", users)
 
 const loggedInUser = user;
+// console.log("loggedInUser", loggedInUser)
 
   useEffect(() => {
     let isMounted = true;
@@ -84,8 +85,8 @@ const loggedInUser = user;
       <div>Id: {user.id}</div>
       <div>Name: {user.username}</div>
       <div>Email: {user.email}</div>
-      {!user.issuperadmin && <button onClick={() => deactivateUser()}>Inactivate</button>}
-      {!user.issuperadmin && <button onClick={()=> deleteUser(user, user.id, setUsers, loggedInUser)}>Delete</button>}
+      {loggedInUser.isSuperAdmin && !user.issuperadmin && <button>Inactivate</button>}
+      {loggedInUser.isSuperAdmin && !user.issuperadmin && <button onClick={()=> deleteUser(user, user.id, setUsers, loggedInUser)}>Delete</button>}
     </div>
   );
 })}
