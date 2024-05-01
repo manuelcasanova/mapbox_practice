@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useAuth } from "./Context/AuthContext";
 
 export default function Information({ setFromButton, rideApp }) {
+
+console.log("rideApp in Information", rideApp)
+
   const navigate = useNavigate();
   const { user } = useAuth();
 

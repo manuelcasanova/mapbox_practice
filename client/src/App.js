@@ -28,7 +28,7 @@ import BrowserCoordsProvider from './components/util_functions/GetBrowserLocatio
 import { AuthProvider } from './components/Context/AuthContext';
 
 //Hooks
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -46,12 +46,26 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton }) =>
 );
 
 
+
+
 function App() {
 
 
   const [fromButton, setFromButton] = useState(false)
   // console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState(true)
+  const handleSetRideApp = () => {
+    // Function to update the state in the parent component
+    setRideApp(!rideApp)
+  };
+
+//If ride App is false, change to true on Welcome component mount, default state.
+  useEffect(() => {
+    if (!rideApp) {
+      handleSetRideApp(); 
+    }
+  }, [rideApp]);
+
   // console.log("rideApp in Appjs", rideApp)
   return (
     <AuthProvider>
@@ -59,7 +73,7 @@ function App() {
         <Router>
           <Routes>
             {/* Route for the Welcome component */}
-            <Route exact path="/" element={<Welcome />} />
+            <Route exact path="/" element={<Welcome handleSetRideApp={handleSetRideApp}/>} />
             {/* Route for other components with the Layout */}
             <Route
               path="/*"

@@ -36,7 +36,7 @@ function TitleTouch({ showUn, toggleShowUn }) {
 
 export default function Title({ rideApp, setRideApp }) {
   const navigate = useNavigate();
-  const [showUn, setShowUn] = useState(true);
+  const [showUn, setShowUn] = useState(rideApp); //Before "true"
 
   const toggleShowUn = () => {
     setShowUn(!showUn);
@@ -47,6 +47,7 @@ export default function Title({ rideApp, setRideApp }) {
       navigate("/rides");
     }
   };
+
 
   return (
     <div className="container">
