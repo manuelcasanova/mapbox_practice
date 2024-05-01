@@ -9,7 +9,7 @@ VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'passw
 
 INSERT INTO maps (title, createdBy, createdAt, mapType) VALUES 
 ('Stanley Park Loop PRIVATE', 1, Now(), 'private'),
-('Grouse Mountain FOLLOWERS', 5, Now(), 'followers'),
+('Grouse Mountain PUBLIC', 5, Now(), 'public'),
 ('User1 Public Map PUBLIC', 1, Now(), 'public');
 
 -- INSERT INTO map_users (map_id, user_id)

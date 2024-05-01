@@ -780,13 +780,13 @@ app.delete("/rides/delete/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const user = req.body.user;
-  // console.log(req.body)
+    // console.log(req.body)
 
     // console.log("Deleted map id:", id);
 
-     if (user.isAdmin) {
+    if (user.isAdmin) {
 
- 
+
       await pool.query(
         "DELETE FROM rides WHERE id = $1 RETURNING *", [id]
       )
@@ -895,7 +895,7 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
 app.delete("/user/delete/:id", async (req, res) => {
   try {
 
-console.log("delete user")
+    console.log("delete user")
     // if (isMapCreatedByUser) {
 
     //   await pool.query(
@@ -953,10 +953,14 @@ app.get("/maps/public", async (req, res) => {
       LEFT JOIN followers f ON m.createdBy = f.followee_id
       LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = m.createdBy
       LEFT JOIN muted mute2 ON mute2.muter = m.createdBy AND mute2.mutee = $1
+      INNER JOIN users u1 ON m.createdBy = u1.id
+      INNER JOIN users u2 ON $1 = u2.id
       WHERE (m.mapType = 'public' OR (m.mapType = 'followers' AND f.follower_id = $1))
       AND (mute1.mute IS NULL OR mute1.mute = false)
 AND (mute2.mute IS NULL OR mute2.mute = false)
 AND m.isactive = true
+AND u1.isActive = true
+    AND u2.isActive = true
       ORDER BY m.id DESC
       
     `, [userId]
@@ -1121,6 +1125,8 @@ app.get("/rides/public", async (req, res) => {
      LEFT JOIN followers f ON r.createdby = f.followee_id
      LEFT JOIN muted mute1 ON mute1.muter = $7 AND mute1.mutee = r.createdby
      LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $7
+     INNER JOIN users u1 ON r.createdby = u1.id
+     INNER JOIN users u2 ON $7 = u2.id
      WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $7))
      AND starting_date >= $1
      AND starting_date <= $2
@@ -1131,6 +1137,8 @@ app.get("/rides/public", async (req, res) => {
        AND (mute1.mute IS NULL OR mute1.mute = false)
        AND (mute2.mute IS NULL OR mute2.mute = false)
        AND r.isactive = true
+       AND u1.isactive = true
+       AND u2.isactive = true
    `;
 
 
@@ -1139,7 +1147,7 @@ app.get("/rides/public", async (req, res) => {
         const rides = await pool.query(ridesQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId]);
-        //  console.log("rides.rows YES filtered rides", rides.rows)
+        // console.log("rides.rows YES filtered rides", rides.rows)
         res.json(rides.rows)
 
       } else {
