@@ -920,6 +920,33 @@ app.delete("/user/delete/:id", async (req, res) => {
   }
 })
 
+//Activate a user
+app.post("/user/activate/:id", async (req, res) => {
+  try {
+// console.log(req.body)
+    const isLoggedIn = req.body.data.isUserLoggedIn
+    const userId = req.body.data.userId
+
+
+
+    if (isLoggedIn) {
+
+
+      const activateUser = await pool.query(
+        "UPDATE users SET isactive = true, email = REPLACE(email, 'inactive-', '') WHERE id = $1 RETURNING *", [userId]
+      )
+      res.json(activateUser.rows[0])
+      // console.log("res.json", activateUser.rows[0])
+
+    } else {
+      res.json("User can only be activated by user if logged in")
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
 //Deactivate a user
 app.post("/user/deactivate/:id", async (req, res) => {
   try {
@@ -931,7 +958,7 @@ console.log(req.body)
 
 
       const deactivateUser = await pool.query(
-        "UPDATE users SET isactive = false WHERE id = $1 RETURNING *", [userId]
+        "UPDATE users SET isactive = false, email = CONCAT('inactive-', email) WHERE id = $1 RETURNING *", [userId]
       )
       res.json(deactivateUser.rows[0])
       // console.log("res.json", deactivateUser.rows[0])

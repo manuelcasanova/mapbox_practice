@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useAuth } from "./Context/AuthContext";
 
 //Util functions
+import { activateUser } from './util_functions/user_functions/DeleteUser';
 import { deactivateUser } from './util_functions/user_functions/DeleteUser';
 import { deleteUser } from './util_functions/user_functions/DeleteUser';
 
@@ -85,7 +86,10 @@ const loggedInUser = user;
       <div>Id: {user.id}</div>
       <div>Name: {user.username}</div>
       <div>Email: {user.email}</div>
-      {loggedInUser.isSuperAdmin && !user.issuperadmin && <button onClick={()=> deactivateUser(user, loggedInUser)}>Inactivate</button>}
+      {loggedInUser.isSuperAdmin && !user.issuperadmin && user.isactive && <button onClick={()=> deactivateUser(user, loggedInUser)}>Inactivate</button>}
+      {loggedInUser.isSuperAdmin && !user.issuperadmin && !user.isactive && <button 
+       onClick={()=> activateUser(user, loggedInUser)}
+      >Activate</button>}
       {loggedInUser.isSuperAdmin && !user.issuperadmin && <button onClick={()=> deleteUser(user, user.id, setUsers, loggedInUser)}>Delete</button>}
     </div>
   );

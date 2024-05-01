@@ -1,4 +1,4 @@
-Users deactivate. Change email address?
+
 
 Login/logout
 
@@ -39,8 +39,14 @@ message notifications
 someone joins a ride
 someone writes a message in your ride
 
+sign up. Receive an email so not anyone can sign up for you
+
 
 DONE
+
+When deactivate user, modify the email to be inactive-email@email.com. When activating, modify the email to be again email@email.com. This way, there would not be conflict if the user wants to sign up again with the same email.
+
+Users deactivate from users admin
 
 Users: delete definitively by superadmin if not superadmin themselves
 

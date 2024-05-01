@@ -3,7 +3,25 @@
 //Libraries
 import axios from 'axios';
 
+export const activateUser = async (user, loggedInUser) => {
 
+  try {
+   
+
+    const userId = user.id;
+    const isUserLoggedIn = loggedInUser.loggedIn
+   
+ 
+    await axios.post(`http://localhost:3500/user/activate/${userId}`, {
+      data: { userId, isUserLoggedIn }
+    });
+
+    
+
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const deactivateUser = async (user, loggedInUser) => {
 
