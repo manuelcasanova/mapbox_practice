@@ -1,6 +1,15 @@
+//Hooks
 import React, { useState, useEffect } from 'react';
+
+//Libraries
 import axios from 'axios';
+
+//Context
 import { useAuth } from "./Context/AuthContext";
+
+//Util functions
+import { deactivateUser } from './util_functions/user_functions/DeleteUser';
+import { deleteUser } from './util_functions/user_functions/DeleteUser';
 
 const UsersAdmin = () => {
   const [users, setUsers] = useState([]);
@@ -8,7 +17,7 @@ const UsersAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-// console.log("users", users)
+//  console.log("users", users)
 
   useEffect(() => {
     let isMounted = true;
@@ -69,11 +78,12 @@ const UsersAdmin = () => {
     
     
 <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+  {!user.isactive && <div>User is inactive</div>}
       <div>Id: {user.id}</div>
       <div>Name: {user.username}</div>
       <div>Email: {user.email}</div>
-      <div>Edit</div>
-      <div>Delete</div>
+      <button>Inactivate</button>
+      <button>Delete</button>
     </div>
   );
 })}

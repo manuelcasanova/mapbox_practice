@@ -126,7 +126,7 @@ export default function Information({ setFromButton, rideApp }) {
 
 
 
-                <button onClick={() => handleSelectOption("/", "admin")}>Admin users</button>
+                <button onClick={() => handleSelectOption("/users/admin", "admin")}>Admin users</button>
               </div>
             )}
           </div>

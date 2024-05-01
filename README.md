@@ -1,21 +1,13 @@
-User profile:
-Username
-Email
-Password
-Edit password
-Delete account
-Confirm delete account (inactive user - rename email address INACTIVE-email@email.com)
+Users deactivate. Change email address?
 
 Users: delete definitively by superadmin
-
-Possibility of receving email when:
-message notifications
-someone joins a ride
-someone writes a message in your ride
 
 Login/logout
 
 OAuth
+
+Modify username
+Modify password
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
@@ -24,6 +16,8 @@ Change <div> top <> where appropiate
 Remove logs and unused dependencies
 
 Fix eslint errors
+
+<!-- CSS AND ORGANIZATION: -->
 
 Navbar: MAPS (see my maps, see public mas), RIdes (see my rides, see public rides). search (athletes, rides, maps). RIGHT --> login/logout, notifications (private messages, messages on rides)
 
@@ -35,7 +29,26 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 
 Show notifications above everything else on the right if open them
 
+<!-- /CSS AND ORGANIZATION  -->
+
+
+PRODUCTION
+
+Future:
+
+Possibility of receving email when:
+message notifications
+someone joins a ride
+someone writes a message in your ride
+
+
 DONE
+
+do not show maps/rides if user isactive false
+
+Delete own account (deactivate in database)
+
+Show user profile
 
 "Ready to seize the day? Run with me or ride with me?". Welcome component
 
