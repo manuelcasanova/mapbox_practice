@@ -923,8 +923,8 @@ app.delete("/user/delete/:id", async (req, res) => {
 //Deactivate a user
 app.post("/user/deactivate/:id", async (req, res) => {
   try {
-
-    const isLoggedIn = req.body.data.user.loggedIn
+console.log(req.body)
+    const isLoggedIn = req.body.data.isUserLoggedIn
     const userId = req.body.data.userId
 
     if (isLoggedIn) {

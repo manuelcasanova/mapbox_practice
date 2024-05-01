@@ -14,12 +14,13 @@ export default function UserProfile({setRideAppUndefined}) {
 
   const { user, logOut } = useAuth();
   // console.log("user int UserProfile", user)
+  const loggedInUser = user;
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
 
   const handleShowConfirmDelete = () => {setShowConfirmDelete(prev => !prev)}
   const handleDeactivateUser = () => {
-    deactivateUser(user);
+    deactivateUser(user, loggedInUser);
      logOut(setRideAppUndefined);
      handleShowConfirmDelete()
      navigate('/')

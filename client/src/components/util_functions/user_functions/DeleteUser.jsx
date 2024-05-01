@@ -5,16 +5,17 @@ import axios from 'axios';
 
 
 
-export const deactivateUser = async (user) => {
-
+export const deactivateUser = async (user, loggedInUser) => {
 
   try {
    
-    // console.log("setRidestatusupdated", setRideStatusUpdated)
+
     const userId = user.id;
+    const isUserLoggedIn = loggedInUser.loggedIn
+   
  
     await axios.post(`http://localhost:3500/user/deactivate/${userId}`, {
-      data: { userId, user }
+      data: { userId, isUserLoggedIn }
     });
 
     
