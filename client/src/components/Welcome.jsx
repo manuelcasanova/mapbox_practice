@@ -11,6 +11,7 @@ export default function Welcome({handleSetRideApp}) {
       <div>
         <button
         onClick={() => {
+          handleSetRideApp()
           navigate("/rides");
 
         }}

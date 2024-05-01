@@ -53,18 +53,18 @@ function App() {
 
   const [fromButton, setFromButton] = useState(false)
   // console.log("fromButton", fromButton)
-  const [rideApp, setRideApp] = useState(true)
+  const [rideApp, setRideApp] = useState() //before true
   const handleSetRideApp = () => {
     // Function to update the state in the parent component
     setRideApp(!rideApp)
   };
 
 //If ride App is false, change to true on Welcome component mount, default state.
-  useEffect(() => {
-    if (!rideApp) {
-      handleSetRideApp(); 
-    }
-  }, [rideApp]);
+  // useEffect(() => {
+  //   if (!rideApp) {
+  //     handleSetRideApp(); 
+  //   }
+  // }, [rideApp]);
 
   // console.log("rideApp in Appjs", rideApp)
   return (
