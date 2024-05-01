@@ -1,7 +1,5 @@
 Users deactivate. Change email address?
 
-Users: delete definitively by superadmin
-
 Login/logout
 
 OAuth
@@ -43,6 +41,8 @@ someone writes a message in your ride
 
 
 DONE
+
+Users: delete definitively by superadmin if not superadmin themselves
 
 do not show maps/rides if user isactive false
 

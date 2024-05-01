@@ -14,6 +14,8 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(255),
   roles JSONB DEFAULT '{"Registered_user": 2001}',
+  isadmin BOOLEAN DEFAULT false,
+  issuperadmin BOOLEAN DEFAULT false,
   email VARCHAR(255) UNIQUE,
   password VARCHAR(255),
   isselected BOOLEAN DEFAULT false,
@@ -25,7 +27,7 @@ CREATE TABLE users (
 
 CREATE TABLE login_history (
   id SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(id),
+  user_id INT REFERENCES users(id) ON DELETE CASCADE,
   login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

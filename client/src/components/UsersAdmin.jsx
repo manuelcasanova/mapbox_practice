@@ -19,6 +19,8 @@ const UsersAdmin = () => {
 
 //  console.log("users", users)
 
+const loggedInUser = user;
+
   useEffect(() => {
     let isMounted = true;
 
@@ -50,7 +52,7 @@ const UsersAdmin = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [user, users]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -82,8 +84,8 @@ const UsersAdmin = () => {
       <div>Id: {user.id}</div>
       <div>Name: {user.username}</div>
       <div>Email: {user.email}</div>
-      <button>Inactivate</button>
-      <button>Delete</button>
+      {!user.issuperadmin && <button onClick={() => deactivateUser()}>Inactivate</button>}
+      {!user.issuperadmin && <button onClick={()=> deleteUser(user, user.id, setUsers, loggedInUser)}>Delete</button>}
     </div>
   );
 })}

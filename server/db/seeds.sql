@@ -1,10 +1,10 @@
 -- Insert users
-INSERT INTO users (username, roles, email, password, isselected, isactive)
-VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'password123', true, true),
-       ('Laura Admin', '{"Registered_user": 2005}', 'laura@example.com', 'password456', true, true),
-       ('Alice_wonder', '{"Registered_user": 2001}', 'alice@example.com', 'password789', true, true),
-       ('Bob_robinson', '{"Registered_user": 2001}', 'bob@example.com', 'passwordabc', true, true),
-       ('Emma_jones', '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true);
+INSERT INTO users (username, isadmin, issuperadmin, roles, email, password, isselected, isactive)
+VALUES ('Manuel Casanova', true, true, '{"Super_admin": 2010}', 'manuel@example.com', 'password123', true, true),
+       ('Laura Admin', true, false, '{"Registered_user": 2005}', 'laura@example.com', 'password456', true, true),
+       ('Alice_wonder', false, false, '{"Registered_user": 2001}', 'alice@example.com', 'password789', true, true),
+       ('Bob_robinson', false, false, '{"Registered_user": 2001}', 'bob@example.com', 'passwordabc', true, true),
+       ('Emma_jones', false, false, '{"Registered_user": 2001}', 'emma@example.com', 'passwordxyz', true, true);
 
 
 INSERT INTO maps (title, createdBy, createdAt, mapType) VALUES 

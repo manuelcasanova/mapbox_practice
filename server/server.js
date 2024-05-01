@@ -894,18 +894,26 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
 //Delete a user
 app.delete("/user/delete/:id", async (req, res) => {
   try {
+// console.log("req bod", req.body.user)
+    // console.log("delete user")
 
-    console.log("delete user")
-    // if (isMapCreatedByUser) {
+    const userToDeleteIsSuperAdmin = req.body.userObject.issuperadmin;
+// console.log(userToDeleteIsSuperAdmin)
+    
+    if (req.body.loggedInUser.isSuperAdmin && !userToDeleteIsSuperAdmin) {
 
-    //   await pool.query(
-    //     "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
-    //   )
-    //   res.json("The map was deleted")
 
-    // } else {
-    //   res.json("Map can only be deleted by creator")
-    // }
+      // const deleteUsers = 
+      await pool.query(
+        "DELETE FROM users WHERE id = $1 RETURNING *", [req.body.user]
+      )
+      res.json("The user was deleted")
+
+      // res.json(deleteFollowRequest.rows[0])
+
+    } else {
+      res.json("Users can only be deleted by Super Admins")
+    }
 
   } catch (err) {
     console.error(err.message)
