@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export default function Welcome({handleSetRideApp}) {
+export default function Welcome({rideApp, handleSetRideApp}) {
 
 
   const navigate = useNavigate();
@@ -11,7 +11,9 @@ export default function Welcome({handleSetRideApp}) {
       <div>
         <button
         onClick={() => {
+          if (!rideApp) {
           handleSetRideApp()
+        }
           navigate("/rides");
 
         }}
@@ -19,7 +21,9 @@ export default function Welcome({handleSetRideApp}) {
         <div>or</div>
         <button
         onClick={() => {
+          if (rideApp) {
           handleSetRideApp()
+        }
           navigate("/run");
 
         }}>Run with me</button>

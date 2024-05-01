@@ -6,7 +6,7 @@ import axios from 'axios';
 // Create a context for authentication
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children, setRideAppUndefined }) => {
 
   const [user, setUser] = useState({ id: null, isAdmin: false, isSuperAdmin: false, loggedIn: false, username: null, email:null, password: null, lastlogin: null });
   const [mapId, setMapId] = useState(); // Add mapId state
@@ -54,9 +54,10 @@ export const AuthProvider = ({ children }) => {
     setUser({ id: 5, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Emma', lastlogin: localTime, email:'emma@mail.com', password: 'hashedpassword' });
 };
 
-  const logOut = () => {
+  const logOut = (setRideAppUndefined) => {
     setUser({ id: null, loggedIn: false });
     setMapId(undefined); // Reset mapId state on logout
+    setRideAppUndefined();
   };
 
   // console.log("user in AuthContext", user)

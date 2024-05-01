@@ -926,7 +926,7 @@ app.post("/user/deactivate/:id", async (req, res) => {
         "UPDATE users SET isactive = false WHERE id = $1 RETURNING *", [userId]
       )
       res.json(deactivateUser.rows[0])
-      console.log("res.json", deactivateUser.rows[0])
+      // console.log("res.json", deactivateUser.rows[0])
 
     } else {
       res.json("User can only be deactivated by user if logged in")

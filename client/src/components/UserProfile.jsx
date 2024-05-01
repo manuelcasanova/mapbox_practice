@@ -1,5 +1,6 @@
 //Hooks
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 //Context
 import { useAuth } from "./Context/AuthContext";
@@ -7,7 +8,9 @@ import { useAuth } from "./Context/AuthContext";
 //Util functions
 import { deactivateUser } from "./util_functions/user_functions/DeleteUser";
 
-export default function UserProfile() {
+export default function UserProfile({setRideAppUndefined}) {
+
+  const navigate = useNavigate()
 
   const { user, logOut } = useAuth();
   // console.log("user int UserProfile", user)
@@ -17,8 +20,9 @@ export default function UserProfile() {
   const handleShowConfirmDelete = () => {setShowConfirmDelete(prev => !prev)}
   const handleDeactivateUser = () => {
     deactivateUser(user);
-     logOut();
+     logOut(setRideAppUndefined);
      handleShowConfirmDelete()
+     navigate('/')
   };
 
   return (

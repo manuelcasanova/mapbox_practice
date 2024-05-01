@@ -34,9 +34,9 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Define a layout component to wrap the routes
-const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton }) => (
+const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => (
   <div className='app'>
-    <Authentication setFromButton={setFromButton} />
+    <Authentication setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined}  />
     <FollowNotifications />
     <MessagesNotifications />
     <Title rideApp={rideApp} setRideApp={setRideApp} />
@@ -55,10 +55,15 @@ function App() {
   const [fromButton, setFromButton] = useState(false)
   // console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState() //before true
+  // console.log("rideApp in App.js", rideApp)
   const handleSetRideApp = () => {
     // Function to update the state in the parent component
     setRideApp(!rideApp)
   };
+
+  const setRideAppUndefined = () => {
+    setRideApp(undefined)
+  }
 
 //If ride App is false, change to true on Welcome component mount, default state.
   // useEffect(() => {
@@ -74,7 +79,7 @@ function App() {
         <Router>
           <Routes>
             {/* Route for the Welcome component */}
-            <Route exact path="/" element={<Welcome handleSetRideApp={handleSetRideApp}/>} />
+            <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp}/>} />
             {/* Route for other components with the Layout */}
             <Route
               path="/*"
@@ -84,6 +89,7 @@ function App() {
                   setRideApp={setRideApp}
                   fromButton={fromButton}
                   setFromButton={setFromButton}
+                  setRideAppUndefined={setRideAppUndefined}
                 >
                   <Routes>
                     <Route exact path="/rides" element={<></>}> </Route>
@@ -104,7 +110,7 @@ function App() {
                     <Route exact path="/users/muted" element={<><MutedUsers /></>}></Route>
                     <Route exact path="/users/pending" element={<><PendingUsers /></>}></Route>
                     <Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}></Route>
-                    <Route exact path="/user/profile" element={<><UserProfile /></>}></Route>
+                    <Route exact path="/user/profile" element={<><UserProfile setRideAppUndefined={setRideAppUndefined}/></>}></Route>
                   </Routes>
                 </Layout>
               }

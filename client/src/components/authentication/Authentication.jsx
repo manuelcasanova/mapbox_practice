@@ -1,7 +1,7 @@
 import { useAuth } from '../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const Authentication = ({setFromButton}) => {
+const Authentication = ({setFromButton, setRideAppUndefined}) => {
 
 
   const { user, logInUser1, logInUser2, logInUser3, logInUser4, logInUser5, logOut } = useAuth();
@@ -11,7 +11,7 @@ const Authentication = ({setFromButton}) => {
 
 
   const handleLogout = () => {
-    logOut();
+    logOut(setRideAppUndefined);
     setFromButton(true);
     navigate("/"); // Navigate to the root route after logout
   };
