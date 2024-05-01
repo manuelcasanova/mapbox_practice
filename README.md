@@ -1,7 +1,3 @@
-localhost:3000
-
-"Ready to seize the day? Run with me or ride with me?"
-
 User profile:
 Username
 Email
@@ -40,6 +36,8 @@ RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order
 Show notifications above everything else on the right if open them
 
 DONE
+
+"Ready to seize the day? Run with me or ride with me?". Welcome component
 
 
 Delete maps and definitively by superAdmin

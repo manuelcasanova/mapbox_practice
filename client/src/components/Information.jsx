@@ -1,20 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "./Context/AuthContext";
-import { useLocation } from 'react-router-dom';
+
 
 export default function Information({ setFromButton, rideApp }) {
 
-console.log("rideApp in Information", rideApp)
+// console.log("rideApp in Information", rideApp)
 
   const navigate = useNavigate();
   const { user } = useAuth();
-  const location = useLocation();
-  const [currentPath, setCurrentPath] = useState('');
-
-  useEffect(() => {
-    setCurrentPath(location.pathname);
-  }, [location.pathname]);
 
 
   const [showOptions, setShowOptions] = useState({
