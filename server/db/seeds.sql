@@ -1,5 +1,5 @@
 -- Insert users
-INSERT INTO users (username, roles, email, password, is_selected, is_active)
+INSERT INTO users (username, roles, email, password, isselected, isactive)
 VALUES ('Manuel Casanova', '{"Super_admin": 2010}', 'manuel@example.com', 'password123', true, true),
        ('Laura Admin', '{"Registered_user": 2005}', 'laura@example.com', 'password456', true, true),
        ('Alice_wonder', '{"Registered_user": 2001}', 'alice@example.com', 'password789', true, true),

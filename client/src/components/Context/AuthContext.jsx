@@ -8,7 +8,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-  const [user, setUser] = useState({ id: null, isAdmin: false, isSuperAdmin: false, loggedIn: false, username: null, lastlogin: null });
+  const [user, setUser] = useState({ id: null, isAdmin: false, isSuperAdmin: false, loggedIn: false, username: null, email:null, password: null, lastlogin: null });
   const [mapId, setMapId] = useState(); // Add mapId state
 
   const now = new Date();
@@ -35,23 +35,23 @@ export const AuthProvider = ({ children }) => {
   }, [user.loggedIn]);
 
   const logInUser1 = () => {
-    setUser({ id: 1, isAdmin: true, isSuperAdmin: true, loggedIn: true, username: 'Manuel', lastlogin: localTime });
+    setUser({ id: 1, isAdmin: true, isSuperAdmin: true, loggedIn: true, username: 'Manuel', lastlogin: localTime, email:'manuel@mail.com', password: 'hashedpassword' });
   };
 
   const logInUser2 = () => {
-    setUser({ id: 2, isAdmin: true, isSuperAdmin: false, loggedIn: true, username: 'Laura', lastlogin: localTime });
+    setUser({ id: 2, isAdmin: true, isSuperAdmin: false, loggedIn: true, username: 'Laura', lastlogin: localTime, email:'laura@mail.com', password: 'hashedpassword' });
   };
 
   const logInUser3 = () => {
-    setUser({ id: 3, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Alice', lastlogin: localTime });
+    setUser({ id: 3, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Alice', lastlogin: localTime, email:'alice@mail.com', password: 'hashedpassword' });
 };
 
   const logInUser4 = () => {
-    setUser({ id: 4, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Bob', lastlogin: localTime });
+    setUser({ id: 4, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Bob', lastlogin: localTime, email:'bob@mail.com', password: 'hashedpassword' });
 };
 
   const logInUser5 = () => {
-    setUser({ id: 5, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Emma', lastlogin: localTime });
+    setUser({ id: 5, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Emma', lastlogin: localTime, email:'emma@mail.com', password: 'hashedpassword' });
 };
 
   const logOut = () => {

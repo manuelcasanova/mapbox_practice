@@ -891,34 +891,51 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
 });
 
 
-/*
-app.delete("/maps/removeuser", async (req, res) => {
+//Delete a user
+app.delete("/user/delete/:id", async (req, res) => {
   try {
-    // Check if user ID and map ID are provided
-    const userId = req.body.userId;
-    const mapId = req.body.mapId;
-    // console.log("userId", userId)
-    // console.log("mapId", mapId)
-    if (!userId || !mapId) {
-      return res.status(400).json({ message: "User ID and map ID are required" });
-    }
-    
-    // Delete the user from the map_users table
-    const query = {
-      text: 'DELETE FROM map_users WHERE map_id = $1 AND user_id = $2',
-      values: [mapId, userId]
-    };
-    await pool.query(query);
 
-    return res.status(200).json({ message: "User successfully removed from the map" });
+console.log("delete user")
+    // if (isMapCreatedByUser) {
+
+    //   await pool.query(
+    //     "DELETE FROM maps WHERE id = $1 RETURNING *", [id]
+    //   )
+    //   res.json("The map was deleted")
+
+    // } else {
+    //   res.json("Map can only be deleted by creator")
+    // }
+
   } catch (err) {
-    console.error(err.message);
-    return res.status(500).json({ message: "Internal Server Error" });
+    console.error(err.message)
   }
-});
+})
 
-*/
+//Deactivate a user
+app.post("/user/deactivate/:id", async (req, res) => {
+  try {
 
+    const isLoggedIn = req.body.data.user.loggedIn
+    const userId = req.body.data.userId
+
+    if (isLoggedIn) {
+
+
+      const deactivateUser = await pool.query(
+        "UPDATE users SET isactive = false WHERE id = $1 RETURNING *", [userId]
+      )
+      res.json(deactivateUser.rows[0])
+      console.log("res.json", deactivateUser.rows[0])
+
+    } else {
+      res.json("User can only be deactivated by user if logged in")
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
 
 //Get all public maps 
 

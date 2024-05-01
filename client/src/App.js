@@ -22,6 +22,7 @@ import UsersMessaging from './components/messaging/UsersMessaging';
 import FollowNotifications from './components/notifications/FollowNotifications';
 import MessagesNotifications from './components/notifications/MessagesNotifications';
 import Welcome from './components/Welcome';
+import UserProfile from './components/UserProfile';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -103,6 +104,7 @@ function App() {
                     <Route exact path="/users/muted" element={<><MutedUsers /></>}></Route>
                     <Route exact path="/users/pending" element={<><PendingUsers /></>}></Route>
                     <Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}></Route>
+                    <Route exact path="/user/profile" element={<><UserProfile /></>}></Route>
                   </Routes>
                 </Layout>
               }

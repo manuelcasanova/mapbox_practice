@@ -16,8 +16,8 @@ CREATE TABLE users (
   roles JSONB DEFAULT '{"Registered_user": 2001}',
   email VARCHAR(255) UNIQUE,
   password VARCHAR(255),
-  is_selected BOOLEAN DEFAULT false,
-  is_active BOOLEAN DEFAULT true,
+  isselected BOOLEAN DEFAULT false,
+  isactive BOOLEAN DEFAULT true,
   refresh_token VARCHAR(255),
   profile_picture VARCHAR(255),
   location VARCHAR(255)

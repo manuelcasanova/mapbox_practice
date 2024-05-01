@@ -5,7 +5,7 @@ import { useAuth } from "./Context/AuthContext";
 
 export default function Information({ setFromButton, rideApp }) {
 
-// console.log("rideApp in Information", rideApp)
+  // console.log("rideApp in Information", rideApp)
 
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -102,6 +102,11 @@ export default function Information({ setFromButton, rideApp }) {
             </div>
           )}
         </div>
+
+{user.loggedIn && 
+        <div className="dropdown-wrapper">
+          <button onClick={() => navigate('/user/profile')}>My account</button></div>
+        }
       </div>
 
       {user.isAdmin && (
