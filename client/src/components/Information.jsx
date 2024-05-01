@@ -43,13 +43,27 @@ export default function Information({ setFromButton, rideApp }) {
           <button onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
             {rideApp ? "Rides" : "Runs"}
           </button>
-          {showOptions.ride && (
+
+
+          {rideApp && showOptions.ride && (
             <div className="dropdown">
               <button onClick={() => handleSelectOption("/rides/public", "ride")}>See rides</button>
               <button onClick={() => handleSelectOption("/rides/mine", "ride")}>See my rides</button>
               <button onClick={() => handleSelectOption("/ride", "ride")}>Create ride</button>
             </div>
           )}
+
+
+          {!rideApp && showOptions.ride && (
+            <div className="dropdown">
+              <button onClick={() => handleSelectOption("/runs/public", "ride")}>See runs</button>
+              <button onClick={() => handleSelectOption("/runs/mine", "ride")}>See my runs</button>
+              <button onClick={() => handleSelectOption("/run", "ride")}>Create run</button>
+            </div>
+          )}
+
+
+
         </div>
 
         <div
@@ -97,9 +111,9 @@ export default function Information({ setFromButton, rideApp }) {
               <div className="dropdown">
 
 
-{rideApp ? <button onClick={() => handleSelectOption("/rides/all", "admin")}>Admin rides</button> : <button onClick={() => handleSelectOption("/runs/all", "admin")}>Admin runs</button>}
+                {rideApp ? <button onClick={() => handleSelectOption("/rides/all", "admin")}>Admin rides</button> : <button onClick={() => handleSelectOption("/runs/all", "admin")}>Admin runs</button>}
 
-                
+
 
 
                 <button onClick={() => handleSelectOption("/", "admin")}>Admin users</button>
