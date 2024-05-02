@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS user_messages CASCADE;
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(255),
-  roles JSONB DEFAULT '{"Registered_user": 2001}',
   isadmin BOOLEAN DEFAULT false,
   issuperadmin BOOLEAN DEFAULT false,
   email VARCHAR(255) UNIQUE,

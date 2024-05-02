@@ -3,7 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 const cookieParser = require('cookie-parser');
+const credentials = require('./middleware/credentials')
 const PORT = process.env.PORT || 3500;
 const pool = require('./config/db');
 
@@ -12,8 +14,12 @@ app.set("view engine", 'ejs');
 
 app.use(express.urlencoded({ extended: false }));
 
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
 // Cross Origin Resource Sharing
-app.use(cors());
+app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
