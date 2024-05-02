@@ -24,6 +24,7 @@ import MessagesNotifications from './components/notifications/MessagesNotificati
 import Welcome from './components/Welcome';
 import UserProfile from './components/UserProfile';
 import Register from './components/authentication/Register';
+import Login from './components/authentication/Login';
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
@@ -83,6 +84,8 @@ function App() {
             <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp}/>} />
 
             <Route exact path="/register" element={<Register/>} />
+
+            <Route exact path="/login" element={<Login/>} />
 
 
             {/* Route for other components with the Layout */}

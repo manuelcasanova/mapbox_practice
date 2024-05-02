@@ -42,6 +42,7 @@ app.get('/', (req, res) => {
 ///---ROUTES BEFORE JWT TOKEN----
 
 app.use('/register', require('./routes/register'));
+app.use('/auth', require('./routes/auth'));
 
 
 ///ROUTES AFTER JWT TOKEN----
