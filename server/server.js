@@ -37,6 +37,19 @@ app.get('/', (req, res) => {
   res.json("Test")
 })
 
+
+
+///---ROUTES BEFORE JWT TOKEN----
+
+app.use('/register', require('./routes/register'));
+
+
+///ROUTES AFTER JWT TOKEN----
+
+// app.use(verifyJWT);
+
+
+
 // PUT route to update user's last login
 app.post('/users/lastlogin/', async (req, res) => {
   try {

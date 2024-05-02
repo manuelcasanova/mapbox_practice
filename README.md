@@ -1,5 +1,7 @@
 
 
+
+
 Login/logout
 
 
@@ -7,36 +9,31 @@ Login/logout
 
 Study structure server.js (casinosteps)
 
-const corsOptions = require('./config/corsOptions');
+DONE -------------------------const corsOptions = require('./config/corsOptions');
+
 const errorHandler = require('./middleware/errorHandler');
 const verifyJWT = require('./middleware/verifyJWT');
-const cookieParser = require('cookie-parser');
-const credentials = require('./middleware/credentials');
+
+DONE -------------------------const cookieParser = require('cookie-parser');
+DONE -------------------------const credentials = require('./middleware/credentials');
 
 //Template to create html js in node
 app.set("view engine", 'ejs');
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
-app.use(express.urlencoded({extended: false}));
 
-// Handle options credentials check - before CORS!
-// and fetch cookies credentials requirement
-app.use(credentials);
 
-// Cross Origin Resource Sharing
-app.use(cors(corsOptions));
+DONE -------------------------app.use(express.urlencoded({extended: false}));
+DONE -------------------------app.use(credentials);
+DONE -------------------------app.use(cors(corsOptions));
 
-// built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
 
-// built-in middleware for json 
-app.use(express.json());
-
-//middleware for cookies
-app.use(cookieParser());
+DONE -------------------------app.use(express.urlencoded({ extended: false })); 
+DONE -------------------------app.use(express.json());
+DONE -------------------------app.use(cookieParser());
 
 // routes
-app.use('/register', require('./routes/register')); ----------> controllers/registerController
+DONE -------------------------app.use('/register', require('./routes/register')); 
 app.use('/auth', require('./routes/auth')); ----------> controllers/authController
 app.use('/refresh', require('./routes/refresh')); ----------> controllers/refreshTokenController
 app.use('/logout', require('./routes/logout')); ----------> controllers/logoutController
@@ -63,6 +60,10 @@ app.all('*', (req, res) => {
 app.use(errorHandler);
 
 -------------
+
+Dismiss request pending notiifcation not working
+
+api/axios from casino
 
 OAuth
 
