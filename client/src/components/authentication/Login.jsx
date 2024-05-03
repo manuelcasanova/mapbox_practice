@@ -20,7 +20,7 @@ const Login = () => {
     const [user, resetUser, /*userAttribs*/] = useInput('user', '')
     const [email, resetEmail, emailAttribs] = useInput('email', '')
     let trimmedEmail = email.trim().toLowerCase();
-    const [pwd, setPwd] = useState('');
+    const [pwd, setPwd] = useState('Password1!');
     const [errMsg, setErrMsg] = useState('');
     const [check, toggleCheck] = useToggle('persist', false);
 
@@ -35,8 +35,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log("handleSubmit in Login")
-            console.log(user, pwd, trimmedEmail)
+            // console.log("handleSubmit in Login")
+            // console.log(user, pwd, trimmedEmail)
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ user, pwd, trimmedEmail }),
                 {
@@ -44,8 +44,8 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            console.log("response", response)
-             console.log("response data", response.data)
+            // console.log("response", response)
+            //  console.log("response data", response.data)
             const accessToken = response?.data?.accessToken;
             const userId = response?.data?.userId;
             const roles = response?.data?.roles;
@@ -53,7 +53,7 @@ const Login = () => {
 // console.log("Login js user id", userId)
 
             // setAuth({ userId, user, email, roles, accessToken });
-            loginUser(response)
+            loginUser(response.data)
             resetUser();
             resetEmail();
             setPwd('');

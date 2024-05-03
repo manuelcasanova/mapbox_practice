@@ -18,12 +18,12 @@ const UsersAll = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-   console.log("user in Users All", user)
+  //  console.log("user in Users All", user)
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
-  const userLoggedin = user.data.userId
+  const userLoggedin = user.id
   const userLoggedInObject = user
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
-  const isLoggedIn = user.data.userId !== null
+  const isLoggedIn = user.loggedIn
 
   // console.log("users", users)
   // console.log("followers", followers)

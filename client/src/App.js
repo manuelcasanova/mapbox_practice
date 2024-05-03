@@ -38,7 +38,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Define a layout component to wrap the routes
 const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => (
   <div className='app'>
-    <Authentication setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined}  />
+
     <FollowNotifications />
     <MessagesNotifications />
     <Title rideApp={rideApp} setRideApp={setRideApp} />
@@ -85,7 +85,7 @@ function App() {
 
             <Route exact path="/register" element={<Register/>} />
 
-            <Route exact path="/login" element={<Login/>} />
+            <Route exact path="/login" element={<Authentication/>} />
 
 
             {/* Route for other components with the Layout */}

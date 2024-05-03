@@ -1,5 +1,6 @@
 import { useAuth } from '../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Login from './Login';
 
 const Authentication = ({setFromButton, setRideAppUndefined}) => {
 
@@ -49,6 +50,7 @@ const Authentication = ({setFromButton, setRideAppUndefined}) => {
       <button className="button-login" onClick={logInUser5}>
         Log In As User 5
       </button>
+      <Login />
 
     </div>
   )}

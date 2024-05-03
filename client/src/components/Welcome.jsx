@@ -4,7 +4,7 @@ import { useAuth } from "./Context/AuthContext";
 export default function Welcome({rideApp, handleSetRideApp}) {
 
   const { user } = useAuth();
-  console.log("user in Welcome", user)
+  // console.log("user in Welcome", user)
   const navigate = useNavigate();
 
   return (

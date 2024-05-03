@@ -9,7 +9,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children, setRideAppUndefined }) => {
 
   const [user, setUser] = useState({ id: null, isAdmin: false, isSuperAdmin: false, loggedIn: false, username: null, email:null, password: null, lastlogin: null });
-   console.log("user in AusthContext,", user)
+  //  console.log("user in AuthContext,", user)
+
   const [mapId, setMapId] = useState(); // Add mapId state
 
   const now = new Date();

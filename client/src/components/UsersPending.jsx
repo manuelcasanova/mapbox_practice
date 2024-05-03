@@ -13,9 +13,9 @@ const PendingUsers = () => {
 
   const { user } = useAuth();
 
-  const userLoggedin = user.data.userId
+  const userLoggedin = user.id
   const userLoggedInObject = user;
-  const isLoggedIn = user.length;
+  const isLoggedIn = user.loggedIn;
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([])
@@ -26,7 +26,9 @@ const PendingUsers = () => {
   const [loginhistory, setLoginHistory] = useState([]);
 
 
-
+// console.log("user in UsersPening", user)
+// console.log("userLoggedin", userLoggedin)
+// console.log("userLoggedinObject", userLoggedInObject)
   
 
   // console.log("users", users)

@@ -100,7 +100,7 @@ app.get("/users/names", async (req, res) => {
   try {
 
 
-    if (req.query.user.data.userId !== null) {
+    if (req.query.user.loggedIn) {
       const users = await pool.query(
         'SELECT id, username FROM users ORDER BY username'
         //         `SELECT u.id, u.username 
@@ -199,7 +199,7 @@ app.post("/users/follow", async (req, res) => {
     const user = req.body.user;
     const now = new Date();
     // console.log("follow date", req.body.date)
-    if (req.body.user && req.query.user.data.userId !== null) {
+    if (req.body.user && req.body.user.loggedIn) {
       // console.log("follow")
 
       const insertFollowee = await pool.query(
@@ -231,7 +231,7 @@ app.delete("/users/cancel-follow", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
 
-    if (req.body.user && req.query.user.data.userId !== null) {
+    if (req.body.user && req.body.user.loggedIn) {
       // Delete the follow request from the database
       const deleteFollowRequest = await pool.query(
         `
@@ -269,7 +269,7 @@ app.post("/users/unfollow", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
 
-    if (req.body.user && req.query.user.data.userId !== null) {
+    if (req.body.user && req.body.user.loggedIn) {
       const deleteFollower = await pool.query(
         `
         DELETE FROM followers
@@ -331,6 +331,8 @@ app.get('/users/pending', async (req, res) => {
 app.post("/users/approvefollower", async (req, res) => {
   try {
 
+// console.log("req.body approvefollower", req.body)
+
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
     const user = req.body.user;
@@ -338,7 +340,7 @@ app.post("/users/approvefollower", async (req, res) => {
 
     // console.log("approver follower date", date)
 
-    if (req.body.user && req.query.user.data.userId !== null) {
+    if (req.body.user && req.body.user.loggedIn) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status, lastmodification)
@@ -373,7 +375,7 @@ app.post("/users/dismissfollower", async (req, res) => {
     const user = req.body.user;
     const date = req.body.date || new Date()
 
-    if (req.body.user && req.query.user.data.userId !== null) {
+    if (req.body.user && req.body.user.loggedIn) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status, lastmodification)
@@ -408,7 +410,7 @@ app.post("/users/dismissmessagefollowrequest", async (req, res) => {
     const user = req.body.user;
     const date = req.body.date || new Date()
 
-    if (req.body.user && req.query.user.data.userId !== null) {
+    if (req.body.user && req.body.user.loggedIn) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, newrequest)
@@ -436,8 +438,8 @@ app.post("/users/dismissmessagefollowrequest", async (req, res) => {
 //Get all followees
 app.get("/users/followee", async (req, res) => {
   try {
-console.log("req", req.query)
-    if (req.query.user && req.query.user.data.userId !== null) {
+// console.log("req", req.query)
+    if (req.query.user && req.query.user.loggedIn) {
       // console.log("user id", req.query.user.id)
       const fetchFollowee = await pool.query(
         'SELECT * FROM followers WHERE follower_id = $1 OR followee_id = $1',
@@ -458,7 +460,7 @@ console.log("req", req.query)
 app.get("/users/followers", async (req, res) => {
   try {
 
-    if (req.query.user && req.query.user.data.userId !== null) {
+    if (req.query.user && req.query.user.loggedIn) {
       // console.log("user id", req.query.user.id)
       const fetchFollowers = await pool.query(
         'SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC',
@@ -564,9 +566,10 @@ app.post("/points/delete/all/:id", async (req, res) => {
 
 //Create a map
 app.post("/createmap", async (req, res) => {
+  // console.log("req.body createmap server", req.body)
   try {
     // Check if user is logged in
-    if (!req.body.user || !req.query.user.data.userId !== null) {
+    if (!req.body.user || !req.body.user.loggedIn) {
       return res.status(401).json({ message: "A user needs to be logged in to create a map" });
     }
 
@@ -970,7 +973,7 @@ app.post("/user/activate/:id", async (req, res) => {
 //Deactivate a user
 app.post("/user/deactivate/:id", async (req, res) => {
   try {
-console.log(req.body)
+// console.log(req.body)
     const isLoggedIn = req.body.data.isUserLoggedIn
     const userId = req.body.data.userId
 
@@ -1150,7 +1153,7 @@ app.get("/rides", async (req, res) => {
 app.get("/rides/public", async (req, res) => {
   try {
 
-    if (req.query.user && req.query.user.data.userId !== null) {
+    if (req.query.user && req.query.user.loggedIn) {
 
       const userId = req.query.user.id
       //  console.log("req. query", req.query.user)
@@ -1509,9 +1512,9 @@ app.post("/users/messages/send", async (req, res) => {
 //Get pending request users
 app.get('/users/loginhistory', async (req, res) => {
 
-  console.log("/loginhistory", req.query.user)
+  // console.log("/loginhistory", req.query.user)
 
-  const id  = req.query.user.data.userId
+  const id  = req.query.user.id
 
   //  console.log("backend", id, loggedIn, username)
 

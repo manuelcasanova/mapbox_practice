@@ -22,7 +22,7 @@ const Followers = () => {
 
   // console.log("user in Users FOllowers", user.id)
 
-  const userLoggedin = user.data.userId
+  const userLoggedin = user.id
 
   useEffect(() => {
     //  console.log("followers", followers)

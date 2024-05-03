@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const fetchUsernameAndId = async (user, setUsers, setIsLoading, setError, isMounted) => {
-// console.log("user in FetchUsername", user.data.username)
+// console.log("user in FetchUsername", user.username)
   try {
     const response = await axios.get('http://localhost:3500/users/names', {
       params: {

@@ -2,8 +2,9 @@ import axios from "axios";
   
   
   //Function to remove user from map
-  export const removeUsersFromMap = async (userId, mapId, maps, setFake, setMaps) => {
+  export const removeUsersFromMap = async (userId, mapId, setFake, setMaps) => {
     try {
+      
       // Send request to remove users from map
       await axios.delete(`http://localhost:3500/maps/delete/users/${userId}`, {
         data: { mapId, userId } // Sending mapId in the request body
