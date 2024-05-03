@@ -19,10 +19,10 @@ const MapsPublic = () => {
 
   // console.log("maps", maps)
 
-  const userId = user.id;
+  const userId = user.data.userId
   const userIsLoggedIn = user.loggedIn;
   const isLoggedIn = userIsLoggedIn;
-  const userLoggedin = userId
+  const userLoggedin = user.data.userId
 
   useEffect(() => {
     let isMounted = true;

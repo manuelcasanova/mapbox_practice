@@ -99,9 +99,8 @@ app.get("/users", async (req, res) => {
 app.get("/users/names", async (req, res) => {
   try {
 
-    const loggedInUserId = req.query.user.id
 
-    if (req.query.user && req.query.user.loggedIn) {
+    if (req.query.user.data.userId !== null) {
       const users = await pool.query(
         'SELECT id, username FROM users ORDER BY username'
         //         `SELECT u.id, u.username 
@@ -128,7 +127,7 @@ app.get('/users/muted', async (req, res) => {
   const userId = req.query.userId;
   const isLoggedIn = req.query.isLoggedIn
 
-  if (isLoggedIn) {
+  // if (isLoggedIn) {
 
     try {
 
@@ -141,10 +140,10 @@ app.get('/users/muted', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
 
-  } else {
-    // Return an error message indicating unauthorized access
-    res.status(403).json({ error: "Unauthorized access" });
-  }
+  // } else {
+  //   // Return an error message indicating unauthorized access
+  //   res.status(403).json({ error: "Unauthorized access" });
+  // }
 });
 
 
@@ -200,7 +199,7 @@ app.post("/users/follow", async (req, res) => {
     const user = req.body.user;
     const now = new Date();
     // console.log("follow date", req.body.date)
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user && req.query.user.data.userId !== null) {
       // console.log("follow")
 
       const insertFollowee = await pool.query(
@@ -232,7 +231,7 @@ app.delete("/users/cancel-follow", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user && req.query.user.data.userId !== null) {
       // Delete the follow request from the database
       const deleteFollowRequest = await pool.query(
         `
@@ -270,7 +269,7 @@ app.post("/users/unfollow", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user && req.query.user.data.userId !== null) {
       const deleteFollower = await pool.query(
         `
         DELETE FROM followers
@@ -339,7 +338,7 @@ app.post("/users/approvefollower", async (req, res) => {
 
     // console.log("approver follower date", date)
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user && req.query.user.data.userId !== null) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status, lastmodification)
@@ -374,7 +373,7 @@ app.post("/users/dismissfollower", async (req, res) => {
     const user = req.body.user;
     const date = req.body.date || new Date()
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user && req.query.user.data.userId !== null) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status, lastmodification)
@@ -409,7 +408,7 @@ app.post("/users/dismissmessagefollowrequest", async (req, res) => {
     const user = req.body.user;
     const date = req.body.date || new Date()
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user && req.query.user.data.userId !== null) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, newrequest)
@@ -437,8 +436,8 @@ app.post("/users/dismissmessagefollowrequest", async (req, res) => {
 //Get all followees
 app.get("/users/followee", async (req, res) => {
   try {
-
-    if (req.query.user && req.query.user.loggedIn) {
+console.log("req", req.query)
+    if (req.query.user && req.query.user.data.userId !== null) {
       // console.log("user id", req.query.user.id)
       const fetchFollowee = await pool.query(
         'SELECT * FROM followers WHERE follower_id = $1 OR followee_id = $1',
@@ -459,7 +458,7 @@ app.get("/users/followee", async (req, res) => {
 app.get("/users/followers", async (req, res) => {
   try {
 
-    if (req.query.user && req.query.user.loggedIn) {
+    if (req.query.user && req.query.user.data.userId !== null) {
       // console.log("user id", req.query.user.id)
       const fetchFollowers = await pool.query(
         'SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC',
@@ -567,7 +566,7 @@ app.post("/points/delete/all/:id", async (req, res) => {
 app.post("/createmap", async (req, res) => {
   try {
     // Check if user is logged in
-    if (!req.body.user || !req.body.user.loggedIn) {
+    if (!req.body.user || !req.query.user.data.userId !== null) {
       return res.status(401).json({ message: "A user needs to be logged in to create a map" });
     }
 
@@ -915,7 +914,7 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
 //Delete a user
 app.delete("/user/delete/:id", async (req, res) => {
   try {
-// console.log("req bod", req.body.user)
+console.log("req bod", req.body.user)
     // console.log("delete user")
 
     const userToDeleteIsSuperAdmin = req.body.userObject.issuperadmin;
@@ -1151,7 +1150,7 @@ app.get("/rides", async (req, res) => {
 app.get("/rides/public", async (req, res) => {
   try {
 
-    if (req.query.user && req.query.user.loggedIn) {
+    if (req.query.user && req.query.user.data.userId !== null) {
 
       const userId = req.query.user.id
       //  console.log("req. query", req.query.user)
@@ -1510,13 +1509,13 @@ app.post("/users/messages/send", async (req, res) => {
 //Get pending request users
 app.get('/users/loginhistory', async (req, res) => {
 
-  // console.log(req.query.user)
+  console.log("/loginhistory", req.query.user)
 
-  const { id, loggedIn, username } = req.query.user
+  const id  = req.query.user.data.userId
 
   //  console.log("backend", id, loggedIn, username)
 
-  if (loggedIn) {
+  // if (loggedIn) {
 
     try {
 
@@ -1528,10 +1527,10 @@ app.get('/users/loginhistory', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
 
-  } else {
-    // Return an error message indicating unauthorized access
-    res.status(403).json({ error: "Unauthorized access" });
-  }
+  // } else {
+  //   // Return an error message indicating unauthorized access
+  //   res.status(403).json({ error: "Unauthorized access" });
+  // }
 });
 
 //New follow request notification
@@ -1540,7 +1539,7 @@ app.get('/users/follownotifications', async (req, res) => {
   // console.log("req", req)
   const { loggedIn, id } = req.query.user
   // console.log(loggedIn)
-  if (loggedIn) {
+  // if (loggedIn) {
     try {
       const result = await pool.query(
         `WITH SecondLastLogin AS (
@@ -1567,18 +1566,18 @@ app.get('/users/follownotifications', async (req, res) => {
       console.error('Error fetching login history:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  } else {
-    // Return an error message indicating unauthorized access
-    res.status(403).json({ error: "Unauthorized access" });
+  // } else {
+  //   // Return an error message indicating unauthorized access
+  //   res.status(403).json({ error: "Unauthorized access" });
 
-  }
+  // }
 })
 
 //New message notification
 app.get('/messages/notifications', async (req, res) => {
   const { loggedIn, id } = req.query.user;
   // console.log("rq", req.query)
-  if (loggedIn) {
+  // if (loggedIn) {
     try {
       const result = await pool.query(
         `WITH SecondLastLogin AS (
@@ -1604,10 +1603,10 @@ app.get('/messages/notifications', async (req, res) => {
       console.error('Error fetching message notifications:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  } else {
-    // Return an error message indicating unauthorized access
-    res.status(403).json({ error: "Unauthorized access" });
-  }
+  // } else {
+  //   // Return an error message indicating unauthorized access
+  //   res.status(403).json({ error: "Unauthorized access" });
+  // }
 });
 
 
