@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Component for non-touch devices
 function TitleNonTouch({ showUn, toggleShowUn }) {
   const [hover, setHover] = useState(false);
+
+useEffect(() => {
+  // console.log("hover", hover)
+}, [hover])
 
   const handleHover = () => {
     setHover(true);
@@ -37,6 +41,8 @@ function TitleTouch({ showUn, toggleShowUn }) {
 export default function Title({ rideApp, setRideApp }) {
   const navigate = useNavigate();
   const [showUn, setShowUn] = useState(rideApp); //Before "true"
+
+// console.log("rideApp in Title", rideApp)
 
   const toggleShowUn = () => {
     setShowUn(!showUn);

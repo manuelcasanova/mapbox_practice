@@ -8,11 +8,12 @@ import useToggle from '../../hooks/useToggle';
 import axios from 'axios';
 const LOGIN_URL = 'http://localhost:3500/auth';
 
-const Login = () => {
+const Login = ({rideApp}) => {
+    // console.log("rideApp", rideApp)
     const { loginUser } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || "/rides/";
 
     const userRef = useRef();
     const errRef = useRef();

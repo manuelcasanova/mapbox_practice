@@ -38,7 +38,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Define a layout component to wrap the routes
 const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => (
   <div className='app'>
-
+    <Authentication setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined}  />
     <FollowNotifications />
     <MessagesNotifications />
     <Title rideApp={rideApp} setRideApp={setRideApp} />
@@ -57,10 +57,15 @@ function App() {
   const [fromButton, setFromButton] = useState(false)
   // console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState() //before true
-  // console.log("rideApp in App.js", rideApp)
+  //  console.log("rideApp in App.js", rideApp)
   const handleSetRideApp = () => {
     // Function to update the state in the parent component
-    setRideApp(!rideApp)
+    setRideApp(true)
+  };
+
+  const handleSetRunApp = () => {
+    // Function to update the state in the parent component
+    setRideApp(false)
   };
 
   const setRideAppUndefined = () => {
@@ -74,18 +79,18 @@ function App() {
   //   }
   // }, [rideApp]);
 
-  // console.log("rideApp in Appjs", rideApp)
+  //  console.log("rideApp in Appjs", rideApp)
   return (
-    <AuthProvider>
+    <AuthProvider rideApp={rideApp}>
       <BrowserCoordsProvider>
         <Router>
           <Routes>
             {/* Route for the Welcome component */}
-            <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp}/>} />
+            <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp} handleSetRunApp={handleSetRunApp}/>} />
 
             <Route exact path="/register" element={<Register/>} />
 
-            <Route exact path="/login" element={<Authentication/>} />
+            <Route exact path="/login" element={<Authentication rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} />
 
 
             {/* Route for other components with the Layout */}
