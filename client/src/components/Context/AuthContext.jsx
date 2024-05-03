@@ -9,6 +9,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children, setRideAppUndefined }) => {
 
   const [user, setUser] = useState({ id: null, isAdmin: false, isSuperAdmin: false, loggedIn: false, username: null, email:null, password: null, lastlogin: null });
+  console.log("user,", user)
   const [mapId, setMapId] = useState(); // Add mapId state
 
   const now = new Date();
@@ -54,6 +55,11 @@ export const AuthProvider = ({ children, setRideAppUndefined }) => {
     setUser({ id: 5, isAdmin: false, isSuperAdmin: false, loggedIn: true, username: 'Emma', lastlogin: localTime, email:'emma@mail.com', password: 'hashedpassword' });
 };
 
+const loginUser = (userData) => {
+    setUser(userData);
+    // Additional logic if needed
+  };
+
   const logOut = (setRideAppUndefined) => {
     setUser({ id: null, loggedIn: false });
     setMapId(undefined); // Reset mapId state on logout
@@ -63,7 +69,7 @@ export const AuthProvider = ({ children, setRideAppUndefined }) => {
   // console.log("user in AuthContext", user)
 
   return (
-    <AuthContext.Provider value={{ user, logInUser1, logInUser2, logInUser3, logInUser4, logInUser5, logOut, mapId, setMapId }}>
+    <AuthContext.Provider value={{ user, loginUser, logInUser1, logInUser2, logInUser3, logInUser4, logInUser5, logOut, mapId, setMapId }}>
       {children}
     </AuthContext.Provider>
   );

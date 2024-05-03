@@ -19,7 +19,7 @@ CREATE TABLE users (
   password VARCHAR(255),
   isselected BOOLEAN DEFAULT false,
   isactive BOOLEAN DEFAULT true,
-  refresh_token VARCHAR(255),
+  refreshtoken VARCHAR(255),
   profile_picture VARCHAR(255),
   location VARCHAR(255)
 );

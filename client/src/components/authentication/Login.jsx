@@ -1,16 +1,15 @@
 import { useRef, useState, useEffect } from 'react';
-import useAuth from '../../hooks/useAuth';
+import { useAuth } from "../Context/AuthContext";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
 import useToggle from '../../hooks/useToggle';
 
 // import axios from '../api/axios';
 import axios from 'axios';
-const LOGIN_URL = 'https://localhost:3500/auth';
+const LOGIN_URL = 'http://localhost:3500/auth';
 
 const Login = () => {
-    const { setAuth } = useAuth();
-// console.log("setAUth", setAuth)
+    const { loginUser } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -35,8 +34,9 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
+            console.log("handleSubmit in Login")
+            console.log(user, pwd, trimmedEmail)
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ user, pwd, trimmedEmail }),
                 {
@@ -44,14 +44,16 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            //  console.log("response data", response.data)
+            console.log("response", response)
+             console.log("response data", response.data)
             const accessToken = response?.data?.accessToken;
             const userId = response?.data?.userId;
             const roles = response?.data?.roles;
             
 // console.log("Login js user id", userId)
 
-            setAuth({ userId, user, email, roles, accessToken });
+            // setAuth({ userId, user, email, roles, accessToken });
+            loginUser(response)
             resetUser();
             resetEmail();
             setPwd('');

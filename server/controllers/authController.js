@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const handleLogin = async (req, res) => {
   const { pwd, trimmedEmail } = req.body;
-  //console.log(req.body)
+  // console.log(req.body)
   if (!pwd || !trimmedEmail) return res.status(400).json({ 'message': 'Email and password are required.' });
 
   //See if the email exists MONGODB
@@ -29,14 +29,21 @@ const handleLogin = async (req, res) => {
 
 
           //Grab the roles
-          const userId = foundEmail[0]._id;
-          const roles = Object.values(foundEmail[0].roles).filter(Boolean);
+          const userId = foundEmail[0].id;
+          const username = foundEmail[0].username;
+          const isAdmin = foundEmail[0].isadmin;
+          const isSuperAdmin = foundEmail[0].issuperadmin;
+          const email = foundEmail[0].email;
+          const isActive = foundEmail[0].isactive;
+
+          // const roles = Object.values(foundEmail[0].roles).filter(Boolean);
           //Create JWTs Token. To send to use with the other routes that we want protected in our API.
           const accessToken = jwt.sign(
             {
               "UserInfo": {
-                "email": foundEmail[0].email,
-                "roles": roles
+                "email": foundEmail[0].email
+                // ,
+                // "roles": roles
               }
             },
             process.env.ACCESS_TOKEN_SECRET,
@@ -61,7 +68,10 @@ const handleLogin = async (req, res) => {
             secure: true,
             maxAge: 24 * 60 * 60 * 1000
           })
-          res.json({ userId, roles, accessToken });
+          res.json({ userId, 
+            username, isAdmin, isSuperAdmin, isActive, email,
+            // roles, 
+            accessToken });
           // res.json({'success': `user ${user} is logged in`});
 
 
