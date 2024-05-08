@@ -23,7 +23,7 @@ const Followee = () => {
   const userLoggedInObject = auth
   // console.log("user in Users Followee", user.id)
 
-  const userLoggedin = auth.id
+  const userLoggedin = auth.userId
 
   useEffect(() => {
       // console.log("followers in UsersFollowee", followers)

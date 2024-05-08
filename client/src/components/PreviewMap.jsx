@@ -4,14 +4,16 @@ import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
+import GetBrowserLocation from "./util_functions/GetBrowserLocation";
+
 
 
 export default function PreviewMap({ mapId }) {
 
-
+// console.log("mapId in PreviewMap", mapId)
   const { auth } = useAuth();
 
-  // console.log("user", user)
+  //  console.log("auth.accessToken", auth.accessToken)
 
   const [coords, setCoords] = useState([
     [49.283255, -123.119930]
@@ -61,7 +63,7 @@ export default function PreviewMap({ mapId }) {
   }, [mapId, id]);
 
   useEffect(() => {
-    // console.log("coords", coords)
+    //  console.log("coords", coords)
 
   }, [coords, mapId])
 
@@ -69,18 +71,19 @@ export default function PreviewMap({ mapId }) {
 
   let rideCoords = [BrowserCoords]
 
-  
     loading && points.map((point) => {
       rideCoords.push(Object.values(point))
 return null
     })
   
+// console.log("rideCOords in PM", rideCoords)
+
   /////GET COORDIANTES - END
 
 
   return (
     //Ride is shown centered in map
-
+    <GetBrowserLocation>
     <div>
       {auth.accessToken !== undefined && mapId && mapId !== null && mapId !== undefined && (
         <PreviewMapChild
@@ -90,9 +93,10 @@ return null
           mapId={mapId}
           mapTitle={mapTitle}
           mapCreatedBy={mapCreatedBy}
-
         />
+ 
       )}
     </div>
+    </GetBrowserLocation>
   )
 }

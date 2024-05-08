@@ -4,7 +4,9 @@ VALUES ('Manuel Casanova', true, true, 'manuel@example.com', 'password123', true
        ('Laura Admin', true, false, 'laura@example.com', 'password456', true, true),
        ('Alice_wonder', false, false, 'alice@example.com', 'password789', true, true),
        ('Bob_robinson', false, false, 'bob@example.com', 'passwordabc', true, true),
-       ('Emma_jones', false, false, 'emma@example.com', 'passwordxyz', true, true);
+       ('Emma_jones', false, false, 'emma@example.com', 'passwordxyz', true, true),
+       ('manucasanova', true, true, 'manucasanova@hotmail.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', false, true)
+       ;
 
 
 INSERT INTO maps (title, createdBy, createdAt, mapType) VALUES 

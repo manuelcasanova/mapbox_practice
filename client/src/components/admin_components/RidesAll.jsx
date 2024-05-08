@@ -26,7 +26,7 @@ const RidesAll = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
 
-  const userId = auth.id;
+  const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
 
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -36,7 +36,7 @@ const RidesAll = () => {
 
   const [rideStatusUpdated, setRideStatusUpdated] = useState(false)
 
-  const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.id) !== undefined;
+  const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.userId) !== undefined;
 
   // console.log("ridesl all", rides)
 

@@ -47,9 +47,9 @@ const RidesPublic = () => {
   };
 
   useEffect( () => {
-    console.log("filtered Rides", filteredRides)
-      console.log("Rides", rides)
-      console.log("users", users)
+    // console.log("filtered Rides", filteredRides)
+    //   console.log("Rides", rides)
+    //   console.log("users", users)
   }, [rides])
 
   useEffect(() => {
@@ -135,11 +135,11 @@ const RidesPublic = () => {
 
 
   const toggleAddToMyRides = (index) => {
-    //  console.log("add to my rides before", addToMyRides);
+      // console.log("add to my rides before", addToMyRides);
     setAddToMyRides(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
-      //  console.log("add to my rides after", newState); // Log the updated state
+        // console.log("add to my rides after", newState); // Log the updated state
       return newState;
     });
   };
@@ -233,7 +233,7 @@ const RidesPublic = () => {
 
 
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
-                const isUserInRide = userRides.some(userRide => userRide.user_id === auth.id && userRide.ride_id === ride.id);
+                const isUserInRide = userRides.some(userRide => userRide.user_id === auth.userId && userRide.ride_id === ride.id);
 
 
 

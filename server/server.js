@@ -568,19 +568,16 @@ app.post("/points/delete/all/:id", async (req, res) => {
 app.post("/createmap", async (req, res) => {
   // console.log("req.body createmap server", req.body)
   try {
-    // Check if user is logged in
-    if (!req.body.user || !req.body.user.loggedIn) {
-      return res.status(401).json({ message: "A user needs to be logged in to create a map" });
-    }
 
-    const newMap = await pool.query("INSERT INTO maps (title, createdby, createdAt, mapType) VALUES($1, $2, $3, $4) RETURNING *", [req.body.title, req.body.user.id, req.body.createdAt, req.body.mapType]);
+
+    const newMap = await pool.query("INSERT INTO maps (title, createdby, createdAt, mapType) VALUES($1, $2, $3, $4) RETURNING *", [req.body.title, req.body.auth.userId, req.body.createdAt, req.body.mapType]);
 
     if (newMap.rows.length === 0) {
       return res.status(500).json({ message: "Failed to create map" });
     }
 
     const insertedMap = newMap.rows[0];
-    // console.log("Inserted map:", insertedMap);
+    //  console.log("Inserted map:", insertedMap);
     res.json(insertedMap);
   } catch (err) {
     console.error(err.message);
@@ -592,8 +589,8 @@ app.post("/createmap", async (req, res) => {
 app.post("/maps/adduser", async (req, res) => {
   try {
     // Check if user is logged in
-    // console.log("req.body", req.body)
-    if (!req.body.userId || !req.body.userIsLoggedIn) {
+    //  console.log("req.body maps/adduser", req.body)
+    if (!req.body.userId ) {
       return res.status(401).json({ message: "A user needs to be logged in" });
     }
     // Insert the user to the map_users table
@@ -690,7 +687,7 @@ app.post("/rides/adduser", async (req, res) => {
 
 //Create a ride
 app.post("/createride", async (req, res) => {
-  console.log("req.body in /createride", req.body)
+  // console.log("req.body in /createride", req.body)
   try {
     const { title, distance, speed, date, time, details, mapId, createdAt, dateString, rideType, userId, meetingPoint } = req.body
     const now = new Date();
@@ -825,7 +822,7 @@ app.delete("/rides/delete/:id", async (req, res) => {
 
 //Deactivate a ride
 app.post("/ride/deactivate/:id", async (req, res) => {
-  //  console.log("req.body", req.body)
+  // console.log("req.body", req.body)
   // console.log("req params", typeof req.params.id)
   try {
     const rideId = Number(req.params.id);
@@ -833,7 +830,7 @@ app.post("/ride/deactivate/:id", async (req, res) => {
     const userId = req.body.data.userId
     const rideCreatedBy = req.body.data.rideCreatedBy
     const isRideCreatedByUser = req.body.data.isRideCreatedByUser
-    const isAdmin = req.body.data.user.isAdmin
+    const isAdmin = req.body.data.auth.isAdmin
 
     // console.log(req.params)
     // console.log("req body", typeof req.body.data.mapId)
@@ -846,6 +843,7 @@ app.post("/ride/deactivate/:id", async (req, res) => {
       const deactivatedRide = await pool.query(
         "UPDATE rides SET isactive = false WHERE id = $1 RETURNING *", [rideId]
       )
+      // console.log("here")
       res.json(deactivatedRide.rows[0])
 
     } else {
@@ -1090,7 +1088,7 @@ app.get("/rides/otherusers", async (req, res) => {
 //Get maps from other users, if they are public and we added them to "our maps"
 
 app.get("/maps/shared", async (req, res) => {
-  console.log("req.query in maps/shared", req.query)
+  // console.log("req.query in maps/shared", req.query)
   try {
     const userId = req.query.userId;
 
@@ -1154,7 +1152,7 @@ app.get("/rides", async (req, res) => {
 app.get("/rides/public", async (req, res) => {
   try {
 
-     console.log("req.query on rides/public", req.query)
+    //  console.log("req.query on rides/public", req.query)
 
     if (req.query.user && req.query.user.accessToken) {
 
@@ -1302,8 +1300,8 @@ app.get('/rides/messages', async (req, res) => {
 });
 
 app.post("/rides/addmessage", async (req, res) => {
-  if (req.body.userIsLoggedIn
-    && req.body.message !== ""
+  // console.log(req.body)
+  if (req.body.message !== ""
   ) {
     try {
       const rideId = req.body.rideId;
@@ -1545,10 +1543,11 @@ app.get('/users/loginhistory', async (req, res) => {
 //New follow request notification
 
 app.get('/users/follownotifications', async (req, res) => {
-    console.log("req.query", req.query)
-  const { userId } = req.query.user
-  // console.log(loggedIn)
-   if (req.query.user.accessToken !== null) {
+
+  //  console.log("req.query in follow not", req.query.user)
+    if (req.query.user) {
+    // console.log("req.query", req.query)
+    const { userId } = req.query.user
     try {
       const result = await pool.query(
         `WITH SecondLastLogin AS (

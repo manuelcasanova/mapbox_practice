@@ -8,7 +8,7 @@ export default function AllMaps({ fromButton, setFromButton }) {
   const { auth } = useAuth();
   const [maps, setMaps] = useState([]);
   const [mapId, setMapId] = useState(null) //Declare it here instead of bringin from useAuth
-  const userId = auth.id;
+  const userId = auth.userId;
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
   const [fake, setFake] = useState(true)
@@ -25,7 +25,7 @@ export default function AllMaps({ fromButton, setFromButton }) {
 
 const parseIntMapId = parseInt(mapId)
 
-  const editAllowed = maps.some(obj => obj.createdby === auth.id && obj.id === parseIntMapId);
+  const editAllowed = maps.some(obj => obj.createdby === auth.userId && obj.id === parseIntMapId);
 
   const navigate = useNavigate();
 
@@ -67,7 +67,7 @@ const parseIntMapId = parseInt(mapId)
 
 
 
-  if (!auth.accessToken !== undefined) {
+  if (!auth.accessToken || auth.accessToken === undefined) {
     return <p>Please log in to view maps</p>;
   }
 

@@ -89,9 +89,9 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
   //Get data from maps to allow editing only those maps createdby the user, not those public maps created by another user, that can be user by the user, but not edited:
-  const userId = auth.id;
+  const userId = auth.userId;
 
-  const isMapCreatedByUser = maps.find(map => map.id === mapId && map.createdby === auth.id) !== undefined;
+  const isMapCreatedByUser = maps.find(map => map.id === mapId && map.createdby === auth.userId) !== undefined;
 
   // console.log("imcby", isMapCreatedByUser)
 

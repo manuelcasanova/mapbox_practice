@@ -22,7 +22,7 @@ const Followers = () => {
 
   // console.log("user in Users FOllowers", user.id)
 
-  const userLoggedin = auth.id
+  const userLoggedin = auth.userId
 
   useEffect(() => {
     //  console.log("followers", followers)

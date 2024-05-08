@@ -28,13 +28,15 @@ const RidesUser = () => {
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
+  const [rideStatusUpdated, setRideStatusUpdated] = useState(false)
+
   // console.log("rides", rides)
   // console.log("filtered rides", filteredRides)
 
   // const [addToMyRides, setAddToMyRides] = useState([])
   const { auth } = useAuth();
   const userIsLoggedIn = auth.loggedIn;
-  const id = auth ? auth.id : null;
+  const id = auth ? auth.userId : null;
   const userId = id
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -42,7 +44,7 @@ const RidesUser = () => {
 
   // console.log("rides", rides)
 
-  const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.id) !== undefined;
+  const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.userId) !== undefined;
 // console.log("isrcbyser", isRideCreatedByUser)
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
@@ -109,7 +111,7 @@ const RidesUser = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged]);
+  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
 
 
   useEffect(() => {
@@ -139,7 +141,7 @@ const RidesUser = () => {
 
   const removeFromMyRides = async (id) => {
     try {
-      const userId = auth.id;
+      const userId = auth.userId;
       // const rideId = id;
       // console.log("remove from my rides", userId, rideId)
       await axios.delete(`http://localhost:3500/rides/delete/users/${id}`, {
@@ -236,7 +238,7 @@ const RidesUser = () => {
                     {/* {console.log(user.id, ride.createdby)} */}
                     {confirmDelete ? (
   rides.length ? (
-    <button onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser)}>Confirm delete</button>
+    <button onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}>Confirm delete</button>
   ) : (
     <button onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
   )

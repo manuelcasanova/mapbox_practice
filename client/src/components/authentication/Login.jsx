@@ -45,20 +45,28 @@ const Login = ({rideApp}) => {
                     withCredentials: true
                 }
             );
-             console.log("response in Login", response)
-              console.log("response data", response.data)
+            //  console.log("response in Login", response)
+            //   console.log("response data", response.data)
             const accessToken = response?.data?.accessToken;
             const userId = response?.data?.id;
             const username = response?.data?.username
+            const isAdmin = response?.data?.isAdmin
+            const isSuperAdmin = response?.data?.isSuperAdmin
             // const roles = response?.data?.roles;
             
 
 
 // console.log("Login js user id", userId)
 
-            setAuth({ userId, username, email, 
+            setAuth({ 
+                userId, 
+                username, 
+                email, 
                 // roles, 
-                accessToken });
+                accessToken, 
+                isAdmin, 
+                isSuperAdmin 
+            });
             resetUser();
             resetEmail();
             setPwd('');

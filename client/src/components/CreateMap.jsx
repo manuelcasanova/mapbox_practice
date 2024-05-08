@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export default function CreateMap({ setFromButton }) {
 
-  const { user, setMapId } = useAuth();
+  const { auth, setMapId } = useAuth();
   const [mapType, setMapType] = useState("public");
 
   // console.log("user", user)
@@ -41,10 +41,11 @@ export default function CreateMap({ setFromButton }) {
 
       const response = await axios.post(`http://localhost:3500/createmap`, {
         title,
-        user,
+        auth,
         createdAt,
         mapType
       });
+      //  console.log("response.data", response.data)
       setMapId(response.data.id) //Draw Map updates with the new maps's ID
       setTitle('');
       navigate('/maps');
@@ -62,7 +63,7 @@ export default function CreateMap({ setFromButton }) {
   return (
 
     <>
-      {user.accessToken !== undefined ? (
+      {auth.accessToken !== undefined ? (
         <div className="maps">
           <form onSubmit={handleSubmit}>
             <div>STEP 1: Name the map</div>

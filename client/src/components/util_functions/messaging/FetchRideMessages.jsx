@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const fetchRideMessages = async (rideId) => {
-    console.log("rideId fetchRideMessage", rideId)
+    // console.log("rideId fetchRideMessage", rideId)
   try {
     const response = await axios.get(`http://localhost:3500/rides/messages`, {
       params: {

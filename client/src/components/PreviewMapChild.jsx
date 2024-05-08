@@ -24,12 +24,14 @@ function Bounds({ coords }) {
 
 export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy }) {
 
+// console.log (`PreviewMapChild --> mapId ${mapId} mapTitle ${mapTitle} mapCreatedBy ${mapCreatedBy}`)
+
   if (!rideCoords || rideCoords.length === 0) {
     return <div>Loading...</div>; 
   }
 
   const coords = rideCoords.slice(1);
-
+// console.log("coords in PMC", coords)
   return (
     <div>
       {/* Viewing map */}

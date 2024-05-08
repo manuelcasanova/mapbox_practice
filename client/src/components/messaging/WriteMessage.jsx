@@ -8,12 +8,12 @@ import { useAuth } from "../Context/AuthContext";
 export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   // Variables
   const { auth } = useAuth();
-  const sender = auth.id;
+  const sender = auth.userId
   const receiver = userForMessages;
   const [newMessage, setNewMessage] = useState()
   const [error, setError] = useState()
   const isLoggedIn = auth.loggedIn
-  const userLoggedIn = auth.id
+  const userLoggedIn = auth.userId
 
   // console.log(isLoggedIn)
 

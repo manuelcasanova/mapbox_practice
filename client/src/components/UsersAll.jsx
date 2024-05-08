@@ -21,7 +21,7 @@ const UsersAll = () => {
   const { auth } = useAuth();
   //  console.log("user in Users All", user)
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
-  const userLoggedin = auth.id
+  const userLoggedin = auth.userId
   const userLoggedInObject = auth
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
   const isLoggedIn = auth.loggedIn

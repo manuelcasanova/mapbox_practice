@@ -54,7 +54,7 @@ const renderedMessages = messages.map((message) => {
     message.date
   ).toLocaleString()}: ${message.content}`;
 
-  const isCurrentUserMessage = message.sender === auth.id || message.receiver === auth.id;
+  const isCurrentUserMessage = message.sender === auth.userId || message.receiver === auth.userId;
 
   // console.log("content", content)
 

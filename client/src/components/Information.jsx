@@ -12,7 +12,7 @@ export default function Information({ setFromButton, rideApp }) {
   const navigate = useNavigate();
   const { auth } = useAuth();
 
-  // console.log("auth in Information.jsx", auth)
+  //  console.log("auth in Information.jsx", auth)
 
   const [showOptions, setShowOptions] = useState({
     ride: false,

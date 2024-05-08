@@ -21,10 +21,10 @@ const MapsPublic = () => {
 
   // console.log("maps", maps)
 // console.log("user in MapsPublic", user)
-  const userId = auth.id
+  const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
   const isLoggedIn = userIsLoggedIn;
-  const userLoggedin = auth.id
+  const userLoggedin = auth.userId
 
   useEffect(() => {
     let isMounted = true;
@@ -171,18 +171,20 @@ const MapsPublic = () => {
                 const isUserMap = map.createdby === userId;
 
                 // Determine if the logged-in user is already in this map
-
+// console.log("userMaps", userMaps)
 
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
-                const isUserInMap = userMaps.some(userMap => userMap.user_id === auth.id && userMap.map_id === map.id);
+                const isUserInMap = userMaps.some(userMap => userMap.user_id === auth.userId && userMap.map_id === map.id);
 
                 // console.log("is user in map", isUserInMap)
                 // Render the JSX elements, including the formatted date
                 return (
 
+                
 
                   <div key={map.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
-
+                  
+          
                     <div>Name: {map.title}</div>
                     <div>Created by: {
   users.find(user => user.id === map.createdby)?.username || "Unknown User"
