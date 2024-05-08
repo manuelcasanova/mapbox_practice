@@ -690,6 +690,7 @@ app.post("/rides/adduser", async (req, res) => {
 
 //Create a ride
 app.post("/createride", async (req, res) => {
+  console.log("req.body in /createride", req.body)
   try {
     const { title, distance, speed, date, time, details, mapId, createdAt, dateString, rideType, userId, meetingPoint } = req.body
     const now = new Date();
@@ -1089,6 +1090,7 @@ app.get("/rides/otherusers", async (req, res) => {
 //Get maps from other users, if they are public and we added them to "our maps"
 
 app.get("/maps/shared", async (req, res) => {
+  console.log("req.query in maps/shared", req.query)
   try {
     const userId = req.query.userId;
 
@@ -1152,11 +1154,11 @@ app.get("/rides", async (req, res) => {
 app.get("/rides/public", async (req, res) => {
   try {
 
-     console.log(req.query)
+     console.log("req.query on rides/public", req.query)
 
     if (req.query.user && req.query.user.accessToken) {
 
-      const userId = req.query.user.id
+      const userId = req.query.user.userId
       //  console.log("req. query", req.query.user)
       
 
@@ -1208,7 +1210,7 @@ app.get("/rides/public", async (req, res) => {
         const rides = await pool.query(ridesQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId]);
-        // console.log("rides.rows YES filtered rides", rides.rows)
+        //  console.log("rides.rows YES filtered rides", rides.rows)
         res.json(rides.rows)
 
       } else {
@@ -1235,7 +1237,7 @@ app.get("/rides/public", async (req, res) => {
         //    ORDER BY m.id DESC
 
         //  `, [userId]
-        // console.log("rides.rows no filtered rides", rides.rows)
+        //  console.log("rides.rows no filtered rides", rides.rows)
         res.json(rides.rows);
       }
 
@@ -1285,6 +1287,7 @@ app.get("/rides/user/:id", async (req, res) => {
 });
 
 app.get('/rides/messages', async (req, res) => {
+  // console.log("req.query in rides/messages", req.query)
   const { ride_id } = req.query;
   //  console.log("ride_id", ride_id)
   try {
@@ -1542,10 +1545,10 @@ app.get('/users/loginhistory', async (req, res) => {
 //New follow request notification
 
 app.get('/users/follownotifications', async (req, res) => {
-  //  console.log("req.query", req.query)
+    console.log("req.query", req.query)
   const { userId } = req.query.user
   // console.log(loggedIn)
-  // if (loggedIn) {
+   if (req.query.user.accessToken !== null) {
     try {
       const result = await pool.query(
         `WITH SecondLastLogin AS (
@@ -1572,11 +1575,11 @@ app.get('/users/follownotifications', async (req, res) => {
       console.error('Error fetching login history:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  // } else {
-  //   // Return an error message indicating unauthorized access
-  //   res.status(403).json({ error: "Unauthorized access" });
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
 
-  // }
+  }
 })
 
 //New message notification

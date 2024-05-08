@@ -16,7 +16,7 @@ import MappedMessage from './util_functions/messaging/MappedMessage';
 
 const RidesPublic = () => {
   const [rides, setRides] = useState([]);
-  // console.log("Rides", rides)
+
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRides, setAddToMyRides] = useState([])
@@ -33,7 +33,7 @@ const RidesPublic = () => {
 
   //  console.log("filteredRides", filteredRides)
   const userId = auth.userId;
-  console.log("auth in Rides Public", auth)
+  //  console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
 
 
@@ -47,8 +47,10 @@ const RidesPublic = () => {
   };
 
   useEffect( () => {
-    console.log("filtered RIdes", filteredRides)
-  }, [filteredRides])
+    console.log("filtered Rides", filteredRides)
+      console.log("Rides", rides)
+      console.log("users", users)
+  }, [rides])
 
   useEffect(() => {
     let isMounted = true;
@@ -69,9 +71,12 @@ const RidesPublic = () => {
             filteredRides
           }
         });
+        
         if (isMounted) {
+          
           // Initialize addToMyMaps state with false for each map
           setAddToMyRides(new Array(response.data.length).fill(false));
+        
           setRides(response.data);
           setIsLoading(false);
 
@@ -195,7 +200,7 @@ const RidesPublic = () => {
 
   return (
     <div>
-
+   <RidesFilter onFilter={onFilter} />
       {rides.length === 0 ? (
         <div>No rides available.</div>
       ) : (
@@ -203,7 +208,7 @@ const RidesPublic = () => {
           {auth.accessToken !== null ? (
             <div>
 
-              <RidesFilter onFilter={onFilter} />
+           
 
               {rides.map((ride, index) => {
                 //  console.log("Ride ID:", ride.id);

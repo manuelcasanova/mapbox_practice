@@ -9,9 +9,9 @@ import useAuth from "../hooks/useAuth"
 
 export default function CreateRide() {
 
-  const { user, mapId, setMapId } = useAuth();
-  const userId = user.id;
-
+  const { auth, mapId, setMapId } = useAuth();
+  const userId = auth.userId;
+// console.log("userId in Create Ride", auth)
   const [rideType, setRideType] = useState("public");
 
   // console.log(rideType)
@@ -137,7 +137,7 @@ export default function CreateRide() {
 
   return (
     <>
-      {user.accessToken !== undefined ? (
+      {auth.accessToken !== undefined ? (
         <>
           <div className="rides">
             <form
