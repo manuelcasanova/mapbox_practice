@@ -24,12 +24,12 @@ export const activateUser = async (user, loggedInUser) => {
 };
 
 export const deactivateUser = async (user, loggedInUser) => {
-
+console.log("user, loggedInUser func deactivate user", user, loggedInUser)
   try {
    
 
     const userId = user.id;
-    const isUserLoggedIn = loggedInUser.loggedIn
+    const isUserLoggedIn = loggedInUser.accessToken !== undefined
    
  
     await axios.post(`http://localhost:3500/user/deactivate/${userId}`, {

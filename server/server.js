@@ -125,8 +125,7 @@ app.get("/users/names", async (req, res) => {
 //Get muted users
 app.get('/users/muted', async (req, res) => {
   const userId = req.query.userId;
-  const isLoggedIn = req.query.isLoggedIn
-
+console.log("req.query users/muted", req.query)
   // if (isLoggedIn) {
 
     try {
@@ -198,8 +197,9 @@ app.post("/users/follow", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
     const now = new Date();
+    // console.log("req.body /users/follow", req.body)
     // console.log("follow date", req.body.date)
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user ) {
       // console.log("follow")
 
       const insertFollowee = await pool.query(
@@ -231,7 +231,7 @@ app.delete("/users/cancel-follow", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user) {
       // Delete the follow request from the database
       const deleteFollowRequest = await pool.query(
         `
@@ -438,8 +438,8 @@ app.post("/users/dismissmessagefollowrequest", async (req, res) => {
 //Get all followees
 app.get("/users/followee", async (req, res) => {
   try {
-// console.log("req", req.query)
-    if (req.query.user && req.query.user.loggedIn) {
+    // console.log("req.query users/followee", req.query)
+    if (req.query.user) {
       // console.log("user id", req.query.user.id)
       const fetchFollowee = await pool.query(
         'SELECT * FROM followers WHERE follower_id = $1 OR followee_id = $1',
@@ -459,8 +459,8 @@ app.get("/users/followee", async (req, res) => {
 //Get all followers
 app.get("/users/followers", async (req, res) => {
   try {
-
-    if (req.query.user && req.query.user.loggedIn) {
+// console.log("req.query users/followers", req.query)
+    if (req.query.user) {
       // console.log("user id", req.query.user.id)
       const fetchFollowers = await pool.query(
         'SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC',
@@ -1583,9 +1583,10 @@ app.get('/users/follownotifications', async (req, res) => {
 
 //New message notification
 app.get('/messages/notifications', async (req, res) => {
-  const { id } = req.query.user;
+  
   // console.log("rq", req.query)
-  // if (loggedIn) {
+  if (req.query.user) {
+    const { id } = req.query.user;
     try {
       const result = await pool.query(
         `WITH SecondLastLogin AS (
@@ -1611,10 +1612,10 @@ app.get('/messages/notifications', async (req, res) => {
       console.error('Error fetching message notifications:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  // } else {
-  //   // Return an error message indicating unauthorized access
-  //   res.status(403).json({ error: "Unauthorized access" });
-  // }
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
+  }
 });
 
 

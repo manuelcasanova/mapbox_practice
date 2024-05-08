@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const fetchFollowers = async (user, setFollowers, setIsLoading, setError, isMounted) => {
+const fetchFollowers = async (auth, setFollowers, setIsLoading, setError, isMounted) => {
   try {
     const response = await axios.get('http://localhost:3500/users/followers', { 
       params: {
-        user: user 
+        user: auth 
       }
     });
     if (isMounted) {

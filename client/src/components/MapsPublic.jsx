@@ -8,7 +8,6 @@ import useAuth from "../hooks/useAuth"
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
-import fetchMutedUsers from './util_functions/FetchMutedUsers';
 
 const MapsPublic = () => {
   const [maps, setMaps] = useState([]);

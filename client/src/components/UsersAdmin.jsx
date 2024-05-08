@@ -22,7 +22,7 @@ const UsersAdmin = () => {
 //  console.log("users", users)
 
 const loggedInUser = auth;
-// console.log("loggedInUser", loggedInUser)
+//  console.log("loggedInUser in Users Admin", loggedInUser)
 
   useEffect(() => {
     let isMounted = true;
@@ -55,7 +55,22 @@ const loggedInUser = auth;
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [auth, users]);
+  }, [auth]);
+
+  const handleDeactivate = async (user) => {
+    await deactivateUser(user, loggedInUser);
+    setUsers(users.map(u => u.id === user.id ? { ...u, isactive: false } : u));
+  };
+
+  const handleActivate = async (user) => {
+    await activateUser(user, loggedInUser);
+    setUsers(users.map(u => u.id === user.id ? { ...u, isactive: true } : u));
+  };
+
+  const handleDelete = async (user) => {
+    await deleteUser(user, user.id, setUsers, loggedInUser);
+    setUsers(users.filter(u => u.id !== user.id));
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -76,7 +91,7 @@ const loggedInUser = auth;
 {users.map(user => {
 
 
-
+// console.log("user,", user)
 
   // Render the JSX elements, including the formatted date
   return (
@@ -87,11 +102,11 @@ const loggedInUser = auth;
       <div>Id: {user.id}</div>
       <div>Name: {user.username}</div>
       <div>Email: {user.email}</div>
-      {loggedInUser.isSuperAdmin && !user.issuperadmin && user.isactive && <button onClick={()=> deactivateUser(user, loggedInUser)}>Inactivate</button>}
+      {loggedInUser.isSuperAdmin && !user.issuperadmin && user.isactive && <button onClick={() => handleDeactivate(user)}>Inactivate</button>}
       {loggedInUser.isSuperAdmin && !user.issuperadmin && !user.isactive && <button 
-       onClick={()=> activateUser(user, loggedInUser)}
+       onClick={() => handleActivate(user)}
       >Activate</button>}
-      {loggedInUser.isSuperAdmin && !user.issuperadmin && <button onClick={()=> deleteUser(user, user.id, setUsers, loggedInUser)}>Delete</button>}
+      {loggedInUser.isSuperAdmin && !user.issuperadmin && <button onClick={()=> handleDelete(user)}>Delete</button>}
     </div>
   );
 })}

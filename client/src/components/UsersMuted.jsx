@@ -13,7 +13,7 @@ const MutedUsers = () => {
   const { auth } = useAuth();
 
   const userLoggedin = auth.userId
-  const isLoggedIn = auth.loggedIn;
+  const isLoggedIn = auth.accessToken !== undefined;
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([])
