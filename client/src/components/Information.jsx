@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
+
 
 
 export default function Information({ setFromButton, rideApp }) {
@@ -8,8 +10,9 @@ export default function Information({ setFromButton, rideApp }) {
   // console.log("rideApp in Information", rideApp)
 
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { auth } = useAuth();
 
+  // console.log("auth in Information.jsx", auth)
 
   const [showOptions, setShowOptions] = useState({
     ride: false,
@@ -103,13 +106,13 @@ export default function Information({ setFromButton, rideApp }) {
           )}
         </div>
 
-{user.loggedIn && 
+{auth && 
         <div className="dropdown-wrapper">
           <button onClick={() => navigate('/user/profile')}>My account</button></div>
         }
       </div>
 
-      {user.isAdmin && (
+      {auth.isAdmin && (
         <div className="admin-navbar">
           <div
             className="dropdown-wrapper"

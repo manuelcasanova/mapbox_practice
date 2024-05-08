@@ -24,10 +24,10 @@ const RidesAll = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useAuth();
+  const { auth } = useAuth();
 
-  const userId = user.id;
-  const userIsLoggedIn = user.loggedIn;
+  const userId = auth.id;
+  const userIsLoggedIn = auth.loggedIn;
 
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
@@ -36,20 +36,20 @@ const RidesAll = () => {
 
   const [rideStatusUpdated, setRideStatusUpdated] = useState(false)
 
-  const isRideCreatedByUser = rides.find(ride => ride.createdby === user.id) !== undefined;
+  const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.id) !== undefined;
 
   // console.log("ridesl all", rides)
 
   useEffect(() => {
     let isMounted = true;
 
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
 
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3500/rides/', {
           params: {
-            user: user 
+            user: auth 
           }
         });
         if (isMounted) {
@@ -84,7 +84,7 @@ const RidesAll = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
+  }, [auth, messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -100,7 +100,7 @@ const RidesAll = () => {
         <div>No rides available.</div>
       ) : (
         <>
-        {user.loggedIn && user.isAdmin ? (
+        {auth.accessToken !== undefined && auth.isAdmin ? (
         <div>
 {rides.map(ride => {
   // Extract the date formatting logic here
@@ -115,8 +115,8 @@ const RidesAll = () => {
     
 <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 {!ride.isactive && <div>Inactive ride</div>}
-{!ride.isactive &&<button onClick={()=>{deleteRide(ride.id, user, setRides)}}>Definitively delete</button>}
-{ride.isactive && <button onClick={()=>{deactivateRide(ride.id, user, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}}>Inactivate</button>}
+{!ride.isactive &&<button onClick={()=>{deleteRide(ride.id, auth, setRides)}}>Definitively delete</button>}
+{ride.isactive && <button onClick={()=>{deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}}>Inactivate</button>}
 
 
       <div>Name: {ride.name}</div>
@@ -138,10 +138,10 @@ const RidesAll = () => {
                               {message.status === 'flagged' && (
                                 <div>
                                   <div>Flagged as inappropiate. Not visible for other users</div>
-                                  <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                  <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                 </div>
                               )}
-                              {message.status !== 'flagged' && <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                              {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
                             </div>
                           )
                         )

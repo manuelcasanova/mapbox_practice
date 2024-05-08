@@ -4,7 +4,7 @@ import axios from "axios";
 
 //Hooks
 
-import { useAuth } from "../Context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; 
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import fetchUsernameAndId from "../util_functions/FetchUsername";
 
 export default function MessagesNotifications () {
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
@@ -24,13 +24,13 @@ export default function MessagesNotifications () {
     // console.log("user", user)
   // console.log("users", users)
 
-  const fetchMessageNotifications = async (user, setMessagesNotifications, setIsLoading, setError, isMounted) => {
+  const fetchMessageNotifications = async (auth, setMessagesNotifications, setIsLoading, setError, isMounted) => {
 
 
     try {
       const response = await axios.get('http://localhost:3500/messages/notifications', {
         params: {
-          user: user 
+          user: auth 
         }
     
       });
@@ -54,16 +54,16 @@ export default function MessagesNotifications () {
 
   useEffect(() => {
     let isMounted = true;
-    fetchMessageNotifications(user, setMessagesNotifications, setIsLoading, setError, isMounted)
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchMessageNotifications(auth, setMessagesNotifications, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [auth]);
 
   return (
     <>
-      {user.loggedIn && messagesNotifications.length > 0 && (
+      {auth && messagesNotifications.length > 0 && (
         <>
           {messagesNotifications.map(notification => {
             const senderUser = users.find(user => user.id === notification.sender);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 import axios from 'axios';
 
 //Util functions
@@ -11,11 +12,11 @@ import fetchIsNewRequest from "./util_functions/follow_functions/FetchIsNewReque
 
 const PendingUsers = () => {
 
-  const { user } = useAuth();
+  const { auth } = useAuth();
 
-  const userLoggedin = user.id
-  const userLoggedInObject = user;
-  const isLoggedIn = user.loggedIn;
+  const userLoggedin = auth.id
+  const userLoggedInObject = auth;
+  const isLoggedIn = auth.loggedIn;
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([])
@@ -132,8 +133,8 @@ const PendingUsers = () => {
     let isMounted = true;
     const controller = new AbortController();
     fetchPendingUsers(userLoggedin, isLoggedIn, setPendingUsers, setIsLoading, setError, isMounted)
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
-    fetchLoginHistory(user, setLoginHistory, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    fetchLoginHistory(auth, setLoginHistory, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };

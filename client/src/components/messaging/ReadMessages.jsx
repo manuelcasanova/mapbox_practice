@@ -13,7 +13,7 @@ import fetchUserMessages from "../util_functions/messaging/users/FetchUserMessag
 export default function ReadMessages({ userForMessages, updateMessages }) {
 
   //Variables
-  const { user } = useAuth();
+  const { auth } = useAuth();
   // console.log("user", user)
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,11 +31,11 @@ export default function ReadMessages({ userForMessages, updateMessages }) {
 
   useEffect(() => {
     let isMounted = true;
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
-    fetchUserMessages(user, userForMessages, messages, setMessages)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    fetchUserMessages(auth, userForMessages, messages, setMessages)
 
     const interval = setInterval(() => {
-      fetchUserMessages(user, userForMessages, messages, setMessages);
+      fetchUserMessages(auth, userForMessages, messages, setMessages);
       // console.log("interval, fetchuserMessages")
     }, 10000); // 10 seconds
 
@@ -54,7 +54,7 @@ const renderedMessages = messages.map((message) => {
     message.date
   ).toLocaleString()}: ${message.content}`;
 
-  const isCurrentUserMessage = message.sender === user.id || message.receiver === user.id;
+  const isCurrentUserMessage = message.sender === auth.id || message.receiver === auth.id;
 
   // console.log("content", content)
 

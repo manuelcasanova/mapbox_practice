@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 import { useNavigate } from "react-router-dom";
 
 //Util functions
@@ -17,13 +18,13 @@ const UsersAll = () => {
   const [followers, setFollowers] = useState([])
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useAuth();
+  const { auth } = useAuth();
   //  console.log("user in Users All", user)
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
-  const userLoggedin = user.id
-  const userLoggedInObject = user
+  const userLoggedin = auth.id
+  const userLoggedInObject = auth
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
-  const isLoggedIn = user.loggedIn
+  const isLoggedIn = auth.loggedIn
 
   // console.log("users", users)
   // console.log("followers", followers)
@@ -32,14 +33,14 @@ const UsersAll = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
-    fetchFollowee(user, setFollowers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    fetchFollowee(auth, setFollowers, setIsLoading, setError, isMounted)
     fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
 
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, hasMutedChanges]);
+  }, [auth, hasMutedChanges]);
 
   const handleMutedChanges = () => {
     setHasMutedChanges(prevState => !prevState);
@@ -79,7 +80,7 @@ const UsersAll = () => {
       ) : (
         <>
 
-          {user.loggedIn ? (
+          {auth.loggedIn ? (
             <div>
               {followingEachOther.map((isFollowing, index) => {
                 const user = usersExceptMe[index];

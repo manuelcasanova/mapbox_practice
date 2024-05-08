@@ -1,6 +1,7 @@
 //Hooks
 import React, { useState, useEffect } from 'react';
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 import { useNavigate } from "react-router-dom";
 
 //Util functions
@@ -18,11 +19,11 @@ const Followee = () => {
   const [followers, setFollowers] = useState([])
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useAuth();
-  const userLoggedInObject = user
+  const { auth } = useAuth();
+  const userLoggedInObject = auth
   // console.log("user in Users Followee", user.id)
 
-  const userLoggedin = user.id
+  const userLoggedin = auth.id
 
   useEffect(() => {
       // console.log("followers in UsersFollowee", followers)
@@ -32,12 +33,12 @@ const Followee = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
-    fetchFollowee(user, setFollowers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    fetchFollowee(auth, setFollowers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, hasMutedChanges]);
+  }, [auth, hasMutedChanges]);
 
   const handleMutedChanges = () => {
     setHasMutedChanges(prevState => !prevState);
@@ -62,7 +63,7 @@ const Followee = () => {
       ) : (
         <>
 
-          {user.loggedIn ? (
+          {auth.accessToken !== undefined ? (
             <div>
               {users.map(user => {
 

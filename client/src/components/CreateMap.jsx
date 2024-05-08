@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./Context/AuthContext";
-
+import useAuth from "../hooks/useAuth"
 import axios from 'axios';
 
 export default function CreateMap({ setFromButton }) {
@@ -63,7 +62,7 @@ export default function CreateMap({ setFromButton }) {
   return (
 
     <>
-      {user.loggedIn ? (
+      {user.accessToken !== undefined ? (
         <div className="maps">
           <form onSubmit={handleSubmit}>
             <div>STEP 1: Name the map</div>

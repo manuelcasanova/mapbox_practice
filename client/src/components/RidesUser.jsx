@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 import RidesFilter from './RidesFilter';
 
 //Util functions
@@ -31,9 +32,9 @@ const RidesUser = () => {
   // console.log("filtered rides", filteredRides)
 
   // const [addToMyRides, setAddToMyRides] = useState([])
-  const { user } = useAuth();
-  const userIsLoggedIn = user.loggedIn;
-  const id = user ? user.id : null;
+  const { auth } = useAuth();
+  const userIsLoggedIn = auth.loggedIn;
+  const id = auth ? auth.id : null;
   const userId = id
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -41,7 +42,7 @@ const RidesUser = () => {
 
   // console.log("rides", rides)
 
-  const isRideCreatedByUser = rides.find(ride => ride.createdby === user.id) !== undefined;
+  const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.id) !== undefined;
 // console.log("isrcbyser", isRideCreatedByUser)
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
@@ -51,11 +52,11 @@ const RidesUser = () => {
 
   useEffect(() => {
     let isMounted = true;
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [auth]);
 
   useEffect(() => {
     let isMounted = true;
@@ -65,7 +66,7 @@ const RidesUser = () => {
         if (id !== null && id !== undefined) {
           const response = await axios.get(`http://localhost:3500/rides/user/${id}`, {
             params: {
-              user: user,
+              user: auth,
               filteredRides: filteredRides || ''
             }
           });
@@ -138,7 +139,7 @@ const RidesUser = () => {
 
   const removeFromMyRides = async (id) => {
     try {
-      const userId = user.id;
+      const userId = auth.id;
       // const rideId = id;
       // console.log("remove from my rides", userId, rideId)
       await axios.delete(`http://localhost:3500/rides/delete/users/${id}`, {
@@ -178,7 +179,7 @@ const RidesUser = () => {
 
   return (
     <>
-      {user.loggedIn ? (
+      {auth.accessToken !== undefined ? (
         <div>
           <RidesFilter onFilter={onFilter} />
           {rides.length === 0 ? (
@@ -235,7 +236,7 @@ const RidesUser = () => {
                     {/* {console.log(user.id, ride.createdby)} */}
                     {confirmDelete ? (
   rides.length ? (
-    <button onClick={() => deactivateRide(ride.id, user, rides, setRides, setConfirmDelete, isRideCreatedByUser)}>Confirm delete</button>
+    <button onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser)}>Confirm delete</button>
   ) : (
     <button onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
   )
@@ -261,10 +262,10 @@ const RidesUser = () => {
                               {message.status === 'flagged' && message.createdby === userId && (
                                 <div>
                                   <div>Flagged as inappropiate. Not visible for other users</div>
-                                  <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                  <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                 </div>
                               )}
-                              {message.status !== 'flagged' && <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                              {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
                             </div>
                           )
                         )

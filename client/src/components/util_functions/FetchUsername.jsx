@@ -1,18 +1,19 @@
 import axios from "axios";
 
-const fetchUsernameAndId = async (user, setUsers, setIsLoading, setError, isMounted) => {
-// console.log("user in FetchUsername", user.username)
+const fetchUsernameAndId = async (auth, setUsers, setIsLoading, setError, isMounted) => {
+  console.log("auth", auth)
+ console.log("auth in FetchUsername", auth.username)
   try {
     const response = await axios.get('http://localhost:3500/users/names', {
       params: {
-        user: user
-      }
+        user: auth
+      } 
   
     });
     if (isMounted) {
       // console.log("response.data", response.data)
       setUsers(response.data);
-      // console.log("users in fetch nameid", response.data)
+      //  console.log("users in fetch nameid", response.data)
       setIsLoading(false);
     }
   } catch (error) {

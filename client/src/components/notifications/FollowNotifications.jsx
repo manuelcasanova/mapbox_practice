@@ -4,25 +4,26 @@ import axios from "axios";
 
 //Hooks
 
-import { useAuth } from "../Context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; 
 
 export default function FollowNotifications () {
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const [followNotifications, setFollowNotifications] = useState(false)
 
-    // console.log("user in FOllow not", user)
+    //  console.log("auth in FOllowNotifications", auth)
 
-  const fetchFollowNotifications = async (user, setFollowNotifications, setIsLoading, setError, isMounted) => {
+
+  const fetchFollowNotifications = async (auth, setFollowNotifications, setIsLoading, setError, isMounted) => {
 
     try {
       const response = await axios.get('http://localhost:3500/users/follownotifications', {
         params: {
-          user: user 
+          user: auth.userId 
         }
     
       });
@@ -46,17 +47,17 @@ export default function FollowNotifications () {
 
   useEffect(() => {
     let isMounted = true;
-    fetchFollowNotifications(user, setFollowNotifications, setIsLoading, setError, isMounted)
+    fetchFollowNotifications(auth, setFollowNotifications, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [auth]);
 
   return (
     <>
  
       {followNotifications.length ? (
-           user.loggedIn &&
+           auth.accessToken &&
         <Link to="/users/pending">
           Notification: New follow requests.
           </Link>

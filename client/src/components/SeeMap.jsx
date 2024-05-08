@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import SeeMapChild from "./SeeMapChild";
 import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 
 export default function SeeMap() {
   const [mapId, setMapId] = useState(null);
@@ -12,7 +13,7 @@ export default function SeeMap() {
   const [points, setPoints] = useState([]);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  const { user } = useAuth();
+  const { auth } = useAuth();
   
   const [coords, setCoords] = useState([
     [49.283255, -123.119930]
@@ -62,7 +63,7 @@ export default function SeeMap() {
   return (
     
 <div>
-  {user.loggedIn ? (
+  {auth.accessToken !== undefined ? (
     mapId !== null && mapId !== undefined ? (
       <SeeMapChild
         coords={coords}

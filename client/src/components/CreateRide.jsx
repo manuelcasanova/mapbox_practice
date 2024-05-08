@@ -4,7 +4,8 @@ import axios from 'axios';
 import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
 import TimePickerComponent from "./TimePickerComponent";
-import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
+
 
 export default function CreateRide() {
 
@@ -136,7 +137,7 @@ export default function CreateRide() {
 
   return (
     <>
-      {user.loggedIn ? (
+      {user.accessToken !== undefined ? (
         <>
           <div className="rides">
             <form

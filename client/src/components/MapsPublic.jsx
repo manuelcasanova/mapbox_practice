@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
+
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -15,22 +17,22 @@ const MapsPublic = () => {
   const [addToMyMaps, setAddToMyMaps] = useState([])
   const [userMaps, setUserMaps] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
-  const { user } = useAuth();
+  const { auth } = useAuth();
 
   // console.log("maps", maps)
 // console.log("user in MapsPublic", user)
-  const userId = user.id
-  const userIsLoggedIn = user.loggedIn;
+  const userId = auth.id
+  const userIsLoggedIn = auth.loggedIn;
   const isLoggedIn = userIsLoggedIn;
-  const userLoggedin = user.id
+  const userLoggedin = auth.id
 
   useEffect(() => {
     let isMounted = true;
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [auth]);
 
   // console.log("users in Maps Public", users)
 
@@ -68,7 +70,7 @@ const MapsPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [auth]);
 
   useEffect(() => {
     const fetchUserMaps = async () => {
@@ -152,7 +154,7 @@ const MapsPublic = () => {
         <div>No maps available.</div>
       ) : (
         <>
-          {user.loggedIn ? (
+          {auth.accessToken !== undefined ? (
 
             <div>
 
@@ -172,7 +174,7 @@ const MapsPublic = () => {
 
 
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
-                const isUserInMap = userMaps.some(userMap => userMap.user_id === user.id && userMap.map_id === map.id);
+                const isUserInMap = userMaps.some(userMap => userMap.user_id === auth.id && userMap.map_id === map.id);
 
                 // console.log("is user in map", isUserInMap)
                 // Render the JSX elements, including the formatted date

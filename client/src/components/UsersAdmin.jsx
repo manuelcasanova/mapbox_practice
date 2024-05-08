@@ -5,7 +5,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 //Context
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 
 //Util functions
 import { activateUser } from './util_functions/user_functions/DeleteUser';
@@ -16,11 +17,11 @@ const UsersAdmin = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useAuth();
+  const { auth } = useAuth();
 
 //  console.log("users", users)
 
-const loggedInUser = user;
+const loggedInUser = auth;
 // console.log("loggedInUser", loggedInUser)
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const loggedInUser = user;
       try {
         const response = await axios.get('http://localhost:3500/users/', {
           params: {
-            user: user 
+            user: auth 
           }
         });
         if (isMounted) {
@@ -54,7 +55,7 @@ const loggedInUser = user;
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, users]);
+  }, [auth, users]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -70,7 +71,7 @@ const loggedInUser = user;
         <div>No users available.</div>
       ) : (
         <>
-        {user.loggedIn && user.isAdmin ? (
+        {auth.accessToken !== undefined && auth.isAdmin ? (
         <div>
 {users.map(user => {
 

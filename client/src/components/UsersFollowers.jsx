@@ -17,12 +17,12 @@ const Followers = () => {
   const [followers, setFollowers] = useState([])
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useAuth();
-  const userLoggedInObject = user;
+  const { auth } = useAuth();
+  const userLoggedInObject = auth;
 
   // console.log("user in Users FOllowers", user.id)
 
-  const userLoggedin = user.id
+  const userLoggedin = auth.id
 
   useEffect(() => {
     //  console.log("followers", followers)
@@ -32,12 +32,12 @@ const Followers = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
-    fetchFollowers(user, setFollowers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    fetchFollowers(auth, setFollowers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, hasMutedChanges]);
+  }, [auth, hasMutedChanges]);
 
   const handleMutedChanges = () => {
     setHasMutedChanges(prevState => !prevState);
@@ -65,7 +65,7 @@ const Followers = () => {
       ) : (
         <>
 
-          {user.loggedIn ? (
+          {auth.accessToken !== undefined ? (
             <div>
               {users.map(user => {
 

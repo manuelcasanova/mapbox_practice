@@ -8,7 +8,9 @@ import greencircle from '../components/img/greencircle.png'
 import recyclingBin from '../components/img/delete.png'
 import undo from '../components/img/undo.png'
 import AddMarker from "./AddMarker";
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
+
 import { useCoords } from '../components/util_functions/GetBrowserLocation';
 
 //Util functions
@@ -58,8 +60,8 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 
 export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, setFake }) {
 
-  const { user } = useAuth();
-  const isSuperAdmin = user.isSuperAdmin;
+  const { auth } = useAuth();
+  const isSuperAdmin = auth.isSuperAdmin;
   const { browCoords } = useCoords();
 
   const foundMap = maps.find(obj => obj.id === parseInt(mapId));
@@ -87,9 +89,9 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
   //Get data from maps to allow editing only those maps createdby the user, not those public maps created by another user, that can be user by the user, but not edited:
-  const userId = user.id;
+  const userId = auth.id;
 
-  const isMapCreatedByUser = maps.find(map => map.id === mapId && map.createdby === user.id) !== undefined;
+  const isMapCreatedByUser = maps.find(map => map.id === mapId && map.createdby === auth.id) !== undefined;
 
   // console.log("imcby", isMapCreatedByUser)
 

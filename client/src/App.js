@@ -26,9 +26,9 @@ import UserProfile from './components/UserProfile';
 import Register from './components/authentication/Register';
 import Login from './components/authentication/Login';
 
+
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
-import { AuthProvider } from './components/Context/AuthContext';
 
 //Hooks
 import { useState, useEffect } from 'react';
@@ -38,7 +38,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Define a layout component to wrap the routes
 const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => (
   <div className='app'>
-    <Authentication setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined}  />
     <FollowNotifications />
     <MessagesNotifications />
     <Title rideApp={rideApp} setRideApp={setRideApp} />
@@ -81,7 +80,7 @@ function App() {
 
   //  console.log("rideApp in Appjs", rideApp)
   return (
-    <AuthProvider rideApp={rideApp}>
+    // <AuthProvider rideApp={rideApp}>
       <BrowserCoordsProvider>
         <Router>
           <Routes>
@@ -90,7 +89,8 @@ function App() {
 
             <Route exact path="/register" element={<Register/>} />
 
-            <Route exact path="/login" element={<Authentication rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} />
+            {/* <Route exact path="/login" element={<Authentication rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} /> */}
+            <Route exact path="/login" element={<Login rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} />
 
 
             {/* Route for other components with the Layout */}
@@ -107,7 +107,6 @@ function App() {
                   <Routes>
                     <Route exact path="/rides" element={<></>}> </Route>
                     <Route exact path="/run" element={<></>}> </Route>
-                    <Route exact path="/rides" element={<></>}></Route>
                     <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} /></>}> </Route>
                     <Route exact path="/maps/public" element={<><MapsPublic /></>}></Route>
                     <Route exact path="/maps/create" element={<><CreateMap setFromButton={setFromButton} /></>}></Route>
@@ -131,7 +130,7 @@ function App() {
           </Routes>
         </Router>
       </BrowserCoordsProvider>
-    </AuthProvider>
+    // </AuthProvider>
 
 
 

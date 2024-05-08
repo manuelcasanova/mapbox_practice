@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
-import { useAuth } from "./Context/AuthContext";
+
+import useAuth from "../hooks/useAuth"
+
 import RidesFilter from './RidesFilter';
 
 
@@ -21,16 +23,18 @@ const RidesPublic = () => {
   const [userRides, setUserRides] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const [showUsers, setShowUsers] = useState(false)
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const [filteredRides, setFilteredRides] = useState();
+
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
   //  console.log("filteredRides", filteredRides)
-  const userId = user.id;
-  const userIsLoggedIn = user.loggedIn;
+  const userId = auth.userId;
+  console.log("auth in Rides Public", auth)
+  const userIsLoggedIn = auth.accessToken !== null;
 
 
   //Function to get the filters from the child component RidesFilter.
@@ -42,13 +46,17 @@ const RidesPublic = () => {
     setFilteredRides(filters)
   };
 
+  useEffect( () => {
+    console.log("filtered RIdes", filteredRides)
+  }, [filteredRides])
+
   useEffect(() => {
     let isMounted = true;
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [auth]);
 
   useEffect(() => {
     let isMounted = true;
@@ -57,7 +65,7 @@ const RidesPublic = () => {
       try {
         const response = await axios.get('http://localhost:3500/rides/public', {
           params: {
-            user: user,
+            user: auth,
             filteredRides
           }
         });
@@ -96,7 +104,7 @@ const RidesPublic = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged]);
+  }, [auth, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged]);
 
   useEffect(() => {
     const fetchUserRides = async () => {
@@ -192,7 +200,7 @@ const RidesPublic = () => {
         <div>No rides available.</div>
       ) : (
         <>
-          {user.loggedIn ? (
+          {auth.accessToken !== null ? (
             <div>
 
               <RidesFilter onFilter={onFilter} />
@@ -220,7 +228,7 @@ const RidesPublic = () => {
 
 
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
-                const isUserInRide = userRides.some(userRide => userRide.user_id === user.id && userRide.ride_id === ride.id);
+                const isUserInRide = userRides.some(userRide => userRide.user_id === auth.id && userRide.ride_id === ride.id);
 
 
 
@@ -309,19 +317,19 @@ const RidesPublic = () => {
                               {message.status === 'flagged' && message.createdby === userId && (
                                 <div>
                                   <div>Flagged as inappropiate. Not visible for other users</div>
-                                  <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                  <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                 </div>
                               )}
                                                             {message.status === 'flagged' && message.createdby !== userId && (
                                 <div>
                                   <div>Message concealed due to inappropiate content.
 
-                                  <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                  <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                   </div>
                   
                                 </div>
                               )}
-                              {message.status !== 'flagged' && <MappedMessage message={message} user={user} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                              {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
                             </div>
                           )
                         )

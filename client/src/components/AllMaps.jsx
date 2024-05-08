@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 import DrawMap from "./DrawMap";
 
 export default function AllMaps({ fromButton, setFromButton }) {
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const [maps, setMaps] = useState([]);
   const [mapId, setMapId] = useState(null) //Declare it here instead of bringin from useAuth
-  const userId = user.id;
+  const userId = auth.id;
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
   const [fake, setFake] = useState(true)
@@ -25,7 +25,7 @@ export default function AllMaps({ fromButton, setFromButton }) {
 
 const parseIntMapId = parseInt(mapId)
 
-  const editAllowed = maps.some(obj => obj.createdby === user.id && obj.id === parseIntMapId);
+  const editAllowed = maps.some(obj => obj.createdby === auth.id && obj.id === parseIntMapId);
 
   const navigate = useNavigate();
 
@@ -67,7 +67,7 @@ const parseIntMapId = parseInt(mapId)
 
 
 
-  if (!user.loggedIn) {
+  if (!auth.accessToken !== undefined) {
     return <p>Please log in to view maps</p>;
   }
 

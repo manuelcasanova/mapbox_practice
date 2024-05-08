@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import PreviewMapChild from "./PreviewMapChild";
 import axios from "axios";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
+
 
 export default function PreviewMap({ mapId }) {
 
 
-  const { user } = useAuth();
+  const { auth } = useAuth();
 
   // console.log("user", user)
 
@@ -80,7 +82,7 @@ return null
     //Ride is shown centered in map
 
     <div>
-      {user.loggedIn && mapId && mapId !== null && mapId !== undefined && (
+      {auth.accessToken !== undefined && mapId && mapId !== null && mapId !== undefined && (
         <PreviewMapChild
           coords={coords}
           setCoords={setCoords}

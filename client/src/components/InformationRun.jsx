@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 
 export default function InformationRun({ setFromButton }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { auth } = useAuth();
 
   const [selectedMapOption, setSelectedMapOption] = useState("/maps/public");
   const [selectedRunOption, setSelectedRunOption] = useState("/");

@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import fetchUsernameAndId from "../util_functions/FetchUsername.jsx";
 
 export default function UsersMessaging() {
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const { state } = useLocation();
   const userForMessages = state?.userForMessages; // Access userForMessages from state
   const [updateMessages, setUpdateMessages] = useState(false)
@@ -30,11 +30,11 @@ export default function UsersMessaging() {
 
   useEffect(() => {
     let isMounted = true;
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [user]);
+  }, [auth]);
 
   useEffect(() => {
     // console.log("users in user messaging", users)
@@ -47,7 +47,7 @@ export default function UsersMessaging() {
 
   return (
     <>
-      {user.loggedIn ? (
+      {auth.accessToken !== undefined? (
         <>
           <div>Chat with {selectedUsername}</div>
           <WriteMessage userForMessages={userForMessages} setUpdateMessages={setUpdateMessages} />

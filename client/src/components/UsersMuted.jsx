@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "./Context/AuthContext";
+// import { useAuth } from "./Context/AuthContext";
+import useAuth from "../hooks/useAuth"
 
 //Util functions
 
@@ -9,10 +10,10 @@ import MuteUserButton from "./util_functions/mute_functions/MuteUserButton";
 
 const MutedUsers = () => {
 
-  const { user } = useAuth();
+  const { auth } = useAuth();
 
-  const userLoggedin = user.id
-  const isLoggedIn = user.loggedIn;
+  const userLoggedin = auth.id
+  const isLoggedIn = auth.loggedIn;
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([])
@@ -23,7 +24,7 @@ const MutedUsers = () => {
     let isMounted = true;
     const controller = new AbortController();
     fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
-    fetchUsernameAndId(user, setUsers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };

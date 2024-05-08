@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { useAuth } from "../Context/AuthContext";
+import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
 import useToggle from '../../hooks/useToggle';
@@ -10,7 +10,7 @@ const LOGIN_URL = 'http://localhost:3500/auth';
 
 const Login = ({rideApp}) => {
     // console.log("rideApp", rideApp)
-    const { loginUser } = useAuth();
+    const { setAuth } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/rides/";
@@ -45,16 +45,20 @@ const Login = ({rideApp}) => {
                     withCredentials: true
                 }
             );
-            // console.log("response", response)
-            //  console.log("response data", response.data)
+             console.log("response in Login", response)
+              console.log("response data", response.data)
             const accessToken = response?.data?.accessToken;
-            const userId = response?.data?.userId;
-            const roles = response?.data?.roles;
+            const userId = response?.data?.id;
+            const username = response?.data?.username
+            // const roles = response?.data?.roles;
             
+
+
 // console.log("Login js user id", userId)
 
-            // setAuth({ userId, user, email, roles, accessToken });
-            loginUser(response.data)
+            setAuth({ userId, username, email, 
+                // roles, 
+                accessToken });
             resetUser();
             resetEmail();
             setPwd('');

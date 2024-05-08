@@ -3,8 +3,9 @@ const pool = require('../config/db');
 const jwt = require('jsonwebtoken');
 
 const handleLogin = async (req, res) => {
+  // console.log("hits handleLogin in authController")
   const { pwd, trimmedEmail } = req.body;
-  // console.log(req.body)
+  //  console.log(req.body)
   if (!pwd || !trimmedEmail) return res.status(400).json({ 'message': 'Email and password are required.' });
 
   //See if the email exists MONGODB
@@ -14,7 +15,7 @@ const handleLogin = async (req, res) => {
   try {
     const data = await pool.query('SELECT * FROM users WHERE email = $1', [trimmedEmail])
     const foundEmail = data.rows;
-    // console.log("foundemail on authCOntroller", foundEmail)
+    //  console.log("foundemail on authCOntroller", foundEmail)
     if (foundEmail.length === 0) {
       res.status(400).json({
         error: "No user registered"
@@ -38,12 +39,12 @@ const handleLogin = async (req, res) => {
           const isActive = foundEmail[0].isactive;
           let loggedIn; 
 
+
           if (id !== null) {
             loggedIn = true; 
           } else {
             loggedIn = false;
           }
-
           // const roles = Object.values(foundEmail[0].roles).filter(Boolean);
           //Create JWTs Token. To send to use with the other routes that we want protected in our API.
           const accessToken = jwt.sign(
@@ -64,10 +65,11 @@ const handleLogin = async (req, res) => {
           );
           //Save refreshToken with current user
 
-          foundEmail[0].refreshToken = refreshToken;
+          foundEmail[0].refreshtoken = refreshToken;
+
 
           pool.query('UPDATE users SET refreshtoken=$1 WHERE email=$2', [refreshToken, trimmedEmail])
-          // console.log(result) //Delete before production
+          //  console.log(result) //Delete before production
 
           //http cookie not accesible by js (for security. More secure than localstorage or another cookie)
           //remove secure: true temporarily if want to test with tunder client. Back in for production
@@ -82,7 +84,7 @@ const handleLogin = async (req, res) => {
             // roles, 
             accessToken
           });
-          // res.json({'success': `user ${user} is logged in`});
+          //  res.json({'success': `user ${id} is logged in`});
 
 
 

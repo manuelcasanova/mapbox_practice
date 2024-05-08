@@ -98,9 +98,8 @@ app.get("/users", async (req, res) => {
 //Get all users (name only)
 app.get("/users/names", async (req, res) => {
   try {
-
-
-    if (req.query.user.loggedIn) {
+//  console.log("req. query in users/names", req.query)
+    if (req.query.user.accessToken) {
       const users = await pool.query(
         'SELECT id, username FROM users ORDER BY username'
         //         `SELECT u.id, u.username 
@@ -111,6 +110,7 @@ app.get("/users/names", async (req, res) => {
         //         `,
         // [loggedInUserId]
       );
+      // console.log("users.rows in users/names", users.rows)
       res.json(users.rows)
     } else {
       // Return an error message indicating unauthorized access
@@ -669,10 +669,8 @@ app.delete("/rides/removeuser", async (req, res) => {
 app.post("/rides/adduser", async (req, res) => {
   try {
     // Check if user is logged in
-    //  console.log("req.body", req.body)
-    if (!req.body.userId || !req.body.userIsLoggedIn) {
-      return res.status(401).json({ message: "A user needs to be logged in" });
-    }
+      console.log("req.body", req.body)
+
     // Insert the user to the ride_users table
     const query = {
       text: 'INSERT INTO ride_users (ride_id, user_id, isprivate) VALUES ($1, $2, $3)',
@@ -1072,13 +1070,14 @@ app.get("/maps/otherusers", async (req, res) => {
 
 //Get rides with other users
 app.get("/rides/otherusers", async (req, res) => {
+  // console.log("req.query in rides/otherusers", req.query)
   try {
 
-    const userId = req.query.userId;
+    // const userId = req.query.userId;
     const rides = await pool.query(
       'SELECT * FROM ride_users'
     );
-    // console.log("maps", rides.rows)
+    // console.log("rides.rows", rides.rows)
     res.json(rides.rows)
     // console.log("maps.rows", rides.rows)
   } catch (err) {
@@ -1153,13 +1152,17 @@ app.get("/rides", async (req, res) => {
 app.get("/rides/public", async (req, res) => {
   try {
 
-    if (req.query.user && req.query.user.loggedIn) {
+     console.log(req.query)
+
+    if (req.query.user && req.query.user.accessToken) {
 
       const userId = req.query.user.id
       //  console.log("req. query", req.query.user)
+      
 
       if (req.query.filteredRides) {
         // console.log("req.query", req.query.filteredRides)
+      
 
         const dateStart = req.query.filteredRides.dateStart
         const dateEnd = req.query.filteredRides.dateEnd
@@ -1539,8 +1542,8 @@ app.get('/users/loginhistory', async (req, res) => {
 //New follow request notification
 
 app.get('/users/follownotifications', async (req, res) => {
-  // console.log("req", req)
-  const { loggedIn, id } = req.query.user
+  //  console.log("req.query", req.query)
+  const { userId } = req.query.user
   // console.log(loggedIn)
   // if (loggedIn) {
     try {
@@ -1561,7 +1564,7 @@ app.get('/users/follownotifications', async (req, res) => {
   AND f.followee_id = $1
   AND f.status = 'pending'
   `,
-        [id]
+        [userId]
       )
       res.json(result.rows)
       // console.log(result.rows)
@@ -1578,7 +1581,7 @@ app.get('/users/follownotifications', async (req, res) => {
 
 //New message notification
 app.get('/messages/notifications', async (req, res) => {
-  const { loggedIn, id } = req.query.user;
+  const { id } = req.query.user;
   // console.log("rq", req.query)
   // if (loggedIn) {
     try {
