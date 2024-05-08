@@ -3,7 +3,7 @@ import axios from 'axios';
 
 //Hooks
 import React, { useState, useEffect } from 'react';
-import { useAuth } from "../Context/AuthContext";
+import useAuth from '../../hooks/useAuth';
 
 
 //Util functions
