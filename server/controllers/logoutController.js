@@ -12,18 +12,20 @@ const handleLogout = async (req, res) => {
   try {
     const data = await pool.query('SELECT * FROM users WHERE refreshtoken = $1', [refreshToken])
     const foundUser = data.rows;
+    // console.log("foundUser", foundUser)
   if (foundUser.length === 0) {
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+    console.log(2)
     return res.sendStatus(204);
   } else {
 
-
+ 
 //If we reach this point, we found the same refresh token in db
   //Delete the refresh token in db
 
-  foundUser[0].refreshToken = '';
+  foundUser[0].refreshtoken = null;
 //  console.log("foundUser", foundUser[0])
-   pool.query('UPDATE users SET refreshtoken=$1 WHERE _id=$2', [foundUser[0].refreshToken, foundUser[0]._id])
+   pool.query('UPDATE users SET refreshtoken=$1 WHERE id=$2', [foundUser[0].refreshtoken, foundUser[0].id])
 
 
   //console.log(result); //Delete before production
@@ -34,6 +36,7 @@ const handleLogout = async (req, res) => {
 
   }
   } catch (error) {
+
     console.log(error)
   }
 

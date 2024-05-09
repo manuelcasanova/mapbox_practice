@@ -2,17 +2,24 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
+import useLogout from "../hooks/useLogout";
+
 
 
 
 export default function Information({ setFromButton, rideApp }) {
 
   // console.log("rideApp in Information", rideApp)
-
+  const logout = useLogout();
   const navigate = useNavigate();
   const { auth } = useAuth();
 
-  //  console.log("auth in Information.jsx", auth)
+  const signOut = async () => {
+    await logout();
+    navigate('/');
+  }
+
+  // console.log("auth in Information.jsx", auth)
 
   const [showOptions, setShowOptions] = useState({
     ride: false,
@@ -42,6 +49,17 @@ export default function Information({ setFromButton, rideApp }) {
 
   return (
     <div className="navbar">
+      {Object.keys(auth).length
+        ?
+        <>
+          <div>Logged in as: {auth.username} </div>
+          <button onClick={() => signOut()}>Logout</button>
+        </>
+        :
+        <button onClick={() => navigate('/login')}>Login</button>
+      }
+
+
       <div className="navbar-public">
         <div
           className="dropdown-wrapper"
@@ -106,9 +124,9 @@ export default function Information({ setFromButton, rideApp }) {
           )}
         </div>
 
-{auth && 
-        <div className="dropdown-wrapper">
-          <button onClick={() => navigate('/user/profile')}>My account</button></div>
+        {auth &&
+          <div className="dropdown-wrapper">
+            <button onClick={() => navigate('/user/profile')}>My account</button></div>
         }
       </div>
 

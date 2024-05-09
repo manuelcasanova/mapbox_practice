@@ -16,7 +16,7 @@ const PendingUsers = () => {
 
   const userLoggedin = auth.userId
   const userLoggedInObject = auth;
-  const isLoggedIn = auth.accessToken !== false;
+  const isLoggedIn = auth.accessToken !== undefined;
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([])
