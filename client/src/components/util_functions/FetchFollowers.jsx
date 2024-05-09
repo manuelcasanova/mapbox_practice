@@ -8,7 +8,7 @@ const fetchFollowers = async (auth, setFollowers, setIsLoading, setError, isMoun
       }
     });
     if (isMounted) {
-      console.log("response.data fetchFollowers", response.data)
+      // console.log("response.data fetchFollowers", response.data)
       setFollowers(response.data); 
       setIsLoading(false);
     }

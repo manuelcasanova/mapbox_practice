@@ -20,6 +20,8 @@ export default function FollowNotifications () {
 
   const fetchFollowNotifications = async (auth, setFollowNotifications, setIsLoading, setError, isMounted) => {
 
+    // console.log("auth in fetchFollowNotifications", auth)
+
     try {
       const response = await axios.get('http://localhost:3500/users/follownotifications', {
         params: {
@@ -27,11 +29,15 @@ export default function FollowNotifications () {
         }
     
       });
+      console.log("response in fetchFN", response.data)
       if (isMounted) {
-        // console.log("response.data", response.data)
-        setFollowNotifications(response.data);
-        //  console.log("follow notifications in jsx", response.data)
+        if (response.data) {
+          setFollowNotifications(response.data);
+        } else {
+          throw new Error('Empty response data');
+        }
         setIsLoading(false);
+        setError(null); // Clear any previous errors
       }
     } catch (error) {
       if (isMounted) {
@@ -57,7 +63,7 @@ export default function FollowNotifications () {
     <>
  
       {followNotifications.length ? (
-           auth.accessToken &&
+           auth &&
         <Link to="/users/pending">
           Notification: New follow requests.
           </Link>

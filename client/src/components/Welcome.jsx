@@ -1,11 +1,8 @@
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from "./Context/AuthContext";
-import useAuth from "../hooks/useAuth"
+
 
 export default function Welcome({rideApp, handleSetRideApp, handleSetRunApp}) {
 
-  const { auth } = useAuth();
-  // console.log("user in Welcome", user)
   const navigate = useNavigate();
 
   return (

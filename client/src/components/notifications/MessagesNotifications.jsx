@@ -21,6 +21,10 @@ export default function MessagesNotifications () {
   const [users, setUsers] = useState([])
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log("messages noti", messagesNotifications)
+  }, [messagesNotifications])
+
     // console.log("user", user)
   // console.log("users", users)
 

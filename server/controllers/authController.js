@@ -5,12 +5,17 @@ const jwt = require('jsonwebtoken');
 const handleLogin = async (req, res) => {
   // console.log("hits handleLogin in authController")
   const { pwd, trimmedEmail } = req.body;
+
+
+  const now = new Date();
+  // const localTime = new Date(now.getTime() - (7 * 3600000));
+
+  // console.log("Now", now)
+  // console.log("localTime", localTime)
+
+
   //  console.log(req.body)
   if (!pwd || !trimmedEmail) return res.status(400).json({ 'message': 'Email and password are required.' });
-
-  //See if the email exists MONGODB
-  //const foundEmail = await User.findOne({ email: email }).exec();
-  // if (!foundEmail) return res.sendStatus(401); //401 Unauthorized
 
   try {
     const data = await pool.query('SELECT * FROM users WHERE email = $1', [trimmedEmail])
@@ -67,6 +72,15 @@ const handleLogin = async (req, res) => {
 
           foundEmail[0].refreshtoken = refreshToken;
 
+          pool.query(
+            `
+            INSERT INTO login_history (user_id, login_time)
+            VALUES ($1, $2)
+            RETURNING *
+            `,
+            [id, now]
+          );
+
 
           pool.query('UPDATE users SET refreshtoken=$1 WHERE email=$2', [refreshToken, trimmedEmail])
           //  console.log(result) //Delete before production
@@ -78,6 +92,9 @@ const handleLogin = async (req, res) => {
             secure: true,
             maxAge: 24 * 60 * 60 * 1000
           })
+
+
+          
           res.json({
             id, loggedIn,
             username, isAdmin, isSuperAdmin, isActive, email,
@@ -85,6 +102,7 @@ const handleLogin = async (req, res) => {
             accessToken
           });
           //  res.json({'success': `user ${id} is logged in`});
+
 
 
 

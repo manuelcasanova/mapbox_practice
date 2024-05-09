@@ -130,7 +130,7 @@ export default function Information({ setFromButton, rideApp }) {
         }
       </div>
 
-      {auth.isAdmin && (
+      {auth && auth.isAdmin && (
         <div className="admin-navbar">
           <div
             className="dropdown-wrapper"

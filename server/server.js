@@ -127,7 +127,7 @@ app.get("/users/names", async (req, res) => {
 //Get muted users
 app.get('/users/muted', async (req, res) => {
   const userId = req.query.userId;
-console.log("req.query users/muted", req.query)
+// console.log("req.query users/muted", req.query)
   // if (isLoggedIn) {
 
     try {
@@ -300,7 +300,7 @@ app.post("/users/unfollow", async (req, res) => {
 //Get pending request users
 app.get('/users/pending', async (req, res) => {
   const userId = req.query.userId;
-console.log("req query /users/pending", req.query)
+// console.log("req query /users/pending", req.query)
   if (req.query.userId) {
 
     try {
@@ -1517,9 +1517,9 @@ app.post("/users/messages/send", async (req, res) => {
 //Get pending request users
 app.get('/users/loginhistory', async (req, res) => {
 
-  // console.log("/loginhistory", req.query.user)
+    // console.log("/loginhistory", req.query.user)
 
-  const id  = req.query.user.id
+  const id  = req.query.user.userId
 
   //  console.log("backend", id, loggedIn, username)
 
@@ -1585,9 +1585,11 @@ app.get('/users/follownotifications', async (req, res) => {
 //New message notification
 app.get('/messages/notifications', async (req, res) => {
   
-  // console.log("rq", req.query)
-  if (req.query.user) {
-    const { id } = req.query.user;
+
+    if (req.query && req.query.user) {
+      const userId = req.query.user.userId;
+      // console.log("userId in /mes/not", userId);
+   
     try {
       const result = await pool.query(
         `WITH SecondLastLogin AS (
@@ -1605,18 +1607,18 @@ app.get('/messages/notifications', async (req, res) => {
         )
         AND um.receiver = $1;
       `,
-        [id]
+        [userId]
       );
       res.json(result.rows);
-      // console.log(result.rows);
+      //  console.log(result.rows);
     } catch (error) {
       console.error('Error fetching message notifications:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   } else {
-    // Return an error message indicating unauthorized access
-    res.status(403).json({ error: "Unauthorized access" });
-  }
+    console.log("User data not found in request query.");
+}
+
 });
 
 

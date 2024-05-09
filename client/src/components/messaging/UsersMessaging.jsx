@@ -47,7 +47,7 @@ export default function UsersMessaging() {
 
   return (
     <>
-      {auth.accessToken !== undefined? (
+      {auth ? (
         <>
           <div>Chat with {selectedUsername}</div>
           <WriteMessage userForMessages={userForMessages} setUpdateMessages={setUpdateMessages} />

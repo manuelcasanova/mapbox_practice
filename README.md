@@ -63,9 +63,9 @@ app.use(errorHandler);
 
 Dismiss request pending notiifcation not working
 
-api/axios from casino
-
 OAuth
+
+logic for read/unread messages
 
 localhost:3500 (.env)
 Organize backend like in casinosteps.ca

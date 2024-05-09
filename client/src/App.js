@@ -24,6 +24,7 @@ import Welcome from './components/Welcome';
 import UserProfile from './components/UserProfile';
 import Register from './components/authentication/Register';
 import Login from './components/authentication/Login';
+import PersistLogin from './components/PersistLogin';
 
 
 //Context
@@ -107,7 +108,10 @@ function App() {
                   setFromButton={setFromButton}
                   setRideAppUndefined={setRideAppUndefined}
                 >
+                  
                   <Routes>
+
+                  <Route element={<PersistLogin />}>
                     <Route exact path="/rides" element={<></>}> </Route>
                     <Route exact path="/run" element={<></>}> </Route>
                     <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} /></>}> </Route>
@@ -126,6 +130,7 @@ function App() {
                     <Route exact path="/users/pending" element={<><PendingUsers /></>}></Route>
                     <Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}></Route>
                     <Route exact path="/user/profile" element={<><UserProfile setRideAppUndefined={setRideAppUndefined}/></>}></Route>
+                    </Route> 
                   </Routes>
                 </Layout>
               }

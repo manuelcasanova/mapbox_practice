@@ -24,18 +24,21 @@ try {
     process.env.REFRESH_TOKEN_SECRET,
     (err, decoded) => {
       if (err || foundUser[0].username !== decoded.username) return res.sendStatus(403);
-      const roles = Object.values(foundUser[0].roles);
+      // const roles = Object.values(foundUser[0].roles);
       const accessToken = jwt.sign(
         {
           "UserInfo": {
-            "username": decoded.username,
-            "roles": roles
+            "username": decoded.username
+            // ,
+            // "roles": roles
           }
         },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '20m' } //longer in production
       );
-      res.json({ roles, accessToken })
+      res.json({ 
+        // roles, 
+        accessToken })
     }
   )
 

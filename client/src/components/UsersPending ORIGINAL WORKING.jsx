@@ -29,7 +29,7 @@ const PendingUsers = () => {
   // Sort the login history array by login time in descending order
   loginhistory.sort((a, b) => new Date(b.login_time) - new Date(a.login_time));
   
-  console.log("lhs", loginhistory)
+  // console.log("lhs", loginhistory)
   // Check if there are at least two login entries
   if (loginhistory.length >= 2) {
     // Extract the second-to-last login time
