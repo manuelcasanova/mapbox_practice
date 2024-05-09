@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 
 // Context
-import { useAuth } from "../Context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 
 export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   // Variables
@@ -12,7 +12,6 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   const receiver = userForMessages;
   const [newMessage, setNewMessage] = useState()
   const [error, setError] = useState()
-  const isLoggedIn = auth.loggedIn
   const userLoggedIn = auth.userId
 
   // console.log(isLoggedIn)
@@ -29,7 +28,7 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
     try {
       // console.log("Sending message...");
       await axios.post(`http://localhost:3500/users/messages/send`, {
-        newMessage, receiver, sender, isLoggedIn, userLoggedIn
+        newMessage, receiver, sender, userLoggedIn
       });
       setUpdateMessages(prev => !prev)
       // console.log("Message sent");

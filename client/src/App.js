@@ -6,7 +6,6 @@ import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
 import CreateRide from './components/CreateRide';
-import Authentication from './components/authentication/Authentication'
 import AllMaps from './components/AllMaps';
 import RidesPublic from './components/RidesPublic';
 import RidesUser from './components/RidesUser'
@@ -38,8 +37,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Define a layout component to wrap the routes
 const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => (
   <div className='app'>
-    <FollowNotifications />
-    <MessagesNotifications />
+       {rideApp && (
+      <>
+        <FollowNotifications />
+        <MessagesNotifications />
+      </>
+    )}
     <Title rideApp={rideApp} setRideApp={setRideApp} />
     <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
     {children}

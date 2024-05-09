@@ -1440,13 +1440,13 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
 app.get('/users/messages/read', async (req, res) => {
   let { userForMessages, sender, receiver } = req.query;
 
-  // console.log("req.query", req.query)
+   //console.log("req.query", req.query)
   // console.log("req.query.userForMessages", req.query.userForMessages)
   // console.log("req.query user logged in Id", req.query.user.id)
 
   // Convert strings to numbers
   userForMessages = parseInt(req.query.userForMessages);
-  userLoggedIn = parseInt(req.query.user.id);
+  userLoggedIn = parseInt(req.query.user.userId);
 
   // console.log(userForMessages, userLoggedIn)
 
@@ -1483,12 +1483,12 @@ app.get('/users/messages/read', async (req, res) => {
 app.post("/users/messages/send", async (req, res) => {
 
   const now = new Date();
-  const { newMessage, receiver, sender, isLoggedIn, userLoggedIn } = req.body;
+  const { newMessage, receiver, sender, userLoggedIn } = req.body;
 
-  if (isLoggedIn && sender === userLoggedIn && newMessage !== "") {
+  if (sender === userLoggedIn && newMessage !== "") {
     try {
 
-      //  console.log("req.body", req.body)
+      //  console.log("req.body back users/messages/send", req.body)
 
 
       // console.log("Backend x 4:", newMessage, receiver, sender, isLoggedIn)

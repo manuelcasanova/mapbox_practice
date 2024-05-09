@@ -1,7 +1,7 @@
 //Hooks
 
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../Context/AuthContext";
+import useAuth from "../../hooks/useAuth.js";
 
 //Components
 

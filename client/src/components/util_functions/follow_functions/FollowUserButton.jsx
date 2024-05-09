@@ -3,9 +3,9 @@ import axios from 'axios';
 
 const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerId, userLoggedInObject }) => {
 
-console.log(
-  `FollowUserButton.jsx --> ${userLoggedInObject}, ${followers}, ${followerId}, ${userLoggedInObject}`
-)
+// console.log(
+//   `FollowUserButton.jsx --> ${userLoggedInObject}, ${followers}, ${followerId}, ${userLoggedInObject}`
+// )
 
   const userLoggedin = userLoggedInObject.id
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 //Context
 
-import { useAuth } from "../Context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 
 //Util functions
 import fetchUsernameAndId from "../util_functions/FetchUsername"
