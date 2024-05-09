@@ -8,7 +8,7 @@ import useToggle from '../../hooks/useToggle';
 import axios from 'axios';
 const LOGIN_URL = 'http://localhost:3500/auth';
 
-const Login = ({rideApp}) => {
+const Login = ({ rideApp }) => {
     // console.log("rideApp", rideApp)
     const { setAuth } = useAuth();
     const navigate = useNavigate();
@@ -19,9 +19,11 @@ const Login = ({rideApp}) => {
     const errRef = useRef();
 
     const [user, resetUser, /*userAttribs*/] = useInput('user', '')
-    const [email, resetEmail, emailAttribs] = useInput('email', '')
+    // const [email, resetEmail, emailAttribs] = useInput('email', '')
+    const [email, setEmail] = useState('manucasanova@hotmail.com');
     let trimmedEmail = email.trim().toLowerCase();
     const [pwd, setPwd] = useState('Password1!');
+
     const [errMsg, setErrMsg] = useState('');
     const [check, toggleCheck] = useToggle('persist', false);
 
@@ -53,22 +55,22 @@ const Login = ({rideApp}) => {
             const isAdmin = response?.data?.isAdmin
             const isSuperAdmin = response?.data?.isSuperAdmin
             // const roles = response?.data?.roles;
-            
 
 
-// console.log("Login js user id", userId)
 
-            setAuth({ 
-                userId, 
-                username, 
-                email, 
+            // console.log("Login js user id", userId)
+
+            setAuth({
+                userId,
+                username,
+                email,
                 // roles, 
-                accessToken, 
-                isAdmin, 
-                isSuperAdmin 
+                accessToken,
+                isAdmin,
+                isSuperAdmin
             });
             resetUser();
-            resetEmail();
+            // resetEmail();
             setPwd('');
             navigate(from, { replace: true });
         } catch (err) {
@@ -101,14 +103,67 @@ const Login = ({rideApp}) => {
                     required
                 /> */}
 
-<label htmlFor="email">Email:</label>
+<div>
+    <input
+        type="checkbox"
+        id="manuCheckbox"
+        onChange={() => setEmail('manucasanova@hotmail.com')}
+        checked={email === 'manucasanova@hotmail.com'}
+    />
+    <label htmlFor="manuCheckbox">Manuel Superadmin</label>
+</div>
+
+<div>
+    <input
+        type="checkbox"
+        id="lauraCheckbox"
+        onChange={() => setEmail('laura@example.com')}
+        checked={email === 'laura@example.com'}
+    />
+    <label htmlFor="lauraCheckbox">Laura Admin</label>
+</div>
+
+<div>
+    <input
+        type="checkbox"
+        id="aliceCheckbox"
+        onChange={() => setEmail('alice@example.com')}
+        checked={email === 'alice@example.com'}
+    />
+    <label htmlFor="aliceCheckbox">Alice Wonder</label>
+</div>
+
+<div>
+    <input
+        type="checkbox"
+        id="bobCheckbox"
+        onChange={() => setEmail('bob@example.com')}
+        checked={email === 'bob@example.com'}
+    />
+    <label htmlFor="bobCheckbox">Bob Robinson</label>
+</div>
+
+<div>
+    <input
+        type="checkbox"
+        id="emmaCheckbox"
+        onChange={() => setEmail('emma@example.com')}
+        checked={email === 'emma@example.com'}
+    />
+    <label htmlFor="emmaCheckbox">Emma Jones</label>
+</div>
+
+
+                <label htmlFor="email">Email:</label>
                 <input
                     type="text"
                     id="email"
                     ref={userRef}
                     autoComplete="off"
-                    {...emailAttribs}
-                    // required
+                    // {...emailAttribs}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                // required
                 />
 
                 <label htmlFor="password">Password:</label>

@@ -269,7 +269,7 @@ app.post("/users/unfollow", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user ) {
       const deleteFollower = await pool.query(
         `
         DELETE FROM followers
@@ -298,9 +298,8 @@ app.post("/users/unfollow", async (req, res) => {
 //Get pending request users
 app.get('/users/pending', async (req, res) => {
   const userId = req.query.userId;
-  const isLoggedIn = req.query.isLoggedIn
-
-  if (isLoggedIn) {
+console.log("req query /users/pending", req.query)
+  if (req.query.userId) {
 
     try {
 
@@ -340,7 +339,7 @@ app.post("/users/approvefollower", async (req, res) => {
 
     // console.log("approver follower date", date)
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status, lastmodification)
@@ -443,7 +442,7 @@ app.get("/users/followee", async (req, res) => {
       // console.log("user id", req.query.user.id)
       const fetchFollowee = await pool.query(
         'SELECT * FROM followers WHERE follower_id = $1 OR followee_id = $1',
-        [req.query.user.id]
+        [req.query.user.userId]
       );
       res.json(fetchFollowee.rows)
     } else {
@@ -461,10 +460,10 @@ app.get("/users/followers", async (req, res) => {
   try {
 // console.log("req.query users/followers", req.query)
     if (req.query.user) {
-      // console.log("user id", req.query.user.id)
+      //  console.log("req query", req.query)
       const fetchFollowers = await pool.query(
         'SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC',
-        [req.query.user.id]
+        [req.query.user.userId]
       );
       // console.log(fetchFollowers.rows)
       res.json(fetchFollowers.rows)

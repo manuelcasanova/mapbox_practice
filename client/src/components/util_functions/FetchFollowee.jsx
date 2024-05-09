@@ -8,6 +8,7 @@ const fetchFollowee = async (auth, setFollowers, setIsLoading, setError, isMount
       }
     });
     if (isMounted) {
+      console.log("response data FetchFollowee", response.data)
       setFollowers(response.data); 
       setIsLoading(false);
     }
