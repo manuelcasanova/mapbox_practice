@@ -7,6 +7,8 @@ const useAxiosPrivate = () => {
     const refresh = useRefreshToken();
     const { auth } = useAuth();
 
+// console.log("auth in axios private", auth)
+
     useEffect(() => {
 
         const requestIntercept = axiosPrivate.interceptors.request.use(

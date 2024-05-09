@@ -13,6 +13,7 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   const [newMessage, setNewMessage] = useState()
   const [error, setError] = useState()
   const userLoggedIn = auth.userId
+  const [isLoading, setIsLoading] = useState(false)
 
   // console.log(isLoggedIn)
 
@@ -26,16 +27,20 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   const sendMessage = async (e, newMessage, receiver, sender, userLoggedIn) => {
     e.preventDefault();
     try {
+      setIsLoading(true)
       // console.log("Sending message...");
       await axios.post(`http://localhost:3500/users/messages/send`, {
         newMessage, receiver, sender, userLoggedIn
       });
       setUpdateMessages(prev => !prev)
       // console.log("Message sent");
-      setError(null)
+      setError(null) //HERE????
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
+    }
+    finally {
+      setIsLoading(false); 
     }
   };
 
@@ -58,7 +63,11 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
         }
         }
 
-      >Send</button>
+      >
+        
+        {isLoading ? "Sending..." : "Send"} {/* Show "Sending..." when loading */}
+      </button>
+      {error && <p>{error}</p>}
     </>
   );
 }

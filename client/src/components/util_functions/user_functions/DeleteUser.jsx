@@ -24,7 +24,7 @@ export const activateUser = async (user, loggedInUser) => {
 };
 
 export const deactivateUser = async (user, loggedInUser) => {
-console.log("user, loggedInUser func deactivate user", user, loggedInUser)
+// console.log("user, loggedInUser func deactivate user", user, loggedInUser)
   try {
    
 

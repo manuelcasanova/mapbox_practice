@@ -33,7 +33,7 @@ const RidesPublic = () => {
 
   //  console.log("filteredRides", filteredRides)
   const userId = auth.userId;
-  //  console.log("auth in Rides Public", auth)
+    // console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
 
 
@@ -205,7 +205,7 @@ const RidesPublic = () => {
         <div>No rides available.</div>
       ) : (
         <>
-          {auth.accessToken !== null ? (
+          {auth.accessToken !== undefined ? (
             <div>
 
            

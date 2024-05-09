@@ -22,6 +22,8 @@ export default function FollowNotifications () {
 
     // console.log("auth in fetchFollowNotifications", auth)
 
+    if (Object.keys(auth).length !== 0)  {
+
     try {
       const response = await axios.get('http://localhost:3500/users/follownotifications', {
         params: {
@@ -29,7 +31,7 @@ export default function FollowNotifications () {
         }
     
       });
-      console.log("response in fetchFN", response.data)
+      // console.log("response in fetchFN", response.data)
       if (isMounted) {
         if (response.data) {
           setFollowNotifications(response.data);
@@ -49,6 +51,13 @@ export default function FollowNotifications () {
         setIsLoading(false);
       }
     }
+
+  } else {
+    // Handle case when auth is empty
+    setIsLoading(false);
+    // setError('Auth data is missing');
+}
+
   };
 
   useEffect(() => {

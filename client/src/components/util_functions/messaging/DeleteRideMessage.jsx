@@ -26,6 +26,7 @@ export default function DeleteRideMessage({ messageId, setMessageDeleted }) {
       console.error('Error:', error.message);
       setError('An error occurred while deleting the message.');
     }
+    // here??
   };
 
   return (

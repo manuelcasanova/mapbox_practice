@@ -20,7 +20,7 @@ const ApproveFollowerButton = ({ userLoggedInObject, userLoggedin, user, followe
           user: userLoggedInObject,
         };
 
-        console.log("data before axios", data)
+        // console.log("data before axios", data)
 
         axios.post('http://localhost:3500/users/approvefollower', data)
           .then(response => {

@@ -36,14 +36,14 @@ const PendingUsers = () => {
     const secondToLastLoginTime = new Date(loginhistory[1].login_time);
     
     // Display the second-to-last login time
-    console.log('Second-to-last login time:', secondToLastLoginTime);
+    // console.log('Second-to-last login time:', secondToLastLoginTime);
   } else if (loginhistory.length === 1) {
     // If there is only one login entry
     const onlyLoginTime = new Date(loginhistory[0].login_time);
-    console.log('Only login time available:', onlyLoginTime);
+    // console.log('Only login time available:', onlyLoginTime);
   } else {
     // If there are no login entries
-    console.log('User has no login entries.');
+    // console.log('User has no login entries.');
   }
   
 
@@ -156,7 +156,7 @@ const PendingUsers = () => {
   }, [userLoggedin, fake]);
 
   useEffect(() => {
-    console.log("lh", loginhistory)
+    // console.log("lh", loginhistory)
   }, [loginhistory])
 
   const pendingUsersObject = users
@@ -181,7 +181,7 @@ const PendingUsers = () => {
     if (pendingUser) {
       const lastModificationDate = new Date(pendingUser.lastmodification);
       const newrequest = pendingUser.newrequest
-      console.log("newrequest", newrequest)
+      // console.log("newrequest", newrequest)
       return {
         ...user,
         follower_id: pendingUser.follower_id,

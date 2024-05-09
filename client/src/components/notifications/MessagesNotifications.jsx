@@ -22,7 +22,7 @@ export default function MessagesNotifications () {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("messages noti", messagesNotifications)
+    // console.log("messages noti", messagesNotifications)
   }, [messagesNotifications])
 
     // console.log("user", user)

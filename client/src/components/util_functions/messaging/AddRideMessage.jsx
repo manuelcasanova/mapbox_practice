@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-export default function AddRideMessage({userId, userIsLoggedIn, rideId, setMessageSent}) {
+export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMessageSent }) {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,17 +49,19 @@ export default function AddRideMessage({userId, userIsLoggedIn, rideId, setMessa
         console.error('Error:', error.message);
         setError('An error occurred while sending the message.');
       }
+    } finally {
+      setIsLoading(false); // Set loading to false regardless of success or failure
     }
-  };
+};
 
-  const handleMessageChange = (e) => {
-    setMessage(e.target.value);
-  };
+const handleMessageChange = (e) => {
+  setMessage(e.target.value);
+};
 
-  return (
-    <div>
-      <input type="text" value={message} onChange={handleMessageChange} />
-      <button onClick={handleSubmit}>Send</button>
-    </div>
-  );
+return (
+  <div>
+    <input type="text" value={message} onChange={handleMessageChange} />
+    <button onClick={handleSubmit}>Send</button>
+  </div>
+);
 }

@@ -100,8 +100,8 @@ app.get("/users", async (req, res) => {
 //Get all users (name only)
 app.get("/users/names", async (req, res) => {
   try {
-//  console.log("req. query in users/names", req.query)
-    if (req.query.user.accessToken) {
+  // console.log("req. query in users/names", req.query)
+    // if (req.query.user.accessToken !== undefined) {
       const users = await pool.query(
         'SELECT id, username FROM users ORDER BY username'
         //         `SELECT u.id, u.username 
@@ -114,10 +114,10 @@ app.get("/users/names", async (req, res) => {
       );
       // console.log("users.rows in users/names", users.rows)
       res.json(users.rows)
-    } else {
-      // Return an error message indicating unauthorized access
-      res.status(403).json({ error: "Unauthorized access" });
-    }
+    // } else {
+    //   // Return an error message indicating unauthorized access
+    //   res.status(403).json({ error: "Unauthorized access" });
+    // }
 
   } catch (err) {
     console.error(err.message)
@@ -667,7 +667,7 @@ app.delete("/rides/removeuser", async (req, res) => {
 app.post("/rides/adduser", async (req, res) => {
   try {
     // Check if user is logged in
-      console.log("req.body", req.body)
+      // console.log("req.body", req.body)
 
     // Insert the user to the ride_users table
     const query = {
@@ -915,7 +915,7 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
 //Delete a user
 app.delete("/user/delete/:id", async (req, res) => {
   try {
-console.log("req bod", req.body.user)
+// console.log("req bod", req.body.user)
     // console.log("delete user")
 
     const userToDeleteIsSuperAdmin = req.body.userObject.issuperadmin;
@@ -1585,7 +1585,7 @@ app.get('/users/follownotifications', async (req, res) => {
 //New message notification
 app.get('/messages/notifications', async (req, res) => {
   
-
+// console.log("req.query in messages/notifications", req.query)
     if (req.query && req.query.user) {
       const userId = req.query.user.userId;
       // console.log("userId in /mes/not", userId);
@@ -1616,7 +1616,7 @@ app.get('/messages/notifications', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   } else {
-    console.log("User data not found in request query.");
+    return
 }
 
 });
