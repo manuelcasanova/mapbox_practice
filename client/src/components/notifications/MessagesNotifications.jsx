@@ -6,18 +6,20 @@ import axios from "axios";
 
 import useAuth from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 //Util functions
 import fetchUsernameAndId from "../util_functions/FetchUsername";
 
-export default function MessagesNotifications () {
+export default function MessagesNotifications() {
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const [messagesNotifications, setMessagesNotifications] = useState(false)
+  const [showNotificationMessages, setShowNotificationMessages]
+    = useState(true);
   const [users, setUsers] = useState([])
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ export default function MessagesNotifications () {
     // console.log("messages noti", messagesNotifications)
   }, [messagesNotifications])
 
-    // console.log("user", user)
+  // console.log("user", user)
   // console.log("users", users)
 
   const fetchMessageNotifications = async (auth, setMessagesNotifications, setIsLoading, setError, isMounted) => {
@@ -34,14 +36,14 @@ export default function MessagesNotifications () {
     try {
       const response = await axios.get('http://localhost:3500/messages/notifications', {
         params: {
-          user: auth 
+          user: auth
         }
-    
+
       });
       if (isMounted) {
         // console.log("response.data", response.data)
         setMessagesNotifications(response.data);
-          // console.log("message notifications in jsx", response.data)
+        // console.log("message notifications in jsx", response.data)
         setIsLoading(false);
       }
     } catch (error) {
@@ -72,31 +74,40 @@ export default function MessagesNotifications () {
           {messagesNotifications.map(notification => {
             const senderUser = users.find(user => user.id === notification.sender);
             const senderUsername = senderUser ? senderUser.username : "Unknown";
-  
-const userForMessages = notification.sender;
-// console.log("userFormessages in MessageNotificaitons", userForMessages)
 
-const dismissNotification = (notificationId) => {
-  setMessagesNotifications(prevNotifications =>
-    prevNotifications.filter(notification => notification.id !== notificationId)
-  );
-};
+            const userForMessages = notification.sender;
+            // console.log("userFormessages in MessageNotificaitons", userForMessages)
+
+            const dismissNotification = (notificationId) => {
+              setMessagesNotifications(prevNotifications =>
+                prevNotifications.filter(notification => notification.id !== notificationId)
+              );
+            };
+
+            const handleClick = (sender) => {
+              navigate(`/users/messaging/${sender}`, { state: { userForMessages: sender } });
+            };
+
 
             return (
 
-<div key={notification.id}>
-<button onClick={() => { navigate(`/users/messaging/${notification.sender}`, { state: { userForMessages: notification.sender } }) }}>Notification new messages from {senderUsername}</button>
-<button onClick={() => dismissNotification(notification.id)}>Dismiss</button>
-</div>
 
-            );
+              <div key={notification.id}>
+                <button onClick={() => { handleClick(notification.sender); dismissNotification(notification.id) }}>
+                  Notification new messages from {senderUsername}
+                </button>
+                <button onClick={() => dismissNotification(notification.id)}>Dismiss</button>
+              </div>
+            )
+
+
           })}
         </>
       )}
     </>
   );
-  
-  
+
+
 
 }
 

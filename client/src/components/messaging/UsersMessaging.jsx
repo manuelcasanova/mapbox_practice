@@ -52,6 +52,7 @@ export default function UsersMessaging() {
           <div>Chat with {selectedUsername}</div>
           <WriteMessage userForMessages={userForMessages} setUpdateMessages={setUpdateMessages} />
           <ReadMessage userForMessages={userForMessages} updateMessages={updateMessages} />
+          
         </>
       ) : (
         <p>Please log in to see messages.</p>
