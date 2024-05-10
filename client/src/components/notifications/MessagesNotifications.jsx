@@ -101,12 +101,14 @@ const uniqueNotifications = Object.values(groupedNotifications);
 
             const handleClick = (sender) => {
               navigate(`/users/messaging/${sender}`, { state: { userForMessages: sender } });
+              setShowNotificationMessages(false)
             };
 
 
             return (
 
 
+              showNotificationMessages && 
               <div key={notification.id}>
                 <button onClick={() => { handleClick(notification.sender); dismissNotification(notification.id) }}>
                   Notification new messages from {senderUsername}
