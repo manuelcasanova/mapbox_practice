@@ -1,8 +1,9 @@
 Next:
 
-admin list of rewported messages. approve, flag. maybe see which ride is comming from and link to go
+- admin list of rewported messages. approve, flag. maybe see which ride is comming from and link to go
 
 
+- superadmin change users to isAdmin
 
 OAuth
 
