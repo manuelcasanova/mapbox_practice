@@ -14,6 +14,7 @@ export default function FollowNotifications () {
   const [error, setError] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const [followNotifications, setFollowNotifications] = useState(false)
+  const [showFollowNotifications, setShowFollowNotifications] = useState(true)
 
     //  console.log("auth in FOllowNotifications", auth)
 
@@ -69,12 +70,19 @@ export default function FollowNotifications () {
     };
   }, [auth]);
 
+  const handleClick = () => {
+    setShowFollowNotifications(false);
+  };
+
   return (
     <>
  
       {followNotifications.length ? (
-           auth &&
-        <Link to="/users/pending">
+           auth && showFollowNotifications &&
+        <Link 
+        to="/users/pending"
+        onClick={handleClick}
+        >
           Notification: New follow requests.
           </Link>
            
