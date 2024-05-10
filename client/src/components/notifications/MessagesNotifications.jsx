@@ -17,10 +17,11 @@ export default function MessagesNotifications() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-  const [messagesNotifications, setMessagesNotifications] = useState(false)
+  const [messagesNotifications, setMessagesNotifications] = useState([])
   const [showNotificationMessages, setShowNotificationMessages]
     = useState(true);
   const [users, setUsers] = useState([])
+ 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,11 +68,25 @@ export default function MessagesNotifications() {
     };
   }, [auth]);
 
+  // Group notifications by sender
+const groupedNotifications = {};
+messagesNotifications.forEach(notification => {
+  if (!groupedNotifications[notification.sender]) {
+    groupedNotifications[notification.sender] = notification;
+  }
+});
+
+// Convert object back to array
+const uniqueNotifications = Object.values(groupedNotifications);
+
   return (
     <>
-      {auth && messagesNotifications.length > 0 && (
+      {/* {auth && messagesNotifications.length > 0 && ( */}
+      {auth && uniqueNotifications.length > 0 && (
+
         <>
-          {messagesNotifications.map(notification => {
+          {/* {messagesNotifications.map(notification => { */}
+          {uniqueNotifications.map(notification => {
             const senderUser = users.find(user => user.id === notification.sender);
             const senderUsername = senderUser ? senderUser.username : "Unknown";
 

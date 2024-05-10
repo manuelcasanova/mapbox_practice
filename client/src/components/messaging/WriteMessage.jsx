@@ -10,7 +10,7 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   const { auth } = useAuth();
   const sender = auth.userId
   const receiver = userForMessages;
-  const [newMessage, setNewMessage] = useState()
+  const [newMessage, setNewMessage] = useState("")
   const [error, setError] = useState()
   const userLoggedIn = auth.userId
   const [isLoading, setIsLoading] = useState(false)
