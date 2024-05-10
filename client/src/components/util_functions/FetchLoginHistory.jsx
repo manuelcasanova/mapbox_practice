@@ -1,11 +1,15 @@
 import axios from "axios";
 
-const fetchLoginHistory = async (user, setLoginHistory, setIsLoading, setError, isMounted) => {
+const fetchLoginHistory = async (auth, setLoginHistory, setIsLoading, setError, isMounted) => {
   try {
+
+    if (!auth || Object.keys(auth).length === 0) {
+      throw new Error("User authentication information is missing.");
+    }
     // console.log("fetching loging history")
     const response = await axios.get('http://localhost:3500/users/loginhistory', { 
       params: {
-        user: user 
+        user: auth 
       }
     });
     if (isMounted) {

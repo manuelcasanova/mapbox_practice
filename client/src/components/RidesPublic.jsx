@@ -65,6 +65,9 @@ const RidesPublic = () => {
 
     const fetchData = async () => {
       try {
+        if (!auth || Object.keys(auth).length === 0) {
+          throw new Error("User authentication information is missing.");
+        }
         const response = await axios.get('http://localhost:3500/rides/public', {
           params: {
             user: auth,
@@ -104,16 +107,22 @@ const RidesPublic = () => {
       }
     };
 
+    
     fetchData();
 
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [auth, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged]);
+  }, [
+    // auth, 
+    filteredRides, messageSent, messageDeleted, messageReported, messageFlagged]);
 
   useEffect(() => {
     const fetchUserRides = async () => {
       try {
+        if (!auth || Object.keys(auth).length === 0) {
+          throw new Error("User authentication information is missing.");
+        }
         const response = await axios.get('http://localhost:3500/rides/otherusers', {
           params: {
             userId
@@ -127,7 +136,10 @@ const RidesPublic = () => {
         }
       } catch (error) {
         console.error('Error fetching user rides:', error);
+      } finally {
+        setIsLoading(false); // Set loading to false regardless of success or failure
       }
+
     };
 
     fetchUserRides();
@@ -148,6 +160,9 @@ const RidesPublic = () => {
   const addToRide = async (e, index, rideId, isPrivate) => {
     e.preventDefault();
     try {
+      if (!auth || Object.keys(auth).length === 0) {
+        throw new Error("User authentication information is missing.");
+      }
       // console.log("Adding to ride...");
       await axios.post(`http://localhost:3500/rides/adduser`, {
         userId, userIsLoggedIn, rideId, isPrivate
@@ -158,7 +173,9 @@ const RidesPublic = () => {
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
-    }
+    } finally {
+        setIsLoading(false); // Set loading to false regardless of success or failure
+      }
   };
 
 
@@ -166,6 +183,9 @@ const RidesPublic = () => {
   const removeFromRide = async (e, index, rideId) => {
     e.preventDefault();
     try {
+      if (!auth || Object.keys(auth).length === 0) {
+        throw new Error("User authentication information is missing.");
+      }
       // console.log("Adding to map...");
       await axios.delete(`http://localhost:3500/rides/removeuser`, {
         data: { userId, userIsLoggedIn, rideId }
@@ -176,7 +196,9 @@ const RidesPublic = () => {
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
-    }
+     } finally {
+        setIsLoading(false); // Set loading to false regardless of success or failure
+      }
   };
 
   // Function to format the current date as 'yyyy-mm-dd'
@@ -211,7 +233,7 @@ const RidesPublic = () => {
            
 
               {rides.map((ride, index) => {
-                //  console.log("Ride ID:", ride.id);
+                  // console.log("Ride ID:", ride.id);
                 // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
                 // console.log("original date", originalDate)
@@ -242,7 +264,7 @@ const RidesPublic = () => {
                 return (
 
 
-                  <div key={`${ride.id}-${index}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                  <div key={`${ride.createdat}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
                     {/* {console.log("ride.id", ride.id)} */}
                     <div>Name: {ride.name}</div>
                     <div>Details: {ride.details}</div>

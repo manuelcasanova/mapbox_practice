@@ -65,6 +65,9 @@ const PendingUsers = () => {
       })
       .catch(error => {
         console.error('Error approving follower:', error);
+      })
+      .finally(() => {
+        setIsLoading(false); 
       });
   };
 
@@ -95,6 +98,9 @@ const PendingUsers = () => {
       })
       .catch(error => {
         console.error('Error dismissing follower:', error);
+      })
+      .finally(() => {
+        setIsLoading(false); 
       });
   };
 
@@ -125,6 +131,9 @@ const PendingUsers = () => {
       })
       .catch(error => {
         console.error('Error dismissing message:', error);
+      })
+      .finally(() => {
+        setIsLoading(false); // Set loading to false regardless of success or failure
       });
   };
 
@@ -132,7 +141,7 @@ const PendingUsers = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    fetchPendingUsers(userLoggedin, isLoggedIn, setPendingUsers, setIsLoading, setError, isMounted)
+    fetchPendingUsers(auth, userLoggedin, isLoggedIn, setPendingUsers, setIsLoading, setError, isMounted)
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     fetchLoginHistory(auth, setLoginHistory, setIsLoading, setError, isMounted)
     return () => {

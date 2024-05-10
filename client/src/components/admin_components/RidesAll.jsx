@@ -84,7 +84,9 @@ const RidesAll = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [auth, messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
+  }, [
+    // auth, 
+    messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -113,7 +115,7 @@ const RidesAll = () => {
   return (
     
     
-<div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+<div key={`${ride.id}-${ride.name}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
 {!ride.isactive && <div>Inactive ride</div>}
 {!ride.isactive &&<button onClick={()=>{deleteRide(ride.id, auth, setRides)}}>Definitively delete</button>}
 {ride.isactive && <button onClick={()=>{deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}}>Inactivate</button>}

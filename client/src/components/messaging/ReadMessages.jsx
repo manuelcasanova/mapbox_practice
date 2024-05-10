@@ -68,7 +68,7 @@ const renderedMessages = messages.map((message) => {
   // if (message.sender === user.id || message.receiver === user.id) {
     if (isCurrentUserMessage) {
     return (
-      <div key={message.id}>
+      <div key={message.date}>
         <p>{content}</p>
       </div>
     );

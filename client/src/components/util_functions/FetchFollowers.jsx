@@ -1,7 +1,15 @@
 import axios from "axios";
 
 const fetchFollowers = async (auth, setFollowers, setIsLoading, setError, isMounted) => {
+
+
+
   try {
+
+    if (!auth || Object.keys(auth).length === 0) {
+      throw new Error("User authentication information is missing.");
+    }
+    
     const response = await axios.get('http://localhost:3500/users/followers', { 
       params: {
         user: auth 

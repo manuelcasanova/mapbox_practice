@@ -198,7 +198,7 @@ const RidesUser = () => {
 
                 // Render the JSX elements, including the formatted date
                 return (
-                  <div key={ride.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                  <div key={ride.createdat} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
                     <div>Name: {ride.name}</div>
                     <div>Details: {ride.details}</div>
                     <div>Date: {formattedDate}</div>

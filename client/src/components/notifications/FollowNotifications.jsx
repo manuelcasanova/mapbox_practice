@@ -20,7 +20,7 @@ export default function FollowNotifications () {
 
   const fetchFollowNotifications = async (auth, setFollowNotifications, setIsLoading, setError, isMounted) => {
 
-    // console.log("auth in fetchFollowNotifications", auth)
+    //  console.log("auth in fetchFollowNotifications", auth)
 
     if (Object.keys(auth).length !== 0)  {
 
@@ -31,7 +31,7 @@ export default function FollowNotifications () {
         }
     
       });
-      // console.log("response in fetchFN", response.data)
+      //  console.log("response in fetchFN", response.data)
       if (isMounted) {
         if (response.data) {
           setFollowNotifications(response.data);
@@ -62,6 +62,7 @@ export default function FollowNotifications () {
 
   useEffect(() => {
     let isMounted = true;
+    // console.log("useEffect fetchFollowNotifications")
     fetchFollowNotifications(auth, setFollowNotifications, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting

@@ -1,5 +1,12 @@
 
+Next fix:
 
+UsersPending.jsx:81 
+        
+        
+       POST http://localhost:3500/users/dismissfollower 403 (Forbidden)
+
+       Error dismissing follower sersPending.jsx:100 
 
 
 Login/logout

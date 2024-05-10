@@ -5,7 +5,7 @@ function IsTouchDevice() {
 
   useEffect(() => {
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints);
-    console.log("istouchdevice", isTouchDevice)
+    // console.log("istouchdevice", isTouchDevice)
   }, []);
 
 

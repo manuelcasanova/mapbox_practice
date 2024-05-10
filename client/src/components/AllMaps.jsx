@@ -85,7 +85,7 @@ const parseIntMapId = parseInt(mapId)
               onChange={(e) => setMapId(e.target.value)}
             >
               {maps.map((map) => (
-                <option key={map.id} value={map.id}>
+                <option key={map.createdat} value={map.id}>
                   Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
                 </option>
               ))}

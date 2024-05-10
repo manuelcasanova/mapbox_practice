@@ -1517,8 +1517,8 @@ app.post("/users/messages/send", async (req, res) => {
 //Get pending request users
 app.get('/users/loginhistory', async (req, res) => {
 
-    // console.log("/loginhistory", req.query.user)
-
+    //  console.log("/loginhistory", req.query.user)
+//1522 HERE
   const id  = req.query.user.userId
 
   //  console.log("backend", id, loggedIn, username)
@@ -1545,10 +1545,11 @@ app.get('/users/loginhistory', async (req, res) => {
 
 app.get('/users/follownotifications', async (req, res) => {
 
-  //  console.log("req.query in follow not", req.query.user)
+    // console.log("req.query in follow not", req.query.user)
     if (req.query.user) {
-    // console.log("req.query", req.query)
-    const { userId } = req.query.user
+      // console.log("req.query.user ", req.query.user)
+    const userId  = parseInt(req.query.user)
+    // console.log("typeof userId", typeof userId)
     try {
       const result = await pool.query(
         `WITH SecondLastLogin AS (
@@ -1570,7 +1571,7 @@ app.get('/users/follownotifications', async (req, res) => {
         [userId]
       )
       res.json(result.rows)
-      // console.log(result.rows)
+      //  console.log("result.rows /users/follownot ", result.rows)
     } catch (error) {
       console.error('Error fetching login history:', error);
       res.status(500).json({ error: 'Internal Server Error' });

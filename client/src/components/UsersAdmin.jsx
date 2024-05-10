@@ -28,7 +28,12 @@ const loggedInUser = auth;
     let isMounted = true;
 
     const fetchData = async () => {
+      
       try {
+        if (!auth || Object.keys(auth).length === 0) {
+          throw new Error("User authentication information is missing.");
+        }
+
         const response = await axios.get('http://localhost:3500/users/', {
           params: {
             user: auth 
