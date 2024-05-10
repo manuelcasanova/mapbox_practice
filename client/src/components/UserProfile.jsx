@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 //Context
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
+import useLogout from "../hooks/useLogout";
 
 //Util functions
 import { deactivateUser } from "./util_functions/user_functions/DeleteUser";
@@ -13,16 +14,17 @@ export default function UserProfile({setRideAppUndefined}) {
 
   const navigate = useNavigate()
 
-  const { auth, logOut } = useAuth();
+  const { auth } = useAuth();
   // console.log("user int UserProfile", user)
   const loggedInUser = auth;
+  const logOut = useLogout(setRideAppUndefined)
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
 
   const handleShowConfirmDelete = () => {setShowConfirmDelete(prev => !prev)}
   const handleDeactivateUser = () => {
     deactivateUser(auth, loggedInUser);
-     logOut(setRideAppUndefined);
+    logOut()
      handleShowConfirmDelete()
      navigate('/')
   };

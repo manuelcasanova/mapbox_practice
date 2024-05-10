@@ -1,74 +1,8 @@
+Next:
 
-Next fix:
-
-UsersPending.jsx:81 
-        
-        
-       POST http://localhost:3500/users/dismissfollower 403 (Forbidden)
-
-       Error dismissing follower sersPending.jsx:100 
+admin list of rewported messages. approve, flag. maybe see which ride is comming from and link to go
 
 
-Login/logout
-
-
--------------
-
-Study structure server.js (casinosteps)
-
-DONE -------------------------const corsOptions = require('./config/corsOptions');
-
-const errorHandler = require('./middleware/errorHandler');
-const verifyJWT = require('./middleware/verifyJWT');
-
-DONE -------------------------const cookieParser = require('cookie-parser');
-DONE -------------------------const credentials = require('./middleware/credentials');
-
-//Template to create html js in node
-app.set("view engine", 'ejs');
-
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
-
-
-DONE -------------------------app.use(express.urlencoded({extended: false}));
-DONE -------------------------app.use(credentials);
-DONE -------------------------app.use(cors(corsOptions));
-
-
-DONE -------------------------app.use(express.urlencoded({ extended: false })); 
-DONE -------------------------app.use(express.json());
-DONE -------------------------app.use(cookieParser());
-
-// routes
-DONE -------------------------app.use('/register', require('./routes/register')); 
-app.use('/auth', require('./routes/auth')); ----------> controllers/authController
-app.use('/refresh', require('./routes/refresh')); ----------> controllers/refreshTokenController
-app.use('/logout', require('./routes/logout')); ----------> controllers/logoutController
-app.use('/forgot-password', require('./routes/forgot-password')); ----------> controllers/forgotPasswordController
-
-
-app.use(verifyJWT);
-
-After this, I believe, routes that require being logged in.
-
-After routes, before app.listen
-
-app.all('*', (req, res) => {
-    res.status(404);
-    if (req.accepts('html')) {
-        res.sendFile(path.join(__dirname, 'views', '404.html'));
-    } else if (req.accepts('json')) {
-        res.json({ "error": "404 Not Found" });
-    } else {
-        res.type('txt').send("404 Not Found");
-    }
-});
-
-app.use(errorHandler);
-
--------------
-
-Dismiss request pending notiifcation not working
 
 OAuth
 

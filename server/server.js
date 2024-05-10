@@ -376,7 +376,7 @@ app.post("/users/dismissfollower", async (req, res) => {
     const user = req.body.user;
     const date = req.body.date || new Date()
 
-    if (req.body.user && req.body.user.loggedIn) {
+    if (req.body.user) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, status, lastmodification)
@@ -405,13 +405,12 @@ app.post("/users/dismissfollower", async (req, res) => {
 
 app.post("/users/dismissmessagefollowrequest", async (req, res) => {
   try {
-
+//  console.log("req.body dismiss m f r", req.body)
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
-    const user = req.body.user;
-    const date = req.body.date || new Date()
 
-    if (req.body.user && req.body.user.loggedIn) {
+
+    if (req.body.user) {
       const insertFollower = await pool.query(
         `
         INSERT INTO followers (follower_id, followee_id, newrequest)

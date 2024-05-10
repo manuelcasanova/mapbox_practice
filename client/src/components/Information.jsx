@@ -7,7 +7,7 @@ import useLogout from "../hooks/useLogout";
 
 
 
-export default function Information({ setFromButton, rideApp }) {
+export default function Information({ setFromButton, rideApp, setRideAppUndefined }) {
 
   // console.log("rideApp in Information", rideApp)
   const logout = useLogout();
@@ -16,6 +16,7 @@ export default function Information({ setFromButton, rideApp }) {
 
   const signOut = async () => {
     await logout();
+    setRideAppUndefined()
     navigate('/');
   }
 

@@ -45,7 +45,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
       </>
     )}
     <Title rideApp={rideApp} setRideApp={setRideApp} />
-    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} />
+    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
     {children}
     <Footer />
   </div>
@@ -60,7 +60,11 @@ function App() {
   const [fromButton, setFromButton] = useState(false)
   // console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState() //before true
-  //  console.log("rideApp in App.js", rideApp)
+
+// useEffect(() =>    console.log("rideApp in App.js", rideApp), [rideApp])
+
+
+
   const handleSetRideApp = () => {
     // Function to update the state in the parent component
     setRideApp(true)

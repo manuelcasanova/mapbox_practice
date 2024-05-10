@@ -105,6 +105,8 @@ const PendingUsers = () => {
   };
 
   const dismissMessageFollowRequest = (followeeId, followerId) => {
+    
+    if (Object.keys(auth).length !== 0) {
     const data = {
       followeeId: followeeId, //para saber el followee
       followerId: followerId, //para saber el follower
@@ -135,6 +137,9 @@ const PendingUsers = () => {
       .finally(() => {
         setIsLoading(false); // Set loading to false regardless of success or failure
       });
+    } else {
+      console.error('Authentication information is missing.');
+    }
   };
 
 
@@ -147,7 +152,7 @@ const PendingUsers = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [userLoggedin, fake]);
+  }, [fake]);
 
   useEffect(() => {
     // console.log("lh", loginhistory)
@@ -213,7 +218,7 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
                 } </div>}
 
                 
-              {isNewRequest &&<button onClick={() => { dismissMessageFollowRequest(user.id, userLoggedin) }}>x</button>}
+              {/* {isNewRequest &&<button onClick={() => { dismissMessageFollowRequest(userLoggedin, user.id) }}>x</button>} */}
               <div>Id: {user.id}</div>
               <div>{user.username}</div>
 
