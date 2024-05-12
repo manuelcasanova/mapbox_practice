@@ -98,10 +98,11 @@ const uniqueNotifications = Object.values(groupedNotifications);
                 prevNotifications.filter(notification => notification.id !== notificationId)
               );
             };
-
             const handleClick = (sender) => {
               navigate(`/users/messaging/${sender}`, { state: { userForMessages: sender } });
-              setShowNotificationMessages(false)
+              setMessagesNotifications(prevNotifications =>
+                prevNotifications.filter(notification => notification.sender !== sender)
+              );
             };
 
 
