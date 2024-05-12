@@ -58,7 +58,7 @@ export default function SeeMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy 
           ))}
 
           {coords.length > 1 && <Bounds coords={coords} />}
-          <Polyline positions={coords} color="black" />
+          <Polyline positions={coords} pathOptions={{color: 'red'}} />
               {/* LocationMarker disabled to avoid flying to my coords */}
           <LocationMarker /> 
         </MapContainer>
