@@ -118,7 +118,7 @@ function App() {
                   <Route element={<PersistLogin />}>
                     <Route exact path="/rides" element={<></>}> </Route>
                     <Route exact path="/run" element={<></>}> </Route>
-                    <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} /></>}> </Route>
+                    <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} rideApp={rideApp} /></>}> </Route>
                     <Route exact path="/maps/public" element={<><MapsPublic /></>}></Route>
                     <Route exact path="/maps/create" element={<><CreateMap setFromButton={setFromButton} /></>}></Route>
                     <Route exact path="/maps/:id" element={<><SeeMap /></>}></Route>

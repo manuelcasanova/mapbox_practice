@@ -61,7 +61,7 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
 
 
 const handleKeyDown = (e) => {
-  console.log("enter")
+  // console.log("enter")
   if (e.key === 'Enter') {
   handleSubmit(e)
   }

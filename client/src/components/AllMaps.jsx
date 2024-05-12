@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth"
 import DrawMap from "./DrawMap";
 
-export default function AllMaps({ fromButton, setFromButton }) {
+export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const { auth } = useAuth();
   const [maps, setMaps] = useState([]);
   const [mapId, setMapId] = useState(null) //Declare it here instead of bringin from useAuth
@@ -13,17 +13,18 @@ export default function AllMaps({ fromButton, setFromButton }) {
   const [done, setDone] = useState(false)
   const [fake, setFake] = useState(true)
 
-// console.log("done", done)
+  // console.log("done", done)
   useEffect(() => {
-  // console.log("user", user.id)
-  // console.log("mapId All Maps", mapId)
-  // console.log("userId ALlMaps", userId)
- // console.log("maps all maps", maps)
+    // console.log("user", user.id)
+    // console.log("mapId All Maps", mapId)
+    // console.log("userId ALlMaps", userId)
+    // console.log("maps all maps", maps)
   }, [mapId])
 
 
 
-const parseIntMapId = parseInt(mapId)
+
+  const parseIntMapId = parseInt(mapId)
 
   const editAllowed = maps.some(obj => obj.createdby === auth.userId && obj.id === parseIntMapId);
 
@@ -85,7 +86,7 @@ const parseIntMapId = parseInt(mapId)
               onChange={(e) => setMapId(e.target.value)}
             >
               {maps.map((map) => (
-                <option key={map.createdat} value={map.id}>
+                <option key={`${map.createdat}-${map.createdby}`} value={map.id}>
                   Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
                 </option>
               ))}
@@ -95,9 +96,9 @@ const parseIntMapId = parseInt(mapId)
             !editAllowed ? (
               <div>Only users that created a map can modify them</div>
             ) : (
-            fromButton ?
-              <div>Add, edit or remove markers</div> :
-              <div>STEP 2: Add, edit or remove markers</div>
+              fromButton ?
+                <div>Add, edit or remove markers</div> :
+                <div>STEP 2: Add, edit or remove markers</div>
             )
           }
 
@@ -145,7 +146,11 @@ const parseIntMapId = parseInt(mapId)
             >Manage all maps</button>
             <button
               onClick={() => {
-                navigate("/");
+                if (rideApp) {
+                  navigate('/rides/public');
+                } else {
+                  navigate('/run');
+                }
               }}
             >Home</button>
 
