@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMessageSent }) {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    // Focus on the input field when the component mounts
+    inputRef.current.focus();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,10 +64,20 @@ const handleMessageChange = (e) => {
   setMessage(e.target.value);
 };
 
+const handleKeyDown = (e) => {
+  if (e.key === 'Enter') {
+    handleSubmit(e);
+  }
+};
+
 return (
   <div>
-    <input type="text" value={message} onChange={handleMessageChange} />
-    <button onClick={handleSubmit}>Send</button>
+    <input ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
+      handleKeyDown} />
+    <button 
+    onClick={handleSubmit}
+    >Send</button>
+     {error && <div>{error}</div>}
   </div>
 );
 }

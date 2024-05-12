@@ -5,6 +5,9 @@ Next:
 
 - superadmin change users to isAdmin
 
+- messages send= on enter as well.
+cursor on field default and after sending
+
 OAuth
 
 logic for read/unread messages

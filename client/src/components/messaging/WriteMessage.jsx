@@ -1,5 +1,5 @@
 // Hooks
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 
 // Context
@@ -14,9 +14,13 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   const [error, setError] = useState()
   const userLoggedIn = auth.userId
   const [isLoading, setIsLoading] = useState(false)
-
+  const inputRef = useRef(null);
   // console.log(isLoggedIn)
 
+  useEffect(() => {
+    // Focus on the input field when the component mounts
+    inputRef.current.focus();
+  }, []);
 
   useEffect(() => {
     // console.log(`From ${sender} to ${receiver}`);
@@ -44,30 +48,58 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!newMessage) {
+      alert('Please fill out the message field.'); // Inform user that message field is required
+      return;
+    }
+    sendMessage(e, newMessage, receiver, sender, userLoggedIn)
+    setNewMessage("");
+  };
+  
+
+
+const handleKeyDown = (e) => {
+  console.log("enter")
+  if (e.key === 'Enter') {
+  handleSubmit(e)
+  }
+};
+
+
+
+
   // Return JSX
   return (
     <>
       <input
+          ref={inputRef}
         onChange={(e) => setNewMessage(e.target.value)}
+        onKeyDown={handleKeyDown}
         value={newMessage}
         required></input>
-      <button
-        disabled={!newMessage}
-        onClick={(e) => {
-          if (!newMessage) {
-            alert('Please fill out the message field.'); // Inform user that message field is required
-            return;
-          }
-          sendMessage(e, newMessage, receiver, sender, userLoggedIn)
-          setNewMessage("")
-        }
-        }
-
-      >
-        
-        {isLoading ? "Sending..." : "Send"} {/* Show "Sending..." when loading */}
-      </button>
-      {error && <p>{error}</p>}
+  <button
+    disabled={!newMessage}
+    onClick={handleSubmit}
+  >
+    {isLoading ? "Sending..." : "Send"} 
+  </button>
+  {error && <p>{error}</p>}
     </>
   );
 }
+
+
+
+// return (
+//   <div>
+//     <input type="text" value={message} onChange={handleMessageChange} onKeyDown={
+//       handleKeyDown} />
+//     <button 
+//     onClick={handleSubmit}
+//     >Send</button>
+//      {error && <div>{error}</div>}
+//   </div>
+// );
+// }
