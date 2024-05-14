@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const credentials = require('./middleware/credentials')
 const PORT = process.env.PORT || 3500;
 const pool = require('./config/db');
+const { report } = require('./routes/register');
 
 
 app.set("view engine", 'ejs');
@@ -1302,6 +1303,7 @@ app.get('/rides/messages', async (req, res) => {
 app.get("/rides/messages/reported", async (req, res) => {
   try {
     const reportedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'reported'`);
+    // console.log(reportedMessages.rows)
     res.json(reportedMessages.rows)
   } catch (err) {
     console.error('Error fetching ride messages:', err);

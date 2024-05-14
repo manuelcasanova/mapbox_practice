@@ -25,6 +25,7 @@ import UserProfile from './components/UserProfile';
 import Register from './components/authentication/Register';
 import Login from './components/authentication/Login';
 import PersistLogin from './components/PersistLogin';
+import ReportedMessages from './components/admin_components/ReportedMessages';
 
 
 //Context
@@ -126,6 +127,7 @@ function App() {
                     <Route exact path="/rides/public" element={<><RidesPublic /></>}></Route>
                     <Route exact path="/rides/mine" element={<><RidesUser /></>}></Route>
                     <Route exact path="/rides/all" element={<><RidesAll /></>}></Route>
+                    <Route exact path="/rides/messages/reported" element={<><ReportedMessages /></>}></Route>
                     <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>
                     <Route exact path="/users/all" element={<><UsersAll /></>}></Route>
                     <Route exact path="/users/followee" element={<><Followee /></>}></Route>

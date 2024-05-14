@@ -4,6 +4,8 @@ Next:
 
 - superadmin change users to isAdmin
 
+REVIEW: isLoading, setIsLoading... in components, in util functions, etc. (example ReportedMessages.jsx)
+
 OAuth
 
 logic for read/unread messages
