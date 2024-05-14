@@ -6,6 +6,8 @@ import useAuth from "../../hooks/useAuth";
 
 // Util functions
 import fetchReportedMessages from "../util_functions/messaging/FetchReportedMessages";
+import FlagInapropiateMessage from "../util_functions/messaging/FlagInappropiateMessage";
+import AdminOkReportedMessage from "../util_functions/messaging/AdminOkReportedMessage";
 
 export default function ReportedMessages() {
   // Variables
@@ -13,6 +15,8 @@ export default function ReportedMessages() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [reportedMessages, setReportedMessages] = useState([]);
+  const [messageFlagged, setMessageFlagged] = useState(false)
+  const [messageReported, setMessageReported] = useState(false)
 
   // useEffect(() => {
   //   console.log("reportedMessages", reportedMessages)
@@ -41,7 +45,7 @@ export default function ReportedMessages() {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, []); // Removed updateMessages dependency as it wasn't defined
+  }, [messageFlagged, messageReported]); 
 
   return (
     <div>
@@ -59,7 +63,9 @@ export default function ReportedMessages() {
                 <li key={message.id}>
                   <div>Message: {message.message}</div>
                   <div>Message by: {message.createdby  }</div>
-                  <div>Ride: {message.ride_id}</div>          
+                  <div>Ride: {message.ride_id}</div>  
+                  <FlagInapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/>
+                  <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported}/>        
                   </li>
               ))}
             </ul>
