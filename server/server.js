@@ -1295,9 +1295,19 @@ app.get('/rides/messages', async (req, res) => {
 
   } catch (err) {
     console.error('Error fetching ride messages:', err);
-    res.status(500).json({ error: 'An error occurred while fetching ride messages' });
+    res.status(500).json({ error: 'An error occurred while fetching ride messages' }  );
   }
 });
+
+app.get("/rides/messages/reported", async (req, res) => {
+  try {
+    const reportedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'reported'`);
+    res.json(reportedMessages.rows)
+  } catch (err) {
+    console.error('Error fetching ride messages:', err);
+    res.status(500).json({ error: 'An error occurred while fetching ride messages' });
+  }
+}) 
 
 app.post("/rides/addmessage", async (req, res) => {
   // console.log(req.body)
