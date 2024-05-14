@@ -14,9 +14,9 @@ export default function ReportedMessages() {
   const [isLoading, setIsLoading] = useState(true);
   const [reportedMessages, setReportedMessages] = useState([]);
 
-  useEffect(() => {
-    console.log("reportedMessages", reportedMessages)
-  }, [reportedMessages])
+  // useEffect(() => {
+  //   console.log("reportedMessages", reportedMessages)
+  // }, [reportedMessages])
 
   useEffect(() => {
     let isMounted = true;
@@ -24,7 +24,7 @@ export default function ReportedMessages() {
     const fetchMessages = async () => {
       try {
         setIsLoading(true);
-        const reportedMessages = await fetchReportedMessages(); 
+        const reportedMessages = await fetchReportedMessages({auth}); 
         // console.log("reportedMessages", reportedMessages);
         if (isMounted) {
           setReportedMessages(reportedMessages);

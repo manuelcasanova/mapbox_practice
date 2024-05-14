@@ -101,20 +101,20 @@ app.get("/users", async (req, res) => {
 //Get all users (name only)
 app.get("/users/names", async (req, res) => {
   try {
-  // console.log("req. query in users/names", req.query)
+    // console.log("req. query in users/names", req.query)
     // if (req.query.user.accessToken !== undefined) {
-      const users = await pool.query(
-        'SELECT id, username FROM users ORDER BY username'
-        //         `SELECT u.id, u.username 
-        //         FROM users u
-        //         LEFT JOIN muted m ON (m.mutee = u.id AND m.muter = $1) OR (m.mutee = $1 AND m.muter = u.id)
-        //         WHERE m.mute IS NULL OR m.mute = false
-        //         ORDER BY u.username
-        //         `,
-        // [loggedInUserId]
-      );
-      // console.log("users.rows in users/names", users.rows)
-      res.json(users.rows)
+    const users = await pool.query(
+      'SELECT id, username FROM users ORDER BY username'
+      //         `SELECT u.id, u.username 
+      //         FROM users u
+      //         LEFT JOIN muted m ON (m.mutee = u.id AND m.muter = $1) OR (m.mutee = $1 AND m.muter = u.id)
+      //         WHERE m.mute IS NULL OR m.mute = false
+      //         ORDER BY u.username
+      //         `,
+      // [loggedInUserId]
+    );
+    // console.log("users.rows in users/names", users.rows)
+    res.json(users.rows)
     // } else {
     //   // Return an error message indicating unauthorized access
     //   res.status(403).json({ error: "Unauthorized access" });
@@ -128,19 +128,19 @@ app.get("/users/names", async (req, res) => {
 //Get muted users
 app.get('/users/muted', async (req, res) => {
   const userId = req.query.userId;
-// console.log("req.query users/muted", req.query)
+  // console.log("req.query users/muted", req.query)
   // if (isLoggedIn) {
 
-    try {
+  try {
 
-      const result = await pool.query('SELECT mutee FROM muted WHERE muter = $1 AND mute = true', [userId]);
-      //  const result = await pool.query('SELECT * from muted');
-      const mutedUsers = result.rows.map(row => row.mutee);
-      res.json({ mutedUsers });
-    } catch (error) {
-      console.error('Error fetching muted users:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
+    const result = await pool.query('SELECT mutee FROM muted WHERE muter = $1 AND mute = true', [userId]);
+    //  const result = await pool.query('SELECT * from muted');
+    const mutedUsers = result.rows.map(row => row.mutee);
+    res.json({ mutedUsers });
+  } catch (error) {
+    console.error('Error fetching muted users:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 
   // } else {
   //   // Return an error message indicating unauthorized access
@@ -202,7 +202,7 @@ app.post("/users/follow", async (req, res) => {
     const now = new Date();
     // console.log("req.body /users/follow", req.body)
     // console.log("follow date", req.body.date)
-    if (req.body.user ) {
+    if (req.body.user) {
       // console.log("follow")
 
       const insertFollowee = await pool.query(
@@ -272,7 +272,7 @@ app.post("/users/unfollow", async (req, res) => {
     const followerId = req.body.followerId;
     const user = req.body.user;
 
-    if (req.body.user ) {
+    if (req.body.user) {
       const deleteFollower = await pool.query(
         `
         DELETE FROM followers
@@ -301,7 +301,7 @@ app.post("/users/unfollow", async (req, res) => {
 //Get pending request users
 app.get('/users/pending', async (req, res) => {
   const userId = req.query.userId;
-// console.log("req query /users/pending", req.query)
+  // console.log("req query /users/pending", req.query)
   if (req.query.userId) {
 
     try {
@@ -333,7 +333,7 @@ app.get('/users/pending', async (req, res) => {
 app.post("/users/approvefollower", async (req, res) => {
   try {
 
-// console.log("req.body approvefollower", req.body)
+    // console.log("req.body approvefollower", req.body)
 
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
@@ -406,7 +406,7 @@ app.post("/users/dismissfollower", async (req, res) => {
 
 app.post("/users/dismissmessagefollowrequest", async (req, res) => {
   try {
-//  console.log("req.body dismiss m f r", req.body)
+    //  console.log("req.body dismiss m f r", req.body)
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
 
@@ -460,7 +460,7 @@ app.get("/users/followee", async (req, res) => {
 //Get all followers
 app.get("/users/followers", async (req, res) => {
   try {
-// console.log("req.query users/followers", req.query)
+    // console.log("req.query users/followers", req.query)
     if (req.query.user) {
       //  console.log("req query", req.query)
       const fetchFollowers = await pool.query(
@@ -591,7 +591,7 @@ app.post("/maps/adduser", async (req, res) => {
   try {
     // Check if user is logged in
     //  console.log("req.body maps/adduser", req.body)
-    if (!req.body.userId ) {
+    if (!req.body.userId) {
       return res.status(401).json({ message: "A user needs to be logged in" });
     }
     // Insert the user to the map_users table
@@ -667,7 +667,7 @@ app.delete("/rides/removeuser", async (req, res) => {
 app.post("/rides/adduser", async (req, res) => {
   try {
     // Check if user is logged in
-      // console.log("req.body", req.body)
+    // console.log("req.body", req.body)
 
     // Insert the user to the ride_users table
     const query = {
@@ -915,12 +915,12 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
 //Delete a user
 app.delete("/user/delete/:id", async (req, res) => {
   try {
-// console.log("req bod", req.body.user)
+    // console.log("req bod", req.body.user)
     // console.log("delete user")
 
     const userToDeleteIsSuperAdmin = req.body.userObject.issuperadmin;
-// console.log(userToDeleteIsSuperAdmin)
-    
+    // console.log(userToDeleteIsSuperAdmin)
+
     if (req.body.loggedInUser.isSuperAdmin && !userToDeleteIsSuperAdmin) {
 
 
@@ -944,7 +944,7 @@ app.delete("/user/delete/:id", async (req, res) => {
 //Activate a user
 app.post("/user/activate/:id", async (req, res) => {
   try {
-// console.log(req.body)
+    // console.log(req.body)
     const isLoggedIn = req.body.data.isUserLoggedIn
     const userId = req.body.data.userId
 
@@ -971,7 +971,7 @@ app.post("/user/activate/:id", async (req, res) => {
 //Deactivate a user
 app.post("/user/deactivate/:id", async (req, res) => {
   try {
-// console.log(req.body)
+    // console.log(req.body)
     const isLoggedIn = req.body.data.isUserLoggedIn
     const userId = req.body.data.userId
 
@@ -1159,11 +1159,11 @@ app.get("/rides/public", async (req, res) => {
 
       const userId = req.query.user.userId
       //  console.log("req. query", req.query.user)
-      
+
 
       if (req.query.filteredRides) {
         // console.log("req.query", req.query.filteredRides)
-      
+
 
         const dateStart = req.query.filteredRides.dateStart
         const dateEnd = req.query.filteredRides.dateEnd
@@ -1296,20 +1296,26 @@ app.get('/rides/messages', async (req, res) => {
 
   } catch (err) {
     console.error('Error fetching ride messages:', err);
-    res.status(500).json({ error: 'An error occurred while fetching ride messages' }  );
+    res.status(500).json({ error: 'An error occurred while fetching ride messages' });
   }
 });
 
 app.get("/rides/messages/reported", async (req, res) => {
-  try {
-    const reportedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'reported'`);
-    // console.log(reportedMessages.rows)
-    res.json(reportedMessages.rows)
-  } catch (err) {
-    console.error('Error fetching ride messages:', err);
-    res.status(500).json({ error: 'An error occurred while fetching ride messages' });
+  const isAdmin = req.query.isAdmin;
+
+  if (isAdmin === 'false') {
+    return res.status(403).json({ error: 'Forbidden: Access denied. Super admin permission required.' });
+  } else {
+    try {
+      const reportedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'reported'`);
+      // console.log(reportedMessages.rows)
+      res.json(reportedMessages.rows)
+    } catch (err) {
+      console.error('Error fetching ride messages:', err);
+      res.status(500).json({ error: 'An error occurred while fetching ride messages' });
+    }
   }
-}) 
+});
 
 app.post("/rides/addmessage", async (req, res) => {
   // console.log(req.body)
@@ -1451,7 +1457,7 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
 app.get('/users/messages/read', async (req, res) => {
   let { userForMessages, sender, receiver } = req.query;
 
-   //console.log("req.query", req.query)
+  //console.log("req.query", req.query)
   // console.log("req.query.userForMessages", req.query.userForMessages)
   // console.log("req.query user logged in Id", req.query.user.id)
 
@@ -1528,23 +1534,23 @@ app.post("/users/messages/send", async (req, res) => {
 //Get pending request users
 app.get('/users/loginhistory', async (req, res) => {
 
-    //  console.log("/loginhistory", req.query.user)
-//1522 HERE
-  const id  = req.query.user.userId
+  //  console.log("/loginhistory", req.query.user)
+  //1522 HERE
+  const id = req.query.user.userId
 
   //  console.log("backend", id, loggedIn, username)
 
   // if (loggedIn) {
 
-    try {
+  try {
 
-      const result = await pool.query(`SELECT * FROM login_history WHERE user_id = $1 ORDER BY login_time DESC`, [id]);
-      // console.log("rd", result)
-      res.json(result.rows);
-    } catch (error) {
-      console.error('Error fetching login history:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
+    const result = await pool.query(`SELECT * FROM login_history WHERE user_id = $1 ORDER BY login_time DESC`, [id]);
+    // console.log("rd", result)
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching login history:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 
   // } else {
   //   // Return an error message indicating unauthorized access
@@ -1556,10 +1562,10 @@ app.get('/users/loginhistory', async (req, res) => {
 
 app.get('/users/follownotifications', async (req, res) => {
 
-    // console.log("req.query in follow not", req.query.user)
-    if (req.query.user) {
-      // console.log("req.query.user ", req.query.user)
-    const userId  = parseInt(req.query.user)
+  // console.log("req.query in follow not", req.query.user)
+  if (req.query.user) {
+    // console.log("req.query.user ", req.query.user)
+    const userId = parseInt(req.query.user)
     // console.log("typeof userId", typeof userId)
     try {
       const result = await pool.query(
@@ -1596,12 +1602,12 @@ app.get('/users/follownotifications', async (req, res) => {
 
 //New message notification
 app.get('/messages/notifications', async (req, res) => {
-  
-// console.log("req.query in messages/notifications", req.query)
-    if (req.query && req.query.user) {
-      const userId = req.query.user.userId;
-      // console.log("userId in /mes/not", userId);
-   
+
+  // console.log("req.query in messages/notifications", req.query)
+  if (req.query && req.query.user) {
+    const userId = req.query.user.userId;
+    // console.log("userId in /mes/not", userId);
+
     try {
       const result = await pool.query(
         `WITH SecondLastLogin AS (
@@ -1629,7 +1635,7 @@ app.get('/messages/notifications', async (req, res) => {
     }
   } else {
     return
-}
+  }
 
 });
 
