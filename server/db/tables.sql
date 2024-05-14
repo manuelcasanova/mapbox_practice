@@ -103,6 +103,8 @@ CREATE TABLE ride_message (
   createdat timestamp,
   createdby INTEGER REFERENCES users(id) ON DELETE CASCADE,
   ride_id INTEGER REFERENCES rides(id) ON DELETE CASCADE,
+  reportedat timestamp,
+  reportedby INTEGER REFERENCES users(id) ON DELETE CASCADE,
   status VARCHAR(20),--inappropiate, deleted
   message TEXT
 );

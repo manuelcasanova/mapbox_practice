@@ -1378,22 +1378,26 @@ app.post("/rides/message/delete/:messageId", async (req, res) => {
   }
 });
 
-app.post("/rides/message/report/:messageId", async (req, res) => {
+app.post("/rides/message/report/", async (req, res) => {
   try {
 
-    // console.log("req.params", req.params)
 
-    const messageId = req.params.messageId
+    const messageId = req.body.messageId
+    const now = new Date();
+    const userLoggedInId = req.body.userLoggedInId
 
     const modifyStatus = await pool.query(
       `
-      INSERT INTO ride_message (id)
-      VALUES ($1)
+      INSERT INTO ride_message (id, reportedat, reportedby)
+      VALUES ($1, $2, $3)
       ON CONFLICT (id)
-      DO UPDATE SET status = 'reported'
+      DO UPDATE SET 
+      status = 'reported',
+      reportedat = $2,
+      reportedby = $3
       RETURNING *
       `,
-      [messageId]
+      [messageId, now, userLoggedInId]
     );
     res.json(modifyStatus.rows[0])
 

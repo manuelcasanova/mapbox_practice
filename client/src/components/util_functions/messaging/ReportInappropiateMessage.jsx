@@ -1,20 +1,32 @@
 import { useState } from "react";
 
-export default function ReportInappropiateMessage({ messageId, setMessageReported }) {
+import useAuth from "../../../hooks/useAuth";
+
+export default function ReportInappropiateMessage({ messageId, setMessageReported, user }) {
 
 // console.log("messageId in util func delete ride", messageId)
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+
+
+
   const handleInappropiate = async () => {
     try {
       setIsLoading(true);   
-      const response = await fetch(`http://localhost:3500/rides/message/report/${messageId}`, {
+
+      const body = JSON.stringify({
+        messageId,
+        userLoggedInId: user.userId 
+      });
+
+      const response = await fetch(`http://localhost:3500/rides/message/report/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: body
       });
 
       if (!response.ok) {

@@ -17,7 +17,7 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
 
 {message.status === "reported" && <div>Reported. Pending review.</div>}
 
-{(message.status !== "reported") && (message.status !== "flagged") && (message.createdby !== user.id) &&  <ReportInappropiateMessage messageId={message.id} setMessageReported={setMessageReported} /> }
+{(message.status !== "reported") && (message.status !== "flagged") && (message.createdby !== user.id) &&  <ReportInappropiateMessage messageId={message.id} setMessageReported={setMessageReported} user={user} /> }
      
 
 {(message.status === "flagged" && user.isAdmin) &&       <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />}
