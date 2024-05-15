@@ -47,6 +47,10 @@ export default function ReportedMessages() {
     };
   }, [messageFlagged, messageReported]); 
 
+  if (!auth.isAdmin) {
+    return <p>Admin only: Access denied.</p>;
+  }
+
   return (
     <div>
       {isLoading ? (

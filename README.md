@@ -1,8 +1,14 @@
 Next:
 
-- admin list of rewported messages. approve, flag. maybe see which ride is comming from and link to go
+Show notifications for new reported messages (for admins)
 
 - superadmin change users to isAdmin
+
+- See runs
+- See my runs
+- Create run
+- Admin runs
+
 
 REVIEW: isLoading, setIsLoading... in components, in util functions, etc. (example ReportedMessages.jsx)
 

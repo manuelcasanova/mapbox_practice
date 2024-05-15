@@ -1302,8 +1302,8 @@ app.get('/rides/messages', async (req, res) => {
 
 app.get("/rides/messages/reported", async (req, res) => {
   const isAdmin = req.query.isAdmin;
-
-  if (isAdmin === 'false') {
+// console.log("isAdmin", isAdmin)
+  if (isAdmin !== 'true') {
     return res.status(403).json({ error: 'Forbidden: Access denied. Super admin permission required.' });
   } else {
     try {
