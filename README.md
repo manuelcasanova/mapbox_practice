@@ -1,13 +1,13 @@
 Next:
 
-Show notifications for new reported messages (for admins)
-
-- superadmin change users to isAdmin
+- superadmin change users to isAdmin, or user
 
 - See runs
 - See my runs
 - Create run
 - Admin runs
+
+Forgot email
 
 
 REVIEW: isLoading, setIsLoading... in components, in util functions, etc. (example ReportedMessages.jsx)
@@ -58,6 +58,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Show notifications for new reported messages (for admins)
 
 When deactivate user, modify the email to be inactive-email@email.com. When activating, modify the email to be again email@email.com. This way, there would not be conflict if the user wants to sign up again with the same email.
 

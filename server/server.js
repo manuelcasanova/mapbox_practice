@@ -1643,7 +1643,43 @@ app.get('/messages/notifications', async (req, res) => {
 
 });
 
+//New reported message notification
+app.get('/messages/reportednotifications', async (req, res) => {
 
+  // console.log("req.query in messages/reportednotifications", req.query)
+  if (req.query && req.query.user) {
+    const userId = req.query.user.userId;
+    // console.log("userId in /mes/not", userId);
+
+    try {
+      const result = await pool.query(
+        `WITH SecondLastLogin AS (
+          SELECT user_id, login_time,
+                 ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_time DESC) AS rn
+          FROM login_history
+        )
+        SELECT DISTINCT rm.*
+        FROM ride_message rm
+        JOIN SecondLastLogin sll ON rm.createdby = sll.user_id
+        WHERE rm.reportedat > (
+          SELECT MAX(login_time)
+          FROM SecondLastLogin
+          WHERE user_id = rm.createdby AND rn = 2
+        )
+        
+      `
+      );
+      res.json(result.rows);
+       console.log(result.rows);
+    } catch (error) {
+      console.error('Error fetching reported message notifications:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  } else {
+    return
+  }
+
+});
 
 // -------- END ROUTES --------
 

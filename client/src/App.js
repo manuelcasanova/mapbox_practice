@@ -26,6 +26,7 @@ import Register from './components/authentication/Register';
 import Login from './components/authentication/Login';
 import PersistLogin from './components/PersistLogin';
 import ReportedMessages from './components/admin_components/ReportedMessages';
+import ReportedNotifications from './components/notifications/ReportedNotifications'
 
 
 //Context
@@ -43,6 +44,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
       <>
         <FollowNotifications />
         <MessagesNotifications />
+        <ReportedNotifications />
       </>
     )}
     <Title rideApp={rideApp} setRideApp={setRideApp} />
