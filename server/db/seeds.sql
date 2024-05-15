@@ -249,10 +249,10 @@ VALUES
 
 INSERT INTO ride_message (createdAt, createdby, ride_id, message, status)
 VALUES
-('2028-04-23 08:00:04', 3, 3, 'Clean message 4', null),
-('2028-04-23 08:00:03', 3, 3, 'Clean message 3', null),
-('2028-04-23 08:00:02', 4, 3, 'Reported message 2', 'reported'),
-('2028-04-23 08:00:01', 5, 3, 'Flagged message 1', 'flagged');
+('2024-04-23 08:00:04', 3, 3, 'Clean message 4', null),
+('2024-04-23 08:00:03', 3, 3, 'Clean message 3', null),
+('2024-04-23 08:00:02', 4, 3, 'Reported message 2', 'reported'),
+('2024-04-23 08:00:01', 5, 3, 'Flagged message 1', 'flagged');
 
 INSERT INTO user_messages (sender, receiver, content, date)
 VALUES

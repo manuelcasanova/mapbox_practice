@@ -31,20 +31,28 @@ import ReportedNotifications from './components/notifications/ReportedNotificati
 
 //Context
 import BrowserCoordsProvider from './components/util_functions/GetBrowserLocation';
+import useAuth from './hooks/useAuth';
 
 //Hooks
 import { useState, useEffect } from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+
 // Define a layout component to wrap the routes
-const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => (
+const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => {
+
+  const {auth} = useAuth()
+  const isAdmin = auth.isAdmin
+// console.log("isAdmin in app js", isAdmin)
+
+  return (
   <div className='app'>
        {rideApp && (
       <>
         <FollowNotifications />
         <MessagesNotifications />
-        <ReportedNotifications />
+       {isAdmin && <ReportedNotifications /> }
       </>
     )}
     <Title rideApp={rideApp} setRideApp={setRideApp} />
@@ -52,7 +60,8 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
     {children}
     <Footer />
   </div>
-);
+  );
+};
 
 
 

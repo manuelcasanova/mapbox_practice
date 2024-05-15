@@ -1384,6 +1384,9 @@ app.post("/rides/message/report/", async (req, res) => {
 
     const messageId = req.body.messageId
     const now = new Date();
+    // console.log("now", now) 
+    // let localTime = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
+    // console.log("local time", localTime)
     const userLoggedInId = req.body.userLoggedInId
 
     const modifyStatus = await pool.query(

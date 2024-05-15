@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import fetchReportedMessages from "../util_functions/messaging/FetchReportedMessages";
 
 export default function ReportedNotifications() {
   const { auth } = useAuth();
@@ -11,8 +12,52 @@ export default function ReportedNotifications() {
   const [reportedNotifications, setReportedNotifications] = useState([]);
   const [showNotificationMessages, setShowNotificationMessages] = useState(true);
   const navigate = useNavigate();
+  const [reportedMessages, setReportedMessages] = useState([]);
+  const [messageFlagged, setMessageFlagged] = useState(false)
+  const [messageReported, setMessageReported] = useState(false)
 
-// console.log("auth", auth)
+  // console.log("reportedMessages", reportedMessages)
+  // console.log("reportedNotifications", reportedNotifications)
+
+
+  // useEffect(() => {
+  //   console.log("reportedMessages", reportedMessages)
+  // }, [reportedMessages])
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchMessages = async () => {
+      try {
+
+        if (!auth.isAdmin) {
+       
+          setIsLoading(false);
+          return;
+        }
+
+        
+        setIsLoading(true);
+        const reportedMessages = await fetchReportedMessages({ auth });
+        // console.log("reportedMessages", reportedMessages);
+        if (isMounted) {
+          setReportedMessages(reportedMessages);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        setError(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchMessages();
+
+    return () => {
+      isMounted = false; // Cleanup function to handle unmounting
+    };
+  }, [messageFlagged, messageReported]);
+
+  // console.log("auth", auth)
 
   useEffect(() => {
     let isMounted = true;
@@ -26,6 +71,14 @@ export default function ReportedNotifications() {
 
   const fetchReportedNotifications = async (auth, setReportedNotifications, setIsLoading, setError, isMounted) => {
     try {
+
+      if (!auth.isAdmin) {
+       
+        setIsLoading(false);
+        return;
+      }
+
+
       const response = await axios.get('http://localhost:3500/messages/reportednotifications', {
         params: { user: auth }
       });
@@ -70,6 +123,19 @@ export default function ReportedNotifications() {
           )}
         </>
       )}
+
+{/* {auth.isAdmin && reportedNotifications.length === 0 && reportedMessages.length > 0 && (
+  <div>
+    {console.log("2nd")}
+    <button onClick={() => navigate(`/rides/messages/reported`)}>Pending Reported Messages</button>
+  </div>
+)} */}
+
+
+
+
+
+
     </>
   );
 }
