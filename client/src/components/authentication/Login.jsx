@@ -44,7 +44,8 @@ const Login = ({ rideApp }) => {
                 JSON.stringify({ user, pwd, trimmedEmail }),
                 {
                     headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
+                    withCredentials: true,
+                    timeout: 5000 // Timeout after 5 seconds
                 }
             );
             //  console.log("response in Login", response)
@@ -74,6 +75,8 @@ const Login = ({ rideApp }) => {
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
+                      // No response received, reload the component
+            window.location.reload();
             } else if (err.response?.status === 400) {
                 setErrMsg('Username or password are wrong or missing');
             } else if (err.response?.status === 401) {

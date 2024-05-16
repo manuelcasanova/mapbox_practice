@@ -3,61 +3,137 @@ const pool = require('../config/db');
 const jwt = require('jsonwebtoken');
 
 const handleLogin = async (req, res) => {
-  const { pwd, trimmedEmail } = req.body;
 
-  if (!pwd || !trimmedEmail) return res.status(400).json({ 'message': 'Email and password are required.' });
+    const { pwd, trimmedEmail } = req.body;
 
-  try {
-    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [trimmedEmail]);
-    if (rows.length === 0) {
-      return res.status(400).json({ error: "No user registered" });
+    // Check if email and password are provided
+    if (!pwd || !trimmedEmail) {
+        return res.status(400).json({ message: 'Email and password are required.' });
     }
 
-    const user = rows[0];
-    const passwordMatch = await bcrypt.compare(pwd, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Incorrect password" });
+    try {
+        // Fetch user from the database
+        const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [trimmedEmail]);
+        if (rows.length === 0) {
+            return res.status(400).json({ error: "No user registered" });
+        }
+
+
+
+        const user = rows[0];
+        
+        // Compare provided password with stored hash
+        const passwordMatch = await bcrypt.compare(pwd, user.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: "Incorrect password" });
+        }
+
+
+        const { id, username, isadmin, issuperadmin, email, isactive } = user;
+        const loggedIn = !!id;
+
+        // Create JWTs
+        const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
+        const refreshToken = jwt.sign({ username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
+
+
+        // Update user with new refresh token
+        await pool.query('UPDATE users SET refreshtoken = $1 WHERE email = $2', [refreshToken, trimmedEmail]);
+
+        // Insert login history
+        await pool.query('INSERT INTO login_history (user_id, login_time) VALUES ($1, $2)', [id, new Date()]);
+
+
+        // Set HttpOnly cookie
+        res.cookie('jwt', refreshToken, {
+            httpOnly: true,
+            sameSite: "None",
+            secure: true,
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+
+        // Send response
+        res.json({
+            id,
+            loggedIn,
+            username,
+            isAdmin: isadmin,
+            isSuperAdmin: issuperadmin,
+            isActive: isactive,
+            email,
+            accessToken
+        });
+       
+    } catch (error) {
+        // Log error and send server error response
+        console.error("Error during login:", error);
+        res.status(500).json({ error: "Server error" });
     }
-
-    const { id, username, isadmin, issuperadmin, email, isactive } = user;
-    const loggedIn = !!id;
-
-    const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
-    const refreshToken = jwt.sign({ username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
-
-    // Save refreshToken with current user
-    await pool.query('UPDATE users SET refreshtoken = $1 WHERE email = $2', [refreshToken, trimmedEmail]);
-
-    // Insert login history
-    await pool.query('INSERT INTO login_history (user_id, login_time) VALUES ($1, $2)', [id, new Date()]);
-
-    // Set HttpOnly cookie
-    res.cookie('jwt', refreshToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000
-    });
-
-    // Send response
-    res.json({
-      id,
-      loggedIn,
-      username,
-      isAdmin: isadmin,
-      isSuperAdmin: issuperadmin,
-      isActive: isactive,
-      email,
-      accessToken
-    });
-
-  } catch (error) {
-    console.error("Error during login:", error);
-    res.status(500).json({ error: "Server error" });
-  }
 };
 
 module.exports = { handleLogin };
+
+// const bcrypt = require('bcrypt');
+// const pool = require('../config/db');
+// const jwt = require('jsonwebtoken');
+
+// const handleLogin = async (req, res) => {
+//   const { pwd, trimmedEmail } = req.body;
+
+//   if (!pwd || !trimmedEmail) return res.status(400).json({ 'message': 'Email and password are required.' });
+
+//   try {
+//     const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [trimmedEmail]);
+//     if (rows.length === 0) {
+//       return res.status(400).json({ error: "No user registered" });
+//     }
+
+//     const user = rows[0];
+//     const passwordMatch = await bcrypt.compare(pwd, user.password);
+//     if (!passwordMatch) {
+//       return res.status(401).json({ error: "Incorrect password" });
+//     }
+
+//     const { id, username, isadmin, issuperadmin, email, isactive } = user;
+//     const loggedIn = !!id;
+
+//     const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
+//     const refreshToken = jwt.sign({ username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
+
+//     // Save refreshToken with current user
+//     await pool.query('UPDATE users SET refreshtoken = $1 WHERE email = $2', [refreshToken, trimmedEmail]);
+
+//     // Insert login history
+//     await pool.query('INSERT INTO login_history (user_id, login_time) VALUES ($1, $2)', [id, new Date()]);
+
+//     // Set HttpOnly cookie
+//     res.cookie('jwt', refreshToken, {
+//       httpOnly: true,
+//       sameSite: "None",
+//       secure: true,
+//       maxAge: 24 * 60 * 60 * 1000
+//     });
+
+//     // Send response
+//     res.json({
+//       id,
+//       loggedIn,
+//       username,
+//       isAdmin: isadmin,
+//       isSuperAdmin: issuperadmin,
+//       isActive: isactive,
+//       email,
+//       accessToken
+//     });
+
+//   } catch (error) {
+//     console.error("Error during login:", error);
+//     res.status(500).json({ error: "Server error" });
+//   }
+// };
+
+// module.exports = { handleLogin };
 
 
 // const bcrypt = require('bcrypt');
