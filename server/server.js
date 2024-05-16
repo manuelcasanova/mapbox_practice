@@ -1107,6 +1107,24 @@ app.get("/rides/otherusers", async (req, res) => {
   }
 });
 
+//Get runs with other users
+app.get("/runs/otherusers", async (req, res) => {
+  // console.log("req.query in runs/otherusers", req.query)
+  try {
+
+    // const userId = req.query.userId;
+    const runs = await pool.query(
+      'SELECT * FROM run_users'
+    );
+    // console.log("runs.rows", runs.rows)
+    res.json(runs.rows)
+    // console.log("maps.rows", runs.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+
 
 //Get maps from other users, if they are public and we added them to "our maps"
 
@@ -1260,6 +1278,81 @@ app.get("/rides/public", async (req, res) => {
         //  `, [userId]
         //  console.log("rides.rows no filtered rides", rides.rows)
         res.json(rides.rows);
+      }
+
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+//Get all public runs (user)
+app.get("/runs/public", async (req, res) => {
+  try {
+
+    //  console.log("req.query on runs/public", req.query)
+
+    if (req.query.user && req.query.user.accessToken) {
+
+      const userId = req.query.user.userId
+      
+      //  console.log("req. query", req.query.user)
+
+
+      if (req.query.filteredRuns) {
+        // console.log("req.query", req.query.filteredRides)
+
+
+        const dateStart = req.query.filteredRuns.dateStart
+        const dateEnd = req.query.filteredRuns.dateEnd
+        const distanceMin = req.query.filteredRuns.distanceMin
+        const distanceMax = req.query.filteredRuns.distanceMax
+        const paceRangeMin = req.query.filteredRuns.paceMin
+        const paceRangeMax = req.query.filteredRuns.paceMax
+
+        const ridesQuery = `
+     SELECT DISTINCT r.*
+     FROM runs r
+     LEFT JOIN followers f ON r.createdby = f.followee_id
+     LEFT JOIN muted mute1 ON mute1.muter = $7 AND mute1.mutee = r.createdby
+     LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $7
+     INNER JOIN users u1 ON r.createdby = u1.id
+     INNER JOIN users u2 ON $7 = u2.id
+     WHERE (r.runtype='public' OR (r.runtype = 'followers' and f.follower_id = $7))
+     AND starting_date >= $1
+     AND starting_date <= $2
+       AND distance >= $3
+       AND distance <= $4
+       AND pace >= $5
+       AND pace <= $6
+       AND (mute1.mute IS NULL OR mute1.mute = false)
+       AND (mute2.mute IS NULL OR mute2.mute = false)
+       AND r.isactive = true
+       AND u1.isactive = true
+       AND u2.isactive = true
+   `;
+
+        // Execute the query with parameters
+        const runs = await pool.query(runssQuery, [
+          dateStart, dateEnd,
+          distanceMin, distanceMax, paceRangeMin, paceRangeMax, userId]);
+        res.json(runs.rows)
+
+      } else {
+
+        const runs = await pool.query(`
+        SELECT DISTINCT r.* 
+        FROM runs r
+        LEFT JOIN followers f ON r.createdby = f.followee_id
+        WHERE (r.runtype='public' OR (r.runtype = 'followers' and f.follower_id = $1))
+        `, [userId]);
+
+        res.json(runs.rows);
       }
 
     } else {
