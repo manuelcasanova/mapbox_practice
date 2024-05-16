@@ -6,17 +6,6 @@ RidesPublic.jsx - RunsPublic.jsx
 
 import RidesFilter from './RidesFilter'; - RunsFilter
 
-//Util functions
-import fetchUsernameAndId from './util_functions/FetchUsername' - THE SAME
-import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
-import AddRideMessage from './util_functions/messaging/AddRideMessage';
-import MappedMessage from './util_functions/messaging/MappedMessage'; 
-
-
-import DeleteRideMessage from "./DeleteRideMessage"
-import ReportInappropiateMessage from "./ReportInappropiateMessage"
-import FlagInapropiateMessage from "./FlagInappropiateMessage"
-import AdminOkReportedMessage from "./AdminOkReportedMessage"
 
 
 - See my runs
@@ -26,10 +15,6 @@ RidesUser.jsx - RunsUser.jsx
 
 import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
 
-
-- Create run
-
-CreateRide.jsx - CreateRun.jsx
 
 - Admin runs
 
