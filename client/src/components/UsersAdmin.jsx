@@ -24,6 +24,7 @@ const UsersAdmin = () => {
 const loggedInUser = auth;
 //  console.log("loggedInUser in Users Admin", loggedInUser)
 
+
   useEffect(() => {
     let isMounted = true;
 
@@ -77,6 +78,20 @@ const loggedInUser = auth;
     setUsers(users.filter(u => u.id !== user.id));
   };
 
+  const handleAdminToggle = async (user) => {
+    const updatedUser = { ...user, isadmin: !user.isadmin };
+    try {
+      await axios.patch(`http://localhost:3500/users/${user.id}`, updatedUser, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      });
+      setUsers(users.map(u => (u.id === user.id ? updatedUser : u)));
+    } catch (error) {
+      console.error('Failed to update user admin status', error);
+    }
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -95,8 +110,8 @@ const loggedInUser = auth;
         <div>
 {users.map(user => {
 
-
-// console.log("user,", user)
+const isAdmin = user.isadmin
+// console.log("isadmin,", isAdmin)
 
   // Render the JSX elements, including the formatted date
   return (
@@ -112,6 +127,15 @@ const loggedInUser = auth;
        onClick={() => handleActivate(user)}
       >Activate</button>}
       {loggedInUser.isSuperAdmin && !user.issuperadmin && <button onClick={()=> handleDelete(user)}>Delete</button>}
+      {loggedInUser.isSuperAdmin && !user.issuperadmin && 
+      <div>  Admin    <input
+      type="checkbox"
+      id="permissionsCheckbox"
+      checked={user.isadmin || false}
+      onChange={() => handleAdminToggle(user)}
+  /></div>
+      
+      }
     </div>
   );
 })}

@@ -479,6 +479,28 @@ app.get("/users/followers", async (req, res) => {
   }
 });
 
+//Change user permissions
+
+app.patch("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const { isadmin } = req.body;
+  try {
+    const result = await pool.query(
+      'UPDATE users SET isadmin = $1 WHERE id = $2 RETURNING *',
+      [isadmin, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+})
+
 //Get all points
 app.get("/points", async (req, res) => {
   // console.log("req body", req.body)
@@ -1423,7 +1445,8 @@ app.post("/rides/message/flag/:messageId", async (req, res) => {
       INSERT INTO ride_message (id)
       VALUES ($1)
       ON CONFLICT (id)
-      DO UPDATE SET status = 'flagged'
+      DO UPDATE SET status = 'flagged',
+      reportedat = null
       RETURNING *
       `,
       [messageId]
@@ -1448,7 +1471,8 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
       INSERT INTO ride_message (id)
       VALUES ($1)
       ON CONFLICT (id)
-      DO UPDATE SET status = null
+      DO UPDATE SET status = null,
+      reportedat = null
       RETURNING *
       `,
       [messageId]
@@ -1673,7 +1697,7 @@ app.get('/messages/reportednotifications', async (req, res) => {
       `
       );
       res.json(result.rows);
-       console.log(result.rows);
+      //  console.log(result.rows);
     } catch (error) {
       console.error('Error fetching reported message notifications:', error);
       res.status(500).json({ error: 'Internal Server Error' });
