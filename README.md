@@ -4,9 +4,7 @@ Next:
 
 RidesPublic.jsx - RunsPublic.jsx
 
-
 import RidesFilter from './RidesFilter'; - RunsFilter
-
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername' - THE SAME
@@ -21,21 +19,6 @@ import FlagInapropiateMessage from "./FlagInappropiateMessage"
 import AdminOkReportedMessage from "./AdminOkReportedMessage"
 
 
-backend 
-rides/public - runs/public - DONE
-rides/otherusers - DONE
-rides/adduser - DONE
-rides/removeuser - DONE
-
-rides/messages - DONE
-rides/addmessages - DONE
-rides/message/delete/${messageId} - DONE
-rides/message/report -DONE
-rides/message/flag/${messageId} -DONE
-rides/message/ok/${messageId}` -DONE
-
-
-
 - See my runs
 
 
@@ -43,16 +26,10 @@ RidesUser.jsx - RunsUser.jsx
 
 import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
 
-backend rides/user/${id}`, - DONE
-
 
 - Create run
 
-
 CreateRide.jsx - CreateRun.jsx
-
-backend - /createride - createrun
-
 
 - Admin runs
 

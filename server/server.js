@@ -803,6 +803,54 @@ app.post("/createride", async (req, res) => {
   }
 })
 
+//Create a run
+app.post("/createrun", async (req, res) => {
+  // console.log("req.body in /createrun", req.body)
+  try {
+    const { title, distance, pace, date, time, details, mapId, createdAt, dateString, runType, userId, meetingPoint } = req.body
+    const now = new Date();
+    // console.log("req.body", req.body)
+
+    // Check if the date has the format DD/MM/YYYY
+    const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/;
+    if (!dateRegex.test(dateString)) {
+      return res.status(400).json({ error: 'Invalid date format. Please provide a date in the format DD/MM/YYYY' });
+    }
+
+    // Check if the time has the format 00:00:00
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+    if (!timeRegex.test(time)) {
+      return res.status(400).json({ error: 'Invalid time format. Please provide time in the format HH:MM:SS' });
+    }
+
+    // Check if the distance is a positive number
+    const distanceRegex = /^\d+(\.\d+)?$/;
+    if (!distanceRegex.test(distance)) {
+      return res.status(400).json({ error: 'Invalid distance format. Please provide a positive number' });
+    }
+
+    // Check if the speed is a positive number
+    const rangeRegex = /^\d+(\.\d+)?$/;
+    if (!rangeRegex.test(range)) {
+      return res.status(400).json({ error: 'Invalid range format. Please provide a positive number' });
+    }
+
+    // Check if the userId is a positive number
+    const userIdRegex = /^\d+$/;
+    if (!userIdRegex.test(userId)) {
+      return res.status(400).json({ error: 'Invalid userId format' });
+    }
+
+    //Converts 13/01/2023 to 2023-01-13
+    const psqlDate = `${dateString[6] + dateString[7] + dateString[8] + dateString[9] + `-` + dateString[3] + dateString[4] + `-` + dateString[0] + dateString[1]}`
+
+    const newRun = await pool.query(`INSERT INTO runs (name, distance, pace, createdat, map, starting_date, starting_time, ridetype, createdBy, details, meeting_point) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`, [title, distance, pace, now, mapId, psqlDate, time, rideType, userId, details, meetingPoint])
+    res.json(newRun.rows[0])
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
 //Delete a map
 app.delete("/delete/:id", async (req, res) => {
   try {
@@ -890,6 +938,32 @@ app.delete("/rides/delete/:id", async (req, res) => {
   }
 })
 
+//Delete a run
+app.delete("/runs/delete/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const user = req.body.user;
+    // console.log(req.body)
+
+    // console.log("Deleted run id:", id);
+
+    if (user.isAdmin) {
+
+
+      await pool.query(
+        "DELETE FROM runs WHERE id = $1 RETURNING *", [id]
+      )
+      res.json("The run was deleted")
+
+    } else {
+      res.json("Run can only be deleted by administrator")
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
 //Deactivate a ride
 app.post("/ride/deactivate/:id", async (req, res) => {
   // console.log("req.body", req.body)
@@ -918,6 +992,41 @@ app.post("/ride/deactivate/:id", async (req, res) => {
 
     } else {
       res.json("Ride can only be deactivated by creator")
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
+//Deactivate a run
+app.post("/run/deactivate/:id", async (req, res) => {
+  // console.log("req.body", req.body)
+  // console.log("req params", typeof req.params.id)
+  try {
+    const rideId = Number(req.params.id);
+    // console.log("typeof rideid", typeof rideId)
+    const userId = req.body.data.userId
+    const runCreatedBy = req.body.data.runCreatedBy
+    const isRunCreatedByUser = req.body.data.isRunCreatedByUser
+    const isAdmin = req.body.data.auth.isAdmin
+
+    // console.log(req.params)
+    // console.log("req body", typeof req.body.data.mapId)
+    //console.log("rq body", req.body)
+
+    //  console.log("Deactivated run id:", typeof id);
+
+    if (isRunCreatedByUser || isAdmin) {
+
+      const deactivatedRun = await pool.query(
+        "UPDATE runs SET isactive = false WHERE id = $1 RETURNING *", [rideId]
+      )
+      // console.log("here")
+      res.json(deactivatedRun.rows[0])
+
+    } else {
+      res.json("Run can only be deactivated by creator")
     }
 
   } catch (err) {
@@ -974,6 +1083,30 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
     await pool.query(query);
 
     return res.status(200).json({ message: "User successfully removed from the ride" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+//Remove users from run
+app.delete(`/runs/delete/users/:id`, async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const runId = req.params.id;
+
+    if (!userId || !runId) {
+      return res.status(400).json({ message: "User ID and run ID are required" });
+    }
+
+    // Delete the user from the map_users table
+    const query = {
+      text: 'DELETE FROM run_users WHERE run_id = $1 AND user_id = $2',
+      values: [runId, userId]
+    };
+    await pool.query(query);
+
+    return res.status(200).json({ message: "User successfully removed from the run" });
   } catch (err) {
     console.error(err.message);
     return res.status(500).json({ message: "Internal Server Error" });
