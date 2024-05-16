@@ -1447,6 +1447,40 @@ app.get("/rides/user/:id", async (req, res) => {
   }
 });
 
+//Get users runs
+app.get("/runs/user/:id", async (req, res) => {
+
+  // console.log("req.query.filtered rides", req.query.filteredRides)
+
+  try {
+    const { id } = req.params;
+    const dateStart = req.query.filteredRides.dateStart
+    const dateEnd = req.query.filteredRides.dateEnd
+    const distanceMin = req.query.filteredRides.distanceMin
+    const distanceMax = req.query.filteredRides.distanceMax
+    const paceRangeMin = req.query.filteredRides.paceMin
+    const paceRangeMax = req.query.filteredRides.paceMax
+
+
+    // Check if id is null or undefined
+    if (id === null || id === undefined) {
+      return res.status(400).json({ error: 'User ID is required.' });
+    }
+
+    const rides = await pool.query(
+      // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
+      'SELECT * FROM runs WHERE createdby = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4  AND distance <= $5 AND speed >= $6 AND speed <= $7 AND isactive = true UNION SELECT runs.* FROM runs INNER JOIN run_users ON runs.id = run_users.ride_id WHERE run_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND pace >= $6 AND pace <= $7 ORDER BY id DESC'
+
+      , [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax]
+    );
+    // console.log("runs rows", runs.rows)
+    res.json(runs.rows)
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.get('/rides/messages', async (req, res) => {
   // console.log("req.query in rides/messages", req.query)
   const { ride_id } = req.query;
@@ -1758,6 +1792,33 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+app.post("/runs/message/ok/:messageId", async (req, res) => {
+  try {
+
+    // console.log("req.params", req.params)
+
+    const messageId = req.params.messageId
+
+    const modifyStatus = await pool.query(
+      `
+      INSERT INTO run_message (id)
+      VALUES ($1)
+      ON CONFLICT (id)
+      DO UPDATE SET status = null,
+      reportedat = null
+      RETURNING *
+      `,
+      [messageId]
+    );
+    res.json(modifyStatus.rows[0])
+
+  } catch (error) {
+    console.error("Error okying message", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 app.get('/users/messages/read', async (req, res) => {
   let { userForMessages, sender, receiver } = req.query;

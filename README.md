@@ -43,7 +43,7 @@ RidesUser.jsx - RunsUser.jsx
 
 import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
 
-backend rides/user/${id}`, 
+backend rides/user/${id}`, - DONE
 
 
 - Create run
