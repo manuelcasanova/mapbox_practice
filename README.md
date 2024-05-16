@@ -1,9 +1,74 @@
 Next:
 
 - See runs
+
+RidesPublic.jsx - RunsPublic.jsx
+
+
+import RidesFilter from './RidesFilter'; - RunsFilter
+
+
+//Util functions
+import fetchUsernameAndId from './util_functions/FetchUsername' - THE SAME
+import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
+import AddRideMessage from './util_functions/messaging/AddRideMessage';
+import MappedMessage from './util_functions/messaging/MappedMessage'; 
+
+
+import DeleteRideMessage from "./DeleteRideMessage"
+import ReportInappropiateMessage from "./ReportInappropiateMessage"
+import FlagInapropiateMessage from "./FlagInappropiateMessage"
+import AdminOkReportedMessage from "./AdminOkReportedMessage"
+
+
+backend 
+rides/public - runs/public
+rides/otherusers
+rides/adduser
+rides/removeuser
+
+rides/messages
+rides/addmessages
+rides/message/delete/${messageId}
+rides/message/report
+rides/message/flag/${messageId}
+rides/message/ok/${messageId}`
+
+
+
 - See my runs
+
+
+RidesUser.jsx - RunsUser.jsx
+
+import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
+
+backend rides/user/${id}`, 
+
+
 - Create run
+
+
+CreateRide.jsx - CreateRun.jsx
+
+backend - /createride - createrun
+
+
 - Admin runs
+
+
+components/admin_components/RidesAll - RunsAll.jsx
+
+Backend: import { deleteRide } from '../util_functions/ride_functions/DeleteRide';
+/runs
+
+
+- Reported messages - include run messages
+
+
+
+404 pages
+
 
 Forgot email
 
