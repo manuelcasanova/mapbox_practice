@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
 import CreateRide from './components/CreateRide';
+import CreateRun from './components/CreateRun';
 import AllMaps from './components/AllMaps';
 import RidesPublic from './components/RidesPublic';
 import RidesUser from './components/RidesUser'
@@ -129,12 +130,13 @@ function App() {
 
                   <Route element={<PersistLogin />}>
                     <Route exact path="/rides" element={<></>}> </Route>
-                    <Route exact path="/run" element={<></>}> </Route>
+                    <Route exact path="/runs" element={<></>}> </Route>
                     <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} rideApp={rideApp} /></>}> </Route>
                     <Route exact path="/maps/public" element={<><MapsPublic /></>}></Route>
                     <Route exact path="/maps/create" element={<><CreateMap setFromButton={setFromButton} /></>}></Route>
                     <Route exact path="/maps/:id" element={<><SeeMap /></>}></Route>
                     <Route exact path="/ride" element={<><CreateRide /></>}></Route>
+                    <Route exact path="/run" element={<><CreateRun /></>}></Route>
                     <Route exact path="/rides/public" element={<><RidesPublic /></>}></Route>
                     <Route exact path="/rides/mine" element={<><RidesUser /></>}></Route>
                     <Route exact path="/rides/all" element={<><RidesAll /></>}></Route>

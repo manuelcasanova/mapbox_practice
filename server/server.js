@@ -805,7 +805,7 @@ app.post("/createride", async (req, res) => {
 
 //Create a run
 app.post("/createrun", async (req, res) => {
-  // console.log("req.body in /createrun", req.body)
+   console.log("req.body in /createrun", req.body)
   try {
     const { title, distance, pace, date, time, details, mapId, createdAt, dateString, runType, userId, meetingPoint } = req.body
     const now = new Date();
@@ -831,7 +831,7 @@ app.post("/createrun", async (req, res) => {
 
     // Check if the speed is a positive number
     const rangeRegex = /^\d+(\.\d+)?$/;
-    if (!rangeRegex.test(range)) {
+    if (!rangeRegex.test(pace)) {
       return res.status(400).json({ error: 'Invalid range format. Please provide a positive number' });
     }
 
@@ -844,7 +844,7 @@ app.post("/createrun", async (req, res) => {
     //Converts 13/01/2023 to 2023-01-13
     const psqlDate = `${dateString[6] + dateString[7] + dateString[8] + dateString[9] + `-` + dateString[3] + dateString[4] + `-` + dateString[0] + dateString[1]}`
 
-    const newRun = await pool.query(`INSERT INTO runs (name, distance, pace, createdat, map, starting_date, starting_time, ridetype, createdBy, details, meeting_point) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`, [title, distance, pace, now, mapId, psqlDate, time, rideType, userId, details, meetingPoint])
+    const newRun = await pool.query(`INSERT INTO runs (name, distance, pace, createdat, map, starting_date, starting_time, runtype, createdBy, details, meeting_point) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`, [title, distance, pace, now, mapId, psqlDate, time, runType, userId, details, meetingPoint])
     res.json(newRun.rows[0])
   } catch (err) {
     console.error(err.message)

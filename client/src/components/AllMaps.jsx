@@ -149,7 +149,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
                 if (rideApp) {
                   navigate('/rides/public');
                 } else {
-                  navigate('/run');
+                  navigate('/runs/public');
                 }
               }}
             >Home</button>
