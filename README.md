@@ -4,25 +4,18 @@ Next:
 
 RidesPublic.jsx - RunsPublic.jsx
 
-import RidesFilter from './RidesFilter'; - RunsFilter
-
-
 
 - See my runs
 
-
 RidesUser.jsx - RunsUser.jsx
-
-import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
 
 
 - Admin runs
 
-
 components/admin_components/RidesAll - RunsAll.jsx
 
-Backend: import { deleteRide } from '../util_functions/ride_functions/DeleteRide';
-/runs
+
+
 
 
 - Reported messages - include run messages
