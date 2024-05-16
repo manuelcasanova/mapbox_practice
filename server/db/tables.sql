@@ -5,9 +5,11 @@ DROP TABLE IF EXISTS muted CASCADE;
 DROP TABLE IF EXISTS maps CASCADE;
 DROP TABLE IF EXISTS points CASCADE;
 DROP TABLE IF EXISTS rides CASCADE;
+DROP TABLE IF EXISTS runs CASCADE;
 DROP TABLE IF EXISTS map_users CASCADE;
 DROP TABLE IF EXISTS ride_users CASCADE;
 DROP TABLE IF EXISTS ride_message CASCADE;
+DROP TABLE IF EXISTS run_message CASCADE;
 DROP TABLE IF EXISTS user_messages CASCADE;
 
 CREATE TABLE users (
@@ -86,6 +88,28 @@ CREATE TABLE rides (
   difficulty VARCHAR(50)
 );
 
+CREATE TABLE runs (
+  id SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(255),
+  distance INTEGER,
+  pace INTEGER,
+  isSelected boolean DEFAULT false,
+  isActive boolean DEFAULT true,
+  createdBy INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  createdAt timestamp,
+  runType VARCHAR(10) DEFAULT 'public',
+  image VARCHAR(255),
+  gpx VARCHAR(255),
+  starting_date DATE,
+  starting_time TIME,
+  meeting_point TEXT,
+  details TEXT,
+   map INTEGER REFERENCES maps(id) ON DELETE SET NULL,
+  comments JSONB,
+  difficulty VARCHAR(50)
+);
+
+
 CREATE TABLE map_users (
   map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -105,7 +129,18 @@ CREATE TABLE ride_message (
   ride_id INTEGER REFERENCES rides(id) ON DELETE CASCADE,
   reportedat timestamp,
   reportedby INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  status VARCHAR(20),--inappropiate, deleted
+  status VARCHAR(20),
+  message TEXT
+);
+
+CREATE TABLE run_message (
+  id SERIAL PRIMARY KEY,
+  createdat timestamp,
+  createdby INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  run_id INTEGER REFERENCES rides(id) ON DELETE CASCADE,
+  reportedat timestamp,
+  reportedby INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  status VARCHAR(20),
   message TEXT
 );
 
