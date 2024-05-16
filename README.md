@@ -1,7 +1,5 @@
 Next:
 
-- superadmin change users to isAdmin, or user
-
 - See runs
 - See my runs
 - Create run
@@ -58,6 +56,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+- superadmin change users to isAdmin, or user
 
 Show notifications for new reported messages (for admins)
 

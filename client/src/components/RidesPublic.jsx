@@ -257,6 +257,7 @@ const RidesPublic = () => {
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInRide = userRides.some(userRide => userRide.user_id === auth.userId && userRide.ride_id === ride.id);
 
+                const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
 
 
                 // console.log("is use in ride?", isUserInRide)
@@ -288,7 +289,7 @@ const RidesPublic = () => {
                     {userRides.length ?
 
                       <div>
-                        <div>{userRides.length} joined this ride, {userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} publicaly</div>
+                        <div>{usersInThisRide.length} joined this ride, {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} publicaly</div>
 
                         {/* <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
   <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div> */}

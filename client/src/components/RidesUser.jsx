@@ -196,6 +196,8 @@ const RidesUser = () => {
 
                 const isPastDate = formattedDate < currentDateFormatted;
 
+                const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
+
                 // Render the JSX elements, including the formatted date
                 return (
                   <div key={`${ride.createdat}-${ride.name}-${ride.distance}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
@@ -213,8 +215,8 @@ const RidesUser = () => {
 
                     {userRides.length ?
                       <div>
-                        <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
-                        <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
+                        <div>{usersInThisRide.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
+                        <div>{usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
 
                         <div>
                           {userRides
