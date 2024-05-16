@@ -24,8 +24,8 @@ import AdminOkReportedMessage from "./AdminOkReportedMessage"
 backend 
 rides/public - runs/public - DONE
 rides/otherusers - DONE
-rides/adduser
-rides/removeuser
+rides/adduser - DONE
+rides/removeuser - DONE
 
 rides/messages
 rides/addmessages

@@ -685,6 +685,32 @@ app.delete("/rides/removeuser", async (req, res) => {
   }
 });
 
+//Remove user from run
+app.delete("/runs/removeuser", async (req, res) => {
+  try {
+    // Check if user ID and map ID are provided
+    const userId = req.body.userId;
+    const runId = req.body.runId;
+    // console.log("userId", userId)
+    // console.log("runId", runId)
+    if (!userId || !runId) {
+      return res.status(400).json({ message: "User ID and run ID are required" });
+    }
+
+    // Delete the user from the run_users table
+    const query = {
+      text: 'DELETE FROM run_users WHERE run_id = $1 AND user_id = $2',
+      values: [runId, userId]
+    };
+    await pool.query(query);
+
+    return res.status(200).json({ message: "User successfully removed from the run" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 //Add user to ride
 app.post("/rides/adduser", async (req, res) => {
   try {
@@ -700,6 +726,27 @@ app.post("/rides/adduser", async (req, res) => {
 
 
     return res.status(200).json({ message: "User successfully added to the ride" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+//Add user to run
+app.post("/runs/adduser", async (req, res) => {
+  try {
+    // Check if user is logged in
+    // console.log("req.body", req.body)
+
+    // Insert the user to the ride_users table
+    const query = {
+      text: 'INSERT INTO run_users (run_id, user_id, isprivate) VALUES ($1, $2, $3)',
+      values: [req.body.runId, req.body.userId, req.body.isPrivate]
+    };
+    await pool.query(query);
+
+
+    return res.status(200).json({ message: "User successfully added to the run" });
   } catch (err) {
     console.error(err.message);
     return res.status(500).json({ message: "Internal Server Error" });
