@@ -1462,6 +1462,21 @@ app.get('/rides/messages', async (req, res) => {
   }
 });
 
+app.get('/runs/messages', async (req, res) => {
+  // console.log("req.query in runs/messages", req.query)
+  const { run_id } = req.query;
+  //  console.log("ride_id", ride_id)
+  try {
+    const runMessages = await pool.query('SELECT * FROM run_message WHERE run_id = $1 ORDER BY createdat DESC', [run_id]);
+    // console.log(rideMessages.rows)
+    res.json(runMessages.rows);
+
+  } catch (err) {
+    console.error('Error fetching ride messages:', err);
+    res.status(500).json({ error: 'An error occurred while fetching run messages' });
+  }
+});
+
 app.get("/rides/messages/reported", async (req, res) => {
   const isAdmin = req.query.isAdmin;
 // console.log("isAdmin", isAdmin)
@@ -1512,6 +1527,41 @@ app.post("/rides/addmessage", async (req, res) => {
     res.status(403).json({ error: "Unauthorized access" });
   }
 });
+
+app.post("/runs/addmessage", async (req, res) => {
+  // console.log(req.body)
+  if (req.body.message !== ""
+  ) {
+    try {
+      const runId = req.body.runId;
+      const createdBy = req.body.userId;
+      const message = req.body.message;
+      const now = new Date();
+
+      const insertMessageQuery = {
+        text: `
+          INSERT INTO run_message (run_id, createdby, message, createdat)
+          VALUES ($1, $2, $3, $4)
+          RETURNING *
+        `,
+        values: [runId, createdBy, message, now]
+      };
+
+      const insertedMessage = await pool.query(insertMessageQuery);
+
+      // console.log(insertedMessage.rows); // Logging the inserted message
+
+      res.status(201).json({ message: "Message added successfully", data: insertedMessage.rows });
+    } catch (error) {
+      console.error("Error:", error.message);
+      res.status(500).json({ error: "An error occurred while adding the message" });
+    }
+  } else {
+    // Return an error message indicating unauthorized access
+    res.status(403).json({ error: "Unauthorized access" });
+  }
+});
+
 
 
 app.post("/rides/message/delete/:messageId", async (req, res) => {

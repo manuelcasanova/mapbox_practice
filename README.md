@@ -27,8 +27,8 @@ rides/otherusers - DONE
 rides/adduser - DONE
 rides/removeuser - DONE
 
-rides/messages
-rides/addmessages
+rides/messages - DONE
+rides/addmessages - DONE
 rides/message/delete/${messageId}
 rides/message/report
 rides/message/flag/${messageId}
