@@ -29,10 +29,10 @@ rides/removeuser - DONE
 
 rides/messages - DONE
 rides/addmessages - DONE
-rides/message/delete/${messageId}
-rides/message/report
-rides/message/flag/${messageId}
-rides/message/ok/${messageId}`
+rides/message/delete/${messageId} - DONE
+rides/message/report -DONE
+rides/message/flag/${messageId} -DONE
+rides/message/ok/${messageId}` -DONE
 
 
 

@@ -1590,6 +1590,32 @@ app.post("/rides/message/delete/:messageId", async (req, res) => {
   }
 });
 
+app.post("/runs/message/delete/:messageId", async (req, res) => {
+
+  try {
+
+    // console.log("req.params", req.params)
+
+    const messageId = req.params.messageId
+
+    const modifyStatus = await pool.query(
+      `
+      INSERT INTO run_message (id)
+      VALUES ($1)
+      ON CONFLICT (id)
+      DO UPDATE SET status = 'deleted'
+      RETURNING *
+      `,
+      [messageId]
+    );
+    res.json(modifyStatus.rows[0])
+
+  } catch (error) {
+    console.error("Error deleting message", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.post("/rides/message/report/", async (req, res) => {
   try {
 
@@ -1622,6 +1648,38 @@ app.post("/rides/message/report/", async (req, res) => {
   }
 });
 
+app.post("/runs/message/report/", async (req, res) => {
+  try {
+
+
+    const messageId = req.body.messageId
+    const now = new Date();
+    // console.log("now", now) 
+    // let localTime = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
+    // console.log("local time", localTime)
+    const userLoggedInId = req.body.userLoggedInId
+
+    const modifyStatus = await pool.query(
+      `
+      INSERT INTO run_message (id, reportedat, reportedby)
+      VALUES ($1, $2, $3)
+      ON CONFLICT (id)
+      DO UPDATE SET 
+      status = 'reported',
+      reportedat = $2,
+      reportedby = $3
+      RETURNING *
+      `,
+      [messageId, now, userLoggedInId]
+    );
+    res.json(modifyStatus.rows[0])
+
+  } catch (error) {
+    console.error("Error reporting message", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 app.post("/rides/message/flag/:messageId", async (req, res) => {
   try {
@@ -1633,6 +1691,32 @@ app.post("/rides/message/flag/:messageId", async (req, res) => {
     const modifyStatus = await pool.query(
       `
       INSERT INTO ride_message (id)
+      VALUES ($1)
+      ON CONFLICT (id)
+      DO UPDATE SET status = 'flagged',
+      reportedat = null
+      RETURNING *
+      `,
+      [messageId]
+    );
+    res.json(modifyStatus.rows[0])
+
+  } catch (error) {
+    console.error("Error flagging message", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/runs/message/flag/:messageId", async (req, res) => {
+  try {
+
+    // console.log("req.params", req.params)
+
+    const messageId = req.params.messageId
+
+    const modifyStatus = await pool.query(
+      `
+      INSERT INTO run_message (id)
       VALUES ($1)
       ON CONFLICT (id)
       DO UPDATE SET status = 'flagged',
