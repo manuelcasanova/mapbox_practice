@@ -93,7 +93,7 @@ const RunFilter = ({ runs, onFilter }) => {
 
   return (
     <div>
-      <h2>Filter Rides</h2>
+      <h2>Filter Runs</h2>
       <div>
         <label>Date Range:</label>
         <input
@@ -128,13 +128,13 @@ const RunFilter = ({ runs, onFilter }) => {
         <label>Pace Range:</label>
         <input
           type="number"
-          value={speedMin === 0 ? "" : paceMin}
+          value={paceMin === 0 ? "" : paceMin}
           onChange={handlePaceMinChange}
         />
         <span>min/km -</span>
         <input
           type="number"
-          value={paceMax === 100000 ? "" : speedMax}
+          value={paceMax === 100000 ? "" : paceMax}
           onChange={handlePaceMaxChange}
         />
         <span>min/km</span>

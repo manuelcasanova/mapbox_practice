@@ -14,7 +14,7 @@ RidesUser.jsx - RunsUser.jsx
 
 components/admin_components/RidesAll - RunsAll.jsx
 
-
+From create a map go to reate a new run or ride
 
 
 

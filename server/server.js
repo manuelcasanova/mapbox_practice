@@ -1495,7 +1495,7 @@ app.get("/runs/public", async (req, res) => {
         const paceRangeMin = req.query.filteredRuns.paceMin
         const paceRangeMax = req.query.filteredRuns.paceMax
 
-        const ridesQuery = `
+        const runsQuery = `
      SELECT DISTINCT r.*
      FROM runs r
      LEFT JOIN followers f ON r.createdby = f.followee_id
@@ -1518,7 +1518,7 @@ app.get("/runs/public", async (req, res) => {
    `;
 
         // Execute the query with parameters
-        const runs = await pool.query(runssQuery, [
+        const runs = await pool.query(runsQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, paceRangeMin, paceRangeMax, userId]);
         res.json(runs.rows)

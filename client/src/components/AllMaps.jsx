@@ -134,9 +134,15 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
           {done && <div>STEP 3:
             <button
               onClick={() => {
-                navigate("/ride");
+                if (rideApp) {
+                  navigate('/ride');
+                } else {
+                  navigate('/run');
+                }
               }}
-            >Create a ride with the new map</button>
+            >
+              Create a {rideApp ? 'ride' : 'run'} with the new map
+              </button>
             <button
               onClick={() => {
                 setFromButton(true)
