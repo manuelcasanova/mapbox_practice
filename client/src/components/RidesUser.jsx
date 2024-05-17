@@ -45,12 +45,19 @@ const RidesUser = () => {
   // console.log("rides", rides)
 
   const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.userId) !== undefined;
-// console.log("isrcbyser", isRideCreatedByUser)
+  // console.log("isrcbyser", isRideCreatedByUser)
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
     setFilteredRides(filters)
   };
 
+  useEffect(() => {
+    console.log("confirm delete", confirmDelete)
+    console.log("rides", rides)
+    console.log("userRides", userRides)
+    console.log("filteredRides", filteredRides)
+    console.log("isRideCreatedByUser", isRideCreatedByUser)
+  }, [confirmDelete])
 
   useEffect(() => {
     let isMounted = true;
@@ -239,18 +246,18 @@ const RidesUser = () => {
 
                     {/* {console.log(user.id, ride.createdby)} */}
                     {confirmDelete ? (
-  rides.length ? (
-    <button onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}>Confirm delete</button>
-  ) : (
-    <button onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
-  )
-) : (
-  rides.length ? (
-    <button onClick={handleConfirmDelete}>Delete</button>
-  ) : (
-    <button onClick={handleConfirmDelete}>Remove from my rides</button>
-  )
-)}
+                      isRideCreatedByUser ? (
+                        <button onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}>Confirm delete</button>
+                      ) : (
+                        <button onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
+                      )
+                    ) : (
+                      isRideCreatedByUser ? (
+                        <button onClick={handleConfirmDelete}>Delete</button>
+                      ) : (
+                        <button onClick={handleConfirmDelete}>Remove from my rides</button>
+                      )
+                    )}
 
 
 

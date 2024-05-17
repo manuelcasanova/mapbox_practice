@@ -1,9 +1,7 @@
-
-
 import DeleteRunMessage from "./DeleteRunMessage"
-import ReportInappropiateRunMessage from './DeleteRunMessage'
+import ReportInappropiateRunMessage from './ReportInappropiateRunMessage'
 import FlagInappropiateRunMessage from './FlagInappropiateRunMessage'
-import AdminOkReportedRunMessage from './AdminOkReportedMessage'
+import AdminOkReportedRunMessage from './AdminOkReportedRunMessage'
 
 export default function MappedRunMessage({ message, user, setMessageDeleted, setMessageReported, setMessageFlagged }) {
 
@@ -13,7 +11,7 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
       {message.status === "flagged" && user.isAdmin && <p>{message.message}</p>}
       <p>Message by: {message.createdby}</p>
       <p>Message time: {message.createdat}</p>
-      {message.createdby === user.id && (
+      {message.createdby === user.userId && (
         <DeleteRunMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
       )}
 

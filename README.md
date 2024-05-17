@@ -1,21 +1,9 @@
 Next:
 
-- See runs
-
-RidesPublic.jsx - RunsPublic.jsx
-
-
-- See my runs
-
-RidesUser.jsx - RunsUser.jsx
-
 
 - Admin runs
 
 components/admin_components/RidesAll - RunsAll.jsx
-
-From create a map go to reate a new run or ride
-
 
 
 - Reported messages - include run messages
@@ -76,6 +64,11 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+From create a map go to reate a new run or ride
+
+
+
 
 - superadmin change users to isAdmin, or user
 

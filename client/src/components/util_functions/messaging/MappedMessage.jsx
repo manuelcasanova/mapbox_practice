@@ -4,14 +4,15 @@ import FlagInapropiateMessage from "./FlagInappropiateMessage"
 import AdminOkReportedMessage from "./AdminOkReportedMessage"
 
 export default function MappedMessage({ message, user, setMessageDeleted, setMessageReported, setMessageFlagged }) {
-
+// console.log("message createdby", message.createdby)
+// console.log("user.id", user.id)
   return (
     <div key={message.id} style={{ borderBottom: "1px solid #ccc" }}>
       {message.status !== "flagged" && <p>{message.message}</p>}
       {message.status === "flagged" && user.isAdmin && <p>{message.message}</p>}
       <p>Message by: {message.createdby}</p>
       <p>Message time: {message.createdat}</p>
-      {message.createdby === user.id && (
+      {message.createdby === user.userId && (
         <DeleteRideMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
       )}
 

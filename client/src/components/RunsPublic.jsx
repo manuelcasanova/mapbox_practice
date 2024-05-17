@@ -253,7 +253,8 @@ const RunsPublic = () => {
 
                 // Determine if the logged-in user is already in this run
 
-
+// console.log("userRuns", userRuns)
+// console.log("run,", run)
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInRun = userRuns.some(userRun => userRun.user_id === auth.userId && userRun.run_id === run.id);
 
@@ -330,11 +331,11 @@ const RunsPublic = () => {
 
                     {/* {console.log("run messages", run.messages)} */}
 
-                    {isUserInRun &&
+                    {isUserInRun || isUserRun &&
 
                       <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
                     }
-                    {run.messages && isUserInRun && (
+                    {run.messages && (isUserInRun || isUserRun) && (
                       <div>
                         {run.messages.map(message => (
 

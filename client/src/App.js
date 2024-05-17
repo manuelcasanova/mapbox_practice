@@ -10,7 +10,8 @@ import CreateRun from './components/CreateRun';
 import AllMaps from './components/AllMaps';
 import RidesPublic from './components/RidesPublic';
 import RunsPublic from './components/RunsPublic';
-import RidesUser from './components/RidesUser'
+import RidesUser from './components/RidesUser';
+import RunsUser from './components/RunsUser';
 import RidesAll from './components/admin_components/RidesAll';
 import UsersAdmin from './components/UsersAdmin';
 import UsersAll from './components/UsersAll';
@@ -141,6 +142,7 @@ function App() {
                     <Route exact path="/rides/public" element={<><RidesPublic /></>}></Route>
                     <Route exact path="/runs/public" element={<><RunsPublic /></>}></Route>
                     <Route exact path="/rides/mine" element={<><RidesUser /></>}></Route>
+                    <Route exact path="/runs/mine" element={<><RunsUser /></>}></Route>
                     <Route exact path="/rides/all" element={<><RidesAll /></>}></Route>
                     <Route exact path="/rides/messages/reported" element={<><ReportedMessages /></>}></Route>
                     <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>

@@ -333,11 +333,11 @@ const RidesPublic = () => {
 
                     {/* {console.log("ride messages", ride.messages)} */}
 
-                    {isUserInRide &&
+                    {isUserInRide || isUserRide && 
 
                       <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
                     }
-                    {ride.messages && isUserInRide && (
+                    {ride.messages && (isUserInRide || isUserRide) && (
                       <div>
                         {ride.messages.map(message => (
 
