@@ -48,7 +48,7 @@ export default function Title({ rideApp, setRideApp }) {
     setShowUn(!showUn);
     setRideApp(!rideApp);
     if (showUn) {
-      navigate("/run");
+      navigate("/runs");
     } else {
       navigate("/rides");
     }
