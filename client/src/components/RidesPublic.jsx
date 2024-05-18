@@ -257,6 +257,10 @@ const RidesPublic = () => {
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInRide = userRides.some(userRide => userRide.user_id === auth.userId && userRide.ride_id === ride.id);
 
+
+  // console.log("isUserRide", isUserRide, "isUserInRide", isUserInRide)
+
+
                 const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
 
 
@@ -331,9 +335,7 @@ const RidesPublic = () => {
                       </div>
                     )}
 
-                    {/* {console.log("ride messages", ride.messages)} */}
-
-                    {isUserInRide || isUserRide && 
+                    {(isUserInRide || isUserRide) && 
 
                       <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
                     }

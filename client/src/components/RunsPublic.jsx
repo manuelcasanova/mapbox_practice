@@ -331,7 +331,7 @@ const RunsPublic = () => {
 
                     {/* {console.log("run messages", run.messages)} */}
 
-                    {isUserInRun || isUserRun &&
+                    {(isUserInRun || isUserRun) &&
 
                       <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
                     }
