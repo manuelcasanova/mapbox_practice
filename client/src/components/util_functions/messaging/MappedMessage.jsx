@@ -11,7 +11,7 @@ import useAuth from "../../../hooks/useAuth"
 export default function MappedMessage({ message, user, setMessageDeleted, setMessageReported, setMessageFlagged }) {
 
   const auth = useAuth()
-  const [users, setUsers] = useState('');
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -35,7 +35,7 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
     };
   }, [message.createdby]);
 
-console.log("users", users)
+// console.log("users", users)
 
 // console.log("message createdby", message.createdby)
 // console.log("user.id", user.id)
