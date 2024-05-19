@@ -31,6 +31,7 @@ import PersistLogin from './components/PersistLogin';
 import ReportedMessages from './components/admin_components/ReportedMessages';
 import ReportedRunMessages from './components/admin_components/ReportedRunMessages';
 import ReportedNotifications from './components/notifications/ReportedNotifications'
+import ReportedRunNotifications from './components/notifications/ReportedRunNotifications'
 
 
 //Context
@@ -46,24 +47,32 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Define a layout component to wrap the routes
 const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => {
 
-  const {auth} = useAuth()
+
+  const { auth } = useAuth()
   const isAdmin = auth.isAdmin
-// console.log("isAdmin in app js", isAdmin)
+  // console.log("isAdmin in app js", isAdmin)
 
   return (
-  <div className='app'>
-       {rideApp && (
-      <>
-        <FollowNotifications />
-        <MessagesNotifications />
-       {isAdmin && <ReportedNotifications /> }
-      </>
-    )}
-    <Title rideApp={rideApp} setRideApp={setRideApp} />
-    <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
-    {children}
-    <Footer />
-  </div>
+    <div className='app'>
+      {rideApp === true && (
+        <>
+          <FollowNotifications />
+          <MessagesNotifications />
+          {isAdmin && <ReportedNotifications />}
+        </>
+      )}
+            {rideApp === false && (
+        <>
+          <FollowNotifications />
+          <MessagesNotifications />
+          {isAdmin && <ReportedRunNotifications />}
+        </>
+      )}
+      <Title rideApp={rideApp} setRideApp={setRideApp} />
+      <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
+      {children}
+      <Footer />
+    </div>
   );
 };
 
@@ -76,8 +85,9 @@ function App() {
   const [fromButton, setFromButton] = useState(false)
   // console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState() //before true
+  console.log("rideApp", rideApp)
 
-// useEffect(() =>    console.log("rideApp in App.js", rideApp), [rideApp])
+  // useEffect(() =>    console.log("rideApp in App.js", rideApp), [rideApp])
 
 
 
@@ -95,7 +105,7 @@ function App() {
     setRideApp(undefined)
   }
 
-//If ride App is false, change to true on Welcome component mount, default state.
+  //If ride App is false, change to true on Welcome component mount, default state.
   // useEffect(() => {
   //   if (!rideApp) {
   //     handleSetRideApp(); 
@@ -105,31 +115,31 @@ function App() {
   //  console.log("rideApp in Appjs", rideApp)
   return (
     // <AuthProvider rideApp={rideApp}>
-      <BrowserCoordsProvider>
-        <Router>
-          <Routes>
-            {/* Route for the Welcome component */}
-            <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp} handleSetRunApp={handleSetRunApp}/>} />
+    <BrowserCoordsProvider>
+      <Router>
+        <Routes>
+          {/* Route for the Welcome component */}
+          <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp} handleSetRunApp={handleSetRunApp} />} />
 
-            <Route exact path="/register" element={<Register/>} />
+          <Route exact path="/register" element={<Register />} />
 
-            {/* <Route exact path="/login" element={<Authentication rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} /> */}
-            <Route exact path="/login" element={<Login rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} />
+          {/* <Route exact path="/login" element={<Authentication rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} /> */}
+          <Route exact path="/login" element={<Login rideApp={rideApp} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} />
 
 
-            {/* Route for other components with the Layout */}
-            <Route
-              path="/*"
-              element={
-                <Layout
-                  rideApp={rideApp}
-                  setRideApp={setRideApp}
-                  fromButton={fromButton}
-                  setFromButton={setFromButton}
-                  setRideAppUndefined={setRideAppUndefined}
-                >
-                  
-                  <Routes>
+          {/* Route for other components with the Layout */}
+          <Route
+            path="/*"
+            element={
+              <Layout
+                rideApp={rideApp}
+                setRideApp={setRideApp}
+                fromButton={fromButton}
+                setFromButton={setFromButton}
+                setRideAppUndefined={setRideAppUndefined}
+              >
+
+                <Routes>
 
                   <Route element={<PersistLogin />}>
                     <Route exact path="/rides" element={<></>}> </Route>
@@ -154,15 +164,15 @@ function App() {
                     <Route exact path="/users/muted" element={<><MutedUsers /></>}></Route>
                     <Route exact path="/users/pending" element={<><PendingUsers /></>}></Route>
                     <Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}></Route>
-                    <Route exact path="/user/profile" element={<><UserProfile setRideAppUndefined={setRideAppUndefined}/></>}></Route>
-                    </Route> 
-                  </Routes>
-                </Layout>
-              }
-            />
-          </Routes>
-        </Router>
-      </BrowserCoordsProvider>
+                    <Route exact path="/user/profile" element={<><UserProfile setRideAppUndefined={setRideAppUndefined} /></>}></Route>
+                  </Route>
+                </Routes>
+              </Layout>
+            }
+          />
+        </Routes>
+      </Router>
+    </BrowserCoordsProvider>
     // </AuthProvider>
 
 

@@ -23,7 +23,7 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
 
   const formattedDate = `${originalDate.getDate()}-${monthAbbreviations[originalDate.getMonth()]}-${originalDate.getFullYear()} at ${originalDate.getHours().toString().padStart(2, '0')}:${originalDate.getMinutes().toString().padStart(2, '0')}:${originalDate.getSeconds().toString().padStart(2, '0')}`;
 
-console.log(formattedDate);
+// console.log(formattedDate);
 
 
   useEffect(() => {
