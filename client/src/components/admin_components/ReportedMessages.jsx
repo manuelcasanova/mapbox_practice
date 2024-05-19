@@ -8,6 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import fetchReportedMessages from "../util_functions/messaging/FetchReportedMessages";
 import FlagInapropiateMessage from "../util_functions/messaging/FlagInappropiateMessage";
 import AdminOkReportedMessage from "../util_functions/messaging/AdminOkReportedMessage";
+import fetchUsernameAndId from "../util_functions/FetchUsername";
 
 export default function ReportedMessages() {
   // Variables
@@ -17,10 +18,19 @@ export default function ReportedMessages() {
   const [reportedMessages, setReportedMessages] = useState([]);
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
+  const [users, setUsers] = useState([]); 
 
   // useEffect(() => {
   //   console.log("reportedMessages", reportedMessages)
   // }, [reportedMessages])
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    return () => {
+      isMounted = false; 
+    };
+  }, [auth]);
 
   useEffect(() => {
     let isMounted = true;
@@ -66,7 +76,9 @@ export default function ReportedMessages() {
               {reportedMessages.map((message) => (
                 <li key={message.id}>
                   <div>Message: {message.message}</div>
-                  <div>Message by: {message.createdby  }</div>
+                  <div>Message By: {
+                      users.find(user => user.id === message.createdby)?.username || "Unknown User"
+                    }</div>
                   <div>Ride: {message.ride_id}</div>  
                   <FlagInapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/>
                   <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported}/>        

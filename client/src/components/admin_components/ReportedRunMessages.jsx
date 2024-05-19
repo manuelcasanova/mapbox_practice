@@ -8,6 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import fetchReportedRunMessages from "../util_functions/messaging/FetchReportedRunMessages";
 import FlagInapropiateRunMessage from "../util_functions/messaging/FlagInappropiateRunMessage";
 import AdminOkReportedRunMessage from "../util_functions/messaging/AdminOkReportedRunMessage";
+import fetchUsernameAndId from "../util_functions/FetchUsername";
 
 export default function ReportedRunMessages() {
   // Variables
@@ -17,10 +18,19 @@ export default function ReportedRunMessages() {
   const [reportedRunMessages, setReportedRunMessages] = useState([]);
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
+  const [users, setUsers] = useState([]); 
 
   // useEffect(() => {
-  //   console.log("reportedRunMessages", reportedRunMessages)
-  // }, [reportedRunMessages])
+  //   console.log("users", users)
+  // }, [users])
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    return () => {
+      isMounted = false; 
+    };
+  }, [auth]);
 
   useEffect(() => {
     let isMounted = true;
@@ -43,7 +53,7 @@ export default function ReportedRunMessages() {
     fetchMessages();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false; 
     };
   }, [messageFlagged, messageReported]); 
 
@@ -66,8 +76,10 @@ export default function ReportedRunMessages() {
               {reportedRunMessages.map((message) => (
                 <li key={message.id}>
                   <div>Message: {message.message}</div>
-                  <div>Message by: {message.createdby  }</div>
-                  <div>Ride: {message.ride_id}</div>  
+                  <div>Message By: {
+                      users.find(user => user.id === message.createdby)?.username || "Unknown User"
+                    }</div>
+                  <div>Ride: {message.run_id}</div>  
                   <FlagInapropiateRunMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/>
                   <AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported}/>        
                   </li>
