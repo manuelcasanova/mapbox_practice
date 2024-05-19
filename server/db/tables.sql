@@ -145,7 +145,7 @@ CREATE TABLE run_message (
   id SERIAL PRIMARY KEY,
   createdat timestamp,
   createdby INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  run_id INTEGER REFERENCES rides(id) ON DELETE CASCADE,
+  run_id INTEGER REFERENCES runs(id) ON DELETE CASCADE,
   reportedat timestamp,
   reportedby INTEGER REFERENCES users(id) ON DELETE CASCADE,
   status VARCHAR(20),

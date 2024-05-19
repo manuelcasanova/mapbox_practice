@@ -1647,7 +1647,7 @@ app.get("/rides/messages/reported", async (req, res) => {
   const isAdmin = req.query.isAdmin;
 // console.log("isAdmin", isAdmin)
   if (isAdmin !== 'true') {
-    return res.status(403).json({ error: 'Forbidden: Access denied. Super admin permission required.' });
+    return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
     try {
       const reportedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'reported'`);
@@ -1656,6 +1656,23 @@ app.get("/rides/messages/reported", async (req, res) => {
     } catch (err) {
       console.error('Error fetching ride messages:', err);
       res.status(500).json({ error: 'An error occurred while fetching ride messages' });
+    }
+  }
+});
+
+app.get("/runs/messages/reported", async (req, res) => {
+  const isAdmin = req.query.isAdmin;
+// console.log("isAdmin", isAdmin)
+  if (isAdmin !== 'true') {
+    return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
+  } else {
+    try {
+      const reportedMessages = await pool.query(`SELECT * from run_message WHERE status = 'reported'`);
+      // console.log(reportedMessages.rows)
+      res.json(reportedMessages.rows)
+    } catch (err) {
+      console.error('Error fetching run messages:', err);
+      res.status(500).json({ error: 'An error occurred while fetching run messages' });
     }
   }
 });

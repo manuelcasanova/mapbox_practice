@@ -29,6 +29,7 @@ import Register from './components/authentication/Register';
 import Login from './components/authentication/Login';
 import PersistLogin from './components/PersistLogin';
 import ReportedMessages from './components/admin_components/ReportedMessages';
+import ReportedRunMessages from './components/admin_components/ReportedRunMessages';
 import ReportedNotifications from './components/notifications/ReportedNotifications'
 
 
@@ -145,6 +146,7 @@ function App() {
                     <Route exact path="/runs/mine" element={<><RunsUser /></>}></Route>
                     <Route exact path="/rides/all" element={<><RidesAll /></>}></Route>
                     <Route exact path="/rides/messages/reported" element={<><ReportedMessages /></>}></Route>
+                    <Route exact path="/runs/messages/reported" element={<><ReportedRunMessages /></>}></Route>
                     <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>
                     <Route exact path="/users/all" element={<><UsersAll /></>}></Route>
                     <Route exact path="/users/followee" element={<><Followee /></>}></Route>

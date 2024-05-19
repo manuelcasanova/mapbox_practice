@@ -147,7 +147,12 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
 
                 <button onClick={() => handleSelectOption("/users/admin", "admin")}>Admin users</button>
 
-                <button onClick={() => handleSelectOption("/rides/messages/reported", "admin")}>Reported messages</button>
+                {rideApp ?
+                  <button onClick={() => handleSelectOption("/rides/messages/reported", "admin")}>Reported messages</button>
+                  :
+                  <button onClick={() => handleSelectOption("/runs/messages/reported", "admin")}>Reported messages</button>
+                }
+
 
               </div>
             )}

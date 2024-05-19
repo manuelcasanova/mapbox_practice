@@ -246,24 +246,3 @@ INSERT INTO runs (name, distance, pace, isSelected, isActive, createdBy, runType
 VALUES 
   ('Stanley Park Run PUBLIC', 20, 6, false, true, 2, 'public', 'stanley_park_run.jpg', 'stanley_park_run.gpx', '2024-08-13', '7:00:00', 'Vancouver Art Gallery', 'Enjoy a nice run around Stanley Park.', 1);
 
-INSERT INTO ride_message (createdAt, createdby, ride_id, message, status)
-VALUES
-('2024-04-23 08:00:04', 3, 3, 'Clean message 4', null),
-('2024-04-23 08:00:03', 3, 3, 'Clean message 3', null),
-('2024-04-23 08:00:02', 4, 3, 'Reported message 2', 'reported'),
-('2024-04-23 08:00:01', 5, 3, 'Flagged message 1', 'flagged');
-
-INSERT INTO run_message (createdAt, createdby, run_id, message, status)
-VALUES
-('2024-08-12 08:00:04', 3, 1, 'Clean message 4', null),
-('2024-08-12 08:00:03', 3, 1, 'Clean message 3', null),
-('2024-08-12 08:00:02', 4, 1, 'Reported message 2', 'reported'),
-('2024-08-12 08:00:01', 5, 1, 'Flagged message 1', 'flagged');
-
-INSERT INTO user_messages (sender, receiver, content, date)
-VALUES
-(1, 2, 'Hey', '2024-04-23 08:00:00'),
-(2, 1, 'Hey BACK', '2024-04-23 08:00:01'),
-(3, 5, 'Hey BACK', '2024-04-23 08:00:07'),
-(5, 3, 'Hey', '2024-04-23 08:00:03')
-

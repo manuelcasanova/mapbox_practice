@@ -3,12 +3,11 @@ Next:
 
 - Admin runs
 
+notifications new run message reported
+
 components/admin_components/RidesAll - RunsAll.jsx
 
-- Reported messages - include run messages
-
-
-
+Admin / See flagged messages (no need for notification - approve again) 
 
 404 pages
 
@@ -64,6 +63,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+- Reported messages - include run messages
 
 - Ride messages: Modify date/time format
 
