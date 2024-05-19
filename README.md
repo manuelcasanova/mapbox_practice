@@ -7,7 +7,6 @@ components/admin_components/RidesAll - RunsAll.jsx
 
 - Reported messages - include run messages
 
-- Ride messages: Modify date/time (like personal messaging),
 
 
 
@@ -65,6 +64,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+- Ride messages: Modify date/time format
 
  Ride messages by username instead of id
 

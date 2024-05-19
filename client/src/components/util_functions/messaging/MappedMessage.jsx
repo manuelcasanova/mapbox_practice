@@ -15,6 +15,12 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const originalDate = new Date(message.createdat);
+
+  const monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  const formattedDate = `${originalDate.getDate()}-${monthAbbreviations[originalDate.getMonth()]}-${originalDate.getFullYear()} at ${originalDate.getHours().toString().padStart(2, '0')}:${originalDate.getMinutes().toString().padStart(2, '0')}:${originalDate.getSeconds().toString().padStart(2, '0')}`;
+
   useEffect(() => {
     let isMounted = true;
     async function getUsername() {
@@ -45,10 +51,11 @@ const createdByUsername = users.find(user => user.id === message.createdby)?.use
 
   return (
     <div key={message.id} style={{ borderBottom: "1px solid #ccc" }}>
+
+      <p>{createdByUsername}</p>
+      <p>{formattedDate}</p>
       {message.status !== "flagged" && <p>{message.message}</p>}
       {message.status === "flagged" && user.isAdmin && <p>{message.message}</p>}
-      <p>Message by: {createdByUsername}</p>
-      <p>Message time: {message.createdat}</p>
       {message.createdby === user.userId && (
         <DeleteRideMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
       )}
