@@ -12,10 +12,14 @@ import useLogout from "../hooks/useLogout";
 import { deactivateUser } from "./util_functions/user_functions/DeleteUser";
 import { updateUsername } from "./util_functions/user_functions/UpdateUsername";
 
+//Components
+import UserEditPassword from "./authentication/UserEditPassword";
+
 export default function UserProfile({setRideAppUndefined}) {
 
   const navigate = useNavigate()
   const { auth, updateUsername } = useContext(AuthContext);
+  const [users, setUsers] = useState();
 
   // console.log("user int UserProfile", user)
   // console.log("auth in UserProfile", auth.username)
@@ -66,6 +70,7 @@ export default function UserProfile({setRideAppUndefined}) {
           }</div>
             {isEditingUsername && <button onClick={handleUpdateUsername}>Save changes</button>}
           <div>Email: {auth.email}</div>
+          <UserEditPassword user={auth} users={users} setUsers={setUsers}/>
           <div>Permissions: {auth.isSuperAdmin ? 'Super Admin' : auth.isAdmin ? 'Admin' : 'User'}</div>
 
           {!showConfirmDelete && <button onClick={() => setShowConfirmDelete(true)}>Delete Account</button>}

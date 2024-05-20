@@ -1,10 +1,5 @@
 Next:
 
-Forgot email
-
-Modify password
-
-
 REVIEW: isLoading, setIsLoading... in components, in util functions, etc. (example ReportedMessages.jsx)
 
 OAuth
@@ -51,6 +46,10 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Modify password
+
+Forgot password
 
 Modify username
 

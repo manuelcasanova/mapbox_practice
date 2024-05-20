@@ -9,6 +9,7 @@ const credentials = require('./middleware/credentials')
 const PORT = process.env.PORT || 3500;
 const pool = require('./config/db');
 const { report } = require('./routes/register');
+const bcrypt = require('bcrypt')
 
 
 app.set("view engine", 'ejs');
@@ -56,6 +57,46 @@ app.use('/forgot-password', require('./routes/forgot-password'));
 
 
 
+app.put('/users/edit/password', async (req, res) => {
+try {
+
+    if (!req?.body?.id) {
+        return res.status(400).json({ 'message': 'ID parameter is required.' });
+    }
+    try {
+      
+        let hashedPwd;
+
+        const data = await pool.query('SELECT * FROM users WHERE id = $1', [req.body.id])
+        const user = data.rows;
+
+        if (!user) {
+            return res.status(204).json({ "message": `No user matches ID ${req.body.id}.` });
+        }
+        //console.log('user', user)
+        if (req.body?.pwd) {
+            hashedPwd = await bcrypt.hash(req.body.pwd, 10);
+        }
+        // console.log("hashed pwd", hashedPwd)
+        if (req.body?.pwd)
+
+
+            await pool.query('UPDATE users SET password=$1 WHERE id=$2', [hashedPwd, req.body.id])
+
+
+        res.json();
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'An error occurred while resetting the password.' });
+    }
+} catch (error) {
+  console.error("Error updating password", error);
+  res.status(500).send("Internal Server Error");
+}
+});
+
+
 // PUT route to update user's last login
 app.post('/users/lastlogin/', async (req, res) => {
   try {
@@ -82,7 +123,6 @@ app.post('/users/lastlogin/', async (req, res) => {
 //Get all users (Admin)
 app.get("/users", async (req, res) => {
   try {
-
     if (req.query.user && req.query.user.isAdmin) {
       const rides = await pool.query(
         'SELECT * FROM users ORDER BY username'
