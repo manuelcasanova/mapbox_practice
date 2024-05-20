@@ -1,6 +1,7 @@
 //Hooks
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthProvider";
 
 //Context
 // import { useAuth } from "./Context/AuthContext";
@@ -14,8 +15,8 @@ import { updateUsername } from "./util_functions/user_functions/UpdateUsername";
 export default function UserProfile({setRideAppUndefined}) {
 
   const navigate = useNavigate()
+  const { auth, updateUsername } = useContext(AuthContext);
 
-  const { auth } = useAuth();
   // console.log("user int UserProfile", user)
   // console.log("auth in UserProfile", auth.username)
 
@@ -25,8 +26,7 @@ export default function UserProfile({setRideAppUndefined}) {
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const [newUsername, setNewUsername] = useState("");
   const [isEditingUsername, setIsEditingUsername] = useState(false);
-
-
+// console.log(newUsername)
 
   const handleShowConfirmDelete = () => {setShowConfirmDelete(prev => !prev)}
   const handleDeactivateUser = () => {
@@ -42,11 +42,11 @@ export default function UserProfile({setRideAppUndefined}) {
 
   const handleUpdateUsername = () => {
     if (newUsername.trim() !== "") {
-      updateUsername(auth, newUsername.trim());
+      updateUsername(newUsername.trim());
       setIsEditingUsername(false);
       setNewUsername(""); 
-      logOut()
-      navigate('/login')
+      // logOut()
+      // navigate('/login')
     }
   };
 

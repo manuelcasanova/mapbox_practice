@@ -128,7 +128,7 @@ app.get("/users/names", async (req, res) => {
 //Modify username
 app.post("/users/modifyusername", async (req, res) => {
   const { userId, newUsername } = req.body;
-  console.log("req.body users/modifyusername", req.body)
+  // console.log("req.body users/modifyusername", req.body)
   try {
     // Update the username in the database
     await pool.query('UPDATE users SET username = $1 WHERE id = $2', [newUsername, userId]);
