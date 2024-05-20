@@ -66,7 +66,7 @@ const RunsPublic = () => {
     const fetchData = async () => {
       try {
         if (!auth || Object.keys(auth).length === 0) {
-          throw new Error("User authentication information is missing.");
+          throw new Error("Login to access this area.");
         }
         const response = await axios.get('http://localhost:3500/runs/public', {
           params: {
@@ -121,7 +121,7 @@ const RunsPublic = () => {
     const fetchUserRuns = async () => {
       try {
         if (!auth || Object.keys(auth).length === 0) {
-          throw new Error("User authentication information is missing.");
+          throw new Error("Login to access this area.");
         }
         const response = await axios.get('http://localhost:3500/runs/otherusers', {
           params: {
@@ -161,7 +161,7 @@ const RunsPublic = () => {
     e.preventDefault();
     try {
       if (!auth || Object.keys(auth).length === 0) {
-        throw new Error("User authentication information is missing.");
+        throw new Error("Login to access this area.");
       }
       // console.log("Adding to run...");
       await axios.post(`http://localhost:3500/runs/adduser`, {
@@ -184,7 +184,7 @@ const RunsPublic = () => {
     e.preventDefault();
     try {
       if (!auth || Object.keys(auth).length === 0) {
-        throw new Error("User authentication information is missing.");
+        throw new Error("Login to access this area.");
       }
       // console.log("Adding to map...");
       await axios.delete(`http://localhost:3500/runs/removeuser`, {
@@ -290,7 +290,7 @@ const RunsPublic = () => {
                     {userRuns.length ?
 
                       <div>
-                        <div>{usersInThisRun.length} joined this run, {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} publicaly</div>
+                        <div>{usersInThisRun.length} joined this run, {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} publicly</div>
 
                         {!showUsers && <div onClick={() => setShowUsers(!showUsers)}>+</div>}
 

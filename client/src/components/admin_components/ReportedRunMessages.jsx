@@ -79,7 +79,10 @@ export default function ReportedRunMessages() {
                   <div>Message By: {
                       users.find(user => user.id === message.createdby)?.username || "Unknown User"
                     }</div>
-                  <div>Ride: {message.run_id}</div>  
+                  <div>Ride: {message.run_id}</div> 
+                  <div>Message by: {
+                      users.find(user => user.id === message.reportedby)?.username || "Unknown User"
+                    }</div>
                   <FlagInapropiateRunMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/>
                   <AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported}/>        
                   </li>

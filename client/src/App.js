@@ -33,6 +33,8 @@ import ReportedMessages from './components/admin_components/ReportedMessages';
 import ReportedRunMessages from './components/admin_components/ReportedRunMessages';
 import ReportedNotifications from './components/notifications/ReportedNotifications'
 import ReportedRunNotifications from './components/notifications/ReportedRunNotifications'
+import FlaggedMessages from './components/admin_components/FlaggedMessages';
+import FlaggedRunMessages from './components/admin_components/FlaggedRunMessages'
 
 
 //Context
@@ -159,6 +161,9 @@ function App() {
                     <Route exact path="/runs/all" element={<><RunsAll /></>}></Route>
                     <Route exact path="/rides/messages/reported" element={<><ReportedMessages /></>}></Route>
                     <Route exact path="/runs/messages/reported" element={<><ReportedRunMessages /></>}></Route>
+                    <Route exact path="/runs/messages/flagged" element={<><FlaggedRunMessages /></>}></Route>
+                    <Route exact path="/rides/messages/flagged" element={<><FlaggedMessages /></>}></Route>
+
                     <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>
                     <Route exact path="/users/all" element={<><UsersAll /></>}></Route>
                     <Route exact path="/users/followee" element={<><Followee /></>}></Route>

@@ -138,10 +138,9 @@ const PendingUsers = () => {
         setIsLoading(false); // Set loading to false regardless of success or failure
       });
     } else {
-      console.error('Authentication information is missing.');
+      console.error("Login to access this area.");
     }
   };
-
 
   useEffect(() => {
     let isMounted = true;

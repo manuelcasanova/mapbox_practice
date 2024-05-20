@@ -1,27 +1,18 @@
 Next:
 
-
-Reported messages, reported by whom
-
-Admin / See flagged messages (no need for notification - approve again) 
-
-404 pages
-
-
 Forgot email
+
+Modify username
+Modify password
 
 
 REVIEW: isLoading, setIsLoading... in components, in util functions, etc. (example ReportedMessages.jsx)
 
 OAuth
 
-logic for read/unread messages
-
 localhost:3500 (.env)
 Organize backend like in casinosteps.ca
 
-Modify username
-Modify password
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
@@ -50,6 +41,8 @@ PRODUCTION
 
 Future:
 
+logic for read/unread messages
+
 Possibility of receving email when:
 message notifications
 someone joins a ride
@@ -59,6 +52,10 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Admin / See flagged messages (no need for notification - can approve) 
+
+- Messages reported by
 
 - Admin runs
 

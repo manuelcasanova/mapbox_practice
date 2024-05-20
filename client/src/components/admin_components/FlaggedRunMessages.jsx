@@ -5,24 +5,23 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 
 // Util functions
-import fetchReportedMessages from "../util_functions/messaging/FetchReportedMessages";
-import FlagInapropiateMessage from "../util_functions/messaging/FlagInappropiateMessage";
-import AdminOkReportedMessage from "../util_functions/messaging/AdminOkReportedMessage";
+import fetchFlaggedRunMessages from "../util_functions/messaging/FetchFlaggedRunMessages";
+import AdminOkReportedRunMessage from "../util_functions/messaging/AdminOkReportedRunMessage";
 import fetchUsernameAndId from "../util_functions/FetchUsername";
 
-export default function ReportedMessages() {
+export default function FlaggedMessages() {
   // Variables
   const { auth } = useAuth();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [reportedMessages, setReportedMessages] = useState([]);
+  const [flaggedMessages, setFlaggedMessages] = useState([]);
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
   const [users, setUsers] = useState([]); 
 
   // useEffect(() => {
-  //   console.log("reportedMessages", reportedMessages)
-  // }, [reportedMessages])
+  //   console.log("flaggedMessages", flaggedMessages)
+  // }, [flaggedMessages])
 
   useEffect(() => {
     let isMounted = true;
@@ -38,10 +37,10 @@ export default function ReportedMessages() {
     const fetchMessages = async () => {
       try {
         setIsLoading(true);
-        const reportedMessages = await fetchReportedMessages({auth}); 
-        // console.log("reportedMessages", reportedMessages);
+        const flaggedMessages = await fetchFlaggedRunMessages({auth}); 
+        //  console.log("flaggedMessages", flaggedMessages);
         if (isMounted) {
-          setReportedMessages(reportedMessages);
+          setFlaggedMessages(flaggedMessages);
           setIsLoading(false);
         }
       } catch (error) {
@@ -70,10 +69,10 @@ export default function ReportedMessages() {
       ) : (
         
 <div>
-          <h2>Reported messages</h2>
-          {reportedMessages.length > 0 ? (
+          <h2>Flagged messages</h2>
+          {flaggedMessages.length > 0 ? (
             <ul>
-              {reportedMessages.map((message) => (
+              {flaggedMessages.map((message) => (
                 <li key={message.id}>
                   <div>Message: {message.message}</div>
                   <div>Message by: {
@@ -83,13 +82,12 @@ export default function ReportedMessages() {
                   <div>Reported by: {
                       users.find(user => user.id === message.reportedby)?.username || "Unknown User"
                     }</div>
-                  <FlagInapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/>
-                  <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported}/>        
+                  <AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported}/>        
                   </li>
               ))}
             </ul>
           ) : (
-            <p>No reported messages.</p>
+            <p>No flagged messages.</p>
           )}
         </div>
 

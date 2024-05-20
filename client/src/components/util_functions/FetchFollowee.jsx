@@ -7,7 +7,7 @@ const fetchFollowee = async (auth, setFollowers, setIsLoading, setError, isMount
   try {
 
     if (!auth || Object.keys(auth).length === 0) {
-      throw new Error("User authentication information is missing.");
+      throw new Error("Login to access this area.");
     }
 
     const response = await axios.get('http://localhost:3500/users/followee', { 

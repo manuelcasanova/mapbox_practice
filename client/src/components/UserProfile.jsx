@@ -16,6 +16,7 @@ export default function UserProfile({setRideAppUndefined}) {
 
   const { auth } = useAuth();
   // console.log("user int UserProfile", user)
+  console.log("auth in UserProfile", auth)
   const loggedInUser = auth;
   const logOut = useLogout(setRideAppUndefined)
 
@@ -31,7 +32,8 @@ export default function UserProfile({setRideAppUndefined}) {
 
   return (
     <>
-      {auth && (
+    {!auth || Object.keys(auth).length === 0 ? (<>Please log in to see the user profile.</>) :
+     (
         <>
           <div>Image:</div>
           <div>Username: {auth.username}</div>
@@ -42,7 +44,8 @@ export default function UserProfile({setRideAppUndefined}) {
           {!showConfirmDelete && <button onClick={() => setShowConfirmDelete(true)}>Delete Account</button>}
           {showConfirmDelete && <button onClick={handleDeactivateUser}>Confirm Delete Account. Can't be undone</button>}
         </>
-      )}
+      )
+    }
     </>
   );
 

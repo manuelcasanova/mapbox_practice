@@ -4,7 +4,7 @@ const fetchLoginHistory = async (auth, setLoginHistory, setIsLoading, setError, 
   try {
 
     if (!auth || Object.keys(auth).length === 0) {
-      throw new Error("User authentication information is missing.");
+      throw new Error("Login to access this area.");
     }
     // console.log("fetching loging history")
     const response = await axios.get('http://localhost:3500/users/loginhistory', { 

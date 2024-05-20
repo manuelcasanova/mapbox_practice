@@ -66,7 +66,7 @@ const RidesPublic = () => {
     const fetchData = async () => {
       try {
         if (!auth || Object.keys(auth).length === 0) {
-          throw new Error("User authentication information is missing.");
+          throw new Error("Login to access this area.");
         }
         const response = await axios.get('http://localhost:3500/rides/public', {
           params: {
@@ -121,7 +121,7 @@ const RidesPublic = () => {
     const fetchUserRides = async () => {
       try {
         if (!auth || Object.keys(auth).length === 0) {
-          throw new Error("User authentication information is missing.");
+          throw new Error("Login to access this area.");
         }
         const response = await axios.get('http://localhost:3500/rides/otherusers', {
           params: {
@@ -161,7 +161,7 @@ const RidesPublic = () => {
     e.preventDefault();
     try {
       if (!auth || Object.keys(auth).length === 0) {
-        throw new Error("User authentication information is missing.");
+        throw new Error("Login to access this area.");
       }
       // console.log("Adding to ride...");
       await axios.post(`http://localhost:3500/rides/adduser`, {
@@ -184,7 +184,7 @@ const RidesPublic = () => {
     e.preventDefault();
     try {
       if (!auth || Object.keys(auth).length === 0) {
-        throw new Error("User authentication information is missing.");
+        throw new Error("Login to access this area.");
       }
       // console.log("Adding to map...");
       await axios.delete(`http://localhost:3500/rides/removeuser`, {
@@ -293,7 +293,7 @@ const RidesPublic = () => {
                     {userRides.length ?
 
                       <div>
-                        <div>{usersInThisRide.length} joined this ride, {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} publicaly</div>
+                        <div>{usersInThisRide.length} joined this ride, {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} publicly</div>
 
                         {/* <div>{userRides.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
   <div>{userRides.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div> */}
