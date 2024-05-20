@@ -13,6 +13,7 @@ import RunsPublic from './components/RunsPublic';
 import RidesUser from './components/RidesUser';
 import RunsUser from './components/RunsUser';
 import RidesAll from './components/admin_components/RidesAll';
+import RunsAll from './components/admin_components/RunsAll';
 import UsersAdmin from './components/UsersAdmin';
 import UsersAll from './components/UsersAll';
 import MapsPublic from './components/MapsPublic';
@@ -85,7 +86,7 @@ function App() {
   const [fromButton, setFromButton] = useState(false)
   // console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState() //before true
-  console.log("rideApp", rideApp)
+  // console.log("rideApp", rideApp)
 
   // useEffect(() =>    console.log("rideApp in App.js", rideApp), [rideApp])
 
@@ -155,6 +156,7 @@ function App() {
                     <Route exact path="/rides/mine" element={<><RidesUser /></>}></Route>
                     <Route exact path="/runs/mine" element={<><RunsUser /></>}></Route>
                     <Route exact path="/rides/all" element={<><RidesAll /></>}></Route>
+                    <Route exact path="/runs/all" element={<><RunsAll /></>}></Route>
                     <Route exact path="/rides/messages/reported" element={<><ReportedMessages /></>}></Route>
                     <Route exact path="/runs/messages/reported" element={<><ReportedRunMessages /></>}></Route>
                     <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>

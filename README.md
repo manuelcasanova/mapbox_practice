@@ -1,9 +1,7 @@
 Next:
 
 
-- Admin runs
-
-components/admin_components/RidesAll - RunsAll.jsx
+Reported messages, reported by whom
 
 Admin / See flagged messages (no need for notification - approve again) 
 
@@ -61,6 +59,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+- Admin runs
 
 notifications new run message reported
 

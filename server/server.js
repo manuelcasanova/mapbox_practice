@@ -1369,6 +1369,26 @@ app.get("/rides", async (req, res) => {
 });
 
 
+//Get all runs (admin)
+app.get("/runs", async (req, res) => {
+  try {
+
+    if (req.query.user && req.query.user.isAdmin) {
+      const runs = await pool.query(
+        'SELECT * FROM runs'
+      );
+      res.json(runs.rows)
+    } else {
+      // Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+
 //Get all public rides (user)
 app.get("/rides/public", async (req, res) => {
   try {
