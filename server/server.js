@@ -125,6 +125,23 @@ app.get("/users/names", async (req, res) => {
   }
 });
 
+//Modify username
+app.post("/users/modifyusername", async (req, res) => {
+  const { userId, newUsername } = req.body;
+  console.log("req.body users/modifyusername", req.body)
+  try {
+    // Update the username in the database
+    await pool.query('UPDATE users SET username = $1 WHERE id = $2', [newUsername, userId]);
+    
+    // Return success response
+    res.status(200).json({ message: "Username updated successfully" });
+  } catch (error) {
+    console.error("Error updating username:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 //Get muted users
 app.get('/users/muted', async (req, res) => {
   const userId = req.query.userId;

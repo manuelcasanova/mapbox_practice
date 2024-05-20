@@ -2,7 +2,6 @@ Next:
 
 Forgot email
 
-Modify username
 Modify password
 
 
@@ -52,6 +51,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Modify username
 
 Admin / See flagged messages (no need for notification - can approve) 
 
