@@ -44,8 +44,9 @@ const Login = ({ rideApp }) => {
                 JSON.stringify({ user, pwd, trimmedEmail }),
                 {
                     headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true,
-                    timeout: 5000 // Timeout after 5 seconds
+                    withCredentials: true
+                    ,
+                     timeout: 7000 // Timeout after 7 seconds
                 }
             );
             //  console.log("response in Login", response)
