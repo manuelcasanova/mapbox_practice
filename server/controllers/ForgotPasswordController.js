@@ -3,7 +3,7 @@ const pool = require('../config/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 let nodemailer = require('nodemailer');
-const { checkout } = require('../routes/root');
+
 
 const BASE_URL = process.env.REMOTE_CLIENT_APP;
 

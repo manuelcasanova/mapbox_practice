@@ -35,6 +35,7 @@ import ReportedNotifications from './components/notifications/ReportedNotificati
 import ReportedRunNotifications from './components/notifications/ReportedRunNotifications'
 import FlaggedMessages from './components/admin_components/FlaggedMessages';
 import FlaggedRunMessages from './components/admin_components/FlaggedRunMessages'
+import ResetPassword from './components/authentication/ResetPassword';
 
 
 //Context
@@ -129,6 +130,7 @@ function App() {
           {/* <Route exact path="/login" element={<Authentication rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} /> */}
           <Route exact path="/login" element={<Login rideApp={rideApp} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} />
 
+          <Route path="/resetpassword" element={<ResetPassword />} />
 
           {/* Route for other components with the Layout */}
           <Route
