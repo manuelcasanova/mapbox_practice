@@ -102,7 +102,7 @@ const loggedInUser = auth;
   }
 
   return (
-    <div>
+    <>
       {users.length === 0 ? (
         <div>No users available.</div>
       ) : (
@@ -148,7 +148,7 @@ const isAdmin = user.isadmin
             )}
           </>
       )}
-    </div>
+    </>
   );
 };
 

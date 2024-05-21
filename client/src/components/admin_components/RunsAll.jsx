@@ -98,7 +98,7 @@ const RunsAll = () => {
   }
 
   return (
-    <div>
+    <>
       {runs.length === 0 ? (
         <div>No runs available.</div>
       ) : (
@@ -166,7 +166,7 @@ const RunsAll = () => {
             )}
           </>
       )}
-    </div>
+    </>
   );
 };
 

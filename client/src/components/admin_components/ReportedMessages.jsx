@@ -62,7 +62,7 @@ export default function ReportedMessages() {
   }
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -94,6 +94,6 @@ export default function ReportedMessages() {
         </div>
 
       )}
-    </div>
+    </>
   );
 }

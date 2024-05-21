@@ -23,13 +23,13 @@ const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers }) => {
   };
 
   return (
-    <div>
+    <>
       {isMuted ? (
         <button onClick={unmuteUser}>Unmute</button>
       ) : (
         <button onClick={muteUser}>Mute</button>
       )}
-    </div>
+    </>
   );
 };
 

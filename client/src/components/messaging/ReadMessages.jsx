@@ -78,7 +78,7 @@ const renderedMessages = messages.map((message) => {
   }
 });
 return (
-  <div>
+  <>
     {isLoading ? (
       <p>Loading...</p>
     ) : error ? (
@@ -86,6 +86,6 @@ return (
     ) : (
       renderedMessages
     )}
-  </div>
+  </>
 );
 }

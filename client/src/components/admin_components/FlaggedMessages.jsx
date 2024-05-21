@@ -61,7 +61,7 @@ export default function FlaggedMessages() {
   }
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -92,6 +92,6 @@ export default function FlaggedMessages() {
         </div>
 
       )}
-    </div>
+    </>
   );
 }

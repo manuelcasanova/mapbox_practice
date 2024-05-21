@@ -63,7 +63,7 @@ export default function SeeMap() {
 
   return (
     
-<div>
+<>
   {auth.accessToken !== undefined ? (
     mapId !== null && mapId !== undefined ? (
       <SeeMapChild
@@ -80,7 +80,7 @@ export default function SeeMap() {
   ) : (
     <>Log in to see the map</>
   )}
-</div>
+</>
 
   
   );

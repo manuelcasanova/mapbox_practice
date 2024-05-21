@@ -57,7 +57,7 @@ const Followee = () => {
   );
 
   return (
-    <div>
+    <>
       {!amIFollowingAnybody ? (
         <div>You are not following anybody.</div>
       ) : (
@@ -124,7 +124,7 @@ const Followee = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

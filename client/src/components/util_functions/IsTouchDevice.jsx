@@ -10,13 +10,13 @@ function IsTouchDevice() {
 
 
   return (
-    <div>
+    <>
       {isTouchDevice ? (
         <p>Touchscreen device detected.</p>
       ) : (
         <p>Desktop or non-touchscreen device detected.</p>
       )}
-    </div>
+    </>
   );
 }
 

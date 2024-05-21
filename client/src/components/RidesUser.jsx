@@ -53,11 +53,11 @@ const RidesUser = () => {
   };
 
   useEffect(() => {
-    console.log("confirm delete", confirmDelete)
-    console.log("rides", rides)
-    console.log("userRides", userRides)
-    console.log("filteredRides", filteredRides)
-    console.log("isRideCreatedByUser", isRideCreatedByUser)
+    // console.log("confirm delete", confirmDelete)
+    // console.log("rides", rides)
+    // console.log("userRides", userRides)
+    // console.log("filteredRides", filteredRides)
+    // console.log("isRideCreatedByUser", isRideCreatedByUser)
   }, [confirmDelete])
 
   useEffect(() => {

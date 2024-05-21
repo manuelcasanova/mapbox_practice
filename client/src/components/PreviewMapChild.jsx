@@ -33,7 +33,7 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
   const coords = rideCoords.slice(1);
 // console.log("coords in PMC", coords)
   return (
-    <div>
+    <>
       {/* Viewing map */}
       <div
         className="map-outer-container"
@@ -85,6 +85,6 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
 
         </MapContainer>
       </div>
-    </div>
+    </>
   );
 }

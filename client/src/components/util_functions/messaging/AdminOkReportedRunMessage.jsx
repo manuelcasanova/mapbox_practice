@@ -33,9 +33,9 @@ const BACKEND = process.env.REACT_APP_API_URL;
   };
 
   return (
-    <div>
+    <>
       <button onClick={handleInappropiate}>Approve message</button>
       {error && <p>{error}</p>}
-    </div>
+    </>
   );
 }

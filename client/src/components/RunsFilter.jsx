@@ -92,7 +92,7 @@ const RunFilter = ({ runs, onFilter }) => {
   };
 
   return (
-    <div>
+    <>
       <h2>Filter Runs</h2>
       <div>
         <label>Date Range:</label>
@@ -141,7 +141,7 @@ const RunFilter = ({ runs, onFilter }) => {
       </div>
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
       <button onClick={() => {clearFilter(); handleFilter();}}>Clear Filters</button>
-    </div>
+    </>
   );
 };
 

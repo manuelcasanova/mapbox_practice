@@ -59,7 +59,7 @@ const Followers = () => {
 // console.log("areanyfm", areAnyFollowingMe)
 
   return (
-    <div>
+    <>
       {!areAnyFollowingMe ? (
         <div>You don't have followers.</div>
       ) : (
@@ -125,7 +125,7 @@ const Followers = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

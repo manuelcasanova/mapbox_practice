@@ -85,7 +85,7 @@ return null
   return (
     //Ride is shown centered in map
     <GetBrowserLocation>
-    <div>
+    <>
       {auth.accessToken !== undefined && mapId && mapId !== null && mapId !== undefined && (
         <PreviewMapChild
           coords={coords}
@@ -97,7 +97,7 @@ return null
         />
  
       )}
-    </div>
+    </>
     </GetBrowserLocation>
   )
 }

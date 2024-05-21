@@ -72,13 +72,13 @@ const handleKeyDown = (e) => {
 };
 
 return (
-  <div>
+  <>
     <input ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
       handleKeyDown} />
     <button 
     onClick={handleSubmit}
     >Send</button>
      {error && <div>{error}</div>}
-  </div>
+  </>
 );
 }

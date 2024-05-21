@@ -45,10 +45,10 @@ export default function ReportInappropiateRunMessage({ messageId, setMessageRepo
   };
 
   return (
-    <div>
+    <>
       <button onClick={handleInappropiate} disabled={isLoading}>Report</button>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-    </div>
+    </>
   );
 }

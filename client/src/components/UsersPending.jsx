@@ -188,7 +188,7 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
   }
 
   return (
-    <div>
+    <>
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
       ) : pendingUsersObject.length === 0 ? (
@@ -228,7 +228,7 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 
 };

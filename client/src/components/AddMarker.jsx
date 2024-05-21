@@ -38,7 +38,7 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
   const sortedCoordinates = [...coord].sort((a, b) => a.timestamp - b.timestamp);
 
   return (
-    <div>
+    <>
       {sortedCoordinates.map((pos, index) => (
         <Marker
           key={`marker-${index}`}
@@ -55,6 +55,6 @@ export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord
       ))}
       
       <Polyline positions={sortedCoordinates.map(pos => [pos.lat, pos.lng])} pathOptions={{ color: "black" }}/>
-    </div>
+    </>
   );
 }

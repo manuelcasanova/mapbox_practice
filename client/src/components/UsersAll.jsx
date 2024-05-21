@@ -74,7 +74,7 @@ const UsersAll = () => {
   const allUsersMutedOrMe = usersExceptMe.every(user => mutedUsers.includes(user.id));
 
   return (
-    <div>
+    <>
       {allUsersMutedOrMe ? (
         <div>No users available or all users are muted.</div>
       ) : (
@@ -109,7 +109,7 @@ const UsersAll = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

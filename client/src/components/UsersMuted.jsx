@@ -56,7 +56,7 @@ const MutedUsers = () => {
   }
 
   return (
-    <div>
+    <>
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
       ) : mutedUserObjects.length === 0 ? (
@@ -72,7 +72,7 @@ const MutedUsers = () => {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
   
 };

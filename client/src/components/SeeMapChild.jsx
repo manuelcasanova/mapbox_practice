@@ -33,7 +33,7 @@ export default function SeeMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy 
   }, [rideCoords]);
 
   return (
-    <div>
+    <>
       {/* Viewing map */}
       <div className="map-outer-container">
         Map id: {mapId}
@@ -63,6 +63,6 @@ export default function SeeMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy 
           <LocationMarker /> 
         </MapContainer>
       </div>
-    </div>
+    </>
   );
 }

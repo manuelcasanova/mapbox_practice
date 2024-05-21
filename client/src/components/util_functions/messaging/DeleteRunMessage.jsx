@@ -30,9 +30,9 @@ const BACKEND = process.env.REACT_APP_API_URL;
   };
 
   return (
-    <div>
+    <>
       <button onClick={handleDelete}>Delete Message</button>
       {error && <p>{error}</p>}
-    </div>
+    </>
   );
 }

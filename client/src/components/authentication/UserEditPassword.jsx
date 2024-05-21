@@ -108,7 +108,7 @@ export default function UserEditPassword(props) {
 
   return (
     
-    <div>
+    <>
       <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
       {/* <!-- Button to Open the Modal --> */}
       <button
@@ -214,6 +214,6 @@ export default function UserEditPassword(props) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

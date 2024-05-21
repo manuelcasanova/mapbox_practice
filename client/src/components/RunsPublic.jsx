@@ -222,7 +222,7 @@ const RunsPublic = () => {
   }
 
   return (
-    <div>
+    <>
    <RunsFilter onFilter={onFilter} />
       {runs.length === 0 ? (
         <div>No runs available.</div>
@@ -378,7 +378,7 @@ const RunsPublic = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

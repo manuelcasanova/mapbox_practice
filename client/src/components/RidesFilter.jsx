@@ -92,7 +92,7 @@ const RideFilter = ({ rides, onFilter }) => {
   };
 
   return (
-    <div>
+    <>
       <h2>Filter Rides</h2>
       <div>
         <label>Date Range:</label>
@@ -141,7 +141,7 @@ const RideFilter = ({ rides, onFilter }) => {
       </div>
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
       <button onClick={() => {clearFilter(); handleFilter();}}>Clear Filters</button>
-    </div>
+    </>
   );
 };
 

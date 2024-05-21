@@ -98,7 +98,7 @@ const RidesAll = () => {
   }
 
   return (
-    <div>
+    <>
       {rides.length === 0 ? (
         <div>No rides available.</div>
       ) : (
@@ -166,7 +166,7 @@ const RidesAll = () => {
             )}
           </>
       )}
-    </div>
+    </>
   );
 };
 

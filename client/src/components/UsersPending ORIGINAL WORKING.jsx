@@ -202,7 +202,7 @@ const PendingUsers = () => {
   }
 
   return (
-    <div>
+    <>
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
       ) : pendingUsersObjectWithMoreInfo.length === 0 ? (
@@ -242,7 +242,7 @@ const PendingUsers = () => {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 
 };

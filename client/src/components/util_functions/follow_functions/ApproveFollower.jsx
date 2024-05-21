@@ -47,7 +47,7 @@ const ApproveFollowerButton = ({ userLoggedInObject, userLoggedin, user, followe
     };
 
     return (
-      <div>
+      <>
         {pendingAcceptThem && (
           <button
             onClick={() => {
@@ -59,7 +59,7 @@ const ApproveFollowerButton = ({ userLoggedInObject, userLoggedin, user, followe
         )}
 
 {pendingAcceptMe && <div>Requested to follow</div>}
-      </div>
+      </>
     // <div>Approve Follower Button</div>
     );
 }
