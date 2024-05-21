@@ -1,3 +1,5 @@
+import '../../src/styles/Footer.css'
+
 export default function Footer ({rideApp}) {
   console.log(rideApp)
   return (
