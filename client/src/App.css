@@ -46,7 +46,7 @@
 .navbar {
   margin-left: 275px; /* Maintain left margin */
   position: absolute;
-  top: 5px;
+  top: 7px;
   left: 0;
   right: 0;
   display: flex;
@@ -76,10 +76,15 @@
   position: relative;
   cursor: pointer;
   text-align: left;
+  padding-left: 5px;
 }
 
 .dropdown-wrapper:hover {
   color: #fc4c02;
+}
+
+.down-arrow {
+  padding-left: 10px;
 }
 
 .dropdown {
@@ -93,6 +98,7 @@
   border-top: none;
   z-index: 500;
   white-space: nowrap;
+  padding: 0px 40px 0px 10px;
 }
 
 .dropdown button {
@@ -112,32 +118,60 @@
   color: #fc4c02;
 }
 
+/* For the My account button on the navbar */
 
-.logout-button {
-  cursor: pointer;
-  position: fixed;
-  right: 10px;
-
+.dropdown-right {
+  position: absolute;
+  top: 100%;
+  right: 0; /* Adjusted to position on the right side */
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-top: none;
+  z-index: 500;
+  white-space: nowrap;
+  /* padding: 0px 10px 0px 40px;  */
 }
+
+.dropdown-right button {
+  padding: 10px 0;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.dropdown-right button:first-child {
+  padding-top: 25px; 
+}
+
+.dropdown-right button:hover {
+  background-color: #ddd;
+  color: #fc4c02;
+}
+
+/* End for the My account button on the navbar */
+
 
 /* Styles for screens up to 425 pixels */
 @media (max-width: 425px) {
   .dropdown-wrapper, .dropdown-wrapper button {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 
 /* Styles for screens between 425 and 768 pixels */
 @media (min-width: 426px) and (max-width: 768px) {
   .dropdown-wrapper, .dropdown-wrapper button {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
 /* Styles for screens larger than 768 pixels */
 @media (min-width: 769px) {
   .dropdown-wrapper, .dropdown-wrapper button {
-    font-size: 18px;
+    font-size: 16px;
   }
   
 }
@@ -146,8 +180,8 @@
 .my-account {
   cursor: pointer;
   position: fixed;
-  top: 5px;
-  right: 80px;
+  top: 7px;
+  right: 40px;
 }
 
 /* //Navbar and dropwon */

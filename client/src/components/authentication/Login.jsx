@@ -59,6 +59,7 @@ const Login = ({ rideApp }) => {
             const username = response?.data?.username
             const isAdmin = response?.data?.isAdmin
             const isSuperAdmin = response?.data?.isSuperAdmin
+            const profilePicture = response?.data?.profilePicture
             // const roles = response?.data?.roles;
 
             // console.log("Login js user id", userId)
@@ -70,7 +71,8 @@ const Login = ({ rideApp }) => {
                 // roles, 
                 accessToken,
                 isAdmin,
-                isSuperAdmin
+                isSuperAdmin,
+                profilePicture
             });
             resetUser();
             // resetEmail();

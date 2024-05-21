@@ -4,6 +4,8 @@ import { useState } from "react";
 import useAuth from "../hooks/useAuth"
 import useLogout from "../hooks/useLogout";
 
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 
@@ -13,6 +15,9 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
   const logout = useLogout();
   const navigate = useNavigate();
   const { auth } = useAuth();
+  const downArrow = "⌄"
+
+  console.log("auth", auth)
 
   const signOut = async () => {
     await logout();
@@ -60,7 +65,17 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
         onMouseLeave={() => handleMouseLeave("ride")}
       >
         <div onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
-          {rideApp ? "Rides" : "Runs"}
+          {rideApp ? (
+            <>
+              <span className="dropdown-wrapper-text">Rides</span>
+              <span className="down-arrow">{downArrow}</span>
+            </>
+          ) : (
+            <>
+              <span className="dropdown-wrapper-text">Runs</span>
+              <span className="down-arrow">{downArrow}</span>
+            </>
+          )}
         </div>
 
 
@@ -90,7 +105,18 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
         onMouseEnter={() => handleMouseEnter("map")}
         onMouseLeave={() => handleMouseLeave("map")}
       >
-        <div onClick={() => handleMouseEnter("map")}>Maps</div>
+        <div onClick={() => handleMouseEnter("map")}>
+
+          <span className="dropdown-wrapper-text">Maps</span>
+          <span className="down-arrow">{downArrow}</span>
+
+        </div>
+
+
+
+
+
+
         {showOptions.map && (
           <div className="dropdown">
             <button onClick={() => handleSelectOption("/maps/public", "map")}>See all maps</button>
@@ -105,7 +131,10 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
         onMouseEnter={() => handleMouseEnter("user")}
         onMouseLeave={() => handleMouseLeave("user")}
       >
-        <div onClick={() => handleMouseEnter("user")}>Users</div>
+        <div onClick={() => handleMouseEnter("user")}>
+          <span className="dropdown-wrapper-text">Users</span>
+          <span className="down-arrow">{downArrow}</span>
+        </div>
         {showOptions.user && (
           <div className="dropdown">
             <button onClick={() => handleSelectOption("/users/all", "user")}>See all users</button>
@@ -117,10 +146,7 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
         )}
       </div>
 
-      {auth &&
-        <div className="dropdown-wrapper my-account">
-          <div onClick={() => navigate('/user/profile')}>My account</div></div>
-      }
+
 
       {auth && auth.isAdmin && (
 
@@ -129,7 +155,10 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
           onMouseEnter={() => handleMouseEnter("admin")}
           onMouseLeave={() => handleMouseLeave("admin")}
         >
-          <div onClick={() => () => handleMouseEnter("admin")}>Admin</div>
+          <div onClick={() => () => handleMouseEnter("admin")}>
+            <span className="dropdown-wrapper-text">Admin</span>
+            <span className="down-arrow">{downArrow}</span>
+          </div>
           {showOptions.admin && (
             <div className="dropdown">
 
@@ -156,17 +185,31 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
         </div>
 
       )}
-      {Object.keys(auth).length
-        ?
 
-     
-          <div className="dropdown-wrapper logout-button" onClick={() => signOut()}>Logout</div>
-     
-        :
- 
-          <div className="dropdown-wrapper logout-button" onClick={() => navigate('/login')}>Login</div>
-  
-      }
+{Object.keys(auth).length &&
+    
+    <div
+      className="dropdown-wrapper my-account"
+      onMouseEnter={() => handleMouseEnter("myprofile")}
+      onMouseLeave={() => handleMouseLeave("myprofile")}
+    >
+      <div onClick={() => handleMouseEnter("myprofile")}>
+        <div onClick={() => navigate('/user/profile')}>
+          <FontAwesomeIcon icon={faUser} />
+        </div>
+      </div>
+
+      {showOptions.myprofile && (
+        <div className="dropdown-right">
+          <button onClick={() => handleSelectOption("/user/profile", "myprofile")}>
+            My Profile
+          </button>
+          <button onClick={() => signOut()}>Logout</button>
+        </div>
+      )}
+    </div>
+  }
+
     </div>
   );
 }
