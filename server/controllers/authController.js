@@ -37,7 +37,7 @@ const handleLogin = async (req, res) => {
         }
 
         const user = rows[0];
-
+console.log("user", user)
         // Compare provided password with stored hash
         const passwordMatch = await bcrypt.compare(pwd, user.password);
         if (!passwordMatch) {
@@ -46,8 +46,10 @@ const handleLogin = async (req, res) => {
             return res.status(401).json({ error: "Incorrect password" });
         }
 
-        const { id, username, isadmin, issuperadmin, email, isactive } = user;
+        const { id, username, isadmin, issuperadmin, email, isactive, profile_picture } = user;
         const loggedIn = !!id;
+
+        console.log(profile_picture)
 
         // Create JWTs
         const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
@@ -80,7 +82,8 @@ const handleLogin = async (req, res) => {
             isSuperAdmin: issuperadmin,
             isActive: isactive,
             email,
-            accessToken
+            accessToken,
+            profile_picture
         });
 
     } catch (error) {

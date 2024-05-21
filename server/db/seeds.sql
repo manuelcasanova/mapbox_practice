@@ -1,11 +1,11 @@
 -- Insert users
-INSERT INTO users (username, isadmin, issuperadmin, email, password, isselected, isactive)
-VALUES ('Manuel Casanova', true, true, 'manuel@example.com', 'password123', true, true),
-       ('Laura Admin', true, false, 'laura@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true),
-       ('Alice_wonder', false, false, 'alice@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true),
-       ('Bob_robinson', false, false, 'bob@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true),
-       ('Emma_jones', false, false, 'emma@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true),
-       ('manucasanova', true, true, 'manucasanova@hotmail.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', false, true)
+INSERT INTO users (username, isadmin, issuperadmin, email, password, isselected, isactive, profile_picture)
+VALUES ('Manuel Casanova', true, true, 'manuel@example.com', 'password123', true, true, 'nogoodformat.gif'),
+       ('Laura Admin', true, false, 'laura@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true, 'nogoodformat.gif'),
+       ('Alice_wonder', false, false, 'alice@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true, 'nogoodformat.gif'),
+       ('Bob_robinson', false, false, 'bob@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true, 'nogoodformat.gif'),
+       ('Emma_jones', false, false, 'emma@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true, 'nogoodformat.gif'),
+       ('manucasanova', true, true, 'manucasanova@hotmail.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', false, true, 'manuel.jpg')
        ;
 
 

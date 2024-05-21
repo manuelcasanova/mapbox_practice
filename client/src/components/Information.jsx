@@ -17,7 +17,17 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
   const { auth } = useAuth();
   const downArrow = "⌄"
 
-  console.log("auth", auth)
+  console.log("auth", auth.profilePicture)
+
+  // Logs: auth manuel.jpg Information.jsx:20
+
+
+  const profilePicture = 'http://localhost:3500/profile_pictures/' + auth.profilePicture;
+
+
+  console.log("profilePicture", profilePicture)
+
+    //Logs: profilePicture /server/profile_pictures/manuel.jpg Information.jsx:24
 
   const signOut = async () => {
     await logout();
@@ -186,29 +196,33 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
 
       )}
 
-{Object.keys(auth).length &&
-    
-    <div
-      className="dropdown-wrapper my-account"
-      onMouseEnter={() => handleMouseEnter("myprofile")}
-      onMouseLeave={() => handleMouseLeave("myprofile")}
-    >
-      <div onClick={() => handleMouseEnter("myprofile")}>
-        <div onClick={() => navigate('/user/profile')}>
-          <FontAwesomeIcon icon={faUser} />
-        </div>
-      </div>
+      {Object.keys(auth).length &&
 
-      {showOptions.myprofile && (
-        <div className="dropdown-right">
-          <button onClick={() => handleSelectOption("/user/profile", "myprofile")}>
-            My Profile
-          </button>
-          <button onClick={() => signOut()}>Logout</button>
+        <div
+          className="dropdown-wrapper my-account"
+          onMouseEnter={() => handleMouseEnter("myprofile")}
+          onMouseLeave={() => handleMouseLeave("myprofile")}
+        >
+          <div onClick={() => handleMouseEnter("myprofile")}>
+            {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
+              <img src={profilePicture} alt={auth.username} />
+            ) : (
+              <div onClick={() => navigate('/user/profile')}>
+                <FontAwesomeIcon icon={faUser} />
+              </div>
+            )}
+          </div>
+
+          {showOptions.myprofile && (
+            <div className="dropdown-right">
+              <button onClick={() => handleSelectOption("/user/profile", "myprofile")}>
+                My Profile
+              </button>
+              <button onClick={() => signOut()}>Logout</button>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  }
+      }
 
     </div>
   );

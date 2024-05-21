@@ -10,11 +10,16 @@ const PORT = process.env.PORT || 3500;
 const pool = require('./config/db');
 const { report } = require('./routes/register');
 const bcrypt = require('bcrypt')
+const path = require('path'); // To serve static files.
 
 
 app.set("view engine", 'ejs');
 
 app.use(express.urlencoded({ extended: false }));
+
+// Serve static files from the 'root/server/profile_pictures' directory
+app.use('/profile_pictures', express.static(path.join(__dirname, 'server/profile_pictures')));
+
 
 // Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
@@ -32,6 +37,9 @@ app.use(express.json());
 
 //middleware for cookies
 app.use(cookieParser())
+
+
+
 
 // -------- START ROUTES --------
 
