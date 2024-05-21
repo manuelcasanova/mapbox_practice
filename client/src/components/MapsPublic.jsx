@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import { formatDate } from "./util_functions/FormatDate";
@@ -6,8 +7,10 @@ import PreviewMap from './PreviewMap';
 import useAuth from "../hooks/useAuth"
 
 
+
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
+
 
 const MapsPublic = () => {
   const [maps, setMaps] = useState([]);
@@ -17,6 +20,8 @@ const MapsPublic = () => {
   const [userMaps, setUserMaps] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
   const { auth } = useAuth();
+  const BACKEND = process.env.REACT_APP_API_URL;
+
 
   // console.log("maps", maps)
 // console.log("user in MapsPublic", user)
@@ -41,7 +46,7 @@ const MapsPublic = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true); // Set loading to true before API call
-        const response = await axios.get('http://localhost:3500/maps/public', {
+        const response = await axios.get(`${BACKEND}/maps/public`, {
           params: {
             userId: userId
           }
@@ -74,7 +79,7 @@ const MapsPublic = () => {
   useEffect(() => {
     const fetchUserMaps = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/maps/otherusers', {
+        const response = await axios.get(`${BACKEND}/maps/otherusers`, {
           params: {
             userId
           }
@@ -109,7 +114,7 @@ const MapsPublic = () => {
     e.preventDefault();
     try {
       // console.log("Adding to map...");
-      await axios.post(`http://localhost:3500/maps/adduser`, {
+      await axios.post(`${BACKEND}/maps/adduser`, {
         userId, userIsLoggedIn, mapId
       });
       // console.log("Successfully added to map.");
@@ -127,7 +132,7 @@ const MapsPublic = () => {
     e.preventDefault();
     try {
       // console.log("Adding to map...");
-      await axios.delete(`http://localhost:3500/maps/removeuser`, {
+      await axios.delete(`${BACKEND}/maps/removeuser`, {
         data: {userId, userIsLoggedIn, mapId}
       });
       // console.log("Successfully added to map.");

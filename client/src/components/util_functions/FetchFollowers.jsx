@@ -2,7 +2,7 @@ import axios from "axios";
 
 const fetchFollowers = async (auth, setFollowers, setIsLoading, setError, isMounted) => {
 
-
+  const BACKEND = process.env.REACT_APP_API_URL;
 
   try {
 
@@ -10,7 +10,7 @@ const fetchFollowers = async (auth, setFollowers, setIsLoading, setError, isMoun
       throw new Error("Login to access this area.");
     }
     
-    const response = await axios.get('http://localhost:3500/users/followers', { 
+    const response = await axios.get(`${BACKEND}/users/followers`, { 
       params: {
         user: auth 
       }

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 
 export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMessageSent }) {
 
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +23,7 @@ export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMess
     }
 
     try {
-      const response = await fetch('http://localhost:3500/rides/addmessage', {
+      const response = await fetch(`${BACKEND}/rides/addmessage`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

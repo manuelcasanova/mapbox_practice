@@ -12,6 +12,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
   const [fake, setFake] = useState(true)
+  const BACKEND = process.env.REACT_APP_API_URL;
 
   // console.log("done", done)
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/maps', {
+        const response = await axios.get(`${BACKEND}/maps`, {
           params: { userId },
           signal: controller.signal
         });

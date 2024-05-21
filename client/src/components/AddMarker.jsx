@@ -5,8 +5,10 @@ import { icon_black, icon_green, icon_flag } from "./img/Icons";
 
 export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, editAllowed}) {
 
+  const BACKEND = process.env.REACT_APP_API_URL;
+
   const fetchData = useCallback(() => {
-    axios.get(`http://localhost:3500/points/${mapId}`)
+    axios.get(`${BACKEND}/points/${mapId}`)
       .then(function (res) {
         setCoord([...res.data])
       })

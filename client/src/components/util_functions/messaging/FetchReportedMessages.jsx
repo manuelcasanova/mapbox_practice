@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 const fetchReportedMessages = async ({auth}) => {
+
+  const BACKEND = process.env.REACT_APP_API_URL;
   // console.log("auth", auth)
   const isAdmin = auth.isAdmin
   try {
-    const response = await axios.get(`http://localhost:3500/rides/messages/reported`, {
+    const response = await axios.get(`${BACKEND}rides/messages/reported`, {
     params: {
       isAdmin: isAdmin
     }

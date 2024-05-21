@@ -17,6 +17,7 @@ import { removeFromMyRides } from './util_functions/ride_functions/DeleteRide';
 
 
 const RidesUser = () => {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [rides, setRides] = useState([]);
   const [userRides, setUserRides] = useState([]);
   const [error, setError] = useState(null);
@@ -73,7 +74,7 @@ const RidesUser = () => {
     const fetchData = async () => {
       try {
         if (id !== null && id !== undefined) {
-          const response = await axios.get(`http://localhost:3500/rides/user/${id}`, {
+          const response = await axios.get(`${BACKEND}/rides/user/${id}`, {
             params: {
               user: auth,
               filteredRides: filteredRides || ''
@@ -124,7 +125,7 @@ const RidesUser = () => {
   useEffect(() => {
     const fetchUserRides = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/rides/otherusers', {
+        const response = await axios.get(`${BACKEND}/rides/otherusers`, {
           params: {
             userId
           }
@@ -151,7 +152,7 @@ const RidesUser = () => {
       const userId = auth.userId;
       // const rideId = id;
       // console.log("remove from my rides", userId, rideId)
-      await axios.delete(`http://localhost:3500/rides/delete/users/${id}`, {
+      await axios.delete(`${BACKEND}/rides/delete/users/${id}`, {
         data: { userId }
       });
       setRides(rides.filter(ride => ride.id !== id));

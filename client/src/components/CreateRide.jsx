@@ -9,6 +9,7 @@ import useAuth from "../hooks/useAuth"
 
 export default function CreateRide() {
 
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth, mapId, setMapId } = useAuth();
   const userId = auth.userId;
 // console.log("userId in Create Ride", auth)
@@ -50,7 +51,7 @@ export default function CreateRide() {
 
     const getMaps = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/maps/shared', {
+        const response = await axios.get(`${BACKEND}/maps/shared`, {
           params: { userId },
           signal: controller.signal
 
@@ -111,7 +112,7 @@ export default function CreateRide() {
     };
 
     try {
-      await axios.post('http://localhost:3500/createride', body);
+      await axios.post(`${BACKEND}/createride`, body);
       setTitle('');
       setDistance('');
       setSpeed('');

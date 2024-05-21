@@ -14,6 +14,7 @@ import { deactivateUser } from './util_functions/user_functions/DeleteUser';
 import { deleteUser } from './util_functions/user_functions/DeleteUser';
 
 const UsersAdmin = () => {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +36,7 @@ const loggedInUser = auth;
           throw new Error("Login to access this area.");
         }
 
-        const response = await axios.get('http://localhost:3500/users/', {
+        const response = await axios.get(`${BACKEND}/users/`, {
           params: {
             user: auth 
           }
@@ -81,7 +82,7 @@ const loggedInUser = auth;
   const handleAdminToggle = async (user) => {
     const updatedUser = { ...user, isadmin: !user.isadmin };
     try {
-      await axios.patch(`http://localhost:3500/users/${user.id}`, updatedUser, {
+      await axios.patch(`${BACKEND}users/${user.id}`, updatedUser, {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
         },

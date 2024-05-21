@@ -6,9 +6,12 @@ import useToggle from '../../hooks/useToggle';
 
 // import axios from '../api/axios';
 import axios from 'axios';
-const LOGIN_URL = 'http://localhost:3500/auth';
+const BACKEND = process.env.REACT_APP_API_URL;
+
+const LOGIN_URL = `${BACKEND}/auth`;
 
 const Login = ({ rideApp }) => {
+    const BACKEND = process.env.REACT_APP_API_URL;
     // console.log("rideApp", rideApp)
     const { setAuth } = useAuth();
     const navigate = useNavigate();

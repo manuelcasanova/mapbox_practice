@@ -1,12 +1,13 @@
 import axios from "axios";
   
-  
+const BACKEND = process.env.REACT_APP_API_URL;
+
   //Function to remove user from map
   export const removeUsersFromMap = async (userId, mapId, setFake, setMaps) => {
     try {
       
       // Send request to remove users from map
-      await axios.delete(`http://localhost:3500/maps/delete/users/${userId}`, {
+      await axios.delete(`${BACKEND}/maps/delete/users/${userId}`, {
         data: { mapId, userId } // Sending mapId in the request body
       });
 
@@ -28,7 +29,7 @@ import axios from "axios";
   export const deleteMap = async (mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete ) => {
     try {
       // Send request to remove users from map
-      await axios.delete(`http://localhost:3500/delete/${mapId}`, {
+      await axios.delete(`${BACKEND}/delete/${mapId}`, {
         data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
       });
       // console.log(response.data);
@@ -56,7 +57,7 @@ import axios from "axios";
     export const deactivateMap = async (mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete) => {
       try {
         // Send request to remove users from map
-        await axios.post(`http://localhost:3500/deactivate/${mapId}`, {
+        await axios.post(`${BACKEND}/deactivate/${mapId}`, {
           data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
         });
         // console.log(response.data);

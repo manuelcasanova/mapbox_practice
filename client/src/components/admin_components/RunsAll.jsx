@@ -20,6 +20,7 @@ import { deleteRun } from '../util_functions/run_functions/DeleteRun';
 import PreviewMap from '../PreviewMap';
 
 const RunsAll = () => {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [runs, setRuns] = useState([]);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
@@ -47,7 +48,7 @@ const RunsAll = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/runs/', {
+        const response = await axios.get(`${BACKEND}/runs/`, {
           params: {
             user: auth 
           }

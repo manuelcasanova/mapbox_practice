@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import fetchReportedMessages from "../util_functions/messaging/FetchReportedMessages";
 
 export default function ReportedNotifications() {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -79,7 +80,7 @@ export default function ReportedNotifications() {
       }
 
 
-      const response = await axios.get('http://localhost:3500/messages/reportednotifications', {
+      const response = await axios.get(`${BACKEND}/messages/reportednotifications`, {
         params: { user: auth }
       });
       if (isMounted) {

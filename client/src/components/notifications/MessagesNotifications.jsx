@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import fetchUsernameAndId from "../util_functions/FetchUsername";
 
 export default function MessagesNotifications() {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -35,7 +36,7 @@ export default function MessagesNotifications() {
 
 
     try {
-      const response = await axios.get('http://localhost:3500/messages/notifications', {
+      const response = await axios.get(`${BACKEND}/messages/notifications`, {
         params: {
           user: auth
         }

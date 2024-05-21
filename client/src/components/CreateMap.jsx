@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export default function CreateMap({ setFromButton }) {
 
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth, setMapId } = useAuth();
   const [mapType, setMapType] = useState("public");
 
@@ -39,7 +40,7 @@ export default function CreateMap({ setFromButton }) {
     try {
 
 
-      const response = await axios.post(`http://localhost:3500/createmap`, {
+      const response = await axios.post(`${BACKEND}/createmap`, {
         title,
         auth,
         createdAt,

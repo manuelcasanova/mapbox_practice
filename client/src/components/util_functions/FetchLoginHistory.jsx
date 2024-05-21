@@ -1,13 +1,14 @@
 import axios from "axios";
 
 const fetchLoginHistory = async (auth, setLoginHistory, setIsLoading, setError, isMounted) => {
+  const BACKEND = process.env.REACT_APP_API_URL;
   try {
 
     if (!auth || Object.keys(auth).length === 0) {
       throw new Error("Login to access this area.");
     }
     // console.log("fetching loging history")
-    const response = await axios.get('http://localhost:3500/users/loginhistory', { 
+    const response = await axios.get(`${BACKEND}/users/loginhistory`, { 
       params: {
         user: auth 
       }

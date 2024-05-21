@@ -11,7 +11,7 @@ import fetchLoginHistory from "./util_functions/FetchLoginHistory";
 import fetchIsNewRequest from "./util_functions/follow_functions/FetchIsNewRequest";
 
 const PendingUsers = () => {
-
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
 
   const userLoggedin = auth.userId
@@ -45,7 +45,7 @@ const PendingUsers = () => {
       user: userLoggedInObject
     };
 
-    axios.post('http://localhost:3500/users/approvefollower', data)
+    axios.post(`${BACKEND}/users/approvefollower`, data)
       .then(response => {
         const newFollower = response.data;
 
@@ -78,7 +78,7 @@ const PendingUsers = () => {
       user: userLoggedInObject //para saber si esta loggedin
     };
 
-    axios.post('http://localhost:3500/users/dismissfollower', data)
+    axios.post(`${BACKEND}/users/dismissfollower`, data)
       .then(response => {
         const newFollower = response.data;
 
@@ -113,7 +113,7 @@ const PendingUsers = () => {
       user: userLoggedInObject //para saber si esta loggedin
     };
 
-    axios.post('http://localhost:3500/users/dismissmessagefollowrequest', data)
+    axios.post(`${BACKEND}/users/dismissmessagefollowrequest`, data)
       .then(response => {
         const newFollower = response.data;
 

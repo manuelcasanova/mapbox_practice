@@ -2,8 +2,9 @@ import axios from 'axios';
 
 const fetchUserMessages = async (auth, userForMessages, messages, setMessages) => {
   //  console.log("rideId fetchRideMessage", rideId)
+  const BACKEND = process.env.REACT_APP_API_URL;
   try {
-    const response = await axios.get(`http://localhost:3500/users/messages/read`, {
+    const response = await axios.get(`${BACKEND}/users/messages/read`, {
       params: {
         userForMessages: userForMessages,
         user: auth

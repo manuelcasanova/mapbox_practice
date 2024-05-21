@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers }) => {
-
+  const BACKEND = process.env.REACT_APP_API_URL;
   const muteUser = () => {
-    axios.post('http://localhost:3500/users/mute', { userLoggedin, userId })
+    axios.post(`${BACKEND}/users/mute`, { userLoggedin, userId })
       .then(response => {
         setMutedUsers(prevMutedUsers => [...prevMutedUsers, userId]);
       })
@@ -13,7 +13,7 @@ const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers }) => {
   };
 
   const unmuteUser = () => {
-    axios.post('http://localhost:3500/users/unmute', { userLoggedin, userId })
+    axios.post(`${BACKEND}/users/unmute`, { userLoggedin, userId })
       .then(response => {
         setMutedUsers(prevMutedUsers => prevMutedUsers.filter(id => id !== userId));
       })

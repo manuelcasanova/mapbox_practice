@@ -9,6 +9,7 @@ import useAuth from "../hooks/useAuth"
 
 export default function CreateRun() {
 
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth, mapId, setMapId } = useAuth();
   const userId = auth.userId;
 // console.log("userId in Create Run", auth)
@@ -50,7 +51,7 @@ export default function CreateRun() {
 
     const getMaps = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/maps/shared', {
+        const response = await axios.get(`${BACKEND}/maps/shared`, {
           params: { userId },
           signal: controller.signal
 
@@ -111,7 +112,7 @@ export default function CreateRun() {
     };
 
     try {
-      await axios.post('http://localhost:3500/createrun', body);
+      await axios.post(`${BACKEND}/createrun`, body);
       setTitle('');
       setDistance('');
       setPace('');

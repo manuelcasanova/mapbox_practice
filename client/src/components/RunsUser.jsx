@@ -16,6 +16,7 @@ import { deactivateRun } from './util_functions/run_functions/DeleteRun';
 
 
 const RunsUser = () => {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [runs, setRuns] = useState([]);
   const [userRuns, setUserRuns] = useState([]);
   const [error, setError] = useState(null);
@@ -66,7 +67,7 @@ const RunsUser = () => {
     const fetchData = async () => {
       try {
         if (id !== null && id !== undefined) {
-          const response = await axios.get(`http://localhost:3500/runs/user/${id}`, {
+          const response = await axios.get(`${BACKEND}/runs/user/${id}`, {
             params: {
               user: auth,
               filteredRuns: filteredRuns || ''
@@ -117,7 +118,7 @@ const RunsUser = () => {
   useEffect(() => {
     const fetchUserRuns = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/runs/otherusers', {
+        const response = await axios.get(`${BACKEND}/runs/otherusers`, {
           params: {
             userId
           }
@@ -144,7 +145,7 @@ const RunsUser = () => {
       const userId = auth.userId;
       // const runId = id;
       // console.log("remove from my runs", userId, runId)
-      await axios.delete(`http://localhost:3500/runs/delete/users/${id}`, {
+      await axios.delete(`${BACKEND}/runs/delete/users/${id}`, {
         data: { userId }
       });
       setRuns(runs.filter(run => run.id !== id));

@@ -22,7 +22,7 @@
 //   // Function to perform axios request to update lastlogin in the backend
 //   const updateUserLastLogin = async (user) => {
 //     try {
-//       const response = await axios.post(`http://localhost:3500/users/lastlogin/`, {
+//       const response = await axios.post(`${BACKEND}/users/lastlogin/`, {
 //         userId: user.id,
 //          lastlogin: localTime 
 //       });

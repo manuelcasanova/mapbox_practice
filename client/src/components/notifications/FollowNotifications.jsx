@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; 
 
 export default function FollowNotifications () {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -26,7 +27,7 @@ export default function FollowNotifications () {
     if (Object.keys(auth).length !== 0)  {
 
     try {
-      const response = await axios.get('http://localhost:3500/users/follownotifications', {
+      const response = await axios.get(`${BACKEND}/users/follownotifications`, {
         params: {
           user: auth.userId 
         }

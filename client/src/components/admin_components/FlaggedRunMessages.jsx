@@ -11,6 +11,7 @@ import fetchUsernameAndId from "../util_functions/FetchUsername";
 
 export default function FlaggedMessages() {
   // Variables
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

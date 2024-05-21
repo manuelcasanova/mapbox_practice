@@ -10,6 +10,7 @@ import GetBrowserLocation from "./util_functions/GetBrowserLocation";
 
 export default function PreviewMap({ mapId }) {
 
+  const BACKEND = process.env.REACT_APP_API_URL;
 // console.log("mapId in PreviewMap", mapId)
   const { auth } = useAuth();
 
@@ -28,7 +29,7 @@ export default function PreviewMap({ mapId }) {
   const getMap = async () => {
 
     try {
-      const response = await axios.get(`http://localhost:3500/maps/${id}`);
+      const response = await axios.get(`${BACKEND}/maps/${id}`);
 
       const responseData = Object.values(response.data)[0]
 
@@ -51,7 +52,7 @@ export default function PreviewMap({ mapId }) {
   useEffect(() => {
     const getMapPoints = async () => {
       try {
-        const response = await axios.get(`http://localhost:3500/points/${id}`);
+        const response = await axios.get(`${BACKEND}/points/${id}`);
         setPoints(response.data);
         setLoading(true);
       } catch (err) {

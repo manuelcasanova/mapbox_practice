@@ -7,6 +7,7 @@ import BrowserCoords from "./util_functions/GetBrowserLocation";
 import useAuth from "../hooks/useAuth"
 
 export default function SeeMap() {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [mapId, setMapId] = useState(null);
   const [mapTitle, setMapTitle] = useState(null);
   const [mapCreatedBy, setMapCreatedBy] = useState(null);
@@ -23,7 +24,7 @@ export default function SeeMap() {
   useEffect(() => {
     const getMapPoints = async () => {
       try {
-        const response = await axios.get(`http://localhost:3500/points/${id}`);
+        const response = await axios.get(`${BACKEND}/points/${id}`);
         setPoints(response.data);
         setLoading(true);
       } catch (err) {
@@ -34,7 +35,7 @@ export default function SeeMap() {
   
     const getMap = async () => {
       try {
-        const response = await axios.get(`http://localhost:3500/maps/${id}`);
+        const response = await axios.get(`${BACKEND}/maps/${id}`);
         const responseData = Object.values(response.data)[0];
         setMapId(responseData.id);
         setMapTitle(responseData.title);

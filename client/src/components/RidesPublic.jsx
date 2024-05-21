@@ -15,6 +15,7 @@ import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import MappedMessage from './util_functions/messaging/MappedMessage';
 
 const RidesPublic = () => {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [rides, setRides] = useState([]);
 
   const [error, setError] = useState(null);
@@ -68,7 +69,7 @@ const RidesPublic = () => {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
         }
-        const response = await axios.get('http://localhost:3500/rides/public', {
+        const response = await axios.get(`${BACKEND}/rides/public`, {
           params: {
             user: auth,
             filteredRides
@@ -123,7 +124,7 @@ const RidesPublic = () => {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
         }
-        const response = await axios.get('http://localhost:3500/rides/otherusers', {
+        const response = await axios.get(`${BACKEND}/rides/otherusers`, {
           params: {
             userId
           }
@@ -164,7 +165,7 @@ const RidesPublic = () => {
         throw new Error("Login to access this area.");
       }
       // console.log("Adding to ride...");
-      await axios.post(`http://localhost:3500/rides/adduser`, {
+      await axios.post(`${BACKEND}/rides/adduser`, {
         userId, userIsLoggedIn, rideId, isPrivate
       });
       // console.log("Successfully added to ride.");
@@ -187,7 +188,7 @@ const RidesPublic = () => {
         throw new Error("Login to access this area.");
       }
       // console.log("Adding to map...");
-      await axios.delete(`http://localhost:3500/rides/removeuser`, {
+      await axios.delete(`${BACKEND}/rides/removeuser`, {
         data: { userId, userIsLoggedIn, rideId }
       });
       // console.log("Successfully added to map.");

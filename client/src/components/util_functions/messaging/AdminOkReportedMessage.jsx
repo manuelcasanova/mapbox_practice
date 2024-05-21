@@ -3,14 +3,14 @@ import { useState } from "react";
 export default function AdminOkReportedMessage({ messageId, setMessageReported }) {
 
 // console.log("messageId in util func delete ride", messageId)
-
+const BACKEND = process.env.REACT_APP_API_URL;
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInappropiate = async () => {
     try {
       setIsLoading(true); 
-      const response = await fetch(`http://localhost:3500/rides/message/ok/${messageId}`, {
+      const response = await fetch(`${BACKEND}/rides/message/ok/${messageId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

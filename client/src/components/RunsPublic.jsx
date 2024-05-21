@@ -15,6 +15,7 @@ import AddRunMessage from './util_functions/messaging/AddRunMessage'
 import MappedRunMessage from './util_functions/messaging/MappedRunMessage';
 
 const RunsPublic = () => {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [runs, setRuns] = useState([]);
 
   const [error, setError] = useState(null);
@@ -68,7 +69,7 @@ const RunsPublic = () => {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
         }
-        const response = await axios.get('http://localhost:3500/runs/public', {
+        const response = await axios.get(`${BACKEND}/runs/public`, {
           params: {
             user: auth,
             filteredRuns
@@ -123,7 +124,7 @@ const RunsPublic = () => {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
         }
-        const response = await axios.get('http://localhost:3500/runs/otherusers', {
+        const response = await axios.get(`${BACKEND}/runs/otherusers`, {
           params: {
             userId
           }
@@ -164,7 +165,7 @@ const RunsPublic = () => {
         throw new Error("Login to access this area.");
       }
       // console.log("Adding to run...");
-      await axios.post(`http://localhost:3500/runs/adduser`, {
+      await axios.post(`${BACKEND}/runs/adduser`, {
         userId, userIsLoggedIn, runId, isPrivate
       });
       // console.log("Successfully added to run.");
@@ -187,7 +188,7 @@ const RunsPublic = () => {
         throw new Error("Login to access this area.");
       }
       // console.log("Adding to map...");
-      await axios.delete(`http://localhost:3500/runs/removeuser`, {
+      await axios.delete(`${BACKEND}/runs/removeuser`, {
         data: { userId, userIsLoggedIn, runId }
       });
       // console.log("Successfully added to map.");

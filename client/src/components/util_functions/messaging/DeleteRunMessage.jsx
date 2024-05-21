@@ -3,12 +3,12 @@ import { useState } from "react";
 export default function DeleteRunMessage({ messageId, setMessageDeleted }) {
 
 // console.log("messageId in util func delete run", messageId)
-
+const BACKEND = process.env.REACT_APP_API_URL;
   const [error, setError] = useState("");
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:3500/runs/message/delete/${messageId}`, {
+      const response = await fetch(`${BACKEND}/runs/message/delete/${messageId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

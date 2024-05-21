@@ -1,10 +1,7 @@
 Next:
 
-REVIEW: isLoading, setIsLoading... in components, in util functions, etc. (example ReportedMessages.jsx)
-
 OAuth
 
-localhost:3500 (.env)
 Organize backend like in casinosteps.ca
 
 

@@ -6,11 +6,12 @@ export default function FlagInapropiateMessage({ messageId, setMessageFlagged })
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false); 
+  const BACKEND = process.env.REACT_APP_API_URL;
 
   const handleInappropiate = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:3500/rides/message/flag/${messageId}`, {
+      const response = await fetch(`${BACKEND}/rides/message/flag/${messageId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

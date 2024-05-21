@@ -20,6 +20,7 @@ import { deleteRide } from '../util_functions/ride_functions/DeleteRide';
 import PreviewMap from '../PreviewMap';
 
 const RidesAll = () => {
+  const BACKEND = process.env.REACT_APP_API_URL;
   const [rides, setRides] = useState([]);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
@@ -47,7 +48,7 @@ const RidesAll = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/rides/', {
+        const response = await axios.get(`${BACKEND}/rides/`, {
           params: {
             user: auth 
           }

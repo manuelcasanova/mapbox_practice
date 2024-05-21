@@ -6,12 +6,13 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({});
     const [mapId, setMapId ] = useState()
+    const BACKEND = process.env.REACT_APP_API_URL;
 
       // Function to update username (User Profile component)
       const updateUsername = async (newUsername) => {
         try {
           // Define the URL of your backend endpoint
-          const url = "http://localhost:3500/users/modifyusername";
+          const url = `${BACKEND}/users/modifyusername`;
     
           // Prepare the data to be sent in the request body
           const data = {

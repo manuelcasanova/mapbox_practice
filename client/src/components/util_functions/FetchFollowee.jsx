@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const fetchFollowee = async (auth, setFollowers, setIsLoading, setError, isMounted) => {
+
+  const BACKEND = process.env.REACT_APP_API_URL;
   
   // console.log("auth in FetchFollowee", auth)
   
@@ -10,7 +12,7 @@ const fetchFollowee = async (auth, setFollowers, setIsLoading, setError, isMount
       throw new Error("Login to access this area.");
     }
 
-    const response = await axios.get('http://localhost:3500/users/followee', { 
+    const response = await axios.get(`${BACKEND}/users/followee`, { 
       params: {
         user: auth 
       }

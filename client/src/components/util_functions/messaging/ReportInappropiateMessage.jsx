@@ -9,7 +9,7 @@ export default function ReportInappropiateMessage({ messageId, setMessageReporte
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-
+  const BACKEND = process.env.REACT_APP_API_URL;
 
 
   const handleInappropiate = async () => {
@@ -21,7 +21,7 @@ export default function ReportInappropiateMessage({ messageId, setMessageReporte
         userLoggedInId: user.userId 
       });
 
-      const response = await fetch(`http://localhost:3500/rides/message/report/`, {
+      const response = await fetch(`${BACKEND}/rides/message/report/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

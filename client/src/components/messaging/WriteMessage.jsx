@@ -7,6 +7,7 @@ import useAuth from "../../hooks/useAuth";
 
 export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   // Variables
+  const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
   const sender = auth.userId
   const receiver = userForMessages;
@@ -33,7 +34,7 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
     try {
       setIsLoading(true)
       // console.log("Sending message...");
-      await axios.post(`http://localhost:3500/users/messages/send`, {
+      await axios.post(`${BACKEND}/users/messages/send`, {
         newMessage, receiver, sender, userLoggedIn
       });
       setUpdateMessages(prev => !prev)

@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const ApproveFollowerButton = ({ userLoggedInObject, userLoggedin, user, followers, setFollowers, followeeId, followerId }) => {
 
+  const BACKEND = process.env.REACT_APP_API_URL;
+
     const pendingAcceptMe = followers.some(follower =>
         follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
       );
@@ -22,7 +24,7 @@ const ApproveFollowerButton = ({ userLoggedInObject, userLoggedin, user, followe
 
         // console.log("data before axios", data)
 
-        axios.post('http://localhost:3500/users/approvefollower', data)
+        axios.post(`${BACKEND}/users/approvefollower`, data)
           .then(response => {
             const newFollower = response.data;
     

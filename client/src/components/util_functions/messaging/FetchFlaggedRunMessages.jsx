@@ -2,9 +2,10 @@ import axios from 'axios';
 
 const fetchFlaggedRunMessages = async ({auth}) => {
   //  console.log("auth", auth)
+  const BACKEND = process.env.REACT_APP_API_URL;
   const isAdmin = auth.isAdmin
   try {
-    const response = await axios.get(`http://localhost:3500/runs/messages/flagged`, {
+    const response = await axios.get(`${BACKEND}/runs/messages/flagged`, {
     params: {
       isAdmin: isAdmin
     }

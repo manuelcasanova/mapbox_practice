@@ -10,6 +10,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 export default function UserEditPassword(props) {
+  const BACKEND = process.env.REACT_APP_API_URL;
 
   const logOut = useLogout()
   const navigate = useNavigate()
@@ -25,8 +26,8 @@ export default function UserEditPassword(props) {
 
   //URLS
 
-  const EDIT_URL = `http://www.localhost:3500/users/edit/password`;
-  const USERS_URL = `http://www.localhost:3500/users`;
+  const EDIT_URL = `${BACKEND}/users/edit/password`;
+  const USERS_URL = `${BACKEND}/users`;
 
 
   //States

@@ -2,9 +2,9 @@ import axios from "axios";
 
 export const updateUsername = async (auth, newUsername) => {
   // Define the URL of your backend endpoint
-  const url = "http://localhost:3500/users/modifyusername";
+  const url = `${BACKEND}/users/modifyusername`;
 
-  
+  const BACKEND = process.env.REACT_APP_API_URL;
   // Prepare the data to be sent in the request body
   const data = {
     userId: auth.userId, 

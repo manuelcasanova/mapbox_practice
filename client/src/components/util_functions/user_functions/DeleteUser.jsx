@@ -3,6 +3,8 @@
 //Libraries
 import axios from 'axios';
 
+const BACKEND = process.env.REACT_APP_API_URL;
+
 export const activateUser = async (user, loggedInUser) => {
 
   try {
@@ -12,7 +14,7 @@ export const activateUser = async (user, loggedInUser) => {
     const isUserLoggedIn = loggedInUser.loggedIn
    
  
-    await axios.post(`http://localhost:3500/user/activate/${userId}`, {
+    await axios.post(`${BACKEND}/user/activate/${userId}`, {
       data: { userId, isUserLoggedIn }
     });
 
@@ -32,7 +34,7 @@ export const deactivateUser = async (user, loggedInUser) => {
     const isUserLoggedIn = loggedInUser.accessToken !== undefined
    
  
-    await axios.post(`http://localhost:3500/user/deactivate/${userId}`, {
+    await axios.post(`${BACKEND}/user/deactivate/${userId}`, {
       data: { userId, isUserLoggedIn }
     });
 
@@ -47,7 +49,7 @@ export const deactivateUser = async (user, loggedInUser) => {
 export const deleteUser = async (userObject, user, setUsers, loggedInUser) => {
   try {
     const userId = user.id;
-    await axios.delete(`http://localhost:3500/user/delete/${userId}`, {
+    await axios.delete(`${BACKEND}/user/delete/${userId}`, {
       data: { userId, user, loggedInUser, userObject }
     });
 

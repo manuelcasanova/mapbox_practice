@@ -3,8 +3,9 @@ import axios from "axios";
 const fetchUsernameAndId = async (auth, setUsers, setIsLoading, setError, isMounted) => {
   //  console.log("auth in FetchUsername", auth)
 //  console.log("auth in FetchUsername", auth.username)
+const BACKEND = process.env.REACT_APP_API_URL;
   try {
-    const response = await axios.get('http://localhost:3500/users/names', {
+    const response = await axios.get(`${BACKEND}/users/names`, {
       params: {
         user: auth
       } 
