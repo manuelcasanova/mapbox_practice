@@ -39,9 +39,9 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
         className="map-outer-container"
       >
 
-        Map id: {mapId}
+        {/* Map id: {mapId}
         Map title: {mapTitle}
-        Map created by: {mapCreatedBy}
+        Map created by: {mapCreatedBy} */}
 
         <MapContainer
           // className="map-outer-container"

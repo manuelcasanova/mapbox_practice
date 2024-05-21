@@ -36,9 +36,9 @@ export default function SeeMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy 
     <>
       {/* Viewing map */}
       <div className="map-outer-container">
-        Map id: {mapId}
+        {/* Map id: {mapId}
         Map title: {mapTitle}
-        Map created by: {mapCreatedBy}
+        Map created by: {mapCreatedBy} */}
 
         <MapContainer zoom={13} style={{ height: "400px" }}>
           <TileLayer
