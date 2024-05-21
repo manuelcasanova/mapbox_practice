@@ -6,7 +6,7 @@ const fetchReportedMessages = async ({auth}) => {
   // console.log("auth", auth)
   const isAdmin = auth.isAdmin
   try {
-    const response = await axios.get(`${BACKEND}rides/messages/reported`, {
+    const response = await axios.get(`${BACKEND}/rides/messages/reported`, {
     params: {
       isAdmin: isAdmin
     }
