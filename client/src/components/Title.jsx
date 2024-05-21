@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import '../styles/Title.css'
 
 // Component for non-touch devices
 function TitleNonTouch({ showUn, toggleShowUn }) {
@@ -48,9 +49,9 @@ export default function Title({ rideApp, setRideApp }) {
     setShowUn(!showUn);
     setRideApp(!rideApp);
     if (showUn) {
-      navigate("/runs");
+      navigate("/runs/public");
     } else {
-      navigate("/rides");
+      navigate("/rides/public");
     }
   };
 

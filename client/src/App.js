@@ -72,8 +72,10 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
           {isAdmin && <ReportedRunNotifications />}
         </>
       )}
+    
       <Title rideApp={rideApp} setRideApp={setRideApp} />
       <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
+
       {children}
       <Footer rideApp={rideApp}/>
     </div>

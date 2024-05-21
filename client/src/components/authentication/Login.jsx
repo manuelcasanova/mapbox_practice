@@ -16,7 +16,7 @@ const Login = ({ rideApp }) => {
     const { setAuth } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/rides/";
+    const from = location.state?.from?.pathname || "/rides/public";
 
     const userRef = useRef();
     const errRef = useRef();

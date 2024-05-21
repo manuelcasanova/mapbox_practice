@@ -1,0 +1,102 @@
+/* TITLE */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+}
+
+.container div, .footer {
+  font-size: 32px;
+  font-weight: 900;
+  font-family: 'Rams W01 Black', sans-serif; 
+  /* margin: 5px; */
+  /* cursor: pointer; */
+  color: #fc4c02;
+}
+
+/* The color for the footer is different */
+.footer {
+  color: white
+}
+
+.container > div:not(:first-child) {
+  margin: 5px;
+}
+
+.container > div:not(:first-child) {
+  margin: 5px;
+}
+
+.container > div:nth-child(2) {
+  margin-left: 0; /* No left margin for the second div */
+}
+
+.container > div:nth-child(2) {
+  cursor: pointer; /* Apply cursor pointer only to the second child div */
+}
+
+
+.container div.active {
+  color: blue; /* Blue color when active */
+}
+
+.title-modify {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.title-modify::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px; /* Adjust the height of the bottom line as needed */
+  background-color: orange; /* Initial color */
+  animation: fillEffect 8s linear infinite;
+}
+
+@keyframes fillEffect {
+  0%, 100% {
+    width: 0; /* Start and end with no width */
+    background-color: white; /* Initial and final color */
+  }
+  50% {
+    width: 100%; /* Fill the width */
+    background-color: orange; /* Fill with orange color */
+  }
+}
+
+/* Styles for screens up to 425 pixels */
+@media (max-width: 425px) {
+  .container div,
+  .footer {
+    font-size: 24px;
+  }
+}
+
+/* Styles for screens between 425 and 768 pixels */
+@media (min-width: 426px) and (max-width: 768px) {
+  .container div,
+  .footer {
+    font-size: 28px;
+  }
+}
+
+/* Styles for screens larger than 768 pixels */
+@media (min-width: 769px) {
+  .container {
+    justify-content: left;
+  }
+  .container div, 
+  .footer {
+    font-size: 32px;
+  }
+  
+}
+
+
+/* TITLE END */
