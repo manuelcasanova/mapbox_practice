@@ -1,5 +1,8 @@
-export default function Footer () {
+export default function Footer ({rideApp}) {
+  console.log(rideApp)
   return (
-    <div className='footer'>Footer</div>
+    <div className='footer'>
+      {rideApp ? <div>RIDE WITH ME</div> : <div>RUN WITH ME</div>}
+    </div>
   )
 }

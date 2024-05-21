@@ -20,8 +20,7 @@
 .rides,
 .allmaps,
 /* .map-outer-container, */
-.mapslist,
-.footer {
+.mapslist {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -157,13 +156,13 @@
 }
 
 .footer {
-  /* height: 5vh; */
-  background-color: lightgrey;
-  /* position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  /* position: fixed;  */
   bottom: 0;
-  left: 0;
-  right: 0; */
-  max-height: 5%;
+  width: 100%;
 }
 
 /* Hide the details of the route */
@@ -226,7 +225,7 @@
   /* height: 100vh; */
 }
 
-.container div {
+.container div, .footer {
   font-size: 32px;
   font-weight: 900;
   font-family: 'Rams W01 Black', sans-serif; 
@@ -234,6 +233,13 @@
   /* cursor: pointer; */
   color: #fc4c02;
 }
+
+/* The color for the footer is different */
+.footer {
+  color: white
+}
+
+
 
 .container > div:not(:first-child) {
   margin: 5px;

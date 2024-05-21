@@ -75,7 +75,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
       <Title rideApp={rideApp} setRideApp={setRideApp} />
       <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
       {children}
-      <Footer />
+      <Footer rideApp={rideApp}/>
     </div>
   );
 };
