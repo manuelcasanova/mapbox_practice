@@ -198,7 +198,7 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
           {pendingUsersObject.map(user => (
 
 
-            <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+            <div key={user.id} >
 
 
 

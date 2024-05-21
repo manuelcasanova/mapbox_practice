@@ -201,7 +201,7 @@ const RunsUser = () => {
 
                 // Render the JSX elements, including the formatted date
                 return (
-                  <div key={`${run.createdat}-${run.name}-${run.distance}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                  <div key={`${run.createdat}-${run.name}-${run.distance}`}>
                     <div>Name: {run.name}</div>
                     <div>Details: {run.details}</div>
                     <div>Date: {formattedDate}</div>

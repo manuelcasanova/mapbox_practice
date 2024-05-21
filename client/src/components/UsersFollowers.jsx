@@ -97,7 +97,7 @@ const Followers = () => {
 
                   return (
 
-                    <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                    <div key={user.id} >
 
                       <div>Id: {user.id}</div>  {/* Hide on production */}
                       <div>{user.username}</div>

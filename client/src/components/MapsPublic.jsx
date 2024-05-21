@@ -186,7 +186,7 @@ const MapsPublic = () => {
 
                 
 
-                  <div key={`${map.createdat}-${map.createdby}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                  <div key={`${map.createdat}-${map.createdby}`}>
                   
           
                     <div>Name: {map.title}</div>

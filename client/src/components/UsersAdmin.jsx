@@ -118,7 +118,7 @@ const isAdmin = user.isadmin
   return (
     
     
-<div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+<div key={user.id} >
   {!user.isactive && <div>User is inactive</div>}
       <div>Id: {user.id}</div>
       <div>Name: {user.username}</div>

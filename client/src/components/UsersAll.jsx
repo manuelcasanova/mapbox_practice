@@ -88,7 +88,7 @@ const UsersAll = () => {
 
                 if (!isMuted) {
                   return (
-                    <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                    <div key={user.id}>
                       <div>Id: {user.id}</div>
                       <div>{user.username}</div>
                       <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />

@@ -116,7 +116,7 @@ const RunsAll = () => {
   return (
     
     
-<div key={`${run.id}-${run.name}-${run.distance}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+<div key={`${run.id}-${run.name}-${run.distance}`} >
 {!run.isactive && <div>Inactive run</div>}
 {!run.isactive &&<button onClick={()=>{deleteRun(run.id, auth, setRuns)}}>Definitively delete</button>}
 {run.isactive && <button onClick={()=>{deactivateRun(run.id, auth, runs, setRuns, setConfirmDelete, isRunCreatedByUser, setRunStatusUpdated)}}>Inactivate</button>}

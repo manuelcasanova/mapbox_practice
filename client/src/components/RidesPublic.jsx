@@ -271,7 +271,7 @@ const RidesPublic = () => {
           
 
 
-                  <div key={`${ride.createdat}-${ride.createdby}-${ride.distance}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                  <div key={`${ride.createdat}-${ride.createdby}-${ride.distance}`}>
                             {/* {console.log("key", ride)} */}
                     {/* {console.log("ride.id", ride.id)} */}
                     <div>Name: {ride.name}</div>

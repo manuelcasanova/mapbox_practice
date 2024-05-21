@@ -64,7 +64,7 @@ const MutedUsers = () => {
       ) : (
         <div>
           {mutedUserObjects.map(user => (
-            <div key={user.id} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+            <div key={user.id} >
               <div>Id: {user.id}</div>
               <div>{user.username}</div>
               <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers}/>

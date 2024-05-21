@@ -208,7 +208,7 @@ const RidesUser = () => {
 
                 // Render the JSX elements, including the formatted date
                 return (
-                  <div key={`${ride.createdat}-${ride.name}-${ride.distance}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                  <div key={`${ride.createdat}-${ride.name}-${ride.distance}`}>
                     <div>Name: {ride.name}</div>
                     <div>Details: {ride.details}</div>
                     <div>Date: {formattedDate}</div>

@@ -268,7 +268,7 @@ const RunsPublic = () => {
           
 
 
-                  <div key={`${run.createdat}-${run.createdby}-${run.distance}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+                  <div key={`${run.createdat}-${run.createdby}-${run.distance}`}>
                             {/* {console.log("key", run)} */}
                     {/* {console.log("run.id", run.id)} */}
                     <div>Name: {run.name}</div>

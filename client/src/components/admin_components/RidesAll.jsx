@@ -116,7 +116,7 @@ const RidesAll = () => {
   return (
     
     
-<div key={`${ride.id}-${ride.name}-${ride.distance}`} style={{ borderBottom: '1px solid black', paddingBottom: '5px' }}>
+<div key={`${ride.id}-${ride.name}-${ride.distance}`} >
 {!ride.isactive && <div>Inactive ride</div>}
 {!ride.isactive &&<button onClick={()=>{deleteRide(ride.id, auth, setRides)}}>Definitively delete</button>}
 {ride.isactive && <button onClick={()=>{deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}}>Inactivate</button>}

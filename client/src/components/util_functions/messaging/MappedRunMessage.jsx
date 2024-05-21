@@ -50,7 +50,7 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
 const createdByUsername = users.find(user => user.id === message.createdby)?.username || 'Unknown User';
 
   return (
-    <div key={message.id} style={{ borderBottom: "1px solid #ccc" }}>
+    <div key={message.id} >
 
       <p>{createdByUsername}</p>
       <p>{formattedDate}</p>
