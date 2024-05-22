@@ -32,24 +32,50 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
     admin: false,
   });
 
-  const handleSelectOption = (route, category) => {
-    navigate(route);
-    setShowOptions({ ...showOptions, [category]: false });
-  };
+  //To use onClick, instead of onmouseenter/leave
+  //Keep open more than one
+  // const toggleDropdown = (category) => {
+  //   setShowOptions({ ...showOptions, [category]: !showOptions[category] });
+  // };
 
-  const handleMouseEnter = (category) => {
-    setShowOptions({ ...showOptions, [category]: true });
-    // Hide other dropdowns
-    Object.keys(showOptions).forEach((key) => {
-      if (key !== category) {
-        setShowOptions((prev) => ({ ...prev, [key]: false }));
-      }
+  //Keep one open at a time
+
+
+  const toggleDropdown = (category) => {
+    setShowOptions((prevOptions) => {
+      const newOptions = {};
+      // Close all dropdowns except the one being toggled
+      Object.keys(prevOptions).forEach((key) => {
+        newOptions[key] = key === category ? !prevOptions[key] : false;
+      });
+      return newOptions;
     });
   };
 
-  const handleMouseLeave = (category) => {
-    setShowOptions({ ...showOptions, [category]: false });
+
+  
+
+  const handleSelectOption = (route, category) => {
+    navigate(route);
+    //onclick
+    toggleDropdown(category);
+    // onmouseenger/leave
+    // setShowOptions({ ...showOptions, [category]: false });
   };
+
+  // const handleMouseEnter = (category) => {
+  //   setShowOptions({ ...showOptions, [category]: true });
+  //   // Hide other dropdowns
+  //   Object.keys(showOptions).forEach((key) => {
+  //     if (key !== category) {
+  //       setShowOptions((prev) => ({ ...prev, [key]: false }));
+  //     }
+  //   });
+  // };
+
+  // const handleMouseLeave = (category) => {
+  //   setShowOptions({ ...showOptions, [category]: false });
+  // };
 
   return (
     <div className="navsidebar">
@@ -58,10 +84,13 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
 <div
   className="navsidebar-dropdown-wrapper navsidebar-my-account"
-  onMouseEnter={() => handleMouseEnter("myprofile")}
-  onMouseLeave={() => handleMouseLeave("myprofile")}
+  onClick={() => toggleDropdown("myprofile")}
+  // onMouseEnter={() => handleMouseEnter("myprofile")}
+  // onMouseLeave={() => handleMouseLeave("myprofile")}
 >
-  <div className="navsidebar-dropdown-wrapper-text" onClick={() => handleMouseEnter("myprofile")}>
+  <div className="navsidebar-dropdown-wrapper-text" 
+  // onClick={() => handleMouseEnter("myprofile")}
+  >
     {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
       <img className="navsidebar-profile-picture" src={profilePicture} alt={auth.username} />
     ) : (
@@ -84,10 +113,13 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
       <div
         className="navsidebar-dropdown-wrapper"
-        onMouseEnter={() => handleMouseEnter("ride")}
-        onMouseLeave={() => handleMouseLeave("ride")}
+        onClick={() => toggleDropdown("ride")}
+        // onMouseEnter={() => handleMouseEnter("ride")}
+        // onMouseLeave={() => handleMouseLeave("ride")}
       >
-        <div className="navsidebar-title" onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
+        <div className="navsidebar-title" 
+        // onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}
+        >
           {rideApp ? (
             <>
               <span className="navsidebar-dropdown-wrapper-text">Rides</span>
@@ -125,10 +157,13 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
       <div
         className="navsidebar-dropdown-wrapper"
-        onMouseEnter={() => handleMouseEnter("map")}
-        onMouseLeave={() => handleMouseLeave("map")}
+        onClick={() => toggleDropdown("map")}
+        // onMouseEnter={() => handleMouseEnter("map")}
+        // onMouseLeave={() => handleMouseLeave("map")}
       >
-        <div className="navsidebar-title" onClick={() => handleMouseEnter("map")}>
+        <div className="navsidebar-title" 
+        // onClick={() => handleMouseEnter("map")}
+        >
         
           <span className="navsidebar-dropdown-wrapper-text">Maps</span>
           <span className="down-arrow">{downArrow}</span>
@@ -148,10 +183,13 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
       <div
         className="navsidebar-dropdown-wrapper"
-        onMouseEnter={() => handleMouseEnter("user")}
-        onMouseLeave={() => handleMouseLeave("user")}
+        onClick={() => toggleDropdown("user")}
+        // onMouseEnter={() => handleMouseEnter("user")}
+        // onMouseLeave={() => handleMouseLeave("user")}
       >
-        <div className="navsidebar-title"  onClick={() => handleMouseEnter("user")}>
+        <div className="navsidebar-title"  
+        // onClick={() => handleMouseEnter("user")}
+        >
           <span className="navsidebar-dropdown-wrapper-text">Users</span>
           <span className="down-arrow">{downArrow}</span>
         </div>
@@ -172,10 +210,13 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
         <div
           className="navsidebar-dropdown-wrapper"
-          onMouseEnter={() => handleMouseEnter("admin")}
-          onMouseLeave={() => handleMouseLeave("admin")}
+          onClick={() => toggleDropdown("admin")}
+          // onMouseEnter={() => handleMouseEnter("admin")}
+          // onMouseLeave={() => handleMouseLeave("admin")}
         >
-          <div className="navsidebar-title"  onClick={() => handleMouseEnter("admin")}>
+          <div className="navsidebar-title"  
+          // onClick={() => handleMouseEnter("admin")}
+          >
             <span className="navsidebar-dropdown-wrapper-text">Admin</span>
             <span className="down-arrow">{downArrow}</span>
           </div>

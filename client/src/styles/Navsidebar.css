@@ -10,7 +10,8 @@
   display: flex;
   flex-direction: column;
   padding-top: 10px;
-  width: 25%;
+  /* width: 25%; */
+  min-width: 25%;
 height: 100vh;
   background-color: var(--color0);
   color: var(--color1);
@@ -36,7 +37,12 @@ height: 100vh;
 
 .navsidebar-dropdown-wrapper-text {
  margin: 15px 0px 15px 15px;
+ font-weight: 900;
 }
+
+.navsidebar-dropdown-wrapper-text:hover {
+  margin: 15px 0px 15px 15px;
+ }
 
 .down-arrow {
   /* background-color: white; */
@@ -45,7 +51,6 @@ height: 100vh;
 
 .navsidebar-dropdown-wrapper:hover {
   color: var(--color1);
-  font-weight: 700;
 }
 
 .navsidebar-dropdown {
@@ -112,7 +117,7 @@ display: flex;
 @media (max-width: 425px) {
 
   .navsidebar {
-    width: 40%;
+    
   }
 
     .navsidebar-dropdown-wrapper,
@@ -124,6 +129,10 @@ display: flex;
   /* Styles for screens between 425 and 768 pixels */
   @media (min-width: 426px) and (max-width: 768px) {
   
+    .navsidebar {
+      
+    }
+
     .navsidebar-dropdown-wrapper,
     .navsidebar-dropdown-wrapper button {
       font-size: 18px;
