@@ -61,7 +61,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   onMouseEnter={() => handleMouseEnter("myprofile")}
   onMouseLeave={() => handleMouseLeave("myprofile")}
 >
-  <div onClick={() => handleMouseEnter("myprofile")}>
+  <div className="navsidebar-dropdown-wrapper-text" onClick={() => handleMouseEnter("myprofile")}>
     {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
       <img className="navsidebar-profile-picture" src={profilePicture} alt={auth.username} />
     ) : (
@@ -87,7 +87,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
         onMouseEnter={() => handleMouseEnter("ride")}
         onMouseLeave={() => handleMouseLeave("ride")}
       >
-        <div onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
+        <div className="navsidebar-title" onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
           {rideApp ? (
             <>
               <span className="navsidebar-dropdown-wrapper-text">Rides</span>
@@ -128,8 +128,8 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
         onMouseEnter={() => handleMouseEnter("map")}
         onMouseLeave={() => handleMouseLeave("map")}
       >
-        <div onClick={() => handleMouseEnter("map")}>
-
+        <div className="navsidebar-title" onClick={() => handleMouseEnter("map")}>
+        
           <span className="navsidebar-dropdown-wrapper-text">Maps</span>
           <span className="down-arrow">{downArrow}</span>
 
@@ -151,7 +151,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
         onMouseEnter={() => handleMouseEnter("user")}
         onMouseLeave={() => handleMouseLeave("user")}
       >
-        <div onClick={() => handleMouseEnter("user")}>
+        <div className="navsidebar-title"  onClick={() => handleMouseEnter("user")}>
           <span className="navsidebar-dropdown-wrapper-text">Users</span>
           <span className="down-arrow">{downArrow}</span>
         </div>
@@ -175,7 +175,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
           onMouseEnter={() => handleMouseEnter("admin")}
           onMouseLeave={() => handleMouseLeave("admin")}
         >
-          <div onClick={() => () => handleMouseEnter("admin")}>
+          <div className="navsidebar-title"  onClick={() => handleMouseEnter("admin")}>
             <span className="navsidebar-dropdown-wrapper-text">Admin</span>
             <span className="down-arrow">{downArrow}</span>
           </div>

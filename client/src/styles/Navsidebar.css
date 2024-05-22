@@ -14,17 +14,33 @@
 height: 100vh;
   background-color: var(--color0);
   color: var(--color1);
-
+  overflow-y: auto; /* Scroll */
+  padding-bottom: 75px;
 }
 
-.navsidebar>* {
-  margin-top: 50px;
+.navsidebar > *:not(:first-child) {
+  margin-top: 40px;
   /* Space between children */
 }
 
 .navsidebar-dropdown-wrapper {
   cursor: pointer;
-  text-align: center;
+  /* padding-left: 25px; */
+  /* text-align: center; */
+}
+
+.navsidebar-title {
+  margin-bottom: 10px;
+  /* display: flex; */
+}
+
+.navsidebar-dropdown-wrapper-text {
+ margin: 15px 0px 15px 15px;
+}
+
+.down-arrow {
+  /* background-color: white; */
+  margin-bottom: 10px;
 }
 
 .navsidebar-dropdown-wrapper:hover {
@@ -44,23 +60,27 @@ height: 100vh;
 
 .navsidebar-dropdown button {
 display: flex;
-justify-content: center;
+/* justify-content: center; */
   color: var(--color1);
-  padding: 10px 0px 10px 0px;
   border: none;
   background: none;
   cursor: pointer;
-text-align: left !important;
+  padding: 15px;
 }
 
 .navsidebar-dropdown button:first-child {
-  padding-top: 20px;
+  /* padding-top: 20px; */
 }
 
 
 .navsidebar-dropdown button:hover {
-  color: var(--color1);
+  color: var(--color0);
+  background-color: var(--color1);
   font-weight: 700;
+}
+
+.navsidebar-my-account {
+  /* padding-left: 15%; */
 }
 
 .navsidebar-my-account:hover .navsidebar-profile-picture {
@@ -92,21 +112,21 @@ text-align: left !important;
 @media (max-width: 425px) {
 
   .navsidebar {
-    width: 35%;
+    width: 40%;
   }
 
-    .dropdown-wrapper,
-    .dropdown-wrapper button {
-      font-size: 12px;
+    .navsidebar-dropdown-wrapper,
+    .navsidebar-dropdown-wrapper button {
+      font-size: 16px;
     }
   }
   
   /* Styles for screens between 425 and 768 pixels */
   @media (min-width: 426px) and (max-width: 768px) {
   
-    .dropdown-wrapper,
-    .dropdown-wrapper button {
-      font-size: 14px;
+    .navsidebar-dropdown-wrapper,
+    .navsidebar-dropdown-wrapper button {
+      font-size: 18px;
     }
   }
   
