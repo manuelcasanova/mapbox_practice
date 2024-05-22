@@ -12,7 +12,6 @@ Organize backend like in casinosteps.ca
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
-Change <div> top <> where appropiate
 
 Remove logs and unused dependencies
 

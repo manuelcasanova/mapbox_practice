@@ -6,7 +6,7 @@ import useLogout from "../hooks/useLogout";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import '../styles/Navbar.css'
 
 
 export default function Information({ setFromButton, rideApp, setRideAppUndefined }) {
