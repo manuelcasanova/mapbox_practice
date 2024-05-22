@@ -1,7 +1,7 @@
 import './App.css';
 
 import Title from './components/Title'
-import Information from './components/Information'
+import Navbar from './components/Navbar'
 import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
@@ -74,7 +74,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
       )}
     
       <Title rideApp={rideApp} setRideApp={setRideApp} />
-      <Information setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
+      <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
 
       {children}
       <Footer rideApp={rideApp}/>

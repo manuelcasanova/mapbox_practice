@@ -9,33 +9,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../styles/Navbar.css'
 
 
-export default function Information({ setFromButton, rideApp, setRideAppUndefined }) {
+export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) {
 
-  // console.log("rideApp in Information", rideApp)
+  // console.log("rideApp in Navbar", rideApp)
   const logout = useLogout();
   const navigate = useNavigate();
   const { auth } = useAuth();
   const downArrow = "⌄"
 
-  console.log("auth", auth.profilePicture)
-
-  // Logs: auth manuel.jpg Information.jsx:20
-
-
   const profilePicture = 'http://localhost:3500/profile_pictures/' + auth.profilePicture;
-
-
-  console.log("profilePicture", profilePicture)
-
-    //Logs: profilePicture /server/profile_pictures/manuel.jpg Information.jsx:24
 
   const signOut = async () => {
     await logout();
     setRideAppUndefined()
     navigate('/');
   }
-
-  // console.log("auth in Information.jsx", auth)
 
   const [showOptions, setShowOptions] = useState({
     ride: false,
@@ -65,9 +53,6 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
 
   return (
     <div className="navbar">
-
-
-
 
       <div
         className="dropdown-wrapper"
@@ -121,9 +106,6 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
           <span className="down-arrow">{downArrow}</span>
 
         </div>
-
-
-
 
 
 
