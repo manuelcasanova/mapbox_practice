@@ -2,6 +2,7 @@ import './App.css';
 
 import Title from './components/Title'
 import Navbar from './components/Navbar'
+import Navsidebar from './components/Navsidebar';
 import Footer from './components/Footer';
 import SeeMap from './components/SeeMap';
 import CreateMap from './components/CreateMap';
@@ -75,6 +76,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
     
       <Title rideApp={rideApp} setRideApp={setRideApp} />
       <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
+      <Navsidebar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
 
       {children}
       <Footer rideApp={rideApp}/>

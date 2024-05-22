@@ -1,0 +1,123 @@
+:root {
+  --color0: #fc4c02;
+  --color1: #e3d9c8; 
+}
+
+
+.navsidebar {
+  position: fixed;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  width: 25%;
+height: 100vh;
+  background-color: var(--color0);
+  color: var(--color1);
+
+}
+
+.navsidebar>* {
+  margin-top: 50px;
+  /* Space between children */
+}
+
+.navsidebar-dropdown-wrapper {
+  cursor: pointer;
+  text-align: center;
+}
+
+.navsidebar-dropdown-wrapper:hover {
+  color: var(--color1);
+  font-weight: 700;
+}
+
+.navsidebar-dropdown {
+
+  display: flex;
+  flex-direction: column;
+  border-top: none;
+  z-index: 500;
+  white-space: nowrap;
+
+}
+
+.navsidebar-dropdown button {
+display: flex;
+justify-content: center;
+  color: var(--color1);
+  padding: 10px 0px 10px 0px;
+  border: none;
+  background: none;
+  cursor: pointer;
+text-align: left !important;
+}
+
+.navsidebar-dropdown button:first-child {
+  padding-top: 20px;
+}
+
+
+.navsidebar-dropdown button:hover {
+  color: var(--color1);
+  font-weight: 700;
+}
+
+.navsidebar-my-account:hover .navsidebar-profile-picture {
+  /* CSS properties to apply when hovering over .navsidebar-my-account */
+  /* For example: */
+  max-width: 60px;
+  max-height: 60px;
+  border: 2px solid var(--color1);
+
+}
+
+
+.navsidebar-profile-picture {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50px;
+  border: 2px solid var(--color1);
+
+
+}
+
+
+
+.navsidebar-profile-default-icon {
+  padding-top: 12px;
+}
+
+/* Styles for screens up to 425 pixels */
+@media (max-width: 425px) {
+
+  .navsidebar {
+    width: 35%;
+  }
+
+    .dropdown-wrapper,
+    .dropdown-wrapper button {
+      font-size: 12px;
+    }
+  }
+  
+  /* Styles for screens between 425 and 768 pixels */
+  @media (min-width: 426px) and (max-width: 768px) {
+  
+    .dropdown-wrapper,
+    .dropdown-wrapper button {
+      font-size: 14px;
+    }
+  }
+  
+  /* Styles for screens larger than 768 pixels */
+  @media (min-width: 769px) {
+  
+    .navsidebar {
+      display: none
+    }
+
+  
+  }
+
+  
