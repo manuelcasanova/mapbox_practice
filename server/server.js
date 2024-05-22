@@ -18,7 +18,7 @@ app.set("view engine", 'ejs');
 app.use(express.urlencoded({ extended: false }));
 
 // Serve static files from the 'root/server/profile_pictures' directory
-app.use('/profile_pictures', express.static(path.join(__dirname, 'server/profile_pictures')));
+app.use('/profile_pictures', express.static(path.join(__dirname, '/profile_pictures')));
 
 
 // Handle options credentials check - before CORS!

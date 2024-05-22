@@ -44,9 +44,10 @@
 /* Navbar and dropdown */
 
 .navbar {
-  margin-left: 275px; /* Maintain left margin */
+  margin-left: 275px;
+  /* Maintain left margin */
   position: absolute;
-  top: 7px;
+  top: 20px;
   left: 0;
   right: 0;
   display: flex;
@@ -54,12 +55,14 @@
   align-items: center;
 }
 
-.navbar > * {
-  margin-right: 50px; /* Space between children */
+.navbar>* {
+  margin-right: 50px;
+  /* Space between children */
 }
 
-.navbar > :last-child {
-  margin-right: 0; /* No margin for the last child */
+.navbar> :last-child {
+  margin-right: 0;
+  /* No margin for the last child */
 }
 
 
@@ -110,7 +113,7 @@
 }
 
 .dropdown button:first-child {
-  padding-top: 25px; 
+  padding-top: 25px;
 }
 
 .dropdown button:hover {
@@ -120,10 +123,24 @@
 
 /* For the My account button on the navbar */
 
+.profile-picture {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50px;
+  border: 1px solid white;
+  padding: 2px;
+
+}
+
+.profile-default-icon {
+  padding-top: 12px;
+}
+
 .dropdown-right {
   position: absolute;
   top: 100%;
-  right: 0; /* Adjusted to position on the right side */
+  right: 0;
+  /* Adjusted to position on the right side */
   display: flex;
   flex-direction: column;
   background-color: #f9f9f9;
@@ -143,7 +160,7 @@
 }
 
 .dropdown-right button:first-child {
-  padding-top: 25px; 
+  padding-top: 25px;
 }
 
 .dropdown-right button:hover {
@@ -156,31 +173,37 @@
 
 /* Styles for screens up to 425 pixels */
 @media (max-width: 425px) {
-  .dropdown-wrapper, .dropdown-wrapper button {
+
+  .dropdown-wrapper,
+  .dropdown-wrapper button {
     font-size: 12px;
   }
 }
 
 /* Styles for screens between 425 and 768 pixels */
 @media (min-width: 426px) and (max-width: 768px) {
-  .dropdown-wrapper, .dropdown-wrapper button {
+
+  .dropdown-wrapper,
+  .dropdown-wrapper button {
     font-size: 14px;
   }
 }
 
 /* Styles for screens larger than 768 pixels */
 @media (min-width: 769px) {
-  .dropdown-wrapper, .dropdown-wrapper button {
+
+  .dropdown-wrapper,
+  .dropdown-wrapper button {
     font-size: 16px;
   }
-  
+
 }
 
 
 .my-account {
   cursor: pointer;
-  position: fixed;
-  top: 7px;
+  position: absolute;
+  margin-top: 5px;
   right: 40px;
 }
 
@@ -300,9 +323,3 @@
     height: 50vh;
   }
 } */
-
-
-
-
-
-

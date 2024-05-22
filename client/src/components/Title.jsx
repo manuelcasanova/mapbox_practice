@@ -58,7 +58,7 @@ export default function Title({ rideApp, setRideApp }) {
 
   return (
     <div className="container">
-      <div style={{ display: 'inline-block' }}>R</div>
+      <div>R</div>
       {('ontouchstart' in window || navigator.maxTouchPoints) ? (
         <TitleTouch showUn={showUn} toggleShowUn={toggleShowUn} />
       ) : (

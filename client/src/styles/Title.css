@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   /* height: 100vh; */
+  margin-top: 10px;
 }
 
 .container div, .footer {
@@ -22,15 +23,15 @@
 }
 
 .container > div:not(:first-child) {
-  margin: 5px;
+  margin: 5px 5px 5px 5px;
 }
 
 .container > div:not(:first-child) {
-  margin: 5px;
+  margin: 5px 5px 5px 5px;
 }
 
 .container > div:nth-child(2) {
-  margin-left: 0; /* No left margin for the second div */
+  margin: 5px 5px 5px 0px; /* No left margin for the second div */
 }
 
 .container > div:nth-child(2) {

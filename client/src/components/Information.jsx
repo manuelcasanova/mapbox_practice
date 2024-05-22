@@ -205,9 +205,9 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
         >
           <div onClick={() => handleMouseEnter("myprofile")}>
             {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
-              <img src={profilePicture} alt={auth.username} />
+              <img className="profile-picture" src={profilePicture} alt={auth.username} />
             ) : (
-              <div onClick={() => navigate('/user/profile')}>
+              <div className="profile-default-icon" onClick={() => navigate('/user/profile')}>
                 <FontAwesomeIcon icon={faUser} />
               </div>
             )}
@@ -216,7 +216,7 @@ export default function Information({ setFromButton, rideApp, setRideAppUndefine
           {showOptions.myprofile && (
             <div className="dropdown-right">
               <button onClick={() => handleSelectOption("/user/profile", "myprofile")}>
-                My Profile
+                My Account
               </button>
               <button onClick={() => signOut()}>Logout</button>
             </div>

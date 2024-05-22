@@ -1,3 +1,8 @@
+client/.env
+
+REACT_APP_API_URL=http://localhost:3500
+
+
 Next:
 
 OAuth
