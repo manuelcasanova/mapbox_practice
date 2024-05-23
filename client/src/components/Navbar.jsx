@@ -59,7 +59,9 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         onMouseEnter={() => handleMouseEnter("ride")}
         onMouseLeave={() => handleMouseLeave("ride")}
       >
-        <div onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
+        <div 
+        className="navbar-title"
+        onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
           {rideApp ? (
             <>
               <span className="dropdown-wrapper-text">Rides</span>
@@ -100,7 +102,9 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         onMouseEnter={() => handleMouseEnter("map")}
         onMouseLeave={() => handleMouseLeave("map")}
       >
-        <div onClick={() => handleMouseEnter("map")}>
+        <div
+        className="navbar-title"
+        onClick={() => handleMouseEnter("map")}>
 
           <span className="dropdown-wrapper-text">Maps</span>
           <span className="down-arrow">{downArrow}</span>
@@ -123,7 +127,9 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         onMouseEnter={() => handleMouseEnter("user")}
         onMouseLeave={() => handleMouseLeave("user")}
       >
-        <div onClick={() => handleMouseEnter("user")}>
+        <div 
+        className="navbar-title"
+        onClick={() => handleMouseEnter("user")}>
           <span className="dropdown-wrapper-text">Users</span>
           <span className="down-arrow">{downArrow}</span>
         </div>
@@ -147,7 +153,9 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
           onMouseEnter={() => handleMouseEnter("admin")}
           onMouseLeave={() => handleMouseLeave("admin")}
         >
-          <div onClick={() => () => handleMouseEnter("admin")}>
+          <div 
+          className="navbar-title"
+          onClick={() => () => handleMouseEnter("admin")}>
             <span className="dropdown-wrapper-text">Admin</span>
             <span className="down-arrow">{downArrow}</span>
           </div>
