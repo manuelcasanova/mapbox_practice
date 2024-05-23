@@ -83,7 +83,10 @@ const Login = ({ rideApp }) => {
             if (!err?.response) {
                 setErrMsg('No Server Response');
                       // No response received, reload the component
-            window.location.reload();
+            //to reload if no response
+                    //   window.location.reload(); 
+                      //to navigate to / if no response
+                      navigate('/');
             } else if (err.response?.status === 400) {
                 setErrMsg('Username or password are wrong or missing');
             } else if (err.response?.status === 401) {

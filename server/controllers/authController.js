@@ -37,7 +37,7 @@ const handleLogin = async (req, res) => {
         }
 
         const user = rows[0];
-console.log("user", user)
+// console.log("user", user)
         // Compare provided password with stored hash
         const passwordMatch = await bcrypt.compare(pwd, user.password);
         if (!passwordMatch) {
@@ -49,7 +49,7 @@ console.log("user", user)
         const { id, username, isadmin, issuperadmin, email, isactive, profile_picture } = user;
         const loggedIn = !!id;
 
-        console.log(profile_picture)
+        // console.log(profile_picture)
 
         // Create JWTs
         const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
