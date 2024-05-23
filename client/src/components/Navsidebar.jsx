@@ -26,10 +26,11 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   }
 
   const [showOptions, setShowOptions] = useState({
+    myprofile: false,
     ride: false,
     map: false,
     user: false,
-    admin: false,
+    admin: false
   });
 
   //To use onClick, instead of onmouseenter/leave
@@ -48,6 +49,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
       Object.keys(prevOptions).forEach((key) => {
         newOptions[key] = key === category ? !prevOptions[key] : false;
       });
+      // console.log("newOptions", newOptions)
       return newOptions;
     });
   };
@@ -89,10 +91,11 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   // onMouseLeave={() => handleMouseLeave("myprofile")}
 >
   <div className="navsidebar-dropdown-wrapper-text" 
+  // onClick={() => toggleDropdown("myprofile")}
   // onClick={() => handleMouseEnter("myprofile")}
   >
     {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
-      <img className="navsidebar-profile-picture" src={profilePicture} alt={auth.username} />
+      <img className="navsidebar-profile-picture" src={profilePicture} alt={auth.username}  />
     ) : (
       <div className="navsidebar-profile-default-icon" onClick={() => navigate('/user/profile')}>
         <FontAwesomeIcon icon={faUser} />
