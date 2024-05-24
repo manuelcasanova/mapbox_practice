@@ -42,6 +42,7 @@
 
 .dropdown-wrapper:hover {
   color: #fc4c02;
+  font-weight: 700;
 }
 
 .navbar-title {
@@ -55,6 +56,7 @@
   background-color: #ddd;
   font-weight: 700;
 }
+
 
 
 .dropdown {
