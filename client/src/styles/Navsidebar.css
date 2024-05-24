@@ -10,8 +10,6 @@
   display: flex;
   flex-direction: column;
   padding-top: 70px;
-  /* width: 25%; */
-  min-width: 25%;
 height: 100vh;
   background-color: var(--color0);
   color: var(--color1);
@@ -161,4 +159,33 @@ display: flex;
   
   }
 
+  /* Styles for screens up to 425 pixels */
+@media (max-width: 425px) {
+
+  .navsidebar {
+
+    min-width: 50%;
+
+  }
   
+  }
+
+  /* Styles for screens between 425 and 650 pixels */
+@media (min-width: 426px) and (max-width: 650px) {
+
+  .navsidebar {
+
+    min-width: 40%;
+
+  }
+}
+
+
+  @media (min-width: 651px)  {
+
+    .navsidebar {
+  
+      min-width: 30%;
+  
+    }
+  }
