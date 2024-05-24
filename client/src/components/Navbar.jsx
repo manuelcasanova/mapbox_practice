@@ -115,7 +115,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
 
         {showOptions.map && (
           <div className="dropdown">
-            <button onClick={() => handleSelectOption("/maps/public", "map")}>See all maps</button>
+            <button className="dropdown-button-text" onClick={() => handleSelectOption("/maps/public", "map")}>See all maps</button>
             <button onClick={() => handleSelectOption("/maps", "map")}>Manage my maps</button>
             <button onClick={() => handleSelectOption("/maps/create", "map")}>Create a new map</button>
           </div>

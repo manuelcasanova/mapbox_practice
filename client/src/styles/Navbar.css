@@ -65,23 +65,27 @@
   left: 0;
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  padding: 10 px 10px 10px 0px;
+  /* Hide next */
+  background-color: #f9f9f9; 
   border-top: none;
   z-index: 500;
   white-space: nowrap;
 }
 
 .dropdown button {
-  padding: 10px 0px 10px 0px;
+  padding: 10px 10px 10px 0px;
   text-align: left;
   border: none;
-  background: none;
   cursor: pointer;
 }
 
+.dropdown-button-text {
+
+}
+
 .dropdown button:first-child {
-  padding-top: 25px;
+  /* margin-top: 10px; */
 }
 
 .dropdown button:hover {
@@ -175,7 +179,7 @@
   display: flex;
   flex-direction: column;
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-top: none;
   z-index: 500;
   white-space: nowrap;
@@ -197,6 +201,7 @@
 .dropdown-right button:hover {
   background-color: #ddd;
   color: #fc4c02;
+  font-weight: 700;
 }
 
 /* End for the My account button on the navbar */
