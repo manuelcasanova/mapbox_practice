@@ -50,15 +50,28 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 // Define a layout component to wrap the routes
-const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined }) => {
+const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined, showNavsidebar, toggleNavsidebar }) => {
 
 
   const { auth } = useAuth()
   const isAdmin = auth.isAdmin
   // console.log("isAdmin in app js", isAdmin)
 
+//REMOVE HERE?
+
+
+
+
+
   return (
     <div className='app'>
+
+      <div className="hamburger-menu" onClick={toggleNavsidebar}>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+      </div>
+      
       {rideApp === true && (
         <>
           <FollowNotifications />
@@ -76,8 +89,8 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
     
       <Title rideApp={rideApp} setRideApp={setRideApp} />
       <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
-      <Navsidebar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
 
+      {showNavsidebar && <Navsidebar />}
       {children}
       <Footer rideApp={rideApp}/>
     </div>
@@ -91,13 +104,16 @@ function App() {
 
 
   const [fromButton, setFromButton] = useState(false)
-  // console.log("fromButton", fromButton)
   const [rideApp, setRideApp] = useState() //before true
-  // console.log("rideApp", rideApp)
+  const [showNavsidebar, setShowNavsidebar] = useState(false);
 
-  // useEffect(() =>    console.log("rideApp in App.js", rideApp), [rideApp])
-
-
+// useEffect(() => {
+//   console.log(showNavsidebar)
+// }, [showNavsidebar])
+  
+  const toggleNavsidebar = () => {
+    setShowNavsidebar(!showNavsidebar);
+  };
 
   const handleSetRideApp = () => {
     // Function to update the state in the parent component
@@ -123,8 +139,17 @@ function App() {
   //  console.log("rideApp in Appjs", rideApp)
   return (
     // <AuthProvider rideApp={rideApp}>
+
+    
     <BrowserCoordsProvider>
+ 
       <Router>
+            {/* <Navbar /> */}
+  
+            {showNavsidebar && 
+            <Navsidebar/>
+            }
+
         <Routes>
           {/* Route for the Welcome component */}
           <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp} handleSetRunApp={handleSetRunApp} />} />
@@ -141,6 +166,8 @@ function App() {
             path="/*"
             element={
               <Layout
+              showNavsidebar={showNavsidebar}
+              toggleNavsidebar={toggleNavsidebar}
                 rideApp={rideApp}
                 setRideApp={setRideApp}
                 fromButton={fromButton}

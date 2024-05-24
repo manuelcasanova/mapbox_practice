@@ -7,6 +7,7 @@ import useLogout from "../hooks/useLogout";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../styles/Navsidebar.css'
+import '../styles/Hamburger.css'
 
 
 export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined }) {
@@ -55,7 +56,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   };
 
 
-  
+
 
   const handleSelectOption = (route, category) => {
     navigate(route);
@@ -82,45 +83,46 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   return (
     <div className="navsidebar">
 
-{Object.keys(auth).length &&
 
-<div
-  className="navsidebar-dropdown-wrapper navsidebar-my-account"
-  onClick={() => toggleDropdown("myprofile")}
-  // onMouseEnter={() => handleMouseEnter("myprofile")}
-  // onMouseLeave={() => handleMouseLeave("myprofile")}
->
-  <div className="navsidebar-dropdown-wrapper-text" 
-  // onClick={() => toggleDropdown("myprofile")}
-  // onClick={() => handleMouseEnter("myprofile")}
-  >
-    {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
-      <img className="navsidebar-profile-picture" src={profilePicture} alt={auth.username}  />
-    ) : (
-      <div className="navsidebar-profile-default-icon" onClick={() => navigate('/user/profile')}>
-        <FontAwesomeIcon icon={faUser} />
-      </div>
-    )}
-  </div>
+      {Object.keys(auth).length &&
 
-  {showOptions.myprofile && (
-    <div className="navsidebar-dropdown">
-      <button onClick={() => handleSelectOption("/user/profile", "myprofile")}>
-        My Account
-      </button>
-      <button onClick={() => signOut()}>Logout</button>
-    </div>
-  )}
-</div>
-}
+        <div
+          className="navsidebar-dropdown-wrapper navsidebar-my-account"
+          onClick={() => toggleDropdown("myprofile")}
+        // onMouseEnter={() => handleMouseEnter("myprofile")}
+        // onMouseLeave={() => handleMouseLeave("myprofile")}
+        >
+          <div className="navsidebar-dropdown-wrapper-text"
+          // onClick={() => toggleDropdown("myprofile")}
+          // onClick={() => handleMouseEnter("myprofile")}
+          >
+            {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
+              <img className="navsidebar-profile-picture" src={profilePicture} alt={auth.username} />
+            ) : (
+              <div className="navsidebar-profile-default-icon" onClick={() => navigate('/user/profile')}>
+                <FontAwesomeIcon icon={faUser} />
+              </div>
+            )}
+          </div>
+
+          {showOptions.myprofile && (
+            <div className="navsidebar-dropdown">
+              <button onClick={() => handleSelectOption("/user/profile", "myprofile")}>
+                My Account
+              </button>
+              <button onClick={() => signOut()}>Logout</button>
+            </div>
+          )}
+        </div>
+      }
 
       <div
         className="navsidebar-dropdown-wrapper"
         onClick={() => toggleDropdown("ride")}
-        // onMouseEnter={() => handleMouseEnter("ride")}
-        // onMouseLeave={() => handleMouseLeave("ride")}
+      // onMouseEnter={() => handleMouseEnter("ride")}
+      // onMouseLeave={() => handleMouseLeave("ride")}
       >
-        <div className="navsidebar-title" 
+        <div className="navsidebar-title"
         // onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}
         >
           {rideApp ? (
@@ -161,13 +163,13 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
       <div
         className="navsidebar-dropdown-wrapper"
         onClick={() => toggleDropdown("map")}
-        // onMouseEnter={() => handleMouseEnter("map")}
-        // onMouseLeave={() => handleMouseLeave("map")}
+      // onMouseEnter={() => handleMouseEnter("map")}
+      // onMouseLeave={() => handleMouseLeave("map")}
       >
-        <div className="navsidebar-title" 
+        <div className="navsidebar-title"
         // onClick={() => handleMouseEnter("map")}
         >
-        
+
           <span className="navsidebar-dropdown-wrapper-text">Maps</span>
           <span className="down-arrow">{downArrow}</span>
 
@@ -187,10 +189,10 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
       <div
         className="navsidebar-dropdown-wrapper"
         onClick={() => toggleDropdown("user")}
-        // onMouseEnter={() => handleMouseEnter("user")}
-        // onMouseLeave={() => handleMouseLeave("user")}
+      // onMouseEnter={() => handleMouseEnter("user")}
+      // onMouseLeave={() => handleMouseLeave("user")}
       >
-        <div className="navsidebar-title"  
+        <div className="navsidebar-title"
         // onClick={() => handleMouseEnter("user")}
         >
           <span className="navsidebar-dropdown-wrapper-text">Users</span>
@@ -214,10 +216,10 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
         <div
           className="navsidebar-dropdown-wrapper"
           onClick={() => toggleDropdown("admin")}
-          // onMouseEnter={() => handleMouseEnter("admin")}
-          // onMouseLeave={() => handleMouseLeave("admin")}
+        // onMouseEnter={() => handleMouseEnter("admin")}
+        // onMouseLeave={() => handleMouseLeave("admin")}
         >
-          <div className="navsidebar-title"  
+          <div className="navsidebar-title"
           // onClick={() => handleMouseEnter("admin")}
           >
             <span className="navsidebar-dropdown-wrapper-text">Admin</span>
@@ -250,7 +252,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
       )}
 
-      
+
 
     </div>
   );

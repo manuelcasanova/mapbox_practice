@@ -1,0 +1,34 @@
+/* Hamburger menu CSS */
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background-color: black; 
+}
+
+/* Animation for hamburger menu */
+.line:nth-child(2) {
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Animation for toggling hamburger menu */
+.hamburger-menu.open .line:nth-child(1) {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.hamburger-menu.open .line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.open .line:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
+}
