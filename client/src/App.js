@@ -45,21 +45,14 @@ import useAuth from './hooks/useAuth';
 
 //Hooks
 import { useState, useEffect } from 'react';
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 // Define a layout component to wrap the routes
 const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined, showNavsidebar, toggleNavsidebar, handleMouseLeave }) => {
 
-
   const { auth } = useAuth()
   const isAdmin = auth.isAdmin
-
-
-
-
-
 
   return (
     <div className='app'>
@@ -69,7 +62,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
         <div className={showNavsidebar ? 'line-white' : 'line'}></div>
         <div className={showNavsidebar ? 'line-white' : 'line'}></div>
       </div>
-      
+
       {rideApp === true && (
         <>
           <FollowNotifications />
@@ -77,38 +70,30 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
           {isAdmin && <ReportedNotifications />}
         </>
       )}
-            {rideApp === false && (
+      {rideApp === false && (
         <>
           <FollowNotifications />
           <MessagesNotifications />
           {isAdmin && <ReportedRunNotifications />}
         </>
       )}
-    
+
       <Title rideApp={rideApp} setRideApp={setRideApp} />
       <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
-
-      {showNavsidebar && <Navsidebar setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave}/>}
+      {showNavsidebar && <Navsidebar setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
       {children}
-      <Footer rideApp={rideApp}/>
+      <Footer rideApp={rideApp} />
     </div>
   );
 };
 
 
-
-
 function App() {
-
 
   const [fromButton, setFromButton] = useState(false)
   const [rideApp, setRideApp] = useState() //before true
   const [showNavsidebar, setShowNavsidebar] = useState(false);
 
-// useEffect(() => {
-//   console.log(showNavsidebar)
-// }, [showNavsidebar])
-  
   const toggleNavsidebar = () => {
     setShowNavsidebar(!showNavsidebar);
   };
@@ -131,36 +116,16 @@ function App() {
     setRideApp(undefined)
   }
 
-  //If ride App is false, change to true on Welcome component mount, default state.
-  // useEffect(() => {
-  //   if (!rideApp) {
-  //     handleSetRideApp(); 
-  //   }
-  // }, [rideApp]);
-
-  //  console.log("rideApp in Appjs", rideApp)
   return (
-    // <AuthProvider rideApp={rideApp}>
-
-    
     <BrowserCoordsProvider>
- 
       <Router>
-            {/* <Navbar /> */}
-  
-            {showNavsidebar && 
-            <Navsidebar/>
-            }
+        {showNavsidebar && <Navsidebar />}
 
         <Routes>
           {/* Route for the Welcome component */}
           <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp} handleSetRunApp={handleSetRunApp} />} />
-
           <Route exact path="/register" element={<Register />} />
-
-          {/* <Route exact path="/login" element={<Authentication rideApp={rideApp}  setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} /> */}
           <Route exact path="/login" element={<Login rideApp={rideApp} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} />
-
           <Route path="/resetpassword" element={<ResetPassword />} />
 
           {/* Route for other components with the Layout */}
@@ -168,8 +133,8 @@ function App() {
             path="/*"
             element={
               <Layout
-              showNavsidebar={showNavsidebar}
-              toggleNavsidebar={toggleNavsidebar}
+                showNavsidebar={showNavsidebar}
+                toggleNavsidebar={toggleNavsidebar}
                 rideApp={rideApp}
                 setRideApp={setRideApp}
                 fromButton={fromButton}
@@ -179,7 +144,6 @@ function App() {
               >
 
                 <Routes>
-
                   <Route element={<PersistLogin />}>
                     <Route exact path="/rides" element={<></>}> </Route>
                     <Route exact path="/runs" element={<></>}> </Route>
@@ -199,7 +163,6 @@ function App() {
                     <Route exact path="/runs/messages/reported" element={<><ReportedRunMessages /></>}></Route>
                     <Route exact path="/runs/messages/flagged" element={<><FlaggedRunMessages /></>}></Route>
                     <Route exact path="/rides/messages/flagged" element={<><FlaggedMessages /></>}></Route>
-
                     <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>
                     <Route exact path="/users/all" element={<><UsersAll /></>}></Route>
                     <Route exact path="/users/followee" element={<><Followee /></>}></Route>
@@ -216,13 +179,6 @@ function App() {
         </Routes>
       </Router>
     </BrowserCoordsProvider>
-    // </AuthProvider>
-
-
-
-
-
-
   );
 }
 

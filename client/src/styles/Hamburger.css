@@ -11,7 +11,7 @@
   justify-content: space-around;
   width: 30px;
   height: 20px;
-  cursor: pointer;
+  /* cursor: pointer; */
   z-index: 10001;
   position: absolute; /* Position the menu absolutely */
   top: 25px; /* Adjust top position as needed */
