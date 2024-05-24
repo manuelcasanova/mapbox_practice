@@ -50,14 +50,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 // Define a layout component to wrap the routes
-const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined, showNavsidebar, toggleNavsidebar }) => {
+const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined, showNavsidebar, toggleNavsidebar, handleMouseLeave }) => {
 
 
   const { auth } = useAuth()
   const isAdmin = auth.isAdmin
-  // console.log("isAdmin in app js", isAdmin)
 
-//REMOVE HERE?
 
 
 
@@ -66,10 +64,10 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
   return (
     <div className='app'>
 
-      <div className="hamburger-menu" onClick={toggleNavsidebar}>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
+      <div className='hamburger-menu' onClick={toggleNavsidebar} onMouseEnter={toggleNavsidebar}>
+        <div className={showNavsidebar ? 'line-white' : 'line'}></div>
+        <div className={showNavsidebar ? 'line-white' : 'line'}></div>
+        <div className={showNavsidebar ? 'line-white' : 'line'}></div>
       </div>
       
       {rideApp === true && (
@@ -90,7 +88,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
       <Title rideApp={rideApp} setRideApp={setRideApp} />
       <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
 
-      {showNavsidebar && <Navsidebar />}
+      {showNavsidebar && <Navsidebar setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave}/>}
       {children}
       <Footer rideApp={rideApp}/>
     </div>
@@ -113,6 +111,10 @@ function App() {
   
   const toggleNavsidebar = () => {
     setShowNavsidebar(!showNavsidebar);
+  };
+
+  const handleMouseLeave = () => {
+    setShowNavsidebar(false);
   };
 
   const handleSetRideApp = () => {
@@ -173,6 +175,7 @@ function App() {
                 fromButton={fromButton}
                 setFromButton={setFromButton}
                 setRideAppUndefined={setRideAppUndefined}
+                handleMouseLeave={handleMouseLeave}
               >
 
                 <Routes>

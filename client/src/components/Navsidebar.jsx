@@ -10,7 +10,7 @@ import '../styles/Navsidebar.css'
 import '../styles/Hamburger.css'
 
 
-export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined }) {
+export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined, toggleNavsidebar, handleMouseLeave }) {
 
   // console.log("rideApp in Navsidebar", rideApp)
   const logout = useLogout();
@@ -23,7 +23,9 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   const signOut = async () => {
     await logout();
     setRideAppUndefined()
+    toggleNavsidebar()
     navigate('/');
+
   }
 
   const [showOptions, setShowOptions] = useState({
@@ -81,7 +83,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   // };
 
   return (
-    <div className="navsidebar">
+    <div className="navsidebar" onMouseLeave={handleMouseLeave}>
 
 
       {Object.keys(auth).length &&
