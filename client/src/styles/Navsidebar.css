@@ -118,9 +118,8 @@ display: flex;
 }
 
 
-
 .navsidebar-profile-default-icon {
-  padding-top: 12px;
+  /* padding-top: 12px; */
 }
 
 /* Styles for screens up to 425 pixels */
