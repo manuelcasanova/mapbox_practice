@@ -1,6 +1,6 @@
 //Styles
 import '../styles/UserProfile.css'
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faImage, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Hooks
@@ -82,10 +82,15 @@ setIsEditingUsername(false)
           <div className="user-profile">
 
             {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
+              <div className="user-profile-image-container">
               <img className="user-profile-image" src={profilePicture} alt={auth.username} />
+              <FontAwesomeIcon icon={faEdit} />
+              </div>
             ) : (
               <div className="user-profile-default-icon" onClick={() => navigate('/user/profile')}>
-                <FontAwesomeIcon icon={faUser} />
+                {/* <FontAwesomeIcon icon={faUser} /> */}
+                <FontAwesomeIcon icon={faImage} />
+                <FontAwesomeIcon icon={faPlus} />
               </div>
             )}
 

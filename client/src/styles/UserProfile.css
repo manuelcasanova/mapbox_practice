@@ -17,6 +17,28 @@
   background-color: #f9f9f9;
 }
 
+.user-profile-image-container {
+  position: relative;
+}
+
+.user-profile-image-container:hover .fa-pen-to-square {
+  cursor: pointer;
+}
+
+.user-profile-image-container:hover .user-profile-image {
+  padding: 0px; 
+}
+
+.user-profile-image-container .fa-pen-to-square {
+  font-size: 20px; 
+  position: absolute; 
+  top: 50%;
+  left: 85%;
+  transform: translate(-50%, -50%); 
+  color: var(--color1);
+}
+
+
 .user-profile-image {
   margin-top: 30px;
   display: flex;
@@ -52,17 +74,36 @@ max-width: 200px;
   margin-bottom: 30px;
   overflow: hidden; 
   transition: padding 0.5s;
+  position: relative;
+  color: var(--color0);
 }
 
 .user-profile-default-icon:hover {
   cursor: pointer;
-  border: solid 5px var(--color0);
+  /* border: solid 5px var(--color0); */
+  color: var(--color1);
+  background-color: var(--color0);
 }
 
-.user-profile-default-icon .fa-user {
+.user-profile-default-icon:hover .fa-plus {
+  color: var(--color0); /* Change the color to var(--color0) when hovered */
+}
+
+.user-profile-default-icon .fa-image {
   font-size: 48px; /* Adjust the size as needed */
+  position: absolute; /* Position the image icon absolutely */
+  top: 50%; /* Position at vertical center */
+  left: 50%; /* Position at horizontal center */
+  transform: translate(-50%, -50%); /* Center the icon */
 }
 
+.user-profile-default-icon .fa-plus {
+  font-size: 14px; /* Adjust the size as needed */
+  position: absolute; /* Position the plus icon absolutely */
+  top: 30px; /* Position at 10px from the top */
+  right: 30px; /* Position at 10px from the right */
+  color: white;
+}
 .user-profile-username-container {
   display: flex;
   flex-direction: column;
@@ -85,7 +126,8 @@ max-width: 200px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 50%;
+  /* width: 50%; */
+  min-width: 300px;
   margin-bottom: 20px;
 }
 
@@ -154,8 +196,8 @@ max-width: 200px;
 display: flex; /* Center horizontally and vertically */
 justify-content: center; /* Center horizontally */
 align-items: center; /* Center vertically */
-width: 40px; 
-height: 40px;
+width: 30px; 
+height: 30px;
 }
 
 .user-profile-delete-button-close:hover {
