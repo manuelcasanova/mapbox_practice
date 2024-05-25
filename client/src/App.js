@@ -80,7 +80,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
       <Title rideApp={rideApp} setRideApp={setRideApp} />
       <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
-      {showNavsidebar && <Navsidebar setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
+      {showNavsidebar && <Navsidebar rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
       {children}
       <Footer rideApp={rideApp} />
     </div>

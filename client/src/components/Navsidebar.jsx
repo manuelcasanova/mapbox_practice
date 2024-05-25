@@ -57,6 +57,15 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
     });
   };
 
+  const closeAllDropdowns = () => {
+    setShowOptions({
+      myprofile: false,
+      ride: false,
+      map: false,
+      user: false,
+      admin: false
+    });
+  };
 
 
 
@@ -91,6 +100,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
         <div
           className="navsidebar-dropdown-wrapper navsidebar-my-account"
           onClick={() => toggleDropdown("myprofile")}
+          // onMouseEnter={() => toggleDropdown("myprofile")}
         // onMouseEnter={() => handleMouseEnter("myprofile")}
         // onMouseLeave={() => handleMouseLeave("myprofile")}
         >
