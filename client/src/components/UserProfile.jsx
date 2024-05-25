@@ -37,6 +37,8 @@ export default function UserProfile({ setRideAppUndefined }) {
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const [newUsername, setNewUsername] = useState("");
   const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [showEditPassword, setShowEditPassword] = useState(false)
+
   // console.log(newUsername)
 
   useEffect(() => {
@@ -44,6 +46,10 @@ export default function UserProfile({ setRideAppUndefined }) {
       usernameInputRef.current.focus();
     }
   }, [isEditingUsername]);
+
+  const handleShowEditPassword = () => {
+    setShowEditPassword(prev => !prev)
+  }
 
   const handleShowConfirmDelete = () => { setShowConfirmDelete(prev => !prev) }
   const handleDeactivateUser = () => {
@@ -54,11 +60,11 @@ export default function UserProfile({ setRideAppUndefined }) {
   };
 
   const handleNo = () => {
-    { 
+    {
       setShowConfirmDelete(false)
-setIsEditingUsername(false)
+      setIsEditingUsername(false)
 
-     }
+    }
   }
 
   const handleUsernameChange = (e) => {
@@ -83,8 +89,8 @@ setIsEditingUsername(false)
 
             {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
               <div className="user-profile-image-container">
-              <img className="user-profile-image" src={profilePicture} alt={auth.username} />
-              <FontAwesomeIcon icon={faEdit} />
+                <img className="user-profile-image" src={profilePicture} alt={auth.username} />
+                <FontAwesomeIcon icon={faEdit} />
               </div>
             ) : (
               <div className="user-profile-default-icon" onClick={() => navigate('/user/profile')}>
@@ -95,42 +101,54 @@ setIsEditingUsername(false)
             )}
 
             <div className="user-profile-username-container">{isEditingUsername ?
-              <input type="text"  ref={usernameInputRef} value={newUsername} onChange={handleUsernameChange} placeholder="Insert new username"/> :
+              <input type="text" ref={usernameInputRef} value={newUsername} onChange={handleUsernameChange} placeholder="Insert new username" /> :
               <div className='user-profile-username'>
                 {auth.username}
                 <div className="user-profile-email">{auth.email}</div>
                 <button className='user-profile-edit-button' onClick={() => setIsEditingUsername(true)}>Edit username</button>
               </div>
             }</div>
-            {isEditingUsername && 
-            <div className='user-profile-edit-buttons-container'>
-            <button 
-            disabled={newUsername === ""}
-            className = "user-profile-save-username-button" onClick={handleUpdateUsername} >Save username</button>
-            <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>
-            </div>
-            
+            {isEditingUsername &&
+              <div className='user-profile-edit-buttons-container'>
+                <button
+                  disabled={newUsername === ""}
+                  className="user-profile-save-username-button" onClick={handleUpdateUsername} >Save username</button>
+                <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>
+              </div>
+
             }
 
 
 
-  
+
 
             {/* <div className="user-profile-permissions">Permissions: {auth.isSuperAdmin ? 'Super Admin' : auth.isAdmin ? 'Admin' : 'User'}</div> */}
 
-            <UserEditPassword user={auth} users={users} setUsers={setUsers} />
+{!showEditPassword && 
+            <button className='user-profile-edit-button' onClick={() => handleShowEditPassword()}>Modify password</button>
+          }
+
+{showEditPassword && 
+            <button className='user-profile-delete-button-close' onClick={() => setShowEditPassword(false)}>X</button>
+}
+
+
+
+            {showEditPassword &&
+              <UserEditPassword user={auth} users={users} setUsers={setUsers} />
+            }
 
 
             <div className="delete-buttons-container">
-  {!showConfirmDelete &&
-    <button className='user-profile-delete-button' onClick={() => setShowConfirmDelete(true)}>Delete Account</button>}
-  {showConfirmDelete &&
-    <>
-      <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>
-      <button className='user-profile-delete-button' onClick={handleDeactivateUser}>Confirm Delete Account</button>
-    </>
-  }
-</div>
+              {!showConfirmDelete &&
+                <button className='user-profile-delete-button' onClick={() => setShowConfirmDelete(true)}>Delete Account</button>}
+              {showConfirmDelete &&
+                <>
+                  <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>
+                  <button className='user-profile-delete-button' onClick={handleDeactivateUser}>Confirm Delete Account</button>
+                </>
+              }
+            </div>
 
 
           </div>

@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import '../../styles/UserEditPassword.css'
 
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
