@@ -49,9 +49,18 @@ export default function UserProfile({ setRideAppUndefined }) {
 
   const handleShowEditPassword = () => {
     setShowEditPassword(prev => !prev)
+    setShowConfirmDelete(false)
+    setIsEditingUsername(false)
   }
 
-  const handleShowConfirmDelete = () => { setShowConfirmDelete(prev => !prev) }
+  const handleShowConfirmDelete = () => { 
+    setShowConfirmDelete(true)
+    setShowEditPassword(false)
+    setIsEditingUsername(false)
+  }
+
+
+
   const handleDeactivateUser = () => {
     deactivateUser(auth, loggedInUser);
     logOut()
@@ -81,6 +90,13 @@ export default function UserProfile({ setRideAppUndefined }) {
     }
   };
 
+  const handleEditUsername = () => {
+    setIsEditingUsername(true)
+    setShowConfirmDelete(false)
+    setShowEditPassword(false)
+    
+  }
+
   return (
     <>
       {!auth || Object.keys(auth).length === 0 ? (<>Please log in to see the user profile.</>) :
@@ -100,37 +116,40 @@ export default function UserProfile({ setRideAppUndefined }) {
               </div>
             )}
 
-            <div className="user-profile-username-container">{isEditingUsername ?
-              <input type="text" ref={usernameInputRef} value={newUsername} onChange={handleUsernameChange} placeholder="Insert new username" /> :
-              <div className='user-profile-username'>
-                {auth.username}
-                <div className="user-profile-email">{auth.email}</div>
-                <button className='user-profile-edit-button' onClick={() => setIsEditingUsername(true)}>Edit username</button>
-              </div>
-            }</div>
+
+
+            <div className="user-profile-username-container">
+
+              {isEditingUsername ?
+                <input type="text" ref={usernameInputRef} value={newUsername} onChange={handleUsernameChange} placeholder="Insert new username" /> :
+                <div className='user-profile-username'>
+                  {auth.username}
+                  <div className="user-profile-email">{auth.email}</div>
+                  <button className='user-profile-edit-button' onClick={() => handleEditUsername()}>Modify username</button>
+                </div>
+              }
+
+            </div>
+
             {isEditingUsername &&
               <div className='user-profile-edit-buttons-container'>
+             
                 <button
                   disabled={newUsername === ""}
                   className="user-profile-save-username-button" onClick={handleUpdateUsername} >Save username</button>
-                <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>
+                   <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>
               </div>
 
             }
-
-
-
-
-
             {/* <div className="user-profile-permissions">Permissions: {auth.isSuperAdmin ? 'Super Admin' : auth.isAdmin ? 'Admin' : 'User'}</div> */}
 
-{!showEditPassword && 
-            <button className='user-profile-edit-button' onClick={() => handleShowEditPassword()}>Modify password</button>
-          }
+            {!showEditPassword &&
+              <button className='user-profile-edit-button' onClick={() => handleShowEditPassword()}>Modify password</button>
+            }
 
-{showEditPassword && 
-            <button className='user-profile-delete-button-close' onClick={() => setShowEditPassword(false)}>X</button>
-}
+            {showEditPassword &&
+              <button className='user-profile-delete-button-close' onClick={() => setShowEditPassword(false)}>X</button>
+            }
 
 
 
@@ -141,7 +160,7 @@ export default function UserProfile({ setRideAppUndefined }) {
 
             <div className="delete-buttons-container">
               {!showConfirmDelete &&
-                <button className='user-profile-delete-button' onClick={() => setShowConfirmDelete(true)}>Delete Account</button>}
+                <button className='user-profile-delete-button' onClick={handleShowConfirmDelete}>Delete Account</button>}
               {showConfirmDelete &&
                 <>
                   <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>

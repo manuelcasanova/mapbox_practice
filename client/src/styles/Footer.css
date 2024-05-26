@@ -23,3 +23,24 @@
     margin-top: auto;
   }
 }
+
+@media screen and (max-height: 500px) {
+  .footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100001;
+  }
+
+  .footer-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    
+  }
+}
