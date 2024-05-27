@@ -57,7 +57,9 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
   return (
     <div className='app'>
 
-      <div className='hamburger-menu' onClick={toggleNavsidebar} onMouseEnter={toggleNavsidebar}>
+      <div className='hamburger-menu' onClick={toggleNavsidebar} 
+      // onMouseEnter={toggleNavsidebar}
+      >
         <div className={showNavsidebar ? 'line-white' : 'line'}></div>
         <div className={showNavsidebar ? 'line-white' : 'line'}></div>
         <div className={showNavsidebar ? 'line-white' : 'line'}></div>

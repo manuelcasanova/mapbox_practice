@@ -4,7 +4,7 @@ import { useState } from "react";
 import useAuth from "../hooks/useAuth"
 import useLogout from "../hooks/useLogout";
 
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../styles/Navsidebar.css'
 import '../styles/Hamburger.css'
@@ -103,7 +103,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
         <div
           className="navsidebar-dropdown-wrapper navsidebar-my-account"
           onClick={() => toggleDropdown("myprofile")}
-          // onMouseEnter={() => toggleDropdown("myprofile")}
+        // onMouseEnter={() => toggleDropdown("myprofile")}
         // onMouseEnter={() => handleMouseEnter("myprofile")}
         // onMouseLeave={() => handleMouseLeave("myprofile")}
         >
@@ -125,7 +125,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
               <button onClick={() => handleSelectOption("/user/profile", "myprofile")}>
                 My Account
               </button>
-              <button onClick={() => signOut()}>Logout</button>
+              <button onClick={() => signOut()}><FontAwesomeIcon icon={faSignOut} /></button>
             </div>
           )}
         </div>
@@ -267,6 +267,13 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
       )}
 
+{!showOptions.myprofile && (
+      <div className="navsidebar-dropdown">
+        <button
+          onClick={() => { signOut() }}
+        ><FontAwesomeIcon icon={faSignOut} /></button>
+      </div>
+)}
 
 
     </div>
