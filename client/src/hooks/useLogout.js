@@ -5,7 +5,7 @@ const useLogout = () => {
     const { setAuth } = useAuth();
 
     const logout = async () => {
-        setAuth({});
+        // setAuth({}); Check if this is necessary. Because auth is updated it triggers some fetches not allowed because not logged in.
         try {
             const response = await axios('/logout', {
                 withCredentials: true
