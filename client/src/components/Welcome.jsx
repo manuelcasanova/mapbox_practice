@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
-
+import '../styles/Welcome.css'
 
 export default function Welcome({rideApp, handleSetRideApp, handleSetRunApp}) {
 
   const navigate = useNavigate();
 
   return (
-    <>
-      <div>Ready to seize the day?</div>
-      <div>
-        <button
+    <div className="welcome-container">
+      <div className="welcome-question">Ready to seize the day?</div>
+      <div className="welcome-buttons">
+        <button className="welcome-button-one"
         onClick={() => {
           if (!rideApp) {
           handleSetRideApp()
@@ -17,17 +17,17 @@ export default function Welcome({rideApp, handleSetRideApp, handleSetRunApp}) {
           navigate("/login");
 
         }}
-        >Ride with me</button>
-        <div>or</div>
-        <button
+        >RIDE WITH ME</button>
+        <div className="welcome-or">or</div>
+        <button className="welcome-button-two"
         onClick={() => {
           if (!rideApp) {
           handleSetRunApp()
         }
           navigate("/login");
 
-        }}>Run with me</button>
+        }}>RUN WITH ME</button>
       </div>
-    </>
+    </div>
   )
 }
