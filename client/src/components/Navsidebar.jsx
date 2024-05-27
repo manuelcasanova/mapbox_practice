@@ -57,15 +57,15 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
     });
   };
 
-  const closeAllDropdowns = () => {
-    setShowOptions({
-      myprofile: false,
-      ride: false,
-      map: false,
-      user: false,
-      admin: false
-    });
-  };
+  // const closeAllDropdowns = () => {
+  //   setShowOptions({
+  //     myprofile: false,
+  //     ride: false,
+  //     map: false,
+  //     user: false,
+  //     admin: false
+  //   });
+  // };
 
 
 
@@ -73,6 +73,9 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
     navigate(route);
     //onclick
     toggleDropdown(category);
+    toggleNavsidebar(); //To hide navsidebar when click on a category
+
+
     // onmouseenger/leave
     // setShowOptions({ ...showOptions, [category]: false });
   };
