@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/RidesFilter.css'
 
 const RideFilter = ({ rides, onFilter }) => {
 
@@ -92,56 +93,67 @@ const RideFilter = ({ rides, onFilter }) => {
   };
 
   return (
-    <>
-      <h2>Filter Rides</h2>
-      <div>
-        <label>Date Range:</label>
+    <div className='filter-container'>
+      <div className='filter-range'>
+        <label className='filter-label'>Dates:</label>
         <input
+        className='filter-input'
           type="date"
           value={dateStart}
           onChange={handleDateStartChange}
 
         />
         <input
+        className='filter-input'
           type="date"
           value={dateEnd === "9999-12-31" ? "" : dateEnd}
           onChange={handleDateEndChange}
         />
 
       </div>
-      <div>
-        <label>Distance Range:</label>
+      <div className='filter-range'>
+        <label className='filter-label'>Distance:</label>
         <input
+        className='filter-input'
           type="number"
           value={distanceMin === 0 ? "" : distanceMin}
           onChange={handleDistanceMinChange}
+          placeholder='Min (Km)'
         />
-        <span>km -</span>
+        {/* <span className='filter-span'>km -</span> */}
         <input
+        className='filter-input'
           type="number"
           value={distanceMax === 100000 ? "" : distanceMax}
           onChange={handleDistanceMaxChange}
+          placeholder='Max (Km)'
         />
-        <span>km</span>
+        {/* <span className='filter-span'>km</span> */}
       </div>
-      <div>
-        <label>Speed Range:</label>
+      <div className='filter-range'>
+        <label className='filter-label'>Speed:</label>
         <input
+        className='filter-input'
           type="number"
           value={speedMin === 0 ? "" : speedMin}
           onChange={handleSpeedMinChange}
+          placeholder='Min (Km/h)'
         />
-        <span>km/h -</span>
+        {/* <span className='filter-span'>km/h -</span> */}
         <input
+        className='filter-input'
           type="number"
           value={speedMax === 100000 ? "" : speedMax}
           onChange={handleSpeedMaxChange}
+          placeholder='Max (Km/h)'
         />
-        <span>km/h</span>
+        {/* <span className='filter-span'>km/h</span> */}
       </div>
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
-      <button onClick={() => {clearFilter(); handleFilter();}}>Clear Filters</button>
-    </>
+      <div className='filter-range'>
+      <button className='filter-button' onClick={() => {clearFilter(); handleFilter();}}>Clear</button>
+      </div>
+    </div>
   );
 };
 

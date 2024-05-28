@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/RidesFilter.css'
 
 const RunFilter = ({ runs, onFilter }) => {
 
@@ -92,56 +93,67 @@ const RunFilter = ({ runs, onFilter }) => {
   };
 
   return (
-    <>
-      <h2>Filter Runs</h2>
-      <div>
-        <label>Date Range:</label>
+    <div className='filter-container'>
+       <div className='filter-range'>
+       <label className='filter-label'>Dates:</label>
         <input
+        className='filter-input'
           type="date"
           value={dateStart}
           onChange={handleDateStartChange}
 
         />
         <input
+          className='filter-input'
           type="date"
           value={dateEnd === "9999-12-31" ? "" : dateEnd}
           onChange={handleDateEndChange}
         />
 
       </div>
-      <div>
-        <label>Distance Range:</label>
+      <div className='filter-range'>
+        <label className='filter-label'>Distance:</label>
         <input
+          className='filter-input'
           type="number"
           value={distanceMin === 0 ? "" : distanceMin}
           onChange={handleDistanceMinChange}
+          placeholder='Min (Km)'
         />
-        <span>km -</span>
+        {/* <span>km -</span> */}
         <input
+          className='filter-input'
           type="number"
           value={distanceMax === 100000 ? "" : distanceMax}
           onChange={handleDistanceMaxChange}
+          placeholder='Max (Km)'
         />
-        <span>km</span>
+        {/* <span>km</span> */}
       </div>
-      <div>
-        <label>Pace Range:</label>
+      <div className='filter-range'>
+        <label className='filter-label'>Pace:</label>
         <input
+          className='filter-input'
           type="number"
           value={paceMin === 0 ? "" : paceMin}
           onChange={handlePaceMinChange}
+          placeholder='Min (min/km)'
         />
-        <span>min/km -</span>
+        {/* <span>min/km -</span> */}
         <input
+          className='filter-input'
           type="number"
           value={paceMax === 100000 ? "" : paceMax}
           onChange={handlePaceMaxChange}
+          placeholder='Max (min/km)'
         />
-        <span>min/km</span>
+        {/* <span>min/km</span> */}
       </div>
+      <div className='filter-range'>
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
-      <button onClick={() => {clearFilter(); handleFilter();}}>Clear Filters</button>
-    </>
+      <button className='filter-button' onClick={() => {clearFilter(); handleFilter();}}>Clear</button>
+    </div>
+    </div>
   );
 };
 
