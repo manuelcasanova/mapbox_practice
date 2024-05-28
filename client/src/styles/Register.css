@@ -24,6 +24,36 @@ section {
   margin-bottom: 10px;
 }
 
+/* Validation icons */
+.valid {
+  color: green;
+}
+
+.invalid {
+  color: red;
+}
+
+.hide {
+  display: none;
+}
+
+/* Instructions for password input */
+.instructions {
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* CSS for .offscreen class */
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.fa-info {
+  color: blue
+}
+
 .level-title {
   font-size: 24px;
   color: var(--color0);

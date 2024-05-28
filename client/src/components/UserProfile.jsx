@@ -18,7 +18,7 @@ import { deactivateUser } from "./util_functions/user_functions/DeleteUser";
 import { updateUsername } from "./util_functions/user_functions/UpdateUsername";
 
 //Components
-import UserEditPassword from "./authentication/UserEditPassword";
+// import UserEditPassword from "./authentication/UserEditPassword";
 
 export default function UserProfile({ setRideAppUndefined }) {
 
@@ -153,9 +153,9 @@ export default function UserProfile({ setRideAppUndefined }) {
 
 
 
-            {showEditPassword &&
+            {/* {showEditPassword &&
               <UserEditPassword user={auth} users={users} setUsers={setUsers} />
-            }
+            } */}
 
 
             <div className="delete-buttons-container">

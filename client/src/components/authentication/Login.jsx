@@ -186,7 +186,7 @@ const Login = ({ rideApp }) => {
                     value={pwd}
                     required
                 />
-                <button>Sign In</button>
+                <button className='login-button'>Sign In</button>
                 <div className="persistCheck">
                     <input
                         type="checkbox"
