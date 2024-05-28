@@ -113,7 +113,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
           // onClick={() => toggleDropdown("myprofile")}
           // onClick={() => handleMouseEnter("myprofile")}
           >
-            {auth.profilePicture !== undefined && auth.profilePicture.endsWith('.jpg') ? (
+            {auth.profilePicture !== null && auth.profilePicture.endsWith('.jpg') ? (
               <img className="navsidebar-profile-picture" src={profilePicture} alt={auth.username} />
             ) : (
               <div className="navsidebar-profile-default-icon" onClick={() => navigate('/user/profile')}>
