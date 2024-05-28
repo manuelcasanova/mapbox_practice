@@ -103,7 +103,7 @@ export default function UserProfile({ setRideAppUndefined }) {
         (
           <div className="user-profile">
 
-            {auth.profilePicture !== null && auth.profilePicture.endsWith('.jpg') ? (
+            {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
               <div className="user-profile-image-container">
                 <img className="user-profile-image" src={profilePicture} alt={auth.username} />
                 <FontAwesomeIcon icon={faEdit} />

@@ -10,44 +10,65 @@ const handleRefreshToken = async (req, res) => {
   //See if the username exists
 
 
-try {
-  const data = await pool.query('SELECT * FROM users WHERE refreshtoken = $1', [refreshToken])
-  const foundUser = data.rows;
-  if (foundUser.length === 0) {
-    res.sendStatus(403);
-  } else {
+  try {
+    const data = await pool.query('SELECT * FROM users WHERE refreshtoken = $1', [refreshToken])
+    const foundUser = data.rows;
+    // console.log("foundUser in refreshtokencontroller", foundUser)
+    if (foundUser.length === 0) {
+      res.sendStatus(403);
+    } else {
 
 
-  //evaluate jwt
-  jwt.verify(
-    refreshToken,
-    process.env.REFRESH_TOKEN_SECRET,
-    (err, decoded) => {
-      if (err || foundUser[0].username !== decoded.username) return res.sendStatus(403);
-      // const roles = Object.values(foundUser[0].roles);
-      const accessToken = jwt.sign(
-        {
-          "UserInfo": {
-            "username": decoded.username
-            // ,
-            // "roles": roles
-          }
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '20m' } //longer in production
-      );
-      res.json({ 
-        // roles, 
-        accessToken })
+      //evaluate jwt
+      jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        (err, decoded) => {
+          // console.log("decoded", decoded)
+          if (err || foundUser[0].username !== decoded.username) return res.sendStatus(403);
+          // const roles = Object.values(foundUser[0].roles);
+          const accessToken = jwt.sign(
+            {
+              "UserInfo": {
+                "username": decoded.username
+                // ,
+                // "isadmin": foundUser.isadmin,
+                // "issuperadmin": foundUser.issuperadmin,
+                // "email": foundUser.email,
+                // "password": foundUser.password,
+                // "isselected": foundUser.isselected,
+                // "isactive": foundUser.isactive,
+                // "profile_picture": foundUser.profile_picture,
+                // ,
+                // "roles": roles
+              }
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '20m' } //longer in production
+          );
+          res.json({
+            // roles, 
+            accessToken,
+            user: {
+              username: foundUser[0].username,
+              isadmin: foundUser[0].isadmin,
+              issuperadmin: foundUser[0].issuperadmin,
+              email: foundUser[0].email,
+              password: foundUser[0].password,
+              isselected: foundUser[0].isselected,
+              isactive: foundUser[0].isactive,
+              profile_picture: foundUser[0].profile_picture
+            }
+          });
+        }
+      )
+
     }
-  )
-
+  } catch (error) {
+    console.log(error)
   }
-} catch (error) {
-  console.log(error)
-}
 
-  
+
 
 
 

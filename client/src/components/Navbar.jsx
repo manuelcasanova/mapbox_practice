@@ -17,7 +17,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
   const { auth } = useAuth();
   const downArrow = "⌄"
 
-  // console.log("auth in Navbar", auth)
+  //  console.log("auth in Navbar", auth)
 
   const profilePicture = 'http://localhost:3500/profile_pictures/' + auth.profilePicture;
 
@@ -196,7 +196,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
           onMouseLeave={() => handleMouseLeave("myprofile")}
         >
           <div onClick={() => handleMouseEnter("myprofile")}>
-            {auth.profilePicture !== null && auth.profilePicture.endsWith('.jpg') ? (
+            {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
               <img className="profile-picture" src={profilePicture} alt={auth.username} />
             ) : (
               <div className="profile-default-icon" onClick={() => navigate('/user/profile')}>
