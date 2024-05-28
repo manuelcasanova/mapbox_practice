@@ -95,7 +95,9 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   // };
 
   return (
-    <div className="navsidebar" onMouseLeave={handleMouseLeave}>
+    <div className="navsidebar"
+    // onMouseLeave={handleMouseLeave}
+    >
 
 
       {Object.keys(auth).length &&
@@ -267,13 +269,15 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
       )}
 
-{!showOptions.myprofile && (
-      <div className="navsidebar-dropdown">
-        <button
-          onClick={() => { signOut() }}
-        ><FontAwesomeIcon icon={faSignOut} /></button>
-      </div>
-)}
+      {!showOptions.myprofile && (
+        <div className="navsidebar-dropdown">
+          <button
+          title="Logout"
+            onClick={() => { signOut() }}
+            className="navsidebar-logout-button"
+          ><FontAwesomeIcon icon={faSignOut} /></button>
+        </div>
+      )}
 
 
     </div>

@@ -122,6 +122,10 @@ display: flex;
   /* padding-top: 12px; */
 }
 
+.navsidebar-logout-button {
+  font-size: 20px;
+}
+
 /* Styles for screens up to 425 pixels */
 @media (max-width: 425px) {
 
