@@ -2,6 +2,7 @@ client/.env
 
 REACT_APP_API_URL=http://localhost:3500
 
+FIX: on persist login when reload, auth is fixed, but rideApp is undefined. If I set default state to true. Ok to show rides. But no when click on filter.
 
 Next:
 

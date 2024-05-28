@@ -93,8 +93,16 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 function App() {
 
   const [fromButton, setFromButton] = useState(false)
-  const [rideApp, setRideApp] = useState() //before true
+  const [rideApp, setRideApp] = useState(true) 
+  //before (). It worked well until PersistLogin on reload page
+
   const [showNavsidebar, setShowNavsidebar] = useState(false);
+
+
+  useEffect(() => {
+    console.log("ride app in app.js", rideApp)
+  }, [rideApp])
+
 
   const toggleNavsidebar = () => {
     setShowNavsidebar(!showNavsidebar);

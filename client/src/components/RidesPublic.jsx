@@ -38,8 +38,9 @@ const RidesPublic = () => {
 
   //  console.log("filteredRides", filteredRides)
   const userId = auth.userId;
-    // console.log("auth in Rides Public", auth)
+    //  console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
+
 
 
   //Function to get the filters from the child component RidesFilter.
