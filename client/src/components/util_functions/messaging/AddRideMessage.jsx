@@ -8,10 +8,10 @@ export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMess
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    // Focus on the input field when the component mounts
-    inputRef.current.focus();
-  }, []);
+  // useEffect(() => {
+  //   // Focus on the input field when the component mounts
+  //   inputRef.current.focus();
+  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
