@@ -7,6 +7,8 @@ import useAuth from "../hooks/useAuth"
 
 import RidesFilter from './RidesFilter';
 
+import '../styles/RidesPublic.css'
+
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -17,6 +19,8 @@ import MappedMessage from './util_functions/messaging/MappedMessage';
 const RidesPublic = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const [rides, setRides] = useState([]);
+
+  const [showFilter, setShowFilter] = useState(false)
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -146,6 +150,9 @@ const RidesPublic = () => {
     fetchUserRides();
   }, [userId, addToMyRides]);
 
+  const handleShowFilter = () => {
+    setShowFilter(prev => !prev)
+  }
 
   const toggleAddToMyRides = (index) => {
       // console.log("add to my rides before", addToMyRides);
@@ -223,7 +230,15 @@ const RidesPublic = () => {
 
   return (
     <div className='rides-public-container'>
-   <RidesFilter onFilter={onFilter} />
+
+{!showFilter && 
+<button className='rides-public-filter-ride'
+onClick={() => handleShowFilter()}
+>Filter rides</button>}
+
+      {showFilter && 
+   <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+  }
       {rides.length === 0 ? (
         <div>No rides available.</div>
       ) : (

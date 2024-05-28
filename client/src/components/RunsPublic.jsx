@@ -18,6 +18,8 @@ const RunsPublic = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const [runs, setRuns] = useState([]);
 
+  const [showFilter, setShowFilter] = useState(false)
+
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRuns, setAddToMyRuns] = useState([])
@@ -146,6 +148,9 @@ const RunsPublic = () => {
     fetchUserRuns();
   }, [userId, addToMyRuns]);
 
+  const handleShowFilter = () => {
+    setShowFilter(prev => !prev)
+  }
 
   const toggleAddToMyRuns = (index) => {
       // console.log("add to my runs before", addToMyRuns);
@@ -223,7 +228,13 @@ const RunsPublic = () => {
 
   return (
     <>
-   <RunsFilter onFilter={onFilter} />
+{!showFilter && 
+<button className='rides-public-filter-ride'
+onClick={() => handleShowFilter()}
+>Filter runs</button>}
+{showFilter && 
+   <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+  }
       {runs.length === 0 ? (
         <div>No runs available.</div>
       ) : (

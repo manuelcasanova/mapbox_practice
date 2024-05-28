@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/RidesFilter.css'
 
-const RideFilter = ({ rides, onFilter }) => {
+const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
 
 
   const [dateStart, setDateStart] = useState(new Date().toISOString().split('T')[0]);
@@ -152,6 +152,9 @@ const RideFilter = ({ rides, onFilter }) => {
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
       <div className='filter-range'>
       <button className='filter-button' onClick={() => {clearFilter(); handleFilter();}}>Clear</button>
+      <button
+      className='filter-button-close'
+      onClick={() => handleShowFilter()}>x</button>
       </div>
     </div>
   );

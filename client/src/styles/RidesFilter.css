@@ -59,6 +59,31 @@
   color: var(--color0); 
 }
 
+.filter-button-close {
+
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+
+/* Center */
+
+display: flex; /* Center horizontally and vertically */
+justify-content: center; /* Center horizontally */
+align-items: center; /* Center vertically */
+width: 30px; 
+height: 30px;
+}
+
+.filter-button-close:hover {
+  background-color: #5a6268;
+}
+
+
 @media screen and (max-width: 500px) {
   .filter-range {
 display: flex;
