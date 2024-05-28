@@ -79,7 +79,9 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
 
 
 
-          <Polyline positions={coords} pathOptions={{color: 'darkblue'}}  />
+          <Polyline positions={coords} 
+          pathOptions={{color: 'black'}}  
+          />
 
           <LocationMarker />
 

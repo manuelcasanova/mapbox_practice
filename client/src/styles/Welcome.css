@@ -1,8 +1,4 @@
-:root {
-  --color0: #fc4c02;
-  --color1: #e3d9c8; 
-  --color3: rgba(252, 76, 3, 0.5);
-}
+
 
 .welcome-container {
   display: flex;
@@ -48,12 +44,12 @@
 }
 
 .welcome-button-one:hover {
-  background-color: var(--color3);
+  background-color: var(--color4);
   color: var(--color0); 
 }
 
 .welcome-button-two:hover {
-  background-color: var(--color3); 
+  background-color: var(--color4); 
   color: var(--color0); 
 }
 

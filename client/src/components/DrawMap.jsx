@@ -265,14 +265,10 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
         }
 
         <MapContainer zoom={12}>
-
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-
-
-
           <AddMarker
             maps={maps}
             saveMarkers={saveMarkers}
@@ -283,11 +279,6 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
             defaultPosition={defaultPosition}
             editAllowed={editAllowed}
           />
-
-
-
-
-
           {/* Sends defaultBounds and coordinadasPara to the Bounds function, that gets the southwestermost and northeasternmost points to set the bounds of the map */}
           {coordinadasPara.length > 1 ? (
             <Bounds coordinadasPara={coordinadasPara} />

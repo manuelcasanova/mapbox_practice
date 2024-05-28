@@ -96,7 +96,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
   return (
     <div className="navsidebar"
-    // onMouseLeave={handleMouseLeave}
+    onMouseLeave={handleMouseLeave}
     >
 
 
