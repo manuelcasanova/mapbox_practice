@@ -15,6 +15,8 @@ const Register = () => {
     const userRef = useRef();
     const errRef = useRef();
 
+    const [showPwdNote, setShowPwdNote] = useState(false);
+
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
@@ -96,7 +98,7 @@ const Register = () => {
     }
 
     return (
-        <>
+        <div className="section-classname">
             {success ? (
                 <section>
                     <div className="level-title">Success!</div>
@@ -167,7 +169,11 @@ const Register = () => {
                         <input
                             type="password"
                             id={pwd}
-                            onChange={(e) => setPwd(e.target.value)}
+                            onChange={(e) => {
+                                setPwd(e.target.value)
+                                setShowPwdNote(!!e.target.value); 
+                            }
+                            }
                             value={pwd}
                             required
                             aria-invalid={validPwd ? "false" : "true"}
@@ -175,7 +181,7 @@ const Register = () => {
                             onFocus={() => setPwdFocus(true)}
                             onBlur={() => setPwdFocus(false)}
                         />
-                        <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+                        <p id="pwdnote" className={pwdFocus && !validPwd && showPwdNote ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             8 to 24 characters.<br />
                             Must include uppercase and lowercase letters, a number and a special character.<br />
@@ -206,15 +212,15 @@ const Register = () => {
 
                         <button disabled={!validName || !validEmail || !validPwd || !validMatch ? true : false}>Sign Up</button>
                     </form>
-                    <p>
+                    <div className='login-questions'>
                         Already registered?<br />
-                        <span className="line">
+                       
                             <Link to="/login">Sign In</Link>
-                        </span>
-                    </p>
+                   
+                    </div>
                 </section>
             )}
-        </>
+        </div>
     )
 }
 

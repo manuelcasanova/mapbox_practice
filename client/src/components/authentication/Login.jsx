@@ -3,6 +3,7 @@ import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
 import useToggle from '../../hooks/useToggle';
+import '../../styles/Login.css'
 
 // import axios from '../api/axios';
 import axios from 'axios';
@@ -99,8 +100,8 @@ const Login = ({ rideApp }) => {
     }
 
     return (
-
-        <section>
+<div className='section-classname'>
+        <section >
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <div className="level-title">Sign In</div>
             <form onSubmit={handleSubmit}>
@@ -114,7 +115,7 @@ const Login = ({ rideApp }) => {
                     required
                 /> */}
 
-<div>
+{/* <div>
     <input
         type="checkbox"
         id="manuCheckbox"
@@ -162,7 +163,7 @@ const Login = ({ rideApp }) => {
         checked={email === 'emma@example.com'}
     />
     <label htmlFor="emmaCheckbox">Emma Jones</label>
-</div>
+</div> */}
 
 
                 <label htmlFor="email">Email:</label>
@@ -193,22 +194,23 @@ const Login = ({ rideApp }) => {
                         onChange={toggleCheck}
                         checked={check}
                     />
-                    <label htmlFor="persist">Trust This Device</label>
+                    <label className="login-trust" htmlFor="persist">Trust This Device</label>
                 </div>
             </form>
-            <p>
+            <div className='login-questions'>
                 Need an Account?<br />
-                <span className="line">
+               
                     <Link to="/register">Sign Up</Link>
-                </span>
-            </p>
-            <p>
+               
+            </div>
+            <div className='login-questions'>
                 Forgot password?<br />
-                <span className="line">
+               
                     <Link to="/resetpassword">Reset</Link>
-                </span>
-            </p>
+               
+            </div>
         </section>
+        </div>
 
     )
 }

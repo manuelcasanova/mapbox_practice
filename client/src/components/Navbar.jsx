@@ -17,6 +17,8 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
   const { auth } = useAuth();
   const downArrow = "⌄"
 
+  console.log("auth in Navbar", auth)
+
   const profilePicture = 'http://localhost:3500/profile_pictures/' + auth.profilePicture;
 
   const signOut = async () => {

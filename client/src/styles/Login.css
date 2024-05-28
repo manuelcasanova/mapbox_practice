@@ -1,0 +1,94 @@
+/* Login.css */
+
+.section-classname {
+  height: 100vh;
+  display: flex;
+  /* flex-direction: column; */
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 320px;
+ 
+ margin: auto;
+  padding: 20px;
+  background-color: var(--color1);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.errmsg {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.level-title {
+  font-size: 24px;
+  color: var(--color0);
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--color0);
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+button {
+  font-family: 'Rams W01 Black', sans-serif; 
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+button {
+  background-color: var(--color0); 
+  color: var(--color1); 
+}
+
+button:hover {
+  background-color: var(--color4);
+  color: var(--color0); 
+}
+
+.login-trust {
+  margin: 2px
+}
+
+.persistCheck {
+  display: flex;
+  align-items: center;
+  margin: 5px 0px 5px 10px;
+}
+
+.login-questions {
+  margin: 10px 0px 10px 0px;
+}
+
+.link {
+  color: var(--color0);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
