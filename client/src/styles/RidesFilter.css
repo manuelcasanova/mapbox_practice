@@ -8,7 +8,7 @@
   align-items: center;
    gap: 10px; 
    /* This two combined to have a max width but still centered */
-   margin: 10px auto;
+   margin: 1px auto;
    max-width: 700px;
    padding-top: 20px;
    padding-bottom: 20px;
@@ -94,13 +94,31 @@ flex-direction: column;
 .filter-input {
   width: 75%; 
 }
+
+.hide-small {
+  display: none;
+}
+
+.filter-button-close {
+  margin-top: 10px;
 }
 
 
-@media screen and (min-width: 501px) and (max-width: 999) {
-.filter-label {
+}
+
+
+@media screen and (min-width: 501px) and (max-width: 999px) {
+
+
+  .hide-small {
+    display: none;
+  }
+
+  .filter-label {
   width: 33%
 }
+
+
 }
 
 @media screen and (min-width: 1000px) {
@@ -124,6 +142,10 @@ flex-direction: column;
 
   .filter-input[type="number"] {
     width: 100px; /* Adjust this value as needed */
+  }
+
+  .hide-big {
+    display: none;
   }
 
 
