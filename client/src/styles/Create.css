@@ -1,0 +1,141 @@
+.create-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5% auto;
+  padding: 5%;
+  background-color: var(--color4);
+  border-radius: 2%;
+}
+
+.create-level-input {
+  display: flex;
+  flex-direction: row;
+}
+
+.create-level-input > label {
+ width: 70%;
+}
+
+.create-level-input > input {
+  width: 30%;
+}
+
+
+.container-list {
+  margin-top: 20px;
+}
+
+.container-form {
+  display: flex;
+  flex-direction: column;
+  /* width: 400px; */
+}
+
+.container-form label {
+  margin-top: 10px;
+  /* white-space: nowrap; */
+  
+}
+
+.container-form input,
+.cointainer-form input[type="text"],
+.cointainer-form input[type="password"],
+.container-form select {
+  margin-top: 5px !important;;
+  padding: 8px !important;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.container-form input[type="date"] {
+  /* Adjust appearance for date input if needed */
+}
+
+.create-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.preview-map {
+  margin-top: 20px;
+}
+
+/* Time picker component */
+
+.create-time-label-input {
+  display: flex;
+  flex-direction: row;
+  /* background-color: red; */
+}
+
+.time-picker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* background-color: red; */
+}
+
+.time-picker-hours {
+  margin-left: 13px;
+}
+
+.time-picker-hours,
+.time-picker-minutes {
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* Add some space between the hours and minutes */
+  /* background-color: yellow; */
+}
+
+.time-picker label {
+  margin: 0 5px;
+  /* background-color: pink; */
+}
+
+.time-picker input[type="number"] {
+  width: 50px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* background-color: blue; */
+}
+
+p {
+  display: flex;
+  justify-content: center;
+}
+
+
+@media (max-width: 450px) {
+
+  .create-container {
+    margin: 5% auto; 
+  }
+
+  .create-level-input {
+    flex-direction: column;
+  }
+
+  .create-level-input > label,
+  .create-level-input > input {
+    width: 100%;
+  }
+}
+

@@ -161,8 +161,8 @@ function App() {
                     <Route exact path="/maps/public" element={<><MapsPublic /></>}></Route>
                     <Route exact path="/maps/create" element={<><CreateMap setFromButton={setFromButton} /></>}></Route>
                     <Route exact path="/maps/:id" element={<><SeeMap /></>}></Route>
-                    <Route exact path="/ride" element={<><CreateRide /></>}></Route>
-                    <Route exact path="/run" element={<><CreateRun /></>}></Route>
+                    <Route exact path="/createride" element={<><CreateRide /></>}></Route>
+                    <Route exact path="/createrun" element={<><CreateRun /></>}></Route>
                     <Route exact path="/rides/public" element={<><RidesPublic /></>}></Route>
                     <Route exact path="/runs/public" element={<><RunsPublic /></>}></Route>
                     <Route exact path="/rides/mine" element={<><RidesUser /></>}></Route>

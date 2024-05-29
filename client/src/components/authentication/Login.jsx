@@ -169,6 +169,7 @@ const Login = ({ rideApp }) => {
 
                 <label htmlFor="email">Email:</label>
                 <input
+                className='login-input'
                     type="text"
                     id="email"
                     ref={userRef}
@@ -181,6 +182,7 @@ const Login = ({ rideApp }) => {
 
                 <label htmlFor="password">Password:</label>
                 <input
+                     className='login-input'
                     type="password"
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
@@ -190,6 +192,7 @@ const Login = ({ rideApp }) => {
                 <button className='login-button'>Sign In</button>
                 <div className="persistCheck">
                     <input
+                         className='login-input'
                         type="checkbox"
                         id="persist"
                         onChange={toggleCheck}

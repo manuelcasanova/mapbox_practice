@@ -82,7 +82,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
           <div className="dropdown">
             <button onClick={() => handleSelectOption("/rides/public", "ride")}>See all rides</button>
             <button onClick={() => handleSelectOption("/rides/mine", "ride")}>Manage my rides</button>
-            <button onClick={() => handleSelectOption("/ride", "ride")}>Create a new ride</button>
+            <button onClick={() => handleSelectOption("/createride", "ride")}>Create a new ride</button>
           </div>
         )}
 
@@ -91,7 +91,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
           <div className="dropdown">
             <button onClick={() => handleSelectOption("/runs/public", "ride")}>See all runs</button>
             <button onClick={() => handleSelectOption("/runs/mine", "ride")}>Manage my runs</button>
-            <button onClick={() => handleSelectOption("/run", "ride")}>Create a new run</button>
+            <button onClick={() => handleSelectOption("/createrun", "ride")}>Create a new run</button>
           </div>
         )}
 

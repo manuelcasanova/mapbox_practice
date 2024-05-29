@@ -119,6 +119,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
                         </label>
                         <input
+                        className="register-input"
                             type="text"
                             id={user}
                             ref={userRef}
@@ -145,6 +146,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
                         </label>
                         <input
+                           className="register-input"
                             type="text"
                             id={email}
                             autoComplete="off"
@@ -168,6 +170,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
                         </label>
                         <input
+                           className="register-input"
                             type="password"
                             id={pwd}
                             onChange={(e) => {
@@ -196,6 +199,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
                         </label>
                         <input
+                           className="register-input"
                             type="password"
                             id="confirm_pwd"
                             onChange={(e) => setMatchPwd(e.target.value)}

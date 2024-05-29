@@ -5,6 +5,7 @@ import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
 import TimePickerComponent from "./TimePickerComponent";
 import useAuth from "../hooks/useAuth"
+import '../styles/Create.css'
 
 
 export default function CreateRide() {
@@ -12,7 +13,7 @@ export default function CreateRide() {
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth, mapId, setMapId } = useAuth();
   const userId = auth.userId;
-// console.log("userId in Create Ride", auth)
+  // console.log("userId in Create Ride", auth)
   const [rideType, setRideType] = useState("public");
 
   // console.log(rideType)
@@ -139,69 +140,84 @@ export default function CreateRide() {
   return (
     <>
       {auth.accessToken !== undefined ? (
-        <>
-          <div className="rides">
+        <div className="create-container">
+          <label>Create a new ride</label>
+          <div className="container-list">
             <form
-              className="ridesform"
+              className="container-form"
               onSubmit={handleSubmit}
             >
-              <label>Ride title</label>
-              <input
-                onChange={(e) => setTitle(e.target.value)}
-                value={title}
-                required></input>
+              <div className="create-level-input">
+                <label>Ride title</label>
+                <input
+                  onChange={(e) => setTitle(e.target.value)}
+                  value={title}
+                  required></input>
+              </div>
 
-<label>
-              Visibility
-              <select
-                value={rideType}
-                onChange={handleChange}
-                name="rideType"
-              >
-                <option value="public">Everyone</option>
-                <option value="followers">Followers</option>
-                <option value="private">Only me</option>
-              </select>
-            </label>
+              <div className="create-level-input">
+                <label>
+                  Visibility
+                </label>
+                <select
+                  value={rideType}
+                  onChange={handleChange}
+                  name="rideType"
+                >
+                  <option value="public">Everyone</option>
+                  <option value="followers">Followers</option>
+                  <option value="private">Only me</option>
+                </select>
 
-              <label>Date</label>
+              </div>
 
-              <input
-                onClick={handleDateInputClick}
-                onChange={(e) => setDate(e.target.value)}
-                value={dateString}
-                required></input>
+              <div className="create-level-input">
+                <label>Date</label>
+
+                <input
+                  onClick={handleDateInputClick}
+                  onChange={(e) => setDate(e.target.value)}
+                  value={dateString}
+                  required></input>
+
+              </div>
 
               {showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
 
+              <div className="create-level-input">
+                <label>Distance</label>
+                <input
+                 className="create-input"
+                  type="text"
+                  placeholder="Km"
+                  // Positive number or pattern 22-24
+                  // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
+                  pattern="\d+(\.\d+)?"
+                  title="Distance must be a positive number"
+                  onChange={(e) => setDistance(e.target.value)}
+                  value={distance}
+                  required
+                />
+              </div>
 
-              <label>Distance (Km)</label>
-              <input
-                type="text"
-                // Positive number or pattern 22-24
-                // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
-                pattern="\d+(\.\d+)?"
-                title="Distance must be a positive number"
-                onChange={(e) => setDistance(e.target.value)}
-                value={distance}
-                required
-              />
+              <div className="create-level-input">
+                <label>Speed</label>
+                <input
+                className="create-input"
+                  type="text"
+                  placeholder="Km/h"
+                  // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
+                  pattern="\d+(\.\d+)?"
+                  title="Speed must be a positive number"
+                  onChange={(e) => setSpeed(e.target.value)}
+                  value={speed}
+                  required
+                />
+              </div>
 
-
-              <label>Speed (Km/h)</label>
-              <input
-                type="text"
-                // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
-                pattern="\d+(\.\d+)?"
-                title="Speed must be a positive number"
-                onChange={(e) => setSpeed(e.target.value)}
-                value={speed}
-                required
-              />
-
-
-              <label>Starting Time</label>
-              {/* <input
+              <div className="create-time-label-input">
+                <label>Starting Time</label>
+                {/* <input
               type="text"
               pattern="^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$"
               title="Format HH:MM:SS - 00:00:00 - 23:59:59"
@@ -209,23 +225,27 @@ export default function CreateRide() {
                 value={time}
                 required></input> */}
 
-              <TimePickerComponent time={time} setTime={setTime} />
+                <TimePickerComponent time={time} setTime={setTime} />
+              </div>
 
-              <label>Meeting Point</label>
-              <input
-                onChange={(e) => setMeetingPoint(e.target.value)}
-                value={meetingPoint}
-                required></input>
+              <div className="create-level-input">
+                <label>Meeting Point</label>
+                <input
+                  onChange={(e) => setMeetingPoint(e.target.value)}
+                  value={meetingPoint}
+                  required></input>
+              </div>
+
+              <div className="create-level-input">
+                <label>Details</label>
+                <input
+                  onChange={(e) => setDetails(e.target.value)}
+                  value={details}
+                  required></input>
+              </div>
 
 
-              <label>Details</label>
-              <input
-                onChange={(e) => setDetails(e.target.value)}
-                value={details}
-                required></input>
-
-
-              <label>Map</label>
+              <label></label>
               {maps?.length
                 ?
                 <select
@@ -246,10 +266,11 @@ export default function CreateRide() {
                   )}
                 </select>
                 :
-                <p>No maps to display</p>
+                <p>No maps to select. Create or add a map.</p>
               }
               <button
                 type="submit"
+                className="create-button"
                 disabled={!mapId || !title || !distance || !speed || !meetingPoint || !details}
               >Create
               </button>
@@ -264,7 +285,7 @@ export default function CreateRide() {
             <PreviewMap mapId={mapId} setMapId={setMapId} />
           }
 
-        </>
+        </div>
 
 
       ) : (

@@ -71,8 +71,7 @@ label {
   color: var(--color0);
 }
 
-input[type="text"],
-input[type="password"] {
+.register-input{
   padding: 8px;
   margin-bottom: 15px;
   border: 1px solid #ccc;

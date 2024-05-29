@@ -5,6 +5,7 @@ import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
 import TimePickerComponent from "./TimePickerComponent";
 import useAuth from "../hooks/useAuth"
+import '../styles/Create.css'
 
 
 export default function CreateRun() {
@@ -12,7 +13,7 @@ export default function CreateRun() {
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth, mapId, setMapId } = useAuth();
   const userId = auth.userId;
-// console.log("userId in Create Run", auth)
+  // console.log("userId in Create Run", auth)
   const [runType, setRunType] = useState("public");
 
   // console.log(runType)
@@ -139,20 +140,26 @@ export default function CreateRun() {
   return (
     <>
       {auth.accessToken !== undefined ? (
-        <>
-          <div className="rides">
+  
+        <div className="create-container">
+        <label>Create a new run</label>
+          <div className="container-list">
             <form
-              className="ridesform"
+              className="container-form"
               onSubmit={handleSubmit}
             >
+              <div className="create-level-input">
               <label>Run title</label>
               <input
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 required></input>
 
-<label>
-              Visibility
+</div>
+   <div className="create-level-input">
+              <label>
+                  Visibility
+              </label>
               <select
                 value={runType}
                 onChange={handleChange}
@@ -162,46 +169,50 @@ export default function CreateRun() {
                 <option value="followers">Followers</option>
                 <option value="private">Only me</option>
               </select>
-            </label>
 
-              <label>Date</label>
+          </div>
 
-              <input
-                onClick={handleDateInputClick}
-                onChange={(e) => setDate(e.target.value)}
-                value={dateString}
-                required></input>
+          <div className="create-level-input">
+            <label>Date</label>
 
-              {showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
+            <input
+              onClick={handleDateInputClick}
+              onChange={(e) => setDate(e.target.value)}
+              value={dateString}
+              required></input>
+          </div>
 
+          {showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
 
-              <label>Distance (Km)</label>
-              <input
-                type="text"
-                // Positive number or pattern 22-24
-                // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
-                pattern="\d+(\.\d+)?"
-                title="Distance must be a positive number"
-                onChange={(e) => setDistance(e.target.value)}
-                value={distance}
-                required
-              />
+          <div className="create-level-input">
+            <label>Distance (Km)</label>
+            <input
+              type="text"
+              // Positive number or pattern 22-24
+              // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
+              pattern="\d+(\.\d+)?"
+              title="Distance must be a positive number"
+              onChange={(e) => setDistance(e.target.value)}
+              value={distance}
+              required
+            />
+          </div>
 
-
-              <label>Pace (Min/Km)</label>
-              <input
-                type="text"
-                // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
-                pattern="\d+(\.\d+)?"
-                title="Pace must be a positive number"
-                onChange={(e) => setPace(e.target.value)}
-                value={pace}
-                required
-              />
-
-
-              <label>Starting Time</label>
-              {/* <input
+          <div className="create-level-input">
+            <label>Pace (Min/Km)</label>
+            <input
+              type="text"
+              // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
+              pattern="\d+(\.\d+)?"
+              title="Pace must be a positive number"
+              onChange={(e) => setPace(e.target.value)}
+              value={pace}
+              required
+            />
+          </div>
+          <div className="create-time-label-input">
+            <label>Starting Time</label>
+            {/* <input
               type="text"
               pattern="^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$"
               title="Format HH:MM:SS - 00:00:00 - 23:59:59"
@@ -209,70 +220,74 @@ export default function CreateRun() {
                 value={time}
                 required></input> */}
 
-              <TimePickerComponent time={time} setTime={setTime} />
-
-              <label>Meeting Point</label>
-              <input
-                onChange={(e) => setMeetingPoint(e.target.value)}
-                value={meetingPoint}
-                required></input>
-
-
-              <label>Details</label>
-              <input
-                onChange={(e) => setDetails(e.target.value)}
-                value={details}
-                required></input>
-
-
-              <label>Map</label>
-              {maps?.length
-                ?
-                <select
-                  // className="allmaps"
-                  value={mapId}
-                  onChange={(e) =>
-                    setMapId(e.target.value)
-                  }
-                  disabled={!maps || maps.length === 0} // Disable the dropdown if maps are not available
-                >
-                  {maps.map((map, index) =>
-                    <option
-                      key={index}
-                      value={map.id}
-                    >
-                      Title: {map.title}
-                    </option>
-                  )}
-                </select>
-                :
-                <p>No maps to display</p>
-              }
-              <button
-                type="submit"
-                disabled={!mapId || !title || !distance || !pace || !meetingPoint || !details}
-              >Create
-              </button>
-
-              {error && <p>Error: {error}</p>}
-            </form>
-
-
-
+            <TimePickerComponent time={time} setTime={setTime} />
           </div>
-          {mapId && mapId !== null && mapId !== undefined &&
-            <PreviewMap mapId={mapId} setMapId={setMapId} />
-          }
+          <div className="create-level-input">
+            <label>Meeting Point</label>
+            <input
+              onChange={(e) => setMeetingPoint(e.target.value)}
+              value={meetingPoint}
+              required></input>
+          </div>
+          <div className="create-level-input">
+            <label>Details</label>
+            <input
+              onChange={(e) => setDetails(e.target.value)}
+              value={details}
+              required></input>
+          </div>
 
-        </>
+          <label>Map</label>
+          {maps?.length
+            ?
+            <select
+              // className="allmaps"
+              value={mapId}
+              onChange={(e) =>
+                setMapId(e.target.value)
+              }
+              disabled={!maps || maps.length === 0} // Disable the dropdown if maps are not available
+            >
+              {maps.map((map, index) =>
+                <option
+                  key={index}
+                  value={map.id}
+                >
+                  Title: {map.title}
+                </option>
+              )}
+            </select>
+            :
+            <p>No maps to select. Create or add a map.</p>
+          }
+          <button
+            type="submit"
+            className="create-button"
+            disabled={!mapId || !title || !distance || !pace || !meetingPoint || !details}
+          >Create
+          </button>
+
+          {error && <p>Error: {error}</p>}
+        </form>
+
+
+
+    </div>
+          {
+    mapId && mapId !== null && mapId !== undefined &&
+    <PreviewMap mapId={mapId} setMapId={setMapId} />
+  }
+
+        </div>
 
 
       ) : (
-        <p>Please log in to create a ride.</p>
-      )}
+    <p>Please log in to create a ride.</p>
+  )
+}
 
 
-    </>
+    </ >
 
   )
 }

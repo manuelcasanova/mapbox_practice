@@ -136,9 +136,9 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
             <button
               onClick={() => {
                 if (rideApp) {
-                  navigate('/ride');
+                  navigate('/createride');
                 } else {
-                  navigate('/run');
+                  navigate('/createrun');
                 }
               }}
             >

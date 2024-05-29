@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import '../styles/Create.css'
 
 const TimePickerComponent = ({ time, setTime }) => {
   const [hours, setHours] = useState(null);
@@ -41,8 +42,9 @@ const TimePickerComponent = ({ time, setTime }) => {
 
   return (
     <div className="time-picker">
-      <div>
+      <div className='time-picker-hours'>
         <input 
+        className='create-input'
           type="number" 
           min="0" 
           max="23" 
@@ -50,9 +52,10 @@ const TimePickerComponent = ({ time, setTime }) => {
           onChange={handleHoursChange} 
         />
       </div>
-      <div>
+      <div className='time-picker-minutes'>
         <label>:</label>
         <input 
+            className='create-input'
           type="number" 
           min="0" 
           max="59" 
