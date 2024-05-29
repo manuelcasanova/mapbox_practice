@@ -12,6 +12,7 @@ const useRefreshToken = () => {
             // console.log("prev en useRefreshToken", JSON.stringify(prev));
             //   console.log("response.data in useRefreshToken", response.data)
             //  console.log(response.data.accessToken);
+            // console.log("response data user in useRefreshToken looking for id", response.data.user)
             const { accessToken, user } = response.data;
             return {
                 ...prev,
@@ -23,7 +24,8 @@ const useRefreshToken = () => {
                 issuperadmin: response.data.user.issuperadmin,
                 isselected: response.data.user.isselected,
                 profilePicture: response.data.user.profile_picture,
-                username: response.data.user.username
+                username: response.data.user.username,
+                userId: response.data.user.userId
             }
         });
         // return response.data.accessToken;

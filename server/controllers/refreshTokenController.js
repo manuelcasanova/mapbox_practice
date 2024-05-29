@@ -57,7 +57,8 @@ const handleRefreshToken = async (req, res) => {
               password: foundUser[0].password,
               isselected: foundUser[0].isselected,
               isactive: foundUser[0].isactive,
-              profile_picture: foundUser[0].profile_picture
+              profile_picture: foundUser[0].profile_picture,
+              userId: foundUser[0].id
             }
           });
         }

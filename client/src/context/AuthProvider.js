@@ -8,6 +8,9 @@ export const AuthProvider = ({ children }) => {
     const [mapId, setMapId ] = useState()
     const BACKEND = process.env.REACT_APP_API_URL;
 
+
+    // console.log("auth in authProvider", auth)
+
       // Function to update username (User Profile component)
       const updateUsername = async (newUsername) => {
         try {

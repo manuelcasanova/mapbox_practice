@@ -100,7 +100,7 @@ function App() {
 
 
   useEffect(() => {
-    console.log("ride app in app.js", rideApp)
+    // console.log("ride app in app.js", rideApp)
   }, [rideApp])
 
 

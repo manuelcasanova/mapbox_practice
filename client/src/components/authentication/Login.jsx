@@ -15,6 +15,7 @@ const Login = ({ rideApp }) => {
     const BACKEND = process.env.REACT_APP_API_URL;
     // console.log("rideApp", rideApp)
     const { setAuth } = useAuth();
+    
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/rides/public";

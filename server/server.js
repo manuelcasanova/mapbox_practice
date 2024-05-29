@@ -1459,16 +1459,16 @@ app.get("/runs", async (req, res) => {
 app.get("/rides/public", async (req, res) => {
   try {
 
-    //  console.log("req.query on rides/public", req.query)
+      // console.log("req.query on rides/public", req.query)
 
     if (req.query.user && req.query.user.accessToken) {
 
       const userId = req.query.user.userId
-      //  console.log("req. query", req.query.user)
-
+      //  console.log("req. query user userId", req.query.user.userId)
+// console.log("req.query.filteredRides?", req.query.filteredRides !== null)
 
       if (req.query.filteredRides) {
-        //  console.log("req.query", req.query.filteredRides)
+          // console.log("req.query", req.query.filteredRides)
 
 
         const dateStart = req.query.filteredRides.dateStart
@@ -1514,7 +1514,7 @@ app.get("/rides/public", async (req, res) => {
         const rides = await pool.query(ridesQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId]);
-          // console.log("rides.rows YES filtered rides", rides.rows)
+          //  console.log("rides.rows YES filtered rides", rides.rows)
         res.json(rides.rows)
 
       } else {

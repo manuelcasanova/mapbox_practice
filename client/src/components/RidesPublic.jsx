@@ -29,14 +29,29 @@ const RidesPublic = () => {
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
   const [showUsers, setShowUsers] = useState(false)
   const { auth } = useAuth();
-  const [filteredRides, setFilteredRides] = useState();
+
+  // console.log("auth in RidesPublic", auth)
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
+  
+  const defaultFilteredRides = {
+    dateStart: yesterday.toISOString(),
+    dateEnd: "9999-12-31T00:00:00.000Z",
+    distanceMin: 0,
+    distanceMax: 100000,
+    speedMin: 0,
+    speedMax: 100000
+  };
+  
+  const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
+  // const [filteredRides, setFilteredRides] = useState()
 
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
-  //  console.log("filteredRides", filteredRides)
+    // console.log("filteredRides", filteredRides)
   const userId = auth.userId;
     //  console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
