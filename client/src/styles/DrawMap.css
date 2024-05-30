@@ -1,0 +1,48 @@
+
+.map-outer-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color0);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+}
+
+
+.delete-map-button {
+  /* margin: auto; */
+  max-width: 200px;
+  margin-top: 10px;
+
+  color: var(--color-red);
+  border: 1px solid var(--color-red);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-map-button:hover {
+  background-color: var(--color-red);
+  color: var(--color1);
+}
+
+.delete-map-button-close {
+  margin-left: 10px;
+  margin-top: 10px;
+  background-color: white;
+   color: var(--color-red);
+   border: none;
+   cursor: pointer;
+   transition: font-weight 0.3s ease;
+ display: flex; /* Center horizontally and vertically */
+ justify-content: center; /* Center horizontally */
+ align-items: center; /* Center vertically */
+
+ padding: 3px;
+ }
+ 
+  .delete-map-button-close:hover {
+
+  font-weight: 900;
+ }

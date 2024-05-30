@@ -1385,12 +1385,14 @@ app.get("/maps/shared", async (req, res) => {
       FROM maps m
       JOIN map_users mu ON m.id = mu.map_id
       WHERE mu.user_id = $1
+      AND m.isactive = true
       
       UNION
       
       SELECT m.*
       FROM maps m
       WHERE m.createdby = $1
+      AND m.isactive = true
       ORDER BY id DESC`;
 
     const maps = await pool.query(mapsQuery, [userId]);

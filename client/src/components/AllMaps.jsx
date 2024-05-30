@@ -144,7 +144,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
           <div className="all-maps-text -step3">
             
          { fromButton ?
-                <div className="all-maps-text"></div> :
+                <></> :
                 <div className="all-maps-text">STEP 3:</div>
       }
      

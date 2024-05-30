@@ -11,6 +11,8 @@ import AddMarker from "./AddMarker";
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 
+import '../styles/DrawMap.css'
+
 import { useCoords } from '../components/util_functions/GetBrowserLocation';
 
 //Util functions
@@ -236,6 +238,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
 
     <div className="map-outer-container">
       <>
+      {/* <div>Map name and created</div> */}
         {/* <div>
       <p>Latitude: {browCoords[0]}</p>
       <p>Longitude: {browCoords[1]}</p>
@@ -300,15 +303,37 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   
   {maps.length && editAllowed ? (
     confirmDelete ? (
-      <button onClick={() => deactivateMap(mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete)}>Confirm delete</button>
+      <div className="maps-delete-buttons-container">
+      <button 
+      className="delete-map-button"
+      onClick={() => deactivateMap(mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete)}>Confirm delete</button>
+      <button className="delete-map-button-close"
+      onClick={handleConfirmDelete}
+      >x</button>
+      </div>
     ) : (
-      <button onClick={handleConfirmDelete}>Delete map</button>
+      <div className="maps-delete-buttons-container">
+      <button
+      className="delete-map-button"
+      onClick={handleConfirmDelete}>Delete map</button>
+      </div>
     )
   ) : (
     confirmDelete ? (
-      <button onClick={() => removeUsersFromMap(userId, mapId, setFake, setMaps)}>Confirm remove from my maps</button>
+      <div className="maps-delete-buttons-container">
+      <button
+      className="delete-map-button"
+      onClick={() => removeUsersFromMap(userId, mapId, setFake, setMaps)}>Confirm remove from my maps</button>
+      <button className="delete-map-button-close"
+      onClick={handleConfirmDelete}
+      >x</button>
+      </div>
     ) : (
-      <button onClick={handleConfirmDelete}>Remove from my maps</button>
+      <div className="maps-delete-buttons-container">
+      <button 
+      className="delete-map-button"
+      onClick={handleConfirmDelete}>Remove from my maps</button>
+      </div>
     )
   )}
 
