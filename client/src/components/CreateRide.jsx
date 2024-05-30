@@ -141,13 +141,13 @@ export default function CreateRide() {
     <>
       {auth.accessToken !== undefined ? (
         <div className="create-container">
-          <label>Create a new ride</label>
+          <label className="create-title">Create a new ride</label>
           <div className="container-list">
             <form
               className="container-form"
               onSubmit={handleSubmit}
             >
-              <div className="create-level-input">
+              <div className="create-label-input">
                 <label>Ride title</label>
                 <input
                   onChange={(e) => setTitle(e.target.value)}
@@ -155,7 +155,7 @@ export default function CreateRide() {
                   required></input>
               </div>
 
-              <div className="create-level-input">
+              <div className="create-label-input">
                 <label>
                   Visibility
                 </label>
@@ -171,7 +171,7 @@ export default function CreateRide() {
 
               </div>
 
-              <div className="create-level-input">
+              <div className="create-label-input">
                 <label>Date</label>
 
                 <input
@@ -184,7 +184,7 @@ export default function CreateRide() {
 
               {showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
 
-              <div className="create-level-input">
+              <div className="create-label-input">
                 <label>Distance</label>
                 <input
                  className="create-input"
@@ -200,7 +200,7 @@ export default function CreateRide() {
                 />
               </div>
 
-              <div className="create-level-input">
+              <div className="create-label-input">
                 <label>Speed</label>
                 <input
                 className="create-input"
@@ -228,7 +228,7 @@ export default function CreateRide() {
                 <TimePickerComponent time={time} setTime={setTime} />
               </div>
 
-              <div className="create-level-input">
+              <div className="create-label-input">
                 <label>Meeting Point</label>
                 <input
                   onChange={(e) => setMeetingPoint(e.target.value)}
@@ -236,7 +236,7 @@ export default function CreateRide() {
                   required></input>
               </div>
 
-              <div className="create-level-input">
+              <div className="create-label-input">
                 <label>Details</label>
                 <input
                   onChange={(e) => setDetails(e.target.value)}
@@ -281,9 +281,7 @@ export default function CreateRide() {
 
 
           </div>
-          {mapId && mapId !== null && mapId !== undefined &&
-            <PreviewMap mapId={mapId} setMapId={setMapId} />
-          }
+
 
         </div>
 
@@ -292,7 +290,9 @@ export default function CreateRide() {
         <p>Please log in to create a ride.</p>
       )}
 
-
+{mapId && mapId !== null && mapId !== undefined &&
+            <PreviewMap mapId={mapId} setMapId={setMapId} />
+          }
     </>
 
   )

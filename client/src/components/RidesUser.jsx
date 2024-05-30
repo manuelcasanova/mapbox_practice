@@ -19,10 +19,27 @@ import { removeFromMyRides } from './util_functions/ride_functions/DeleteRide';
 const RidesUser = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const [rides, setRides] = useState([]);
+  const [showFilter, setShowFilter] = useState(false)
   const [userRides, setUserRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [filteredRides, setFilteredRides] = useState();
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
+  
+  const defaultFilteredRides = {
+    dateStart: yesterday.toISOString(),
+    dateEnd: "9999-12-31T00:00:00.000Z",
+    distanceMin: 0,
+    distanceMax: 100000,
+    speedMin: 0,
+    speedMax: 100000
+  };
+  
+  const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
+  // const [filteredRides, setFilteredRides] = useState()
+
+  // const [filteredRides, setFilteredRides] = useState();
   const [addToMyRides, setAddToMyRides] = useState([])
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
@@ -178,6 +195,10 @@ const RidesUser = () => {
     setConfirmDelete(prev => !prev)
   }
 
+  const handleShowFilter = () => {
+    setShowFilter(prev => !prev)
+  }
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -188,10 +209,18 @@ const RidesUser = () => {
   }
 
   return (
-    <>
+    <div className='rides-public-container'>
+
+{!showFilter && 
+<button className='rides-public-filter-ride'
+onClick={() => handleShowFilter()}
+>Filter rides</button>}
+
       {auth.accessToken !== undefined ? (
         <div>
-          <RidesFilter onFilter={onFilter} />
+              {showFilter && 
+   <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+              }
           {rides.length === 0 ? (
             <div>No rides available.</div>
           ) : (
@@ -299,7 +328,7 @@ const RidesUser = () => {
       ) : (
         <p>Please log in to see rides.</p>
       )}
-    </>
+    </div>
   );
 };
 

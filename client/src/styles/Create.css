@@ -6,18 +6,25 @@
   padding: 5%;
   background-color: var(--color1);
   border-radius: 2%;
+  margin-bottom: 0%;
+  /* padding-bottom: 0%; */
+
 }
 
-.create-level-input {
+.create-title {
+font-size: 25px;
+}
+
+.create-label-input {
   display: flex;
   flex-direction: row;
 }
 
-.create-level-input > label {
+.create-label-input > label {
  width: 70%;
 }
 
-.create-level-input > input {
+.create-label-input > input {
   width: 30%;
 }
 
@@ -127,14 +134,15 @@ p {
 
   .create-container {
     margin: 5% auto; 
+    margin-bottom: 0%;
   }
 
-  .create-level-input {
+  .create-label-input {
     flex-direction: column;
   }
 
-  .create-level-input > label,
-  .create-level-input > input {
+  .create-label-input > label,
+  .create-label-input > input {
     width: 100%;
   }
 }

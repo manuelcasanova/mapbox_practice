@@ -10,7 +10,7 @@ export default function AddRunMessage({ userId, userIsLoggedIn, runId, setMessag
 
   useEffect(() => {
     // Focus on the input field when the component mounts
-    inputRef.current.focus();
+    // inputRef.current.focus();
   }, []);
 
   const handleSubmit = async (e) => {

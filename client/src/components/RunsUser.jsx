@@ -18,10 +18,28 @@ import { deactivateRun } from './util_functions/run_functions/DeleteRun';
 const RunsUser = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const [runs, setRuns] = useState([]);
+  const [showFilter, setShowFilter] = useState(false)
   const [userRuns, setUserRuns] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [filteredRuns, setFilteredRuns] = useState();
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
+  
+  const defaultFilteredRuns = {
+    dateStart: yesterday.toISOString(),
+    dateEnd: "9999-12-31T00:00:00.000Z",
+    distanceMin: 0,
+    distanceMax: 100000,
+    paceMin: 0,
+    paceMax: 100000
+  };
+  
+  const [filteredRuns, setFilteredRuns] = useState(defaultFilteredRuns);
+
+
+
+  // const [filteredRuns, setFilteredRuns] = useState();
   const [addToMyRuns, setAddToMyRuns] = useState([])
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
@@ -171,6 +189,9 @@ const RunsUser = () => {
     setConfirmDelete(prev => !prev)
   }
 
+  const handleShowFilter = () => {
+    setShowFilter(prev => !prev)
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -181,10 +202,18 @@ const RunsUser = () => {
   }
 
   return (
-    <>
+    <div className='rides-public-container'>
+
+{!showFilter && 
+<button className='rides-public-filter-ride'
+onClick={() => handleShowFilter()}
+>Filter runs</button>}
+
       {auth.accessToken !== undefined ? (
         <div>
-          <RunsFilter onFilter={onFilter} />
+                  {showFilter && 
+   <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+              }
           {runs.length === 0 ? (
             <div>No runs available.</div>
           ) : (
@@ -292,7 +321,7 @@ const RunsUser = () => {
       ) : (
         <p>Please log in to see runs.</p>
       )}
-    </>
+    </div>
   );
 };
 

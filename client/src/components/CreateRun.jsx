@@ -95,6 +95,8 @@ export default function CreateRun() {
     setShowCalendar(false); // Hide the calendar once a date is selected
   };
 
+  // console.log("dateStrin", dateString, "date", date, "time", time)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const body = {
@@ -142,13 +144,13 @@ export default function CreateRun() {
       {auth.accessToken !== undefined ? (
   
         <div className="create-container">
-        <label>Create a new run</label>
+        <label className="create-title">Create a new run</label>
           <div className="container-list">
             <form
               className="container-form"
               onSubmit={handleSubmit}
             >
-              <div className="create-level-input">
+              <div className="create-label-input">
               <label>Run title</label>
               <input
                 onChange={(e) => setTitle(e.target.value)}
@@ -156,7 +158,7 @@ export default function CreateRun() {
                 required></input>
 
 </div>
-   <div className="create-level-input">
+   <div className="create-label-input">
               <label>
                   Visibility
               </label>
@@ -172,7 +174,7 @@ export default function CreateRun() {
 
           </div>
 
-          <div className="create-level-input">
+          <div className="create-label-input">
             <label>Date</label>
 
             <input
@@ -184,7 +186,7 @@ export default function CreateRun() {
 
           {showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
 
-          <div className="create-level-input">
+          <div className="create-label-input">
             <label>Distance (Km)</label>
             <input
               type="text"
@@ -198,7 +200,7 @@ export default function CreateRun() {
             />
           </div>
 
-          <div className="create-level-input">
+          <div className="create-label-input">
             <label>Pace (Min/Km)</label>
             <input
               type="text"
@@ -222,14 +224,14 @@ export default function CreateRun() {
 
             <TimePickerComponent time={time} setTime={setTime} />
           </div>
-          <div className="create-level-input">
+          <div className="create-label-input">
             <label>Meeting Point</label>
             <input
               onChange={(e) => setMeetingPoint(e.target.value)}
               value={meetingPoint}
               required></input>
           </div>
-          <div className="create-level-input">
+          <div className="create-label-input">
             <label>Details</label>
             <input
               onChange={(e) => setDetails(e.target.value)}
@@ -273,10 +275,6 @@ export default function CreateRun() {
 
 
     </div>
-          {
-    mapId && mapId !== null && mapId !== undefined &&
-    <PreviewMap mapId={mapId} setMapId={setMapId} />
-  }
 
         </div>
 
@@ -286,6 +284,10 @@ export default function CreateRun() {
   )
 }
 
+{
+    mapId && mapId !== null && mapId !== undefined &&
+    <PreviewMap mapId={mapId} setMapId={setMapId} />
+  }
 
     </ >
 
