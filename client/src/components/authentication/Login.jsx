@@ -106,7 +106,7 @@ const Login = ({ rideApp }) => {
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <div className="level-title">Sign In</div>
             <form onSubmit={handleSubmit}>
-                {/* <label htmlFor="username">Username:</label>
+                {/* <label className="login-label" htmlFor="username">Username:</label>
                 <input
                     type="text"
                     id="username"
@@ -123,7 +123,7 @@ const Login = ({ rideApp }) => {
         onChange={() => setEmail('manucasanova@hotmail.com')}
         checked={email === 'manucasanova@hotmail.com'}
     />
-    <label htmlFor="manuCheckbox">Manuel Superadmin</label>
+    <label className="login-label" htmlFor="manuCheckbox">Manuel Superadmin</label>
 </div>
 
 <div>
@@ -133,7 +133,7 @@ const Login = ({ rideApp }) => {
         onChange={() => setEmail('laura@example.com')}
         checked={email === 'laura@example.com'}
     />
-    <label htmlFor="lauraCheckbox">Laura Admin</label>
+    <label className="login-label" htmlFor="lauraCheckbox">Laura Admin</label>
 </div>
 
 <div>
@@ -143,7 +143,7 @@ const Login = ({ rideApp }) => {
         onChange={() => setEmail('alice@example.com')}
         checked={email === 'alice@example.com'}
     />
-    <label htmlFor="aliceCheckbox">Alice Wonder</label>
+    <label className="login-label" htmlFor="aliceCheckbox">Alice Wonder</label>
 </div>
 
 <div>
@@ -153,7 +153,7 @@ const Login = ({ rideApp }) => {
         onChange={() => setEmail('bob@example.com')}
         checked={email === 'bob@example.com'}
     />
-    <label htmlFor="bobCheckbox">Bob Robinson</label>
+    <label className="login-label" htmlFor="bobCheckbox">Bob Robinson</label>
 </div>
 
 <div>
@@ -163,11 +163,11 @@ const Login = ({ rideApp }) => {
         onChange={() => setEmail('emma@example.com')}
         checked={email === 'emma@example.com'}
     />
-    <label htmlFor="emmaCheckbox">Emma Jones</label>
+    <label className="login-label" htmlFor="emmaCheckbox">Emma Jones</label>
 </div> */}
 
 
-                <label htmlFor="email">Email:</label>
+                <label className="login-label" htmlFor="email">Email:</label>
                 <input
                 className='login-input'
                     type="text"
@@ -180,7 +180,7 @@ const Login = ({ rideApp }) => {
                 // required
                 />
 
-                <label htmlFor="password">Password:</label>
+                <label className="login-label" htmlFor="password">Password:</label>
                 <input
                      className='login-input'
                     type="password"
@@ -198,7 +198,7 @@ const Login = ({ rideApp }) => {
                         onChange={toggleCheck}
                         checked={check}
                     />
-                    <label className="login-trust" htmlFor="persist">Trust This Device</label>
+                    <label className="login-label" className="login-trust" htmlFor="persist">Trust This Device</label>
                 </div>
             </form>
             <div className='login-questions'>

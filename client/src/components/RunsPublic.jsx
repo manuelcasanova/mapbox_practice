@@ -8,6 +8,11 @@ import useAuth from "../hooks/useAuth"
 import RunsFilter from './RunsFilter';
 
 
+import { faFilter} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRunMessages from './util_functions/messaging/FetchRunMessages'
@@ -229,9 +234,9 @@ const RunsPublic = () => {
   return (
     <>
 {!showFilter && 
-<button className='rides-public-filter-ride'
+<button title="Filter" className='rides-public-filter-ride'
 onClick={() => handleShowFilter()}
->Filter runs</button>}
+> <FontAwesomeIcon icon={faFilter} /></button>}
 {showFilter && 
    <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
   }

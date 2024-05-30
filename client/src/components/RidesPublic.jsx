@@ -9,6 +9,10 @@ import RidesFilter from './RidesFilter';
 
 import '../styles/RidesPublic.css'
 
+import { faFilter} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -248,9 +252,9 @@ const RidesPublic = () => {
     <div className='rides-public-container'>
 
 {!showFilter && 
-<button className='rides-public-filter-ride'
+<button title="Filter" className='rides-public-filter-ride'
 onClick={() => handleShowFilter()}
->Filter rides</button>}
+> <FontAwesomeIcon icon={faFilter} /></button>}
 
       {showFilter && 
    <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />

@@ -147,3 +147,74 @@ p {
   }
 }
 
+/* Create map css */
+
+
+.create-map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5% auto;
+  padding: 5%;
+  background-color: var(--color1);
+  border-radius: 2%;
+}
+
+.create-map-container form {
+  width: 100%;
+}
+
+.create-map-container div {
+  margin-bottom: 10px;
+}
+
+.create-map-container input,
+.create-map-container select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.create-map-container button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-map-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+.create-map-label {
+  font-weight: bold;
+  color: var(--color0);
+  display: flex;
+  justify-content: center;
+}
+
+.create-map-input{
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+@media (max-width: 450px) {
+  .create-map-container {
+    margin: 5% auto;
+  }
+}

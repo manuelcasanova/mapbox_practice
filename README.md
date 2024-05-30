@@ -1,6 +1,11 @@
 
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
 
+
+See/Hide map
+Show all maps
+
+
 client/.env
 
 REACT_APP_API_URL=http://localhost:3500

@@ -65,7 +65,7 @@ form {
   flex-direction: column;
 }
 
-label {
+.register-label {
   font-weight: bold;
   margin-bottom: 5px;
   color: var(--color0);

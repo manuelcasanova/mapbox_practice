@@ -7,6 +7,11 @@ import PreviewMap from './PreviewMap';
 import useAuth from "../hooks/useAuth"
 import RidesFilter from './RidesFilter';
 
+import { faFilter} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
@@ -214,7 +219,7 @@ const RidesUser = () => {
 {!showFilter && 
 <button className='rides-public-filter-ride'
 onClick={() => handleShowFilter()}
->Filter rides</button>}
+><FontAwesomeIcon icon={faFilter} /></button>}
 
       {auth.accessToken !== undefined ? (
         <div>

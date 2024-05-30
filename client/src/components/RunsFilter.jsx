@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/RidesFilter.css'
 
+import { faUndo} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+
+
 const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
 
 
@@ -154,7 +160,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
       </div>
       <div className='filter-range'>
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
-      <button className='filter-button' onClick={() => {clearFilter(); handleFilter();}}>Clear</button>
+      <button title="Clear filter" className='filter-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
       <button
       className='filter-button-close hide-small'
       onClick={() => handleShowFilter()}>x</button>

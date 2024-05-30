@@ -35,7 +35,7 @@ form {
   flex-direction: column;
 }
 
-label {
+.login-label {
   font-weight: bold;
   margin-bottom: 5px;
   color: var(--color0);

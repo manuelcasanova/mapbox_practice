@@ -113,7 +113,7 @@ const Register = () => {
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <div className="level-title">Sign Up</div>
                     <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">
+                        <label className="register-label" htmlFor="username">
                             Name:
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
@@ -140,7 +140,7 @@ const Register = () => {
                         </p>
 
 
-                        <label htmlFor="email">
+                        <label className="register-label" htmlFor="email">
                             Email:
                             <FontAwesomeIcon icon={faCheck} className={validEmail ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
@@ -164,7 +164,7 @@ const Register = () => {
                             Must be a valid email address. Special characters allowed . - _
                         </p>
 
-                        <label htmlFor="password">
+                        <label className="register-label" htmlFor="password">
                             Password:
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
@@ -193,7 +193,7 @@ const Register = () => {
                         </p>
 
 
-                        <label htmlFor="confirm_pwd">
+                        <label className="register-label" htmlFor="confirm_pwd">
                             Confirm Password:
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
