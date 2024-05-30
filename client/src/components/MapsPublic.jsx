@@ -6,6 +6,8 @@ import PreviewMap from './PreviewMap';
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 
+import '../styles/MapsPublic.css'
+
 
 
 //Util functions
@@ -153,7 +155,7 @@ const MapsPublic = () => {
   }
 
   return (
-    <div>
+    <>
       {maps.length === 0 ? (
         <div>No maps available.</div>
       ) : (
@@ -186,11 +188,11 @@ const MapsPublic = () => {
 
                 
 
-                  <div key={`${map.createdat}-${map.createdby}`}>
+                  <div className="maps-public-container" key={`${map.createdat}-${map.createdby}`}>
                   
           
-                    <div>Name: {map.title}</div>
-                    <div>Created by: {
+                    <div className='maps-public-map-name'>Name: {map.title}</div>
+                    <div className='maps-public-createdby'>Created by: {
   users.find(user => user.id === map.createdby)?.username || "Unknown User"
 }</div>
 
@@ -222,7 +224,7 @@ const MapsPublic = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

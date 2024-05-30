@@ -1,6 +1,6 @@
 .all-maps-container {
   /* background-color: var(--color0); */
-  /* border: 1px solid var(--color0); */
+  border: 1px solid var(--color0);
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
@@ -20,8 +20,8 @@
 .all-maps-text {
 
   /* text-align: center; */
-  margin: 10px 20px 0px 20px;
-  padding: 10px;
+  /* margin: 10px 20px 0px 20px; */
+  padding: 5px;
   color: var(--color0);
   font-weight: 900;
   display: flex;
@@ -61,5 +61,11 @@ padding: 1px 5px 1px 5px;
   .-step3 {
     display: flex;
     flex-direction: row;
+  }
+}
+
+@media (max-width: 426px) {
+  .all-maps-select {
+    max-width: 250px;
   }
 }

@@ -103,7 +103,9 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
 
           {
             !editAllowed ? (
-              <div className="all-maps-text">Only users that created a map can modify them</div>
+              <div className="all-maps-text">
+                {/* Cannot modify a map created by other user. */}
+                </div>
             ) : (
               fromButton ?
                 <div className="all-maps-text">Add, edit or remove markers</div> :

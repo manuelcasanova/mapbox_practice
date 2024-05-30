@@ -133,6 +133,8 @@ p {
 @media (max-width: 450px) {
 
   .create-container {
+    color: var(--color0);
+    font-weight: 900;
     margin: 5% auto; 
     margin-bottom: 0%;
   }
@@ -151,6 +153,8 @@ p {
 
 
 .create-map-container {
+  color: var(--color0);
+  font-weight: 900;
   display: flex;
   flex-direction: column;
   align-items: center;

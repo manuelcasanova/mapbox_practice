@@ -323,7 +323,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
       <div className="maps-delete-buttons-container">
       <button
       className="delete-map-button"
-      onClick={() => removeUsersFromMap(userId, mapId, setFake, setMaps)}>Confirm remove from my maps</button>
+      onClick={() => removeUsersFromMap(userId, mapId, setFake, setMaps)}>Confirm</button>
       <button className="delete-map-button-close"
       onClick={handleConfirmDelete}
       >x</button>
