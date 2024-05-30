@@ -1,5 +1,10 @@
 /* TITLE */
 
+@font-face {
+  font-family: 'Rams W01 Black';
+  src: url('../fonts/Rams W01 Black.eot');
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -8,12 +13,13 @@
   margin-top: 20px;
   padding-left: 20px;
   margin-bottom: 20px;
+  font-family: 'Rams W01 Black', sans-serif;
 }
 
 .container div, .footer {
   font-size: 32px;
   font-weight: 900;
-  font-family: 'Rams W01 Black', sans-serif; 
+  /* font-family: 'Rams W01 Black', sans-serif;  */
   /* margin: 5px; */
   /* cursor: pointer; */
   color: #fc4c02;
@@ -49,6 +55,7 @@
   position: relative;
   display: inline-block;
   overflow: hidden;
+  font-family: 'Rams W01 Black', sans-serif;
 }
 
 .title-modify::after {
@@ -97,6 +104,7 @@
   .container div, 
   .footer {
     font-size: 32px;
+    
   }
   
 }

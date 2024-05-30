@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Rams W01 Black';
+  src: url('../fonts/Rams W01 Black.eot');
+}
+
 
 
 .welcome-container {
@@ -7,6 +12,7 @@
   justify-content: center;
   height: 100vh;
   /* background-color: var(--color1); */
+    font-family: 'Rams W01 Black', sans-serif;
 }
 
 .welcome-question {
@@ -24,7 +30,7 @@
 
 .welcome-button-one,
 .welcome-button-two {
-  font-family: 'Rams W01 Black', sans-serif; 
+  font-family: 'Rams W01 Black', sans-serif;
   padding: 10px 20px;
   margin: 0 10px;
   border: none;

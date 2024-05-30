@@ -45,6 +45,7 @@
 .title {
   max-height: 5%;
   cursor: pointer;
+  /* font-family: var(--font-family); */
 }
 
 .title {

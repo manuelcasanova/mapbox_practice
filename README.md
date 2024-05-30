@@ -1,3 +1,6 @@
+
+<div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
+
 client/.env
 
 REACT_APP_API_URL=http://localhost:3500
