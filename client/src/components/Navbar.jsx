@@ -61,9 +61,9 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         onMouseEnter={() => handleMouseEnter("ride")}
         onMouseLeave={() => handleMouseLeave("ride")}
       >
-        <div 
-        className="navbar-title"
-        onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
+        <div
+          className="navbar-title"
+          onClick={() => handleMouseEnter(rideApp ? "ride" : "run")}>
           {rideApp ? (
             <>
               <span className="dropdown-wrapper-text">Rides</span>
@@ -90,8 +90,19 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         {!rideApp && showOptions.ride && (
           <div className="dropdown">
             <button onClick={() => handleSelectOption("/runs/public", "ride")}>See all runs</button>
-            <button onClick={() => handleSelectOption("/runs/mine", "ride")}>Manage my runs</button>
-            <button onClick={() => handleSelectOption("/createrun", "ride")}>Create a new run</button>
+            <button
+              onClick={() => {
+                handleSelectOption("/runs/mine", "ride");
+
+              }}
+            >Manage my runs</button>
+            <button
+              onClick={() => {
+                handleSelectOption("/createrun", "ride");
+              }}
+            >
+              Create a new run
+            </button>
           </div>
         )}
 
@@ -105,8 +116,8 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         onMouseLeave={() => handleMouseLeave("map")}
       >
         <div
-        className="navbar-title"
-        onClick={() => handleMouseEnter("map")}>
+          className="navbar-title"
+          onClick={() => handleMouseEnter("map")}>
 
           <span className="dropdown-wrapper-text">Maps</span>
           <span className="down-arrow">{downArrow}</span>
@@ -118,7 +129,11 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         {showOptions.map && (
           <div className="dropdown">
             <button className="dropdown-button-text" onClick={() => handleSelectOption("/maps/public", "map")}>See all maps</button>
-            <button onClick={() => handleSelectOption("/maps", "map")}>Manage my maps</button>
+            <button onClick={() => {
+              setFromButton(true)
+              handleSelectOption("/maps", "map")
+            }
+              }>Manage my maps</button>
             <button onClick={() => handleSelectOption("/maps/create", "map")}>Create a new map</button>
           </div>
         )}
@@ -129,9 +144,9 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         onMouseEnter={() => handleMouseEnter("user")}
         onMouseLeave={() => handleMouseLeave("user")}
       >
-        <div 
-        className="navbar-title"
-        onClick={() => handleMouseEnter("user")}>
+        <div
+          className="navbar-title"
+          onClick={() => handleMouseEnter("user")}>
           <span className="dropdown-wrapper-text">Users</span>
           <span className="down-arrow">{downArrow}</span>
         </div>
@@ -155,9 +170,9 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
           onMouseEnter={() => handleMouseEnter("admin")}
           onMouseLeave={() => handleMouseLeave("admin")}
         >
-          <div 
-          className="navbar-title"
-          onClick={() => () => handleMouseEnter("admin")}>
+          <div
+            className="navbar-title"
+            onClick={() => () => handleMouseEnter("admin")}>
             <span className="dropdown-wrapper-text">Admin</span>
             <span className="down-arrow">{downArrow}</span>
           </div>

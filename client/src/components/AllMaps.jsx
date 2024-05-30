@@ -14,6 +14,12 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const [fake, setFake] = useState(true)
   const BACKEND = process.env.REACT_APP_API_URL;
 
+  
+  useEffect(()=> {
+    console.log("from button", fromButton)
+  }, [fromButton])
+
+
   // console.log("done", done)
   useEffect(() => {
     // console.log("user", user.id)
