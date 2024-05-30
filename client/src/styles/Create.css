@@ -99,8 +99,8 @@ font-size: 25px;
   /* background-color: red; */
 }
 
-.time-picker-hours {
-  margin-left: 13px;
+.time-picker-hours, .time-picker-minutes {
+  margin-left: 17px;
 }
 
 .time-picker-hours,

@@ -52,8 +52,9 @@ const TimePickerComponent = ({ time, setTime }) => {
           onChange={handleHoursChange} 
         />
       </div>
+      <>:</>
       <div className='time-picker-minutes'>
-        <label>:</label>
+      
         <input 
             className='create-input'
           type="number" 

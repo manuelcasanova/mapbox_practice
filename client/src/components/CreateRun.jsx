@@ -239,6 +239,7 @@ export default function CreateRun() {
               required></input>
           </div>
 
+          <div className="create-label-input">
           <label>Map</label>
           {maps?.length
             ?
@@ -262,6 +263,7 @@ export default function CreateRun() {
             :
             <p>No maps to select. Create or add a map.</p>
           }
+          </div>
           <button
             type="submit"
             className="create-button"

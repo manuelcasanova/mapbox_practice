@@ -244,8 +244,8 @@ export default function CreateRide() {
                   required></input>
               </div>
 
-
-              <label></label>
+              <div className="create-label-input">
+              <label>Map:</label>
               {maps?.length
                 ?
                 <select
@@ -268,6 +268,7 @@ export default function CreateRide() {
                 :
                 <p>No maps to select. Create or add a map.</p>
               }
+               </div>
               <button
                 type="submit"
                 className="create-button"

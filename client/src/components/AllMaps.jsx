@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth"
 import DrawMap from "./DrawMap";
 
+import '../styles/AllMaps.css'
+
 export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const { auth } = useAuth();
   const [maps, setMaps] = useState([]);
@@ -80,7 +82,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   }
 
   return (
-    <>
+    <div className="all-maps-container">
       {isLoading ? (
         <div>Loading...</div>
       ) : maps.length > 0 ? (
@@ -88,7 +90,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
 
           {fromButton &&
             <select
-              className="allmaps"
+              className="all-maps-select"
               value={mapId}
               onChange={(e) => setMapId(e.target.value)}
             >
@@ -101,11 +103,11 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
 
           {
             !editAllowed ? (
-              <div>Only users that created a map can modify them</div>
+              <div className="all-maps-text">Only users that created a map can modify them</div>
             ) : (
               fromButton ?
-                <div>Add, edit or remove markers</div> :
-                <div>STEP 2: Add, edit or remove markers</div>
+                <div className="all-maps-text">Add, edit or remove markers</div> :
+                <div className="all-maps-text">STEP 2: Add, edit or remove markers</div>
             )
           }
 
@@ -128,9 +130,9 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
             //   ))}
             // </div> :
             <div>
-              {!done && <button
+              {/* {!done && <button
                 onClick={() => setDone(prev => !prev)}
-              >Done</button>}
+              >Done</button>} */}
 
 
 
@@ -138,8 +140,18 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
 
           }
 
-          {done && <div>STEP 3:
+          {/* {done &&  */}
+          <div className="all-maps-text -step3">
+            
+         { fromButton ?
+                <div className="all-maps-text"></div> :
+                <div className="all-maps-text">STEP 3:</div>
+      }
+     
+
+
             <button
+            className="all-maps-button"
               onClick={() => {
                 if (rideApp) {
                   navigate('/createride');
@@ -148,9 +160,10 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
                 }
               }}
             >
-              Create a {rideApp ? 'ride' : 'run'} with the new map
+              Create a {rideApp ? 'ride' : 'run'}
               </button>
             <button
+            className="all-maps-button"
               onClick={() => {
                 setFromButton(true)
                 navigate("/maps");
@@ -158,6 +171,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
               }}
             >Manage all maps</button>
             <button
+            className="all-maps-button"
               onClick={() => {
                 if (rideApp) {
                   navigate('/rides/public');
@@ -167,13 +181,14 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
               }}
             >Home</button>
 
-          </div>}
+          </div>
+          {/* } */}
 
         </>
       ) : (
         <p>No maps to display</p>
       )}
 
-    </>
+    </div>
   );
 }
