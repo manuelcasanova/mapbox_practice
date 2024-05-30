@@ -82,7 +82,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
       <Title rideApp={rideApp} setRideApp={setRideApp} />
       <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
-      {showNavsidebar && <Navsidebar rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
+      {showNavsidebar && <Navsidebar rideApp={rideApp} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
       {children}
       <Footer rideApp={rideApp} />
     </div>
@@ -129,7 +129,7 @@ function App() {
   return (
     <BrowserCoordsProvider>
       <Router>
-        {showNavsidebar && <Navsidebar />}
+        {showNavsidebar && <Navsidebar setFromButton={setFromButton}/>}
 
         <Routes>
           {/* Route for the Welcome component */}

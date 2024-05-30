@@ -12,6 +12,7 @@ import '../styles/Hamburger.css'
 
 export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined, toggleNavsidebar, handleMouseLeave }) {
 
+  // console.log("setFromButton", setFromButton)
   // console.log("rideApp in Navsidebar", rideApp)
   const logout = useLogout();
   const navigate = useNavigate();
@@ -96,7 +97,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
 
   return (
     <div className="navsidebar"
-    onMouseLeave={handleMouseLeave}
+      onMouseLeave={handleMouseLeave}
     >
 
 
@@ -197,7 +198,12 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
         {showOptions.map && (
           <div className="navsidebar-dropdown">
             <button onClick={() => handleSelectOption("/maps/public", "map")}>See all maps</button>
-            <button onClick={() => handleSelectOption("/maps", "map")}>Manage my maps</button>
+            <button onClick={() => {
+              setFromButton(true)
+              handleSelectOption("/maps", "map")
+            }
+            }
+            >Manage my maps</button>
             <button onClick={() => handleSelectOption("/maps/create", "map")}>Create a new map</button>
           </div>
         )}
@@ -272,7 +278,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
       {!showOptions.myprofile && (
         <div className="navsidebar-dropdown">
           <button
-          title="Logout"
+            title="Logout"
             onClick={() => { signOut() }}
             className="navsidebar-logout-button"
           ><FontAwesomeIcon icon={faSignOut} /></button>

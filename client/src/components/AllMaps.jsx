@@ -16,7 +16,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
 
   
   useEffect(()=> {
-    console.log("from button", fromButton)
+    // console.log("from button", fromButton)
   }, [fromButton])
 
 
