@@ -11,6 +11,13 @@ import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
 // import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import '../styles/Navbar.css'
+
+
+import '../styles/Users.css'
+
 const UsersAll = () => {
   const navigate = useNavigate()
   const [users, setUsers] = useState([]);
@@ -74,7 +81,7 @@ const UsersAll = () => {
   const allUsersMutedOrMe = usersExceptMe.every(user => mutedUsers.includes(user.id));
 
   return (
-    <>
+    <div className='users-all-container'>
       {allUsersMutedOrMe ? (
         <div>No users available or all users are muted.</div>
       ) : (
@@ -86,10 +93,12 @@ const UsersAll = () => {
                 const user = usersExceptMe[index];
                 const isMuted = mutedUsers.includes(user.id);
 
+console.log("user in usersAll", user)
+
                 if (!isMuted) {
                   return (
                     <div key={user.id}>
-                      <div>Id: {user.id}</div>
+                      <div> {user.id}</div>
                       <div>{user.username}</div>
                       <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
                       <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
@@ -109,7 +118,7 @@ const UsersAll = () => {
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 

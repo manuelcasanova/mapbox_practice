@@ -1,0 +1,7 @@
+.users-all-container {
+    background-color: var(--color1);
+    margin: auto;
+    min-width: 250px;
+    padding: 20px;
+    border-radius: 10px;
+}
