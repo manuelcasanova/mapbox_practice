@@ -87,6 +87,8 @@ const UsersAll = () => {
 
           {auth.accessToken !== undefined ? (
             <div>
+<div className="users-title">All users</div>
+
               {followingEachOther.map((isFollowing, index) => {
                 const user = usersExceptMe[index];
                 const isMuted = mutedUsers.includes(user.id);

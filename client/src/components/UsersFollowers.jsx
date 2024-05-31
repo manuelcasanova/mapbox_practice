@@ -61,10 +61,14 @@ const Followers = () => {
   return (
     <div className='users-all-container'>
       {!areAnyFollowingMe ? (
+        <>
+        <div className="users-title">Followers</div>
         <div>You don't have followers.</div>
+        </>
+   
       ) : (
         <>
-
+  <div className="users-title">Followers</div>
           {auth.accessToken !== undefined ? (
             <div>
               {users.map(user => {
@@ -100,6 +104,8 @@ const Followers = () => {
                     <div 
                     className='users-all-user'
                     key={user.id} >
+
+
 
 <div className='users-all-picture'> {user.id}</div>  {/* Hide on production */}
 <div className='user-details'>

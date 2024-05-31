@@ -59,10 +59,14 @@ const MutedUsers = () => {
     <div className='users-all-container'>
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
-      ) : mutedUserObjects.length === 0 ? (
-        <div>No muted users.</div>
+      ) : mutedUserObjects.length === 0 ? (<>
+         <div className="users-title">Muted users</div>
+       <div>No muted users.</div>
+      </>
+       
       ) : (
         <div>
+          <div className="users-title">Muted users</div>
           {mutedUserObjects.map(user => (
             <div 
             className='users-all-user'

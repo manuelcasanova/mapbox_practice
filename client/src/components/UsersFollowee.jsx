@@ -59,12 +59,16 @@ const Followee = () => {
   return (
     <div className='users-all-container'>
       {!amIFollowingAnybody ? (
+        <>
+         <div className="users-title">Following</div>
         <div>You are not following anybody.</div>
+        </>
       ) : (
         <>
 
           {auth.accessToken !== undefined ? (
             <div>
+              <div className="users-title">Following</div>
               {users.map(user => {
 
                 const amFollowingThem = followers.some(follower =>

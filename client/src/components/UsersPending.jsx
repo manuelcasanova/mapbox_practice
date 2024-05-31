@@ -192,9 +192,14 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
       ) : pendingUsersObject.length === 0 ? (
+        <>
+          <div className="users-title">Follow requests pending</div>
+        
         <div>No requests pending.</div>
+        </>
       ) : (
         <div>
+           <div className="users-title">Follow requests pending</div>
           {pendingUsersObject.map(user => (
 
 

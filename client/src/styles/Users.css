@@ -1,10 +1,21 @@
 .users-all-container {
     /* background-color: var(--color1); */
     margin: 0 auto auto auto;
+    
     /* max-width: 700px; */
     min-width: 250px;
     padding: 10px;
+    
     border-radius: 10px;
+}
+
+.users-title {
+display: flex;
+justify-content: center;
+padding: 20px;
+font-weight: 900;
+font-size: x-large;
+color: var(--color0);
 }
 
 .users-all-user {

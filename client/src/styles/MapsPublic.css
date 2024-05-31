@@ -1,10 +1,17 @@
 .maps-public-container {
-    border: 1px solid var(--color0);
-    border-radius: 10px;
+    /* border: 1px solid var(--color0); */
+    border-bottom: 1px dotted var(--color0);
+    /* border-radius: 10px; */
     padding: 10px;
     margin: 5px;
     color: var(--color0);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.maps-public-information {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 
@@ -29,7 +36,7 @@
   .maps-public-add-button {
     /* margin: auto; */
     max-width: 200px;
-    margin-top: 10px;
+    margin: 10px 0px 0px 5px;
   
     color: var(--color0);
     border: 1px solid var(--color0);
@@ -43,5 +50,11 @@
     background-color: var(--color0);
     color: var(--color1);
   }
-  
+
+
+  @media (min-width: 800px) {
+    .maps-public-container {
+      margin: 5px 10% 0% 10%;
+    }
+  }
   
