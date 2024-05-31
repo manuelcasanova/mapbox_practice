@@ -3,14 +3,44 @@
     border-radius: 10px;
     padding: 10px;
     margin: 5px;
+    
 }
 
 
+.maps-public-remove-button {
+    /* margin: auto; */
+    max-width: 200px;
+    margin-top: 10px;
+  
+    color: var(--color-red);
+    border: 1px solid var(--color-red);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .maps-public-remove-button:hover {
+    background-color: var(--color-red);
+    color: var(--color1);
+  }
 
-.maps-public-map-name {
-background-color: red;
-}
-
-.maps-public-createdby {
-    background-color: yellow;
-}
+  .maps-public-add-button {
+    /* margin: auto; */
+    max-width: 200px;
+    margin-top: 10px;
+  
+    color: var(--color0);
+    border: 1px solid var(--color0);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .maps-public-add-button:hover {
+    background-color: var(--color0);
+    color: var(--color1);
+  }
+  
+  

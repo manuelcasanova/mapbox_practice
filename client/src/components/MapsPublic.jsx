@@ -192,9 +192,12 @@ const MapsPublic = () => {
                   
           
                     <div className='maps-public-map-name'>Name: {map.title}</div>
+                   {!isUserMap ? (
                     <div className='maps-public-createdby'>Created by: {
   users.find(user => user.id === map.createdby)?.username || "Unknown User"
-}</div>
+}</div> ) : 
+<div className='maps-public-createdby'>Created by me</div>
+}
 
 
                     {/* {console.log(`The logged in user is ${userId}, the map id is ${map.id}, the owner of the map is ${map.createdby}, is ${userId} inside the map ${map.id}? According to the variable isUserInMap ${isUserInMap}`)} */}
@@ -203,11 +206,9 @@ const MapsPublic = () => {
                     {isUserMap ? (
                       <div></div>
                     ) : isUserInMap ? (
-
-
-                      <button onClick={(e) => removeFromMap(e, index, map.id)}>Remove from my maps</button>
+                      <button className='maps-public-remove-button' onClick={(e) => removeFromMap(e, index, map.id)}>Remove from my maps</button>
                     ) : (
-                      <button onClick={(e) => addToMap(e, index, map.id)}>Add to my maps</button>
+                      <button className='maps-public-add-button' onClick={(e) => addToMap(e, index, map.id)}>Add to my maps</button>
                     )}
                     {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
 
