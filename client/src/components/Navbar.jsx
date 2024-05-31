@@ -78,7 +78,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
         </div>
 
 
-        {rideApp && showOptions.ride && (
+        {rideApp && showOptions.ride && ( 
           <div className="dropdown">
             <button onClick={() => handleSelectOption("/rides/public", "ride")}>See all rides</button>
             <button onClick={() => handleSelectOption("/rides/mine", "ride")}>Manage my rides</button>

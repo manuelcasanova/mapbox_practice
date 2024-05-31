@@ -2,10 +2,14 @@
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
 
 
-See/Hide map
-Show all maps
+Components css: See all rides (See/Hide map, Show all maps), Manage my rides(See/Hide map, Show all maps), nmessages, message notifications, follow notification
+
+Titles: All users, followers, following, muted, pending...
 
 Search users
+
+
+
 
 
 client/.env

@@ -54,7 +54,7 @@
 .navbar-title {
   /* margin-bottom: 10px; */
   /* display: flex; */
-  padding: 10px 0px 10px 0px;
+  padding: 10px 0px 10px 10px;
 }
 
 .navbar-title:hover {
@@ -80,7 +80,7 @@
 }
 
 .dropdown button {
-  padding: 10px 10px 10px 0px;
+  padding: 10px 10px 10px 10px;
   text-align: left;
   border: none;
   cursor: pointer;
@@ -193,7 +193,7 @@
 }
 
 .dropdown-right button {
-  padding: 10px 0;
+  padding: 10px 10px 10px 10px;
   text-align: left;
   border: none;
   background: none;
@@ -201,7 +201,7 @@
 }
 
 .dropdown-right button:first-child {
-  padding-top: 25px;
+  /* padding-top: 10px; */
 }
 
 .dropdown-right button:hover {

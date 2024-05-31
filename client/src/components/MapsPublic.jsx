@@ -200,7 +200,7 @@ const MapsPublic = () => {
                       } `}
                       
                       </div>) :
-                      <div className='maps-public-createdby'>Created by me</div>
+                      <div className='maps-public-createdby'>(my map)</div>
                     }
 
 
