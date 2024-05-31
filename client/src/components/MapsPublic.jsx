@@ -26,7 +26,7 @@ const MapsPublic = () => {
 
 
   // console.log("maps", maps)
-// console.log("user in MapsPublic", user)
+  // console.log("user in MapsPublic", user)
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
   const isLoggedIn = userIsLoggedIn;
@@ -86,12 +86,12 @@ const MapsPublic = () => {
             userId
           }
         });
-  // Check if the response data is not an empty array before updating the state
-  if (Array.isArray(response.data) && response.data.length > 0) {
-    setUserMaps(response.data);
-  } else {
-    setUserMaps([])
-  }
+        // Check if the response data is not an empty array before updating the state
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          setUserMaps(response.data);
+        } else {
+          setUserMaps([])
+        }
       } catch (error) {
         console.error('Error fetching user maps:', error);
       }
@@ -109,7 +109,7 @@ const MapsPublic = () => {
       return newState;
     });
   };
-  
+
 
   //Function to add user to map
   const addToMap = async (e, index, mapId) => {
@@ -135,7 +135,7 @@ const MapsPublic = () => {
     try {
       // console.log("Adding to map...");
       await axios.delete(`${BACKEND}/maps/removeuser`, {
-        data: {userId, userIsLoggedIn, mapId}
+        data: { userId, userIsLoggedIn, mapId }
       });
       // console.log("Successfully added to map.");
       toggleAddToMyMaps(index); // Toggle state for the clicked map
@@ -177,7 +177,7 @@ const MapsPublic = () => {
                 const isUserMap = map.createdby === userId;
 
                 // Determine if the logged-in user is already in this map
-// console.log("userMaps", userMaps)
+                // console.log("userMaps", userMaps)
 
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInMap = userMaps.some(userMap => userMap.user_id === auth.userId && userMap.map_id === map.id);
@@ -186,18 +186,22 @@ const MapsPublic = () => {
                 // Render the JSX elements, including the formatted date
                 return (
 
-                
+
 
                   <div className="maps-public-container" key={`${map.createdat}-${map.createdby}`}>
-                  
-          
+
+
                     <div className='maps-public-map-name'>Name: {map.title}</div>
-                   {!isUserMap ? (
-                    <div className='maps-public-createdby'>Created by: {
-  users.find(user => user.id === map.createdby)?.username || "Unknown User"
-}</div> ) : 
-<div className='maps-public-createdby'>Created by me</div>
-}
+                    {!isUserMap ? (
+                      <div className='maps-public-createdby'>
+                        
+                        {`by: ${
+                        users.find(user => user.id === map.createdby)?.username || "Unknown User"
+                      } `}
+                      
+                      </div>) :
+                      <div className='maps-public-createdby'>Created by me</div>
+                    }
 
 
                     {/* {console.log(`The logged in user is ${userId}, the map id is ${map.id}, the owner of the map is ${map.createdby}, is ${userId} inside the map ${map.id}? According to the variable isUserInMap ${isUserInMap}`)} */}

@@ -46,3 +46,12 @@
 
   font-weight: 900;
  }
+
+ @media (max-width: 426px) {
+
+.map-outer-container {
+  padding: 5px;
+  margin: 2px;
+}
+
+ }

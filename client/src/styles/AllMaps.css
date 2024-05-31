@@ -68,4 +68,9 @@ padding: 1px 5px 1px 5px;
   .all-maps-select {
     max-width: 250px;
   }
+
+  .all-maps-container {
+    margin: 5px;
+    padding: 10px 2px 10px 2px;
+  }
 }

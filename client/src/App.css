@@ -99,7 +99,8 @@
 
 .leaflet-container {
   /* position: relative; */
-  min-height: 35vh;
+  height: 50vh;
+  /* min-height: 35vh; */
   /* width: 85vw; */
   padding: 0.7em;
   border-radius: 20px;

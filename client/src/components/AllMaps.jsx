@@ -6,15 +6,22 @@ import DrawMap from "./DrawMap";
 
 import '../styles/AllMaps.css'
 
+//Util functions
+import fetchUsernameAndId from './util_functions/FetchUsername'
+
+
+
 export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const { auth } = useAuth();
   const [maps, setMaps] = useState([]);
+  const [error, setError] = useState(null);
   const [mapId, setMapId] = useState(null) //Declare it here instead of bringin from useAuth
   const userId = auth.userId;
   const [isLoading, setIsLoading] = useState(true);
   const [done, setDone] = useState(false)
   const [fake, setFake] = useState(true)
   const BACKEND = process.env.REACT_APP_API_URL;
+  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
 
   
   useEffect(()=> {
@@ -30,7 +37,13 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
     // console.log("maps all maps", maps)
   }, [mapId])
 
-
+  useEffect(() => {
+    let isMounted = true;
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    return () => {
+      isMounted = false; // Cleanup function to handle unmounting
+    };
+  }, [auth]);
 
 
   const parseIntMapId = parseInt(mapId)
@@ -96,7 +109,9 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
             >
               {maps.map((map) => (
                 <option key={`${map.createdat}-${map.createdby}`} value={map.id}>
-                  Id: {map.id}, Title: {map.title}, Created by: {map.createdby}
+                  {map.title},         {`by: ${
+                        users.find(user => user.id === map.createdby)?.username || "Unknown User"
+                      } `}
                 </option>
               ))}
             </select>}

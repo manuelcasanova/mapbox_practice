@@ -261,7 +261,7 @@ export default function CreateRide() {
                       key={index}
                       value={map.id}
                     >
-                      Title: {map.title}
+                      {map.title}
                     </option>
                   )}
                 </select>
