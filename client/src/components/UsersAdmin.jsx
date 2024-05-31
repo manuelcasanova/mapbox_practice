@@ -82,7 +82,7 @@ const UsersAdmin = () => {
   const handleAdminToggle = async (user) => {
     const updatedUser = { ...user, isadmin: !user.isadmin };
     try {
-      await axios.patch(`${BACKEND}users/${user.id}`, updatedUser, {
+      await axios.patch(`${BACKEND}/users/${user.id}`, updatedUser, {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
         },
