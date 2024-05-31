@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import { faBellSlash, faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers }) => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const muteUser = () => {
@@ -25,9 +28,9 @@ const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers }) => {
   return (
     <>
       {isMuted ? (
-        <button onClick={unmuteUser}>Unmute</button>
+        <button title="Unmute user" onClick={unmuteUser}><FontAwesomeIcon icon={faBell}></FontAwesomeIcon></button>
       ) : (
-        <button onClick={muteUser}>Mute</button>
+        <button title="Mute user" onClick={muteUser}> <FontAwesomeIcon icon={faBellSlash} /></button>
       )}
     </>
   );

@@ -5,6 +5,8 @@
 See/Hide map
 Show all maps
 
+Search users
+
 
 client/.env
 

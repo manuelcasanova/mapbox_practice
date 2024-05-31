@@ -11,12 +11,10 @@ import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
 // import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import '../styles/Navbar.css'
-
-
 import '../styles/Users.css'
+import '../styles/UsersButtons.css'
 
 const UsersAll = () => {
   const navigate = useNavigate()
@@ -93,21 +91,35 @@ const UsersAll = () => {
                 const user = usersExceptMe[index];
                 const isMuted = mutedUsers.includes(user.id);
 
-console.log("user in usersAll", user)
+// console.log("user in usersAll", user)
 
                 if (!isMuted) {
                   return (
-                    <div key={user.id}>
-                      <div> {user.id}</div>
-                      <div>{user.username}</div>
-                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-                      <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+                    <div
+                    className='users-all-user'
+                    key={user.id}>
+                      <div className='users-all-picture'> {user.id}</div>
+                      <div className='user-details'>
+                      <div className='users-all-name'>{user.username}</div>
+                      </div>
+
+
+                      <div className='user-actions'>
+
                       {isFollowing && 
                       
                       <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>
-
+                    
                       
                       }
+
+                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
+             
+
+
+<MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+
+                      </div>
                     </div>
                   );
                 }

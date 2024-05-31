@@ -57,7 +57,7 @@ const Followee = () => {
   );
 
   return (
-    <>
+    <div className='users-all-container'>
       {!amIFollowingAnybody ? (
         <div>You are not following anybody.</div>
       ) : (
@@ -94,21 +94,31 @@ const Followee = () => {
 
                   return (
 
-                    <div key={user.id}>
+                    <div 
+                    className='users-all-user'
+                    key={user.id}>
 
-                      <div>Id: {user.id}</div>  {/* Hide on production */}
-                      <div>{user.username}</div>
 
-                      {pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
+<div className='users-all-picture'> {user.id}</div> 
+<div className='user-details'>
+<div className='users-all-name'>{user.username}</div>
+</div>
 
-                      <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+
+<div className='user-actions'>
+         
+{pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
+
+                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>}
+               
 
                       {amFollowingThem && <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />}
 
-                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>}
+
+                      <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
 
 
-
+</div>
                     </div>
                   );
                 } else {
@@ -124,7 +134,7 @@ const Followee = () => {
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 

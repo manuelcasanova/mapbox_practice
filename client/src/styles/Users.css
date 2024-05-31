@@ -1,7 +1,86 @@
 .users-all-container {
-    background-color: var(--color1);
-    margin: auto;
+    /* background-color: var(--color1); */
+    margin: 0 auto auto auto;
+    /* max-width: 700px; */
     min-width: 250px;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
 }
+
+.users-all-user {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+}
+
+.users-all-picture {
+
+}
+
+.user-details {
+    flex: 1;
+    margin-left: 10px; /* Adjust as needed for spacing */
+}
+
+.user-actions {
+    display: flex;
+    gap: 5px; /* Adjust as needed for spacing between buttons */
+    /* margin-left: 100px; */
+}
+
+.user-actions button {
+    /* min-width: 80px;  */
+}
+
+.users-pending-request-user-wrapper {
+   margin-right: 10px;
+}
+
+.users-pending-request-made {
+    margin-bottom: 10px;
+}
+
+.users-pending-user {
+ display: flex;
+ flex-direction: row;
+}
+
+@media (min-width: 426px) {
+    .users-all-name {
+        padding-right: 20px;
+    }
+
+    .users-pending-request-made {
+       margin-bottom: 0px;
+       margin-left: 10px;
+       font-style: italic;
+    }
+}
+
+@media (max-width: 426px) {
+    .users-all-container {
+        padding: 5px;
+        min-width: none;
+        margin: 5px
+    }
+
+    .users-all-user {
+        padding: 5px 0px;
+        flex-wrap: wrap;
+        border-bottom: 1px dotted var(--color0);
+    }
+    
+    .user-details {
+        margin-left: 10px; /* Remove left margin for smaller screens */
+      
+        width: 100%; /* Make details take full width */
+    }
+    
+    .user-actions {
+ padding: 10px 0px;
+        justify-content: flex-end; /* Align buttons to the right */
+    }
+
+}
+
+

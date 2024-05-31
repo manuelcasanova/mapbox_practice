@@ -188,7 +188,7 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
   }
 
   return (
-    <>
+    <div className='users-all-container'>
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
       ) : pendingUsersObject.length === 0 ? (
@@ -198,37 +198,47 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
           {pendingUsersObject.map(user => (
 
 
-            <div key={user.id} >
+            <div 
+            className='users-all-user'
+            key={user.id} >
 
 
 
-              {<div>Request made {
-              
 
-              //  Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24))
+<div className="users-pending-request-user-wrapper">
 
 
+
+
+<div className="users-pending-user">
+              <div className='users-all-picture'> {user.id}</div>
+              <div className='user-details'>
+              <div className='users-all-name'>{user.username}</div>
+              </div>
+              </div>
+
+</div>
+
+
+              <div className='user-actions'>
+              <button onClick={() => { approveFollower(user.id, userLoggedin) }}>Accept request</button>
+              <button onClick={() => { dismissFollower(user.id, userLoggedin) }}>Dismiss</button>
+</div>
+
+
+{<div className="users-pending-request-made">Request made {
               Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24)) < 1
               ? "less than a day ago"
               : Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24)) === 1
               ? "day ago"
-              : Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24)) + " days ago"
-                
+              : Math.floor((currentDate - user.lastmodification) / (1000 * 60 * 60 * 24)) + " days ago"   
                 } </div>}
-
-                
-              {/* {isNewRequest &&<button onClick={() => { dismissMessageFollowRequest(userLoggedin, user.id) }}>x</button>} */}
-              <div>Id: {user.id}</div>
-              <div>{user.username}</div>
-
-              <button onClick={() => { approveFollower(user.id, userLoggedin) }}>Accept request</button>
-              <button onClick={() => { dismissFollower(user.id, userLoggedin) }}>Dismiss</button>
 
             </div>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 
 };

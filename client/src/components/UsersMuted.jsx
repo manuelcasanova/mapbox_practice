@@ -56,7 +56,7 @@ const MutedUsers = () => {
   }
 
   return (
-    <>
+    <div className='users-all-container'>
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
       ) : mutedUserObjects.length === 0 ? (
@@ -64,15 +64,21 @@ const MutedUsers = () => {
       ) : (
         <div>
           {mutedUserObjects.map(user => (
-            <div key={user.id} >
-              <div>Id: {user.id}</div>
-              <div>{user.username}</div>
+            <div 
+            className='users-all-user'
+             key={user.id} >
+              <div className='users-all-picture'>{user.id}</div>
+              <div className='user-details'>
+<div className='users-all-name'>{user.username}</div>
+</div>
+<div className='user-actions'>
               <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers}/>
+              </div>
             </div>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
   
 };

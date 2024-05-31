@@ -59,7 +59,7 @@ const Followers = () => {
 // console.log("areanyfm", areAnyFollowingMe)
 
   return (
-    <>
+    <div className='users-all-container'>
       {!areAnyFollowingMe ? (
         <div>You don't have followers.</div>
       ) : (
@@ -97,19 +97,29 @@ const Followers = () => {
 
                   return (
 
-                    <div key={user.id} >
+                    <div 
+                    className='users-all-user'
+                    key={user.id} >
 
-                      <div>Id: {user.id}</div>  {/* Hide on production */}
-                      <div>{user.username}</div>
+<div className='users-all-picture'> {user.id}</div>  {/* Hide on production */}
+<div className='user-details'>
 
+                    <div className='users-all-name'>{user.username}</div>
+                    </div>
+
+
+                    <div className='user-actions'>
                       {pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
+
+                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>}
 
                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
                    
                       <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
 
-                     {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>}
+             
 
+                    </div>
                     </div>
                   );
                 } else {
@@ -125,7 +135,7 @@ const Followers = () => {
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 

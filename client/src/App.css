@@ -27,6 +27,20 @@
 
 }
 
+.orange-button {
+  color: var(--color0);
+  border: 1px solid var(--color0);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.orange-button:hover {
+  background-color: var(--color0);
+  color: var(--color1);
+}
+
 
 /* .navbar, */
 .maps,
