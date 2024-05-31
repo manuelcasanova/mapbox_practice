@@ -24,6 +24,13 @@ color: var(--color0);
     min-height: 50px;
 }
 
+.users-admin-user {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+    justify-content: space-between;
+}
+
 .users-all-picture {
 
 }
@@ -37,6 +44,9 @@ color: var(--color0);
     display: flex;
     gap: 5px; /* Adjust as needed for spacing between buttons */
     /* margin-left: 100px; */
+
+   
+    
 }
 
 .user-actions button {
@@ -55,6 +65,46 @@ color: var(--color0);
  display: flex;
  flex-direction: row;
 }
+
+/* Admin */
+
+.users-inactive {
+background-color: red;
+color: white;
+padding: 5px;
+}
+
+.users-admin-picture {
+    /* background-color: pink; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 5px 0px 5px;
+    padding: 10px;
+}
+
+.users-admin-name {
+    margin: 5px;
+}
+
+.user-admin-details {
+/* background-color: red; */
+display: flex;
+}
+
+.user-admin-admin {
+    display: flex;
+/* background-color: green; */
+margin: 5px;
+align-items: center;
+gap: 10px
+}
+
+.users-admin-inner-container {
+    flex-direction: column;
+}
+
+/* End Admin */
 
 @media (min-width: 426px) {
     .users-all-name {
@@ -92,6 +142,21 @@ color: var(--color0);
         justify-content: flex-end; /* Align buttons to the right */
     }
 
+
 }
 
+
+@media (max-width:600px) {
+    .users-admin-user {
+        padding: 5px 0px;
+        /* flex-wrap: wrap; */
+        flex-direction: column;
+        border-bottom: 1px dotted var(--color0);
+    }
+
+    .user-admin-details {
+        flex-direction: column;
+    }
+
+}
 

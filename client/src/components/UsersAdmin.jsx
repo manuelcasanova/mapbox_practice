@@ -20,17 +20,17 @@ const UsersAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
 
-//  console.log("users", users)
+  //  console.log("users", users)
 
-const loggedInUser = auth;
-//  console.log("loggedInUser in Users Admin", loggedInUser)
+  const loggedInUser = auth;
+  //  console.log("loggedInUser in Users Admin", loggedInUser)
 
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchData = async () => {
-      
+
       try {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
@@ -38,7 +38,7 @@ const loggedInUser = auth;
 
         const response = await axios.get(`${BACKEND}/users/`, {
           params: {
-            user: auth 
+            user: auth
           }
         });
         if (isMounted) {
@@ -102,53 +102,66 @@ const loggedInUser = auth;
   }
 
   return (
-    <>
+    <div className='users-all-container'>
       {users.length === 0 ? (
-        <div>No users available.</div>
-      ) : (
         <>
-        {auth.accessToken !== undefined && auth.isAdmin ? (
-        <div>
-{users.map(user => {
+          <div className="users-title">Admin users</div>
+          <div>No users available.</div>
+        </>
 
-const isAdmin = user.isadmin
-// console.log("isadmin,", isAdmin)
+      ) : (
+        <div className='users-admin-inner-container'>
+          <div className="users-title">Admin users</div>
+          {auth.accessToken !== undefined && auth.isAdmin ? (
+            <div>
+              {users.map(user => {
 
-  // Render the JSX elements, including the formatted date
-  return (
-    
-    
-<div key={user.id} >
-  {!user.isactive && <div>User is inactive</div>}
-      <div>Id: {user.id}</div>
-      <div>Name: {user.username}</div>
-      <div>Email: {user.email}</div>
-      {loggedInUser.isSuperAdmin && !user.issuperadmin && user.isactive && <button onClick={() => handleDeactivate(user)}>Inactivate</button>}
-      {loggedInUser.isSuperAdmin && !user.issuperadmin && !user.isactive && <button 
-       onClick={() => handleActivate(user)}
-      >Activate</button>}
-      {loggedInUser.isSuperAdmin && !user.issuperadmin && <button onClick={()=> handleDelete(user)}>Delete</button>}
-      {loggedInUser.isSuperAdmin && !user.issuperadmin && 
-      <div>  Admin    <input
-      type="checkbox"
-      id="permissionsCheckbox"
-      checked={user.isadmin || false}
-      onChange={() => handleAdminToggle(user)}
-  /></div>
-      
-      }
-    </div>
-  );
-})}
+                const isAdmin = user.isadmin
+                // console.log("isadmin,", isAdmin)
+
+                // Render the JSX elements, including the formatted date
+                return (
 
 
+                  <div
+                    className='users-admin-user'
+                    key={user.id} >
+                    {!user.isactive && <div className="users-inactive">User is inactive</div>}
+
+                    <div className='user-admin-details'>
+                      <div className='users-admin-picture'>  {user.id}</div>
+                      <div className='users-admin-name'>Name: {user.username}</div>
+                      <div className='users-admin-name'>Email: {user.email}</div>
+                    </div>
+                    <div className='user-actions'>
+                      {loggedInUser.isSuperAdmin && !user.issuperadmin && user.isactive && <button onClick={() => handleDeactivate(user)}>Inactivate</button>}
+                      {loggedInUser.isSuperAdmin && !user.issuperadmin && !user.isactive && <button
+                        onClick={() => handleActivate(user)}
+                      >Activate</button>}
+                      {loggedInUser.isSuperAdmin && !user.issuperadmin && <button className="red-button" onClick={() => handleDelete(user)}>Delete</button>}
+                   
+                    {loggedInUser.isSuperAdmin && !user.issuperadmin &&
+                      <div className='user-admin-admin'>  Admin    <input
+                        type="checkbox"
+                        id="permissionsCheckbox"
+                        checked={user.isadmin || false}
+                        onChange={() => handleAdminToggle(user)}
+                      /></div>
+
+                    }
+                     </div>
+                  </div>
+                );
+              })}
+
+
+            </div>
+          ) : (
+            <p>Please log in as an administrator to see users.</p>
+          )}
         </div>
-            ) : (
-              <p>Please log in as an administrator to see users.</p>
-            )}
-          </>
       )}
-    </>
+    </div>
   );
 };
 
