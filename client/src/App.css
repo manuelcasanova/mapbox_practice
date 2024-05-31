@@ -11,6 +11,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 /* COLORS */
@@ -95,6 +96,8 @@
   text-align: end;
   /* background-color: red; */
   padding: 0em 1em 1em 1em;
+  white-space: nowrap;
+  
 }
 
 .leaflet-container {

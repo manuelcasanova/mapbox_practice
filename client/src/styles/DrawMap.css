@@ -9,6 +9,16 @@
 }
 
 
+.manage-map-buttons {
+  display: flex;
+  flex-direction:row;
+}
+
+.manage-map-buttons > div:last-child {
+  margin-left: auto;
+}
+
+
 .delete-map-button {
   /* margin: auto; */
   max-width: 200px;

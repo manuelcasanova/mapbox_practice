@@ -116,21 +116,22 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
               ))}
             </select>}
 
+{/* 
           {
             !editAllowed ? (
               <div className="all-maps-text">
-                {/* Cannot modify a map created by other user. */}
+                 Cannot modify a map created by other user. 
                 </div>
             ) : (
               fromButton ?
                 <div className="all-maps-text">Add, edit or remove markers</div> :
                 <div className="all-maps-text">STEP 2: Add, edit or remove markers</div>
             )
-          }
+          } */}
 
 
 
-          <DrawMap maps={maps} setMaps={setMaps} editAllowed={editAllowed} mapId={mapId} setMapId={setMapId} fake={fake} setFake={setFake} />
+          <DrawMap maps={maps} setMaps={setMaps} editAllowed={editAllowed} mapId={mapId} setMapId={setMapId} fake={fake} setFake={setFake} fromButton={fromButton} users={users}/>
 
 
           {!fromButton &&
