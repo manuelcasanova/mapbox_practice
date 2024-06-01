@@ -1738,7 +1738,7 @@ app.get("/rides/messages/reported", async (req, res) => {
     return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
     try {
-      const reportedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'reported'`);
+      const reportedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'reported' ORDER BY reportedat DESC;`);
       // console.log(reportedMessages.rows)
       res.json(reportedMessages.rows)
     } catch (err) {
@@ -1755,7 +1755,7 @@ app.get("/rides/messages/flagged", async (req, res) => {
     return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
     try {
-      const flaggedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'flagged'`);
+      const flaggedMessages = await pool.query(`SELECT * from ride_message WHERE status = 'flagged';`);
       // console.log(flaggedMessages.rows)
       res.json(flaggedMessages.rows)
     } catch (err) {
@@ -1772,7 +1772,7 @@ app.get("/runs/messages/reported", async (req, res) => {
     return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
     try {
-      const reportedMessages = await pool.query(`SELECT * from run_message WHERE status = 'reported'`);
+      const reportedMessages = await pool.query(`SELECT * from run_message WHERE status = 'reported' ORDER BY reportedat DESC;`);
       // console.log(reportedMessages.rows)
       res.json(reportedMessages.rows)
     } catch (err) {

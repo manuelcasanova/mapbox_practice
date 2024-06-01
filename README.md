@@ -4,7 +4,6 @@
 
 Components css: See all rides (See/Hide map, Show all maps), Manage my rides(See/Hide map, Show all maps), nmessages, message notifications, follow notification
 
-Titles: All users, followers, following, muted, pending...
 
 Search users
 
