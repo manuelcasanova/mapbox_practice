@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export default function AdminOkReportedRunMessage({ messageId, setMessageReported }) {
 
 // console.log("messageId in util func delete ride", messageId)
@@ -34,7 +37,7 @@ const BACKEND = process.env.REACT_APP_API_URL;
 
   return (
     <>
-      <button onClick={handleInappropiate}>Approve message</button>
+      <button className="green-button" onClick={handleInappropiate}>   <FontAwesomeIcon icon={faCheck} /></button>
       {error && <p>{error}</p>}
     </>
   );

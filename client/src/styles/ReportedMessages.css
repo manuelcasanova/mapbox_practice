@@ -1,0 +1,29 @@
+.reported-messages-container {
+
+}
+
+.reported-messages-table {
+  /* background-color: red; */
+  width: 100%;
+  text-align: center;
+  /* border: 1px solid black; */
+ 
+}
+
+.reported-messages-table thead tr th {
+
+ 
+}
+
+thead {
+   border: 1px solid var(--color0);
+}
+
+.reported-messages-table thead th {
+  padding-bottom: 20px;
+}
+
+.reported-messages-table td {
+  /* background-color: yellow; */
+  padding: 0px 5px;
+}

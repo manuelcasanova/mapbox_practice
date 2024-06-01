@@ -10,6 +10,9 @@ import FlagInapropiateMessage from "../util_functions/messaging/FlagInappropiate
 import AdminOkReportedMessage from "../util_functions/messaging/AdminOkReportedMessage";
 import fetchUsernameAndId from "../util_functions/FetchUsername";
 
+//Styles
+import '../../styles/ReportedMessages.css'
+
 export default function ReportedMessages() {
   // Variables
   const { auth } = useAuth();
@@ -18,7 +21,7 @@ export default function ReportedMessages() {
   const [reportedMessages, setReportedMessages] = useState([]);
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
-  const [users, setUsers] = useState([]); 
+  const [users, setUsers] = useState([]);
 
   // useEffect(() => {
   //   console.log("reportedMessages", reportedMessages)
@@ -28,7 +31,7 @@ export default function ReportedMessages() {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
   }, [auth]);
 
@@ -38,7 +41,7 @@ export default function ReportedMessages() {
     const fetchMessages = async () => {
       try {
         setIsLoading(true);
-        const reportedMessages = await fetchReportedMessages({auth}); 
+        const reportedMessages = await fetchReportedMessages({ auth });
         // console.log("reportedMessages", reportedMessages);
         if (isMounted) {
           setReportedMessages(reportedMessages);
@@ -55,7 +58,7 @@ export default function ReportedMessages() {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [messageFlagged, messageReported]); 
+  }, [messageFlagged, messageReported]);
 
   if (!auth.isAdmin) {
     return <p>Admin only: Access denied.</p>;
@@ -68,26 +71,39 @@ export default function ReportedMessages() {
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (
-        
-<div>
-          <h2>Reported messages</h2>
+
+        <div className="reported-messages-container">
+          <div className="users-title">Reported messages</div>
           {reportedMessages.length > 0 ? (
-            <ul>
-              {reportedMessages.map((message) => (
-                <li key={message.id}>
-                  <div>Message: {message.message}</div>
-                  <div>Message by: {
+            <table className="reported-messages-table">
+              <thead>
+                <tr>
+                  <th>Message</th>
+                  <th>Message by</th>
+                  <th>Ride</th>
+                  <th>Reported by</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {reportedMessages.map((message) => (
+                  <tr key={message.id}>
+                    <td>{message.message}</td>
+                    <td>{
                       users.find(user => user.id === message.createdby)?.username || "Unknown User"
-                    }</div>
-                  <div>Ride: {message.ride_id}</div>  
-                  <div>Reported by: {
+                    }</td>
+                    <td>{message.ride_id}</td>
+                    <td>{
                       users.find(user => user.id === message.reportedby)?.username || "Unknown User"
-                    }</div>
-                  <FlagInapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/>
-                  <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported}/>        
-                  </li>
-              ))}
-            </ul>
+                    }</td>
+                    <td><FlagInapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged} /></td>
+                    <td><AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
           ) : (
             <p>No reported messages.</p>
           )}

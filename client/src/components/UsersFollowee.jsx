@@ -11,6 +11,9 @@ import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
 import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const Followee = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
@@ -113,7 +116,7 @@ const Followee = () => {
          
 {pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
 
-                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>Messages</button>}
+                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}><FontAwesomeIcon icon={faEnvelope} /></button>}
                
 
                       {amFollowingThem && <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />}

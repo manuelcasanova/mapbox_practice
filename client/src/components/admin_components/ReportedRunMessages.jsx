@@ -69,25 +69,42 @@ export default function ReportedRunMessages() {
         <p>Error: {error.message}</p>
       ) : (
         
-<div>
-          <h2>Reported messages</h2>
+<div className="reported-messages-container">
+          <div className="users-title">Reported messages</div>
           {reportedRunMessages.length > 0 ? (
-            <ul>
-              {reportedRunMessages.map((message) => (
-                <li key={message.id}>
-                  <div>Message: {message.message}</div>
-                  <div>Message By: {
+            <table className="reported-messages-table">
+  <thead>
+  <tr>
+    <th>Message</th>
+    <th>Message by</th>
+    <th>Ride</th>
+    <th>Reported by</th>
+    <th></th>
+    <th></th>
+  </tr>
+</thead>
+  <tbody>
+
+  {reportedRunMessages.map((message) => (
+                <tr key={message.id}>
+                  <td>Message: {message.message}</td>
+                  <td>Message By: {
                       users.find(user => user.id === message.createdby)?.username || "Unknown User"
-                    }</div>
-                  <div>Ride: {message.run_id}</div> 
-                  <div>Message by: {
+                    }</td>
+                  <td>Ride: {message.run_id}</td> 
+                  <td>Message by: {
                       users.find(user => user.id === message.reportedby)?.username || "Unknown User"
-                    }</div>
-                  <FlagInapropiateRunMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/>
-                  <AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported}/>        
-                  </li>
+                    }</td>
+                 <td> <FlagInapropiateRunMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/></td>
+                  <td><AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported}/>        </td>
+                  </tr>
               ))}
-            </ul>
+
+  </tbody>
+
+          
+
+           </table>
           ) : (
             <p>No reported messages.</p>
           )}

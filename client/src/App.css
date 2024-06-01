@@ -41,6 +41,35 @@
   color: var(--color1);
 }
 
+.green-button {
+  color: green;
+  border: 1px solid green;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.green-button:hover {
+  background-color: green;
+  color: var(--color1);
+}
+
+.red-button {
+  color: red;
+  border: 1px solid red;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.red-button:hover {
+  background-color: red;
+  color: white;
+}
+
+
 .user-actions .red-button {
   color: red;
   border: 1px solid red;

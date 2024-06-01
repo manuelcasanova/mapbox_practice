@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { faBan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export default function FlagInapropiateMessage({ messageId, setMessageFlagged }) {
 
 // console.log("messageId in util func delete ride", messageId)
@@ -35,7 +38,7 @@ export default function FlagInapropiateMessage({ messageId, setMessageFlagged })
 
   return (
     <div>
-      <button onClick={handleInappropiate}>Inappropiate</button>
+      <button className="red-button" onClick={handleInappropiate}><FontAwesomeIcon icon={faBan} /></button>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
     </div>
