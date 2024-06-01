@@ -7,9 +7,9 @@
   width: 30px;
   height: 20px;
   cursor: pointer;
-  z-index: 10001;
-  position: absolute; /* Position the menu absolutely */
-  top: 25px; /* Adjust top position as needed */
+  z-index: 10002;
+  position: fixed; /* Position the menu absolutely */
+  top: 4%; /* Adjust top position as needed */
   left: 20px; /* Adjust right position as needed */
 
 }

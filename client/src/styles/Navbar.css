@@ -9,7 +9,7 @@
 .navbar {
   margin-left: 275px;
   /* Maintain left margin */
-  position: absolute;
+  position: fixed;
   top: 20px;
   left: 0;
   right: 0;
@@ -17,6 +17,7 @@
   flex-direction: row;
   align-items: center;
   font-family: 'Rams W01 Black', sans-serif;
+  z-index: 500;
 }
 
 .navbar>* {
@@ -75,7 +76,7 @@
   /* Hide next */
   background-color: #f9f9f9; 
   border-top: none;
-  z-index: 500;
+  z-index: 90;
   white-space: nowrap;
 }
 
@@ -187,7 +188,7 @@
   background-color: #f9f9f9;
   /* border: 1px solid #ddd; */
   border-top: none;
-  z-index: 500;
+  z-index: 90;
   white-space: nowrap;
   /* padding: 0px 10px 0px 40px;  */
 }

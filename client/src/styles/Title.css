@@ -14,6 +14,9 @@
   padding-left: 20px;
   margin-bottom: 20px;
   font-family: 'Rams W01 Black', sans-serif;
+  position: fixed;
+  z-index: 500;
+
 }
 
 .container div, .footer {
@@ -82,6 +85,14 @@
 
 /* Styles for screens up to 425 pixels */
 @media (max-width: 425px) {
+
+  .container {
+    position: fixed;
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   .container div,
   .footer {
     font-size: 24px;
@@ -90,6 +101,14 @@
 
 /* Styles for screens between 425 and 768 pixels */
 @media (min-width: 426px) and (max-width: 768px) {
+
+  .container {
+    position: fixed;
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   .container div,
   .footer {
     font-size: 28px;
@@ -99,6 +118,7 @@
 /* Styles for screens larger than 768 pixels */
 @media (min-width: 769px) {
   .container {
+   
     justify-content: left;
   }
   .container div, 
