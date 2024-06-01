@@ -9,7 +9,7 @@
 .navbar {
   margin-left: 275px;
   /* Maintain left margin */
-  position: fixed;
+  position: absolute;
   top: 20px;
   left: 0;
   right: 0;

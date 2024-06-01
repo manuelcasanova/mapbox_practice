@@ -55,37 +55,53 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
   const isAdmin = auth.isAdmin
 
   return (
-    <div className='app'>
+  
+    <div className='app-and-head'>
 
-      <div className='hamburger-menu' onClick={toggleNavsidebar} 
-      // onMouseEnter={toggleNavsidebar}
-      >
-        <div className={showNavsidebar ? 'line-white' : 'line'}></div>
-        <div className={showNavsidebar ? 'line-white' : 'line'}></div>
-        <div className={showNavsidebar ? 'line-white' : 'line'}></div>
+      <div className='head'>
+        <Title rideApp={rideApp} setRideApp={setRideApp} />
+        <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
+
+        {showNavsidebar && <Navsidebar rideApp={rideApp} fromButton={fromButton} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
       </div>
 
-      {rideApp === true && (
-        <>
-          <FollowNotifications />
-          <MessagesNotifications />
-          {isAdmin && <ReportedNotifications />}
-        </>
-      )}
-      {rideApp === false && (
-        <>
-          <FollowNotifications />
-          <MessagesNotifications />
-          {isAdmin && <ReportedRunNotifications />}
-        </>
-      )}
 
-      <Title rideApp={rideApp} setRideApp={setRideApp} />
-      <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
-      {showNavsidebar && <Navsidebar rideApp={rideApp} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
-      {children}
+
+      <div className='app'>
+
+        <div className='hamburger-menu' onClick={toggleNavsidebar}
+        // onMouseEnter={toggleNavsidebar}
+        >
+          <div className={showNavsidebar ? 'line-white' : 'line'}></div>
+          <div className={showNavsidebar ? 'line-white' : 'line'}></div>
+          <div className={showNavsidebar ? 'line-white' : 'line'}></div>
+        </div>
+
+        {rideApp === true && (
+          <>
+            <FollowNotifications />
+            <MessagesNotifications />
+            {isAdmin && <ReportedNotifications />}
+          </>
+        )}
+        {rideApp === false && (
+          <>
+            <FollowNotifications />
+            <MessagesNotifications />
+            {isAdmin && <ReportedRunNotifications />}
+          </>
+        )}
+
+
+
+        {children}
+
+       
+      </div>
       <Footer rideApp={rideApp} />
+
     </div>
+
   );
 };
 
@@ -93,7 +109,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 function App() {
 
   const [fromButton, setFromButton] = useState(false)
-  const [rideApp, setRideApp] = useState(true) 
+  const [rideApp, setRideApp] = useState(true)
   //before (). It worked well until PersistLogin on reload page
 
   const [showNavsidebar, setShowNavsidebar] = useState(false);
@@ -129,7 +145,7 @@ function App() {
   return (
     <BrowserCoordsProvider>
       <Router>
-        {showNavsidebar && <Navsidebar setFromButton={setFromButton}/>}
+        {/* {showNavsidebar && <Navsidebar setFromButton={setFromButton}/>} */}
 
         <Routes>
           {/* Route for the Welcome component */}

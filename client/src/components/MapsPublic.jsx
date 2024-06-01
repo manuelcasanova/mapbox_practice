@@ -157,9 +157,13 @@ const MapsPublic = () => {
   return (
     <>
       {maps.length === 0 ? (
+        <>
+        <div className='users-title'>See maps</div>
         <div>No maps available.</div>
+        </>
       ) : (
         <>
+          <div className='users-title'>Maps</div>
           {auth.accessToken !== undefined ? (
 
             <div>

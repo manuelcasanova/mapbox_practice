@@ -7,11 +7,49 @@
   box-sizing: border-box;
 }
 
-.app {
-  height: 100vh;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+.app-and-head {
+
+/* border: 2px solid red; */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  position: relative;
+}
+
+.head {
+  background-color: white;
+/* border: 2px solid green; */
+  z-index: 1001;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 75px;
+}
+
+.app {
+
+/* border: 2px solid purple; */
+/* margin: 20px; */
+padding-top: 75px;
+flex-grow: 1; /* Add this to make it take remaining space */
+overflow-y: auto; /* Add this to enable scrolling */
+
+}
+
+body.footer-visible {
+  padding-bottom: 60px; /* Adjust this value to match the height of your footer */
+}
+
+body.footer-visible .footer {
+  display: block; /* Show the footer */
 }
 
 /* COLORS */
