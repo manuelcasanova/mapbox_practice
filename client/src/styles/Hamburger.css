@@ -9,7 +9,7 @@
   cursor: pointer;
   z-index: 10002;
   position: fixed; /* Position the menu absolutely */
-  top: 4%; /* Adjust top position as needed */
+  top: 3%; /* Adjust top position as needed */
   left: 20px; /* Adjust right position as needed */
 
 }
@@ -43,7 +43,7 @@
 .hamburger-menu.open .line:nth-child(3) {
   transform: translateY(-5px) rotate(-45deg);
 }
-@media (min-width: 769px) {
+@media (min-width: 851px) {
   
   .hamburger-menu {
     display: none;

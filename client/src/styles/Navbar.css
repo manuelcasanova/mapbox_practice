@@ -130,7 +130,7 @@
 }
 
 /* Styles for screens between 425 and 768 pixels */
-@media (min-width: 426px) and (max-width: 768px) {
+@media (min-width: 426px) and (max-width: 850px) {
 
   .navbar {
     display: none
@@ -143,7 +143,7 @@
 }
 
 /* Styles for screens larger than 768 pixels */
-@media (min-width: 769px) {
+@media (min-width: 851px) {
 
   .dropdown-wrapper,
   .dropdown-wrapper button {

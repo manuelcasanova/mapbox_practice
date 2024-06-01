@@ -69,24 +69,39 @@ export default function FlaggedMessages() {
         <p>Error: {error.message}</p>
       ) : (
         
-<div>
-          <h2>Flagged messages</h2>
+<div className="reported-messages-container">
+          <div className="users-title">Flagged messages</div>
           {flaggedMessages.length > 0 ? (
-            <ul>
+            <table className="reported-messages-table">
+         
+         <thead>
+  <tr>
+    <th>Message</th>
+    <th>Message by</th>
+    <th>Run</th>
+    <th>Reported by</th>
+    <th></th>
+    <th></th>
+  </tr>
+</thead>
+  <tbody>
+
               {flaggedMessages.map((message) => (
-                <li key={message.id}>
-                  <div>Message: {message.message}</div>
-                  <div>Message by: {
+                <tr key={message.id}>
+                  <td>{message.message}</td>
+                  <td>{
                       users.find(user => user.id === message.createdby)?.username || "Unknown User"
-                    }</div>
-                  <div>Ride: {message.ride_id}</div>  
-                  <div>Reported by: {
+                    }</td>
+                  <td>{message.run_id}</td>  
+                  <td>{
                       users.find(user => user.id === message.reportedby)?.username || "Unknown User"
-                    }</div>
-                  <AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported}/>        
-                  </li>
+                    }</td>
+                  <td><AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported}/>        
+                  </td>
+                  </tr>
               ))}
-            </ul>
+          </tbody>
+            </table>
           ) : (
             <p>No flagged messages.</p>
           )}

@@ -135,7 +135,7 @@ display: flex;
   }
   
   /* Styles for screens between 425 and 768 pixels */
-  @media (min-width: 426px) and (max-width: 768px) {
+  @media (min-width: 426px) and (max-width: 850px) {
   
     .navsidebar {
       
@@ -148,7 +148,7 @@ display: flex;
   }
   
   /* Styles for screens larger than 768 pixels */
-  @media (min-width: 769px) {
+  @media (min-width: 851px) {
   
     .navsidebar {
       display: none

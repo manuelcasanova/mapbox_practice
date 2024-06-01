@@ -87,12 +87,12 @@ export default function ReportedRunMessages() {
 
   {reportedRunMessages.map((message) => (
                 <tr key={message.id}>
-                  <td>Message: {message.message}</td>
-                  <td>Message By: {
+                  <td>{message.message}</td>
+                  <td>{
                       users.find(user => user.id === message.createdby)?.username || "Unknown User"
                     }</td>
-                  <td>Ride: {message.run_id}</td> 
-                  <td>Message by: {
+                  <td>{message.run_id}</td> 
+                  <td>{
                       users.find(user => user.id === message.reportedby)?.username || "Unknown User"
                     }</td>
                  <td> <FlagInapropiateRunMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/></td>
