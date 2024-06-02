@@ -73,8 +73,9 @@ const handleKeyDown = (e) => {
 
   // Return JSX
   return (
-    <>
+    <div className="users-messaging-send">
       <input
+      placeholder="Aa"
           ref={inputRef}
         onChange={(e) => setNewMessage(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -87,7 +88,7 @@ const handleKeyDown = (e) => {
     {isLoading ? "Sending..." : "Send"} 
   </button>
   {error && <p>{error}</p>}
-    </>
+    </div>
   );
 }
 

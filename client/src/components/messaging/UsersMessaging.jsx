@@ -48,12 +48,12 @@ export default function UsersMessaging() {
   return (
     <>
       {auth ? (
-        <>
-          <div>Chat with {selectedUsername}</div>
+        <div className="users-messaging-container">
+          <div className="users-messaging-user">Chat with {selectedUsername}</div>
           <WriteMessage userForMessages={userForMessages} setUpdateMessages={setUpdateMessages} />
           <ReadMessage userForMessages={userForMessages} updateMessages={updateMessages} />
           
-        </>
+        </div>
       ) : (
         <p>Please log in to see messages.</p>
       )}

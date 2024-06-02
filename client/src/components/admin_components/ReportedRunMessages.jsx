@@ -77,7 +77,7 @@ export default function ReportedRunMessages() {
   <tr>
     <th>Message</th>
     <th>Message by</th>
-    <th>Ride</th>
+    <th>Run</th>
     <th>Reported by</th>
     <th></th>
     <th></th>

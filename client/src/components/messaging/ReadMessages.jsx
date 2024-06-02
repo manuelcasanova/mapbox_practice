@@ -20,6 +20,8 @@ export default function ReadMessages({ userForMessages, updateMessages }) {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([])
 
+  // console.log("auth in Read Messages", auth.userId)
+
     // console.log("userForMessages in read Messages:", userForMessages)
     // console.log("user id in Read Messages", user.id)
 
@@ -50,11 +52,22 @@ export default function ReadMessages({ userForMessages, updateMessages }) {
 const renderedMessages = messages.map((message) => {
   // console.log("message", message)
   const author = users.find((u) => u.id === message.sender)?.username;
-  const content = `${author} wrote on ${new Date(
-    message.date
-  ).toLocaleString()}: ${message.content}`;
+
+ 
+  const messageDate = new Date(message.date).toLocaleString('en-GB');
+  const messageContent = message.content;
+
+
+  // const content = `${author} wrote on ${new Date(
+  //   message.date
+  // ).toLocaleString()}: ${message.content}`;
 
   const isCurrentUserMessage = message.sender === auth.userId || message.receiver === auth.userId;
+
+  const isCurrentUserSender = message.sender === auth.userId;
+
+  const className = isCurrentUserSender ? "users-messaging-me" : "users-messaging-them";
+
 
   // console.log("content", content)
 
@@ -68,8 +81,9 @@ const renderedMessages = messages.map((message) => {
   // if (message.sender === user.id || message.receiver === user.id) {
     if (isCurrentUserMessage) {
     return (
-      <div key={message.date}>
-        <p>{content}</p>
+      <div key={message.date} className={className}>
+        <div className="users-messaging-message-date">{messageDate}</div>
+        <div className={isCurrentUserSender ? "users-messaging-message-content message-me" : "users-messaging-message-content message-them"}>{messageContent}</div>
       </div>
     );
   } else {
@@ -78,7 +92,7 @@ const renderedMessages = messages.map((message) => {
   }
 });
 return (
-  <>
+  <div className="users-messaging-messages">
     {isLoading ? (
       <p>Loading...</p>
     ) : error ? (
@@ -86,6 +100,6 @@ return (
     ) : (
       renderedMessages
     )}
-  </>
+  </div>
 );
 }
