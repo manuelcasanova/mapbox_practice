@@ -4,6 +4,10 @@ import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import fetchReportedRunMessages from "../util_functions/messaging/FetchReportedRunMessages";
 
+//Fontawesome
+import { faCircleXmark, faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export default function ReportedRunNotifications() {
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
@@ -40,7 +44,7 @@ export default function ReportedRunNotifications() {
         
         setIsLoading(true);
         const reportedMessages = await fetchReportedRunMessages({ auth });
-        // console.log("reportedMessages", reportedMessages);
+        //  console.log("reportedMessages", reportedMessages);
         if (isMounted) {
           setReportedRunMessages(reportedMessages);
           setIsLoading(false);
@@ -102,7 +106,7 @@ export default function ReportedRunNotifications() {
   };
 
   const handleClick = (sender) => {
-    navigate(`/rides/messages/reported`);
+    navigate(`/runs/messages/reported`);
     setReportedRunNotifications(prevNotifications =>
       prevNotifications.filter(notification => notification.sender !== sender)
     );
@@ -114,11 +118,20 @@ export default function ReportedRunNotifications() {
         <>
           {(
             showNotificationMessages && (
-              <div key={reportedRunNotifications[0].id}>
-                <button onClick={() => { handleClick(reportedRunNotifications[0].sender); dismissNotification(reportedRunNotifications[0].id) }}>
-                  New reported messages
-                </button>
-                <button onClick={() => dismissNotification(reportedRunNotifications[0].id)}>Dismiss</button>
+              <div className="notifications-container" key={reportedRunNotifications[0].id}>
+                  <div className="notifications-buttons">
+                <button 
+                className="orange-button"
+                onClick={() => { handleClick(reportedRunNotifications[0].sender); dismissNotification(reportedRunNotifications[0].id) }}>
+        <FontAwesomeIcon 
+          className="faBell-follow-request"
+          icon={faBell} />
+         New reported messages
+          </button>
+                <button 
+                className="red-button"
+                onClick={() => dismissNotification(reportedRunNotifications[0].id)}><FontAwesomeIcon icon={faCircleXmark} /></button>
+                </div>  
               </div>
             )
           )}

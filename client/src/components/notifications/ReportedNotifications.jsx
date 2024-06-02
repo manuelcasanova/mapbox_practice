@@ -4,6 +4,11 @@ import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import fetchReportedMessages from "../util_functions/messaging/FetchReportedMessages";
 
+
+//Fontawesome
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export default function ReportedNotifications() {
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
@@ -111,18 +116,29 @@ export default function ReportedNotifications() {
   return (
     <>
       {auth.isAdmin && reportedNotifications.length > 0 && (
-        <>
+        <div className="notifications-container">
           {(
             showNotificationMessages && (
-              <div key={reportedNotifications[0].id}>
-                <button onClick={() => { handleClick(reportedNotifications[0].sender); dismissNotification(reportedNotifications[0].id) }}>
+              <div 
+              className="notifications-buttons"
+              key={reportedNotifications[0].id}>
+                <button 
+                className="orange-button"
+                onClick={() => { handleClick(reportedNotifications[0].sender); dismissNotification(reportedNotifications[0].id) }}>
                   New reported messages
                 </button>
-                <button onClick={() => dismissNotification(reportedNotifications[0].id)}>Dismiss</button>
+
+
+                
+                <button 
+                className="red-button"
+                onClick={() => dismissNotification(reportedNotifications[0].id)}>
+                  <FontAwesomeIcon icon={faCircleXmark} />
+                  </button>
               </div>
             )
           )}
-        </>
+        </div>
       )}
 
 {/* {auth.isAdmin && reportedNotifications.length === 0 && reportedMessages.length > 0 && (

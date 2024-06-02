@@ -6,11 +6,17 @@ import axios from "axios";
 
 import useAuth from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom"; 
+
+//Fontawesome
+import { faCircleXmark, faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 export default function FollowNotifications () {
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
@@ -72,20 +78,38 @@ export default function FollowNotifications () {
   }, [auth]);
 
   const handleClick = () => {
+    navigate("/users/pending")
     setShowFollowNotifications(false);
   };
+
+  const handleDismiss = () => {
+    setShowFollowNotifications(false);
+  }
 
   return (
     <>
  
       {followNotifications.length ? (
            auth && showFollowNotifications &&
-        <Link 
-        to="/users/pending"
+           <div className="notifications-container">
+            <div className="notifications-buttons">
+        <button 
+         className="orange-button"
         onClick={handleClick}
         >
-          Notification: New follow requests.
-          </Link>
+          <FontAwesomeIcon 
+          className="faBell-follow-request"
+          icon={faBell} />
+          Follow requests
+          </button>
+          <button 
+                className="red-button"
+                onClick={handleDismiss}
+                >
+                  <FontAwesomeIcon icon={faCircleXmark} />
+                  </button>
+          </div>
+          </div>
            
       ) : <></>}
 

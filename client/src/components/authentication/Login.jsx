@@ -80,7 +80,9 @@ const Login = ({ rideApp }) => {
             resetUser();
             // resetEmail();
             setPwd('');
-            navigate(from, { replace: true });
+            // navigate(from, { replace: true });
+            rideApp ? (navigate('../rides/public')) : (navigate('../runs/public'))
+            
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -198,7 +200,7 @@ const Login = ({ rideApp }) => {
                         onChange={toggleCheck}
                         checked={check}
                     />
-                    <label className="login-label" className="login-trust" htmlFor="persist">Trust This Device</label>
+                    <label className="login-label login-trust" htmlFor="persist">Trust This Device</label>
                 </div>
             </form>
             <div className='login-questions'>

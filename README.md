@@ -2,7 +2,13 @@
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
 
 
-Components css: See all rides (See/Hide map, Show all maps), Manage my rides(See/Hide map, Show all maps), nmessages, message notifications, follow notification
+Components css: 
+
+See all rides (See/Hide map, Show all maps), 
+
+Manage my rides(See/Hide map, Show all maps), 
+
+messages, message notifications, follow notification
 
 
 Search users

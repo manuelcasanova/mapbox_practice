@@ -122,6 +122,48 @@ body.footer-visible .footer {
   color: white;
 }
 
+.notifications-container {
+  /* border: 1px solid red; */
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding-right: 10px;
+  /* background-color: pink */
+}
+
+.notifications-buttons {
+  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: row;
+}
+
+.notifications-buttons button {
+  margin-left: 5px;
+}
+
+.new-email-button {
+  display: flex;
+  flex-direction: row;
+}
+
+.notifications-new-email-icon {
+  /* border: 1px solid purple; */
+  position: relative;
+  padding-right: 20px;
+  overflow: visible;
+}
+
+.faBell-new-email {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+font-size: smaller;
+}
+
+.faBell-follow-request {
+  margin-right: 10px;
+}
 
 /* .navbar, */
 .maps,

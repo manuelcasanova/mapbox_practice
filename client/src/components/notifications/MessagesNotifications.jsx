@@ -12,6 +12,11 @@ import { useNavigate } from "react-router-dom";
 //Util functions
 import fetchUsernameAndId from "../util_functions/FetchUsername";
 
+//Fontawesome
+import { faEnvelope, faBell, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
 export default function MessagesNotifications() {
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
@@ -22,7 +27,7 @@ export default function MessagesNotifications() {
   const [showNotificationMessages, setShowNotificationMessages]
     = useState(true);
   const [users, setUsers] = useState([])
- 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,15 +75,15 @@ export default function MessagesNotifications() {
   }, [auth]);
 
   // Group notifications by sender
-const groupedNotifications = {};
-messagesNotifications.forEach(notification => {
-  if (!groupedNotifications[notification.sender]) {
-    groupedNotifications[notification.sender] = notification;
-  }
-});
+  const groupedNotifications = {};
+  messagesNotifications.forEach(notification => {
+    if (!groupedNotifications[notification.sender]) {
+      groupedNotifications[notification.sender] = notification;
+    }
+  });
 
-// Convert object back to array
-const uniqueNotifications = Object.values(groupedNotifications);
+  // Convert object back to array
+  const uniqueNotifications = Object.values(groupedNotifications);
 
   return (
     <>
@@ -110,12 +115,33 @@ const uniqueNotifications = Object.values(groupedNotifications);
             return (
 
 
-              showNotificationMessages && 
-              <div key={notification.id}>
-                <button onClick={() => { handleClick(notification.sender); dismissNotification(notification.id) }}>
-                  Notification new messages from {senderUsername}
-                </button>
-                <button onClick={() => dismissNotification(notification.id)}>Dismiss</button>
+              showNotificationMessages &&
+              <div
+                className="notifications-container"
+                key={notification.id}>
+                <div className="notifications-buttons">
+                  <button
+                    className="orange-button new-email-button"
+                    onClick={() => { handleClick(notification.sender); dismissNotification(notification.id) }}>
+                    <div className="notifications-new-email-icon">
+                      <FontAwesomeIcon icon={faEnvelope} />
+                      <FontAwesomeIcon
+                        className="faBell-new-email"
+                        icon={faBell} />
+                    </div>
+                    {senderUsername}
+                  </button>
+
+                  <button
+                    className="red-button"
+                    onClick={() => dismissNotification(notification.id)}>
+                    <FontAwesomeIcon
+                    
+                      icon={faCircleXmark} />
+                  </button>
+
+
+                </div>
               </div>
             )
 

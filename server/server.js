@@ -1772,6 +1772,7 @@ app.get("/runs/messages/reported", async (req, res) => {
     return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
     try {
+      
       const reportedMessages = await pool.query(`SELECT * from run_message WHERE status = 'reported' ORDER BY reportedat DESC;`);
       // console.log(reportedMessages.rows)
       res.json(reportedMessages.rows)
@@ -2342,7 +2343,7 @@ app.get('/messages/reportedrunnotifications', async (req, res) => {
       `
       );
       res.json(result.rows);
-      //  console.log(result.rows);
+        // console.log(result.rows);
     } catch (error) {
       console.error('Error fetching reported run message notifications:', error);
       res.status(500).json({ error: 'Internal Server Error' });
