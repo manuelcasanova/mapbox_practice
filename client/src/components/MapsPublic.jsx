@@ -16,14 +16,27 @@ import fetchUsernameAndId from './util_functions/FetchUsername'
 
 const MapsPublic = () => {
   const [maps, setMaps] = useState([]);
+  const [selectedMapId, setSelectedMapId] = useState(null)
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyMaps, setAddToMyMaps] = useState([])
   const [userMaps, setUserMaps] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
+  const [showAllMaps, setShowAllMaps] = useState(false)
   const { auth } = useAuth();
   const BACKEND = process.env.REACT_APP_API_URL;
 
+  const handleShowMaps = () => {
+    setShowAllMaps(prev => !prev)
+  }
+
+  const handleShowThisMap = (mapId) => {
+    if (selectedMapId === mapId) {
+      setSelectedMapId(null); // Hide the map if already shown
+    } else {
+      setSelectedMapId(mapId); // Show the map
+    }
+  };
 
   // console.log("maps", maps)
   // console.log("user in MapsPublic", user)
@@ -146,6 +159,8 @@ const MapsPublic = () => {
     }
   };
 
+
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -158,12 +173,18 @@ const MapsPublic = () => {
     <>
       {maps.length === 0 ? (
         <>
-        <div className='users-title'>See maps</div>
+        <div className='users-title'>Maps</div>
         <div>No maps available.</div>
         </>
       ) : (
-        <>
+        <div className='maps-container'>
           <div className='users-title'>Maps</div>
+          {/* <button 
+          className='orange-button'
+          onClick={handleShowMaps}>{showAllMaps ? 'Hide all maps' : 'Show all maps'}</button> */}
+
+
+
           {auth.accessToken !== undefined ? (
 
             <div>
@@ -195,8 +216,14 @@ const MapsPublic = () => {
                   <div className="maps-public-container" key={`${map.createdat}-${map.createdby}`}>
 
                     <div className='maps-public-information'>
-
-                      <div className='maps-public-map-name'>Name: {map.title}</div>
+                    <div className='show-maps-button'>
+                    <button 
+                    className='orange-button'
+                    onClick={() => handleShowThisMap(map.id)}>
+  {selectedMapId === map.id ? '-' : '+'}
+</button>
+</div>
+                      <div className='maps-public-map-name'>{map.title}</div>
                       {!isUserMap ? (
                         <div className='maps-public-createdby'>
 
@@ -221,7 +248,11 @@ const MapsPublic = () => {
 
                     </div>
 
-                    {map.id && map.id !== null && <PreviewMap mapId={map.id} />}
+
+
+                    {showAllMaps && map.id && map.id !== null && <PreviewMap mapId={map.id} selectedMapId={selectedMapId} handleShowThisMap={handleShowThisMap} />}
+
+                    {selectedMapId === map.id && <PreviewMap mapId={map.id} selectedMapId={selectedMapId} handleShowThisMap={handleShowThisMap} />}
 
 
 
@@ -234,7 +265,7 @@ const MapsPublic = () => {
           ) : (
             <p>Please log in to see maps.</p>
           )}
-        </>
+        </div>
       )}
     </>
   );
