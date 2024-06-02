@@ -10,7 +10,7 @@
 
 .maps-public-information {
   display: flex;
-
+color: black;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
@@ -49,7 +49,7 @@
 .maps-public-remove-button {
     /* margin: auto; */
     max-width: 200px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
   
     color: var(--color-red);
     border: 1px solid var(--color-red);

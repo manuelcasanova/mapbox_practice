@@ -10,7 +10,7 @@
   /* padding-bottom: 0%; */
   color: var(--color0);
   font-weight: 900;
-
+max-width: 600px;
 }
 
 .create-title {
@@ -157,6 +157,7 @@ p {
 
 
 .create-map-container {
+  max-width: 600px;
   color: var(--color0);
   font-weight: 900;
   display: flex;

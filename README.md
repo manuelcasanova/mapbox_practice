@@ -8,13 +8,21 @@ See all rides (See/Hide map, Show all maps),
 
 Manage my rides(See/Hide map, Show all maps), 
 
-Admin rides/runs, be able to search by ride/run ID as an admin
+
 
 Functionalities
 
-Search users
 My account - modify password, modify picture
 Delete personal message - Just inactivate and show "deleted message"
+
+
+Admin rides/runs, be able to search by ride/run ID as an admin
+Search users (no muted)
+Search maps (by user, by name. no muted)
+
+
+
+
 
 
 

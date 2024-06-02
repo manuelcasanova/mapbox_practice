@@ -227,11 +227,11 @@ const MapsPublic = () => {
                       {!isUserMap ? (
                         <div className='maps-public-createdby'>
 
-                          {`by: ${users.find(user => user.id === map.createdby)?.username || "Unknown User"
-                            } `}
+                          {` (creator: ${users.find(user => user.id === map.createdby)?.username || "Unknown User"
+                            })`}
 
                         </div>) :
-                        <div className='maps-public-createdby'>(by: me)</div>
+                        <div className='maps-public-createdby'>(creator: me)</div>
                       }
 
 
