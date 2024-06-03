@@ -9,7 +9,7 @@ import RidesFilter from './RidesFilter';
 
 import '../styles/RidesPublic.css'
 
-import { faFilter} from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -25,6 +25,8 @@ const RidesPublic = () => {
   const [rides, setRides] = useState([]);
 
   const [showFilter, setShowFilter] = useState(false)
+  const [showMap, setShowMap] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +39,7 @@ const RidesPublic = () => {
   // console.log("auth in RidesPublic", auth)
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
-  
+
   const defaultFilteredRides = {
     dateStart: yesterday.toISOString(),
     dateEnd: "9999-12-31T00:00:00.000Z",
@@ -46,7 +48,7 @@ const RidesPublic = () => {
     speedMin: 0,
     speedMax: 100000
   };
-  
+
   const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
   // const [filteredRides, setFilteredRides] = useState()
 
@@ -55,9 +57,9 @@ const RidesPublic = () => {
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
-    // console.log("filteredRides", filteredRides)
+  // console.log("filteredRides", filteredRides)
   const userId = auth.userId;
-    //  console.log("auth in Rides Public", auth)
+  //  console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
 
 
@@ -71,7 +73,7 @@ const RidesPublic = () => {
     setFilteredRides(filters)
   };
 
-  useEffect( () => {
+  useEffect(() => {
     // console.log("filtered Rides", filteredRides)
     //   console.log("Rides", rides)
     //   console.log("users", users)
@@ -99,12 +101,12 @@ const RidesPublic = () => {
             filteredRides
           }
         });
-        
+
         if (isMounted) {
-          
+
           // Initialize addToMyMaps state with false for each map
           setAddToMyRides(new Array(response.data.length).fill(false));
-        
+
           setRides(response.data);
           setIsLoading(false);
 
@@ -132,7 +134,7 @@ const RidesPublic = () => {
       }
     };
 
-    
+
     fetchData();
 
     return () => {
@@ -174,12 +176,20 @@ const RidesPublic = () => {
     setShowFilter(prev => !prev)
   }
 
+  const handleShowDetails = () => {
+    setShowDetails(prev => !prev)
+  }
+
+  const handleShowMap = () => {
+    setShowMap(prev => !prev)
+  }
+
   const toggleAddToMyRides = (index) => {
-      // console.log("add to my rides before", addToMyRides);
+    // console.log("add to my rides before", addToMyRides);
     setAddToMyRides(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
-        // console.log("add to my rides after", newState); // Log the updated state
+      // console.log("add to my rides after", newState); // Log the updated state
       return newState;
     });
   };
@@ -202,8 +212,8 @@ const RidesPublic = () => {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
     } finally {
-        setIsLoading(false); // Set loading to false regardless of success or failure
-      }
+      setIsLoading(false); // Set loading to false regardless of success or failure
+    }
   };
 
 
@@ -224,9 +234,9 @@ const RidesPublic = () => {
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
-     } finally {
-        setIsLoading(false); // Set loading to false regardless of success or failure
-      }
+    } finally {
+      setIsLoading(false); // Set loading to false regardless of success or failure
+    }
   };
 
   // Function to format the current date as 'yyyy-mm-dd'
@@ -251,25 +261,25 @@ const RidesPublic = () => {
   return (
     <div className='rides-public-container'>
 
-{!showFilter && 
-<button title="Filter" className='rides-public-filter-ride'
-onClick={() => handleShowFilter()}
-> <FontAwesomeIcon icon={faFilter} /></button>}
+      {!showFilter &&
+        <button title="Filter" className='rides-public-filter-ride'
+          onClick={() => handleShowFilter()}
+        > <FontAwesomeIcon icon={faFilter} /></button>}
 
-      {showFilter && 
-   <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
-  }
+      {showFilter &&
+        <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+      }
       {rides.length === 0 ? (
         <div>No rides available.</div>
       ) : (
         <>
           {auth.accessToken !== undefined ? (
-            <div>
+            <div className='rides-public-mapped'>
 
-           
+
 
               {rides.map((ride, index) => {
-                  // console.log("Ride ID:", ride.id);
+                // console.log("Ride ID:", ride.id);
                 // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
                 // console.log("original date", originalDate)
@@ -294,7 +304,7 @@ onClick={() => handleShowFilter()}
                 const isUserInRide = userRides.some(userRide => userRide.user_id === auth.userId && userRide.ride_id === ride.id);
 
 
-  // console.log("isUserRide", isUserRide, "isUserInRide", isUserInRide)
+                // console.log("isUserRide", isUserRide, "isUserInRide", isUserInRide)
 
 
                 const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
@@ -303,28 +313,70 @@ onClick={() => handleShowFilter()}
                 // console.log("is use in ride?", isUserInRide)
                 // Render the JSX elements, including the formatted date
                 return (
-          
 
 
-                  <div key={`${ride.createdat}-${ride.createdby}-${ride.distance}`}>
-                            {/* {console.log("key", ride)} */}
-                    {/* {console.log("ride.id", ride.id)} */}
+
+                  <div
+                    className='rides-public-ride'
+                    key={`${ride.createdat}-${ride.createdby}-${ride.distance}`}>
+
                     <div>Name: {ride.name}</div>
-                    <div>Details: {ride.details}</div>
                     <div>Date: {formattedDate}</div>
-
                     {isPastDate && (
                       <div>This ride has already taken place</div>
                     )}
                     <div>Time: {ride.starting_time}</div>
                     <div>Distance: {ride.distance} km</div>
                     <div>Speed: {ride.speed} km/h</div>
+
+
+
+                    {isUserRide ? (
+                      <div></div>
+                    ) : isUserInRide ? (
+
+
+                      <button className="red-button" onClick={(e) => removeFromRide(e, index, ride.id)}>Remove from my rides</button>
+
+                    ) : (
+                      <div>
+                        <button className='orange-button' onClick={(e) => addToRide(e, index, ride.id, true)}>Join privately</button>
+                        <button className='orange-button' onClick={(e) => addToRide(e, index, ride.id, false)}>Join publicly</button>
+                      </div>
+                    )}
+
+<button className='orange-button' onClick={handleShowMap}>{showMap ? 
+'-' : 
+// '+'
+<FontAwesomeIcon icon={faMapLocation} />
+}</button>
+
+
+<button className='orange-button' onClick={handleShowDetails}>{showDetails ? 
+                    <FontAwesomeIcon icon={faCaretUp} />
+                    : 
+                    // '+'
+                    <FontAwesomeIcon icon={faCaretDown} />
+                    }</button>
+
+{showMap && <>
+                    {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
+                    </>
+}
+
+
+                 
+
+
+
+             
+                    {showDetails && <>
+                    <div>Details: {ride.details}</div>
                     <div>Meeting Point: {ride.meeting_point}</div>
                     <div>Created By: {
                       users.find(user => user.id === ride.createdby)?.username || "Unknown User"
                     }</div>
-
-
+                  
 
                     {userRides.length ?
 
@@ -357,21 +409,8 @@ onClick={() => handleShowFilter()}
 
                     }
 
-                    {isUserRide ? (
-                      <div></div>
-                    ) : isUserInRide ? (
 
-
-                      <button onClick={(e) => removeFromRide(e, index, ride.id)}>Remove from my rides</button>
-
-                    ) : (
-                      <div>
-                        <button onClick={(e) => addToRide(e, index, ride.id, true)}>Join ride privately</button>
-                        <button onClick={(e) => addToRide(e, index, ride.id, false)}>Join ride publicly</button>
-                      </div>
-                    )}
-
-                    {(isUserInRide || isUserRide) && 
+                    {(isUserInRide || isUserRide) &&
 
                       <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
                     }
@@ -388,13 +427,13 @@ onClick={() => handleShowFilter()}
                                   <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                 </div>
                               )}
-                                                            {message.status === 'flagged' && message.createdby !== userId && (
+                              {message.status === 'flagged' && message.createdby !== userId && (
                                 <div>
                                   <div>Message concealed due to inappropiate content.
 
-                                  <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                    <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                   </div>
-                  
+
                                 </div>
                               )}
                               {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
@@ -403,10 +442,11 @@ onClick={() => handleShowFilter()}
                         )
                         )}
                       </div>
-                    )}
 
-                    {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
+                    )}
+</>}
                   </div>
+
                 );
               })}
 

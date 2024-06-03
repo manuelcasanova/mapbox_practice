@@ -18,3 +18,16 @@
   /* background-color: var(--color4); */
   color: var(--color4); 
 }
+
+.rides-public-container {
+  border: 1px solid red;
+padding: 5px;
+}
+
+.rides-public-mapped {
+border: 1px solid green;
+}
+
+.rides-public-ride {
+  border: 1px solid blue;
+}

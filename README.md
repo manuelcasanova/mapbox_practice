@@ -4,6 +4,8 @@
 
 Components css: 
 
+faMapLocation slashed!
+
 See all rides (See/Hide map, Show all maps), 
 
 Manage my rides(See/Hide map, Show all maps), 
@@ -12,7 +14,7 @@ Manage my rides(See/Hide map, Show all maps),
 
 Functionalities
 
-My account - modify password, modify picture
+My account -  modify picture
 Delete personal message - Just inactivate and show "deleted message"
 
 

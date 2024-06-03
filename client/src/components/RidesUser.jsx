@@ -10,7 +10,7 @@ import RidesFilter from './RidesFilter';
 import { faFilter} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
+import '../styles/RidesPublic.css'
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
