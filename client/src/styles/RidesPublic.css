@@ -1,35 +1,44 @@
-
 .rides-public-filter-ride {
 
   display: flex;
-  
   padding: 2px;
   border: none;
   /* border-radius: 5px; */
   font-size: 18px;
   cursor: pointer;
   background-color: white;
-  color: var(--color0); 
+  color: var(--color0);
   max-width: 25px;
   margin-bottom: 10px;
 }
 
 .rides-public-filter-ride:hover {
   /* background-color: var(--color4); */
-  color: var(--color4); 
+  color: var(--color4);
 }
 
 .rides-public-container {
   border: 1px solid red;
-padding: 5px;
+  padding: 5px;
 }
 
+
 .rides-public-mapped {
-border: 1px solid green;
+  border: 1px solid green;
+
 }
 
 .rides-public-ride {
+  margin-top: 10px;
   border: 1px solid blue;
+}
+
+.rides-public-ride div {
+  padding: 2px 0px 2px 0px;
+}
+
+.rides-public-ride-top-buttons {
+margin: 5px 0px 5px 0px;
 }
 
 .cross-map {
@@ -55,37 +64,46 @@ border: 1px solid green;
 
 .map-crossed-out .cross-map {
   background-color: var(--color0);
-  transition: background-color 0.3s; 
+  transition: background-color 0.3s;
 }
 
 .orange-button:hover .map-crossed-out .cross-map {
-  background-color: white; /* Change to white on hover */
+  background-color: white;
+  /* Change to white on hover */
 }
 
 .rides-public-join-buttons {
   display: flex;
-  margin-top: 30px;
+  margin-top: 10px;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: center; */
   border: 1px solid purple;
+  flex-wrap: wrap;
 }
 
 .rides-public-remove-button {
   display: flex;
-  margin-top: 30px;
+  margin-top: 10px;
   flex-direction: row;
-  justify-content: center;
-
+  /* justify-content: center; */
 }
 
 
 .rides-public-joined-information {
   display: flex;
   /* margin-top: 30px; */
-  align-items: center;
+  /* align-items: center; */
   flex-direction: column;
   justify-content: center;
   border: 1px solid purple;
+}
+
+.rides-public-joined-information div {
+margin: 2px 0px 2px 0px;
+}
+
+.rides-public-joined-information div:last-child {
+  font-style: italic;
 }
 
 .rides-public-joined-users-list {
@@ -95,4 +113,8 @@ border: 1px solid green;
 
 .pointer:hover {
   cursor: pointer;
+}
+
+.ride-conversation-container {
+  border: 3px solid green
 }

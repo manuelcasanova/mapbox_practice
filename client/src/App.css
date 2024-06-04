@@ -107,6 +107,10 @@ body.footer-visible .footer {
   color: white;
 }
 
+.small-button {
+  margin: 1px;
+  padding: 3px;
+}
 
 .user-actions .red-button {
   color: red;
