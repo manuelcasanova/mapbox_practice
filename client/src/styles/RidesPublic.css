@@ -31,3 +31,68 @@ border: 1px solid green;
 .rides-public-ride {
   border: 1px solid blue;
 }
+
+.cross-map {
+  position: absolute;
+  width: 250%;
+  height: 3px;
+  background-color: var(--color0);
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
+  left: -60%;
+}
+
+.map-crossed-out {
+  position: relative;
+  display: inline-block;
+}
+
+
+.map-crossed-out .faMapLocation {
+  position: relative;
+  z-index: 1;
+}
+
+.map-crossed-out .cross-map {
+  background-color: var(--color0);
+  transition: background-color 0.3s; 
+}
+
+.orange-button:hover .map-crossed-out .cross-map {
+  background-color: white; /* Change to white on hover */
+}
+
+.rides-public-join-buttons {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: row;
+  justify-content: center;
+  border: 1px solid purple;
+}
+
+.rides-public-remove-button {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: row;
+  justify-content: center;
+
+}
+
+
+.rides-public-joined-information {
+  display: flex;
+  /* margin-top: 30px; */
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid purple;
+}
+
+.rides-public-joined-users-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
