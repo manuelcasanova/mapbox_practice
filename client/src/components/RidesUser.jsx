@@ -7,7 +7,7 @@ import PreviewMap from './PreviewMap';
 import useAuth from "../hooks/useAuth"
 import RidesFilter from './RidesFilter';
 
-import { faFilter} from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../styles/RidesPublic.css'
@@ -25,13 +25,17 @@ const RidesUser = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const [rides, setRides] = useState([]);
   const [showFilter, setShowFilter] = useState(false)
+  const [showMap, setShowMap] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
+  const [showConversation, setShowConversation] = useState(false)
+  const [showUsers, setShowUsers] = useState(false)
   const [userRides, setUserRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
-  
+
   const defaultFilteredRides = {
     dateStart: yesterday.toISOString(),
     dateEnd: "9999-12-31T00:00:00.000Z",
@@ -40,7 +44,7 @@ const RidesUser = () => {
     speedMin: 0,
     speedMax: 100000
   };
-  
+
   const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
   // const [filteredRides, setFilteredRides] = useState()
 
@@ -204,6 +208,14 @@ const RidesUser = () => {
     setShowFilter(prev => !prev)
   }
 
+  const handleShowDetails = () => {
+    setShowDetails(prev => !prev)
+  }
+
+  const handleShowMap = () => {
+    setShowMap(prev => !prev)
+  }
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -216,16 +228,16 @@ const RidesUser = () => {
   return (
     <div className='rides-public-container'>
 
-{!showFilter && 
-<button className='rides-public-filter-ride'
-onClick={() => handleShowFilter()}
-><FontAwesomeIcon icon={faFilter} /></button>}
+      {!showFilter &&
+        <button className='rides-public-filter-ride'
+          onClick={() => handleShowFilter()}
+        ><FontAwesomeIcon icon={faFilter} /></button>}
 
       {auth.accessToken !== undefined ? (
         <div>
-              {showFilter && 
-   <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
-              }
+          {showFilter &&
+            <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+          }
           {rides.length === 0 ? (
             <div>No rides available.</div>
           ) : (
@@ -242,9 +254,41 @@ onClick={() => handleShowFilter()}
 
                 // Render the JSX elements, including the formatted date
                 return (
-                  <div key={`${ride.createdat}-${ride.name}-${ride.distance}`}>
+                  <div
+                    className='rides-public-ride'
+                    key={`${ride.createdat}-${ride.name}-${ride.distance}`}>
+
+
+                    {showDetails && (
+                      <>
+                      <div className='rides-public-ride-top-buttons'>
+                        <button className='orange-button' onClick={handleShowMap}>{showMap ?
+                          <div className='map-crossed-out'>
+                            <FontAwesomeIcon icon={faMapLocation} />
+                            <div className='cross-map'></div>
+                          </div>
+
+                          :
+                          <FontAwesomeIcon icon={faMapLocation} />
+                        }</button>
+
+
+                        <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
+                          <FontAwesomeIcon icon={faCaretUp} />
+                          :
+                          <FontAwesomeIcon icon={faCaretDown} />
+                        }</button>
+                      </div>
+                    
+                    
+            
+                    </>
+                    )}
+
+
+
                     <div>Name: {ride.name}</div>
-                    <div>Details: {ride.details}</div>
+
                     <div>Date: {formattedDate}</div>
                     {isPastDate && (
                       <div>This ride has already taken place</div>
@@ -252,50 +296,89 @@ onClick={() => handleShowFilter()}
                     <div>Time: {ride.starting_time}</div>
                     <div>Distance: {ride.distance} km</div>
                     <div>Speed: {ride.speed} km/h</div>
-                    <div>Meeting Point: {ride.meeting_point}</div>
-                    <div>Created By: {ride.createdby}</div>
-
-                    {userRides.length ?
-                      <div>
-                        <div>{usersInThisRide.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
-                        <div>{usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
-
-                        <div>
-                          {userRides
-                            .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
-                            .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
-                            .map(userRide => {
-                              const user = users.find(user => user.id === userRide.user_id);
-                              return user ? user.username : ""; // Return username if user found, otherwise an empty string
-                            })
-                            .join(', ')
-                          }
 
 
-                        </div>
-                      </div>
-                      :
-                      <div>No users have joined this ride</div>
+                    {!showDetails && (
+                      <div className='rides-public-ride-top-buttons'>
+                        <button className='orange-button' onClick={handleShowMap}>{showMap ?
+                          <div className='map-crossed-out'>
+                            <FontAwesomeIcon icon={faMapLocation} />
+                            <div className='cross-map'></div>
+                          </div>
 
-                    }
+                          :
+                          <FontAwesomeIcon icon={faMapLocation} />
+                        }</button>
 
-                    {/* {console.log(user.id, ride.createdby)} */}
-                    {confirmDelete ? (
+
+                        <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
+                          <FontAwesomeIcon icon={faCaretUp} />
+                          :
+                          <FontAwesomeIcon icon={faCaretDown} />
+                        }</button>
+                      </div>)}
+
+                    {showDetails && <>
+                      <div>Details: {ride.details}</div>
+                      <div>Meeting Point: {ride.meeting_point}</div>
+                      <div>Created By: {ride.createdby}</div>
+                      <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}> {showUsers ? 'Hide users' : 'Show users'}</button>
+                      <button onClick={() => setShowConversation(!showConversation)} className='orange-button small-button'>{showConversation ? 'Hide conversation' : 'Show conversation'}</button>
+
+                      {confirmDelete ? (
                       isRideCreatedByUser ? (
-                        <button onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}>Confirm delete</button>
+                        <button className="red-button small-button" onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}>Confirm delete</button>
                       ) : (
-                        <button onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
+                        <>
+                        <button className="red-button small-button" onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
+                        <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
+                        </>
                       )
                     ) : (
                       isRideCreatedByUser ? (
-                        <button onClick={handleConfirmDelete}>Delete</button>
+                        <button className="red-button small-button" onClick={handleConfirmDelete}>Delete</button>
                       ) : (
-                        <button onClick={handleConfirmDelete}>Remove from my rides</button>
+                        <button className="red-button small-button" onClick={handleConfirmDelete}>Remove from my rides</button>
                       )
                     )}
 
+                      {showUsers && (
+                        userRides.length ?
+                          <div>
+                            <div>{usersInThisRide.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
+                            <div>{usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
+
+                            <div>
+                              {userRides
+                                .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
+                                .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+                                .map(userRide => {
+                                  const user = users.find(user => user.id === userRide.user_id);
+                                  return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                })
+                                .join(', ')
+                              }
 
 
+                            </div>
+                          </div>
+                          :
+                          <div>No users have joined this ride</div>
+
+                      )}
+
+                    </>}
+
+
+
+
+      
+
+
+
+{showConversation && (
+
+<>
                     <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
 
                     {ride.messages && (
@@ -318,11 +401,14 @@ onClick={() => handleShowFilter()}
                         )}
                       </div>
                     )}
+</>
+                  )}
 
+                    {showMap && <>
 
-
-                    {ride.map && ride.map !== null && ride.map !== undefined ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
-
+                      {ride.map && ride.map !== null && ride.map !== undefined ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
+                    </>
+                    }
                   </div>
                 );
               })}

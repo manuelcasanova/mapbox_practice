@@ -323,7 +323,7 @@ const RidesPublic = () => {
 
 
                     {showDetails && (
-                       <div className='rides-public-ride-top-buttons'>
+                      <div className='rides-public-ride-top-buttons'>
                         <button className='orange-button' onClick={handleShowMap}>{showMap ?
                           <div className='map-crossed-out'>
                             <FontAwesomeIcon icon={faMapLocation} />
@@ -412,8 +412,8 @@ const RidesPublic = () => {
 
 
                               <div className='rides-public-joined-users-list'>
-                              {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} of them publicly:
-                          
+                                {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} of them publicly:
+
                                 {userRides
                                   .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
                                   .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
@@ -451,13 +451,14 @@ const RidesPublic = () => {
                                   <div>
                                     {message.status === 'flagged' && message.createdby === userId && (
                                       <div>
-                                        <div>Flagged as inappropiate. Not visible for other users</div>
+                                        {/* <div className='flagged-inappropiate-message'>Flagged as inappropiate. Not visible for other users</div> */}
                                         <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                       </div>
                                     )}
                                     {message.status === 'flagged' && message.createdby !== userId && (
                                       <div>
-                                        <div>Message concealed due to inappropiate content.
+                                        <div className='flagged-inappropiate-message'>
+                                          {/* Message concealed due to inappropiate content. */}
 
                                           <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                         </div>

@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import '../../../styles/RidesMessaging.css'
+
 export default function DeleteRideMessage({ messageId, setMessageDeleted }) {
 
 // console.log("messageId in util func delete ride", messageId)
@@ -30,9 +32,11 @@ const BACKEND = process.env.REACT_APP_API_URL;
   };
 
   return (
-    <>
-      <button onClick={handleDelete}>Delete Message</button>
+    <div className="delete-ride-message-container">
+      <button 
+      className="red-button small-button"
+      onClick={handleDelete}>Delete Message</button>
       {error && <p>{error}</p>}
-    </>
+    </div>
   );
 }

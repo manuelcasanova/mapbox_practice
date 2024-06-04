@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 
+//Styles
+import '../../../styles/RidesMessaging.css'
+
 export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMessageSent }) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
@@ -72,13 +75,17 @@ const handleKeyDown = (e) => {
 };
 
 return (
-  <>
-    <input ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
+  <div className="add-ride-message-container">
+    <textarea 
+    wrap="soft"
+    className="add-ride-message-input"
+    ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
       handleKeyDown} />
     <button 
+    className="orange-button small-button"
     onClick={handleSubmit}
     >Send</button>
      {error && <div>{error}</div>}
-  </>
+  </div>
 );
 }

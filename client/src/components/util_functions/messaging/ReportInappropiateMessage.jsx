@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import useAuth from "../../../hooks/useAuth";
 
+import '../../../styles/RidesMessaging.css'
+
 export default function ReportInappropiateMessage({ messageId, setMessageReported, user }) {
 
 // console.log("messageId in util func delete ride", messageId)
@@ -45,10 +47,12 @@ export default function ReportInappropiateMessage({ messageId, setMessageReporte
   };
 
   return (
-    <>
-      <button onClick={handleInappropiate} disabled={isLoading}>Report</button>
+    <div className="report-innapropiate-message">
+      <button 
+      className="orange-button small-button"
+      onClick={handleInappropiate} disabled={isLoading}>Report</button>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-    </>
+    </div>
   );
 }

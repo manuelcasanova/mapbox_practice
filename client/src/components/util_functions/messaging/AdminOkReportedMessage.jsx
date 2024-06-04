@@ -37,7 +37,7 @@ const BACKEND = process.env.REACT_APP_API_URL;
 
   return (
     <>
-      <button className="green-button" onClick={handleInappropiate}>   <FontAwesomeIcon icon={faCheck} /></button>
+      <button className="green-button small-button" onClick={handleInappropiate}>   <FontAwesomeIcon icon={faCheck} /></button>
       {error && <p>{error}</p>}
     </>
   );

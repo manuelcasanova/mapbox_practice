@@ -38,7 +38,7 @@ export default function FlagInapropiateMessage({ messageId, setMessageFlagged })
 
   return (
     <div>
-      <button className="red-button" onClick={handleInappropiate}><FontAwesomeIcon icon={faBan} /></button>
+      <button className="red-button small-button" onClick={handleInappropiate}><FontAwesomeIcon icon={faBan} /></button>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
     </div>

@@ -6,9 +6,7 @@ Components css:
 
 faMapLocation slashed!
 
-See all rides (See/Hide map, Show all maps), 
-
-Manage my rides(See/Hide map, Show all maps), 
+all rides, manage my rides: show one map, show one detail, remove from my rides change to confirm only on one, etc.
 
 
 

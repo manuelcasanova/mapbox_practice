@@ -18,23 +18,28 @@
 }
 
 .rides-public-container {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   padding: 5px;
 }
 
 
 .rides-public-mapped {
-  border: 1px solid green;
-
+  /* border: 1px solid green; */
 }
 
+
+
+
+
+
 .rides-public-ride {
-  margin-top: 10px;
-  border: 1px solid blue;
+  margin: 20px 0px;
+  border-bottom: 1px dotted var(--color0);
+  /* border: 1px solid blue; */
 }
 
 .rides-public-ride div {
-  padding: 2px 0px 2px 0px;
+  /* padding: 2px 0px 2px 0px; */
 }
 
 .rides-public-ride-top-buttons {
@@ -77,7 +82,7 @@ margin: 5px 0px 5px 0px;
   margin-top: 10px;
   flex-direction: row;
   /* justify-content: center; */
-  border: 1px solid purple;
+  /* border: 1px solid purple; */
   flex-wrap: wrap;
 }
 
@@ -95,7 +100,7 @@ margin: 5px 0px 5px 0px;
   /* align-items: center; */
   flex-direction: column;
   justify-content: center;
-  border: 1px solid purple;
+  /* border: 1px solid purple; */
 }
 
 .rides-public-joined-information div {
@@ -116,5 +121,24 @@ margin: 2px 0px 2px 0px;
 }
 
 .ride-conversation-container {
-  border: 3px solid green
+  /* border: 3px solid green */
+  background-color: var(--color1);
+  border-radius: 5px;
+  
+}
+
+@media (min-width:500px) {
+  .ride-conversation-container{
+
+  }
+}
+
+@media (min-width:900px) {
+  .ride-conversation-container{
+
+  }
+}
+
+.flagged-inappropiate-message {
+  /* background-color: red; */
 }
