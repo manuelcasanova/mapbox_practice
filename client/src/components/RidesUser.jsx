@@ -327,7 +327,10 @@ const RidesUser = () => {
 
                       {confirmDelete ? (
                       isRideCreatedByUser ? (
+                        <>
                         <button className="red-button small-button" onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}>Confirm delete</button>
+                        <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
+                        </>
                       ) : (
                         <>
                         <button className="red-button small-button" onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
