@@ -321,7 +321,7 @@ const RidesPublic = () => {
                   // Render the JSX elements, including the formatted date
                   return (
 
-
+<>
 
                     <div
                       className='rides-public-ride'
@@ -330,7 +330,9 @@ const RidesPublic = () => {
 
                       {showDetails && (
                         <div className='rides-public-ride-top-buttons'>
-                          <button className='orange-button' onClick={handleShowMap}>{showMap ?
+
+
+<button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>{showMap ?
                             <div className='map-crossed-out'>
                               <FontAwesomeIcon icon={faMapLocation} />
                               <div className='cross-map'></div>
@@ -341,11 +343,13 @@ const RidesPublic = () => {
                           }</button>
 
 
-                          <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
-                            <FontAwesomeIcon icon={faCaretUp} />
-                            :
-                            <FontAwesomeIcon icon={faCaretDown} />
-                          }</button>
+                          <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
+                            <FontAwesomeIcon icon={faCaretUp} /> :
+                            <FontAwesomeIcon icon={faCaretDown} />}</button>
+
+
+
+
                         </div>)}
 
 
@@ -363,7 +367,8 @@ const RidesPublic = () => {
 
                       {!showDetails && (
                         <div className='rides-public-ride-top-buttons'>
-                          <button className='orange-button' onClick={handleShowMap}>{showMap ?
+
+                          <button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>{showMap ?
                             <div className='map-crossed-out'>
                               <FontAwesomeIcon icon={faMapLocation} />
                               <div className='cross-map'></div>
@@ -374,17 +379,23 @@ const RidesPublic = () => {
                           }</button>
 
 
-                          <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
-                            <FontAwesomeIcon icon={faCaretUp} />
-                            :
-                            <FontAwesomeIcon icon={faCaretDown} />
-                          }</button>
+
+
+
+
+
+
+
+
+                          <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
+                            <FontAwesomeIcon icon={faCaretUp} /> :
+                            <FontAwesomeIcon icon={faCaretDown} />}</button>
                         </div>)}
 
 
 
 
-                      {showDetails && <>
+                      {showDetails === ride.id && <>
                         <div>Details: {ride.details}</div>
                         <div>Meeting Point: {ride.meeting_point}</div>
                         <div>Created By: {
@@ -491,13 +502,13 @@ const RidesPublic = () => {
 
 
 
-                      {showMap && <>
+                      {showMap === ride.id && <>
                         {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
                       </>
                       }
 
                     </div>
-
+</>
                   );
                 })}
 
@@ -507,9 +518,12 @@ const RidesPublic = () => {
               <p>Please log in to see rides.</p>
             )}
           </>
+
         )}
+
       </div>
     </>
+
   );
 };
 
