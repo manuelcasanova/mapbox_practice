@@ -280,7 +280,7 @@ const RunsPublic = () => {
                 const usersInThisRun = userRuns.filter(userRun => userRun.run_id === run.id);
 
 
-                // console.log("is use in run?", isUserInRide)
+                // console.log("is use in run?", isUserInRun)
                 // Render the JSX elements, including the formatted date
                 return (
 
@@ -332,95 +332,125 @@ const RunsPublic = () => {
 
 
 
-                      {userRuns.length ?
+                      {showUsers === run.id && (
 
-                        <div>
-                          <div>{usersInThisRun.length} joined this run, {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} publicly</div>
+                        userRuns.length ?
 
-                          {!showUsers && <div onClick={() => setShowUsers(!showUsers)}>+</div>}
-
-                          {showUsers && <div onClick={() => setShowUsers(!showUsers)}>-</div>}
-
-                          {showUsers &&
-                            <div>
-                              {userRuns
-                                .filter(userRun => !userRun.isprivate) // Filter out runs where isPrivate is false
-                                .filter(userRun => userRun.run_id === run.id) // Filter userRuns for the specific run
-                                .map(userRun => {
-                                  const user = users.find(user => user.id === userRun.user_id);
-                                  return user ? user.username : ""; // Return username if user found, otherwise an empty string
-                                })
-                                .join(', ')
-                              }
-                            </div>
-                          }
-                        </div>
-                        :
-                        <div>No users have joined this run</div>
-
-                      }
+                          <>
+                            <div className='rides-public-joined-information'>
+                              <div>{usersInThisRun.length} joined this run</div>
 
 
-
-                      {isUserRun ? (
-                        <div></div>
-                      ) : isUserInRun ? (
-
-
-                        <button onClick={(e) => removeFromRun(e, index, run.id)}>Remove from my runs</button>
-
-                      ) : (
-                        <div>
-                          <button onClick={(e) => addToRun(e, index, run.id, true)}>Join run privately</button>
-                          <button onClick={(e) => addToRun(e, index, run.id, false)}>Join run publicly</button>
-                        </div>
-                      )}
-
-
-
-                      {/* {console.log("run messages", run.messages)} */}
-
-                      {(isUserInRun || isUserRun) &&
-
-                        <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
-                      }
-                      {run.messages && (isUserInRun || isUserRun) && (
-                        <div>
-                          {run.messages.map(message => (
-
-
-                            message.status !== 'deleted' && (
-                              <div>
-                                {message.status === 'flagged' && message.createdby === userId && (
-                                  <div>
-                                    <div>Flagged as inappropiate. Not visible for other users</div>
-                                    <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                  </div>
-                                )}
-                                {message.status === 'flagged' && message.createdby !== userId && (
-                                  <div>
-                                    <div>Message concealed due to inappropiate content.
-
-                                      <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                    </div>
-
-                                  </div>
-                                )}
-                                {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                              <div className='rides-public-joined-users-list'>
+                                {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} of them publicly:
+                                <span> </span>
+                                {userRuns
+                                  .filter(userRun => !userRun.isprivate) // Filter out rides where isPrivate is false
+                                  .filter(userRun => userRun.run_id === run.id) // Filter userRides for the specific ride
+                                  .map(userRun => {
+                                    const user = users.find(user => user.id === userRun.user_id);
+                                    return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                  })
+                                  .join(', ')
+                                }
                               </div>
-                            )
-                          )
+                            </div>
+                          </>
+                          :
+                          <div>No users have joined this run</div>
+                      )
+                      }
+
+                      
+
+
+
+{isUserRun ? (
+                              <div></div>
+                            ) : isUserInRun ? (
+
+
+                              <div className='rides-public-remove-button'>
+                                <button className="red-button small-button" onClick={(e) => removeFromRun(e, index, run.id)}>Remove from my runs</button>
+
+                                {/* <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>{showUsers === run.id ? 'Hide users' : 'Show users'}</button> */}
+                                <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
+                                  {showUsers && showUsers === run.id ? (
+                                    'Hide users'
+                                  ) : (
+                                    'Show users'
+                                  )}
+                                </button>
+
+
+
+                                <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
+                              </div>
+
+                            ) : (
+                              <div className='rides-public-join-buttons'>
+                                <button className='orange-button small-button' onClick={(e) => addToRun(e, index, run.id, true)}>Join privately</button>
+                                <button className='orange-button small-button' onClick={(e) => addToRun(e, index, run.id, false)}>Join publicly</button>
+                                {/* <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}>{showUsers ? 'Hide users' : 'Show users'}</button> */}
+                                <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
+                                  {showUsers && showUsers === run.id ? (
+                                    'Hide users'
+                                  ) : (
+                                    'Show users'
+                                  )}
+                                </button>
+
+                              </div>
+                            )}
+
+
+                      {showConversation === run.id && (
+                        <div className='ride-conversation-container'>
+
+                          {(isUserInRun || isUserRun) &&
+
+                            <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
+                          }
+                          {run.messages && (isUserInRun || isUserRun) && (
+                            <div>
+                              {run.messages.map(message => (
+
+
+                                message.status !== 'deleted' && (
+                                  <div>
+                                    {message.status === 'flagged' && message.createdby === userId && (
+                                      <div>
+                                        <div>Flagged as inappropiate. Not visible for other users</div>
+                                        <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                      </div>
+                                    )}
+                                    {message.status === 'flagged' && message.createdby !== userId && (
+                                      <div>
+                                        <div>Message concealed due to inappropiate content.
+
+                                          <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                        </div>
+
+                                      </div>
+                                    )}
+                                    {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                                  </div>
+                                )
+                              )
+                              )}
+                            </div>
                           )}
-                        </div>
-                      )}
+
+                        </div>)
+                      }
 
                     </>}
 
                     {showMap === run.id && <>
-                    {run.map && run.map !== null ? <PreviewMap mapId={run.map} /> : <div>This run has no map. The map might have been deleted by the owner.</div>}
+                      {run.map && run.map !== null ? <PreviewMap mapId={run.map} /> : <div>This run has no map. The map might have been deleted by the owner.</div>}
 
- </>
-                        }
+                    </>
+                    }
 
                   </div>
                 );
