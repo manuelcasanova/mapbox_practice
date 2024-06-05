@@ -101,7 +101,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
   return (
     <div className='filter-container'>
             <button
-      className='filter-button-close hide-big'
+      className='red-button hide-big'
       onClick={() => handleShowFilter()}>x</button>
        <div className='filter-range'>
        <label className='filter-label'>Dates:</label>
@@ -160,9 +160,9 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
       </div>
       <div className='filter-range'>
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
-      <button title="Clear filter" className='filter-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
+      <button title="Clear filter" className='orange-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
       <button
-      className='filter-button-close hide-small'
+      className='red-button hide-small'
       onClick={() => handleShowFilter()}>x</button>
     </div>
     </div>
