@@ -19,12 +19,20 @@
 
 .rides-public-container {
   /* border: 1px solid red; */
+  width: 100%;
   padding: 5px;
+
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 
 .rides-public-mapped {
   /* border: 1px solid green; */
+
 }
 
 
@@ -33,13 +41,17 @@
 
 
 .rides-public-ride {
-  margin: 20px 0px;
+  /* margin: 20px 0px; */
   border-bottom: 1px dotted var(--color0);
   /* border: 1px solid blue; */
+
 }
 
 .rides-public-ride div {
   /* padding: 2px 0px 2px 0px; */
+ 
+    
+
 }
 
 .rides-public-ride-top-buttons {
