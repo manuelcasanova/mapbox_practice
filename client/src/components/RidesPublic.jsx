@@ -305,46 +305,24 @@ const RidesPublic = () => {
                         key={`${ride.createdat}-${ride.createdby}-${ride.distance}`}>
 
 
-                        {/* {showDetails && (
-                          <div className='rides-public-ride-top-buttons'>
+                        <div className='rides-public-ride-top-buttons'>
 
+                          <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
+                            <FontAwesomeIcon icon={faCaretUp} /> :
+                            <FontAwesomeIcon icon={faCaretDown} />}</button>
 
-                            <button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>{showMap ?
+                          <button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>
+                            {showMap && showMap === ride.id ? (
                               <div className='map-crossed-out'>
                                 <FontAwesomeIcon icon={faMapLocation} />
                                 <div className='cross-map'></div>
                               </div>
-
-                              :
+                            ) : (
                               <FontAwesomeIcon icon={faMapLocation} />
-                            }</button>
+                            )}
+                          </button>
 
-
-                            <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
-                              <FontAwesomeIcon icon={faCaretUp} /> :
-                              <FontAwesomeIcon icon={faCaretDown} />}</button>
-
-
-
-                          </div>
-                        )} */}
-<div className='rides-public-ride-top-buttons'>
-
-                        <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
-                          <FontAwesomeIcon icon={faCaretUp} /> :
-                          <FontAwesomeIcon icon={faCaretDown} />}</button>
-
-<button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>{showMap ?
-                              <div className='map-crossed-out'>
-                                <FontAwesomeIcon icon={faMapLocation} />
-                                <div className='cross-map'></div>
-                              </div>
-
-                              :
-                              <FontAwesomeIcon icon={faMapLocation} />
-                            }</button>
-
-</div>
+                        </div>
                         <div className="rides-public-ride-name">Name: {ride.name}</div>
                         <div>Date: {formattedDate}</div>
                         {isPastDate && (
@@ -359,7 +337,7 @@ const RidesPublic = () => {
                         {!showDetails && (
                           <div className='rides-public-ride-top-buttons'>
 
-                          
+
 
 
                             {/* <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
@@ -387,7 +365,18 @@ const RidesPublic = () => {
 
                             <div className='rides-public-remove-button'>
                               <button className="red-button small-button" onClick={(e) => removeFromRide(e, index, ride.id)}>Remove from my rides</button>
-                              <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>{showUsers === ride.id ? 'Hide users' : 'Show users'}</button>
+                              
+                              {/* <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>{showUsers === ride.id ? 'Hide users' : 'Show users'}</button> */}
+                              <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
+  {showUsers && showUsers === ride.id ? (
+    'Hide users'
+  ) : (
+    'Show users'
+  )}
+</button>
+
+                              
+                              
                               <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
                             </div>
 
@@ -395,7 +384,15 @@ const RidesPublic = () => {
                             <div className='rides-public-join-buttons'>
                               <button className='orange-button small-button' onClick={(e) => addToRide(e, index, ride.id, true)}>Join privately</button>
                               <button className='orange-button small-button' onClick={(e) => addToRide(e, index, ride.id, false)}>Join publicly</button>
-                              <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}>{showUsers ? 'Hide users' : 'Show users'}</button>
+                              {/* <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}>{showUsers ? 'Hide users' : 'Show users'}</button> */}
+                              <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
+  {showUsers && showUsers === ride.id ? (
+    'Hide users'
+  ) : (
+    'Show users'
+  )}
+</button>
+
                             </div>
                           )}
 
