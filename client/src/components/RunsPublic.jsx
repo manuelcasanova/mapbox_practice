@@ -8,7 +8,7 @@ import useAuth from "../hooks/useAuth"
 import RunsFilter from './RunsFilter';
 
 
-import { faFilter} from "@fortawesome/free-solid-svg-icons";
+import { faSliders} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -236,7 +236,7 @@ const RunsPublic = () => {
 {!showFilter && 
 <button title="Filter" className='rides-public-filter-ride'
 onClick={() => handleShowFilter()}
-> <FontAwesomeIcon icon={faFilter} /></button>}
+> <FontAwesomeIcon icon={faSliders} /></button>}
 {showFilter && 
    <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
   }

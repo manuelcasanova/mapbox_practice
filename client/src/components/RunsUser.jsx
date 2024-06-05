@@ -7,7 +7,7 @@ import PreviewMap from './PreviewMap';
 import useAuth from "../hooks/useAuth"
 import RunsFilter from './RunsFilter'
 
-import { faFilter} from "@fortawesome/free-solid-svg-icons";
+import { faSliders} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../styles/RidesPublic.css'
@@ -212,7 +212,7 @@ const RunsUser = () => {
 {!showFilter && 
 <button className='rides-public-filter-ride'
 onClick={() => handleShowFilter()}
-><FontAwesomeIcon icon={faFilter} /></button>}
+><FontAwesomeIcon icon={faSliders} /></button>}
 
       {auth.accessToken !== undefined ? (
         <div>

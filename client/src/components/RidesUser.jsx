@@ -7,7 +7,7 @@ import PreviewMap from './PreviewMap';
 import useAuth from "../hooks/useAuth"
 import RidesFilter from './RidesFilter';
 
-import { faFilter, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { faSliders, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import '../styles/RidesPublic.css'
@@ -231,7 +231,7 @@ const RidesUser = () => {
       {!showFilter &&
         <button className='rides-public-filter-ride'
           onClick={() => handleShowFilter()}
-        ><FontAwesomeIcon icon={faFilter} /></button>}
+        ><FontAwesomeIcon icon={faSliders} /></button>}
 
       {auth.accessToken !== undefined ? (
         <div>
