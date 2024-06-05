@@ -178,13 +178,13 @@ const RidesPublic = () => {
     setShowFilter(prev => !prev)
   }
 
-  const handleShowDetails = (rideId) => {
-    setShowDetails(prev => prev === rideId ? null : rideId);
-  };
-  
-  const handleShowMap = (rideId) => {
-    setShowMap(prev => prev === rideId ? null : rideId);
-  };
+  const handleShowDetails = () => {
+    setShowDetails(prev => !prev)
+  }
+
+  const handleShowMap = () => {
+    setShowMap(prev => !prev)
+  }
 
   const toggleAddToMyRides = (index) => {
     // console.log("add to my rides before", addToMyRides);
@@ -330,25 +330,22 @@ const RidesPublic = () => {
 
                       {showDetails && (
                         <div className='rides-public-ride-top-buttons'>
-  <button className='orange-button' onClick={() => handleShowMap(ride.id)}>
-  {showMap === ride.id ?
-    <div className='map-crossed-out'>
-      <FontAwesomeIcon icon={faMapLocation} />
-      <div className='cross-map'></div>
-    </div>
-    :
-    <FontAwesomeIcon icon={faMapLocation} />
-  }
-</button>
+                          <button className='orange-button' onClick={handleShowMap}>{showMap ?
+                            <div className='map-crossed-out'>
+                              <FontAwesomeIcon icon={faMapLocation} />
+                              <div className='cross-map'></div>
+                            </div>
+
+                            :
+                            <FontAwesomeIcon icon={faMapLocation} />
+                          }</button>
 
 
-<button className='orange-button' onClick={() => handleShowDetails(ride.id)}>
-  {showDetails === ride.id ?
-    <FontAwesomeIcon icon={faCaretUp} />
-    :
-    <FontAwesomeIcon icon={faCaretDown} />
-  }
-</button>
+                          <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
+                            <FontAwesomeIcon icon={faCaretUp} />
+                            :
+                            <FontAwesomeIcon icon={faCaretDown} />
+                          }</button>
                         </div>)}
 
 
@@ -366,25 +363,22 @@ const RidesPublic = () => {
 
                       {!showDetails && (
                         <div className='rides-public-ride-top-buttons'>
-  <button className='orange-button' onClick={() => handleShowMap(ride.id)}>
-  {showMap === ride.id ?
-    <div className='map-crossed-out'>
-      <FontAwesomeIcon icon={faMapLocation} />
-      <div className='cross-map'></div>
-    </div>
-    :
-    <FontAwesomeIcon icon={faMapLocation} />
-  }
-</button>
+                          <button className='orange-button' onClick={handleShowMap}>{showMap ?
+                            <div className='map-crossed-out'>
+                              <FontAwesomeIcon icon={faMapLocation} />
+                              <div className='cross-map'></div>
+                            </div>
+
+                            :
+                            <FontAwesomeIcon icon={faMapLocation} />
+                          }</button>
 
 
-<button className='orange-button' onClick={() => handleShowDetails(ride.id)}>
-  {showDetails === ride.id ?
-    <FontAwesomeIcon icon={faCaretUp} />
-    :
-    <FontAwesomeIcon icon={faCaretDown} />
-  }
-</button>
+                          <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
+                            <FontAwesomeIcon icon={faCaretUp} />
+                            :
+                            <FontAwesomeIcon icon={faCaretDown} />
+                          }</button>
                         </div>)}
 
 
