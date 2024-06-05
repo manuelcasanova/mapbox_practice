@@ -7,8 +7,9 @@ import useAuth from "../hooks/useAuth"
 
 import RunsFilter from './RunsFilter';
 
+import '../styles/RidesPublic.css'
 
-import { faSliders} from "@fortawesome/free-solid-svg-icons";
+import { faSliders, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -24,13 +25,16 @@ const RunsPublic = () => {
   const [runs, setRuns] = useState([]);
 
   const [showFilter, setShowFilter] = useState(false)
-
+  const [showMap, setShowMap] = useState(null)
+  const [showDetails, setShowDetails] = useState(null)
+  const [showConversation, setShowConversation] = useState(null)
+  const [showUsers, setShowUsers] = useState(null)
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRuns, setAddToMyRuns] = useState([])
   const [userRuns, setUserRuns] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
-  const [showUsers, setShowUsers] = useState(false)
+
   const { auth } = useAuth();
   const [filteredRuns, setFilteredRuns] = useState();
 
@@ -41,7 +45,7 @@ const RunsPublic = () => {
 
   //  console.log("filteredRuns", filteredRuns)
   const userId = auth.userId;
-    // console.log("auth in Rides Public", auth)
+  // console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
 
 
@@ -54,7 +58,7 @@ const RunsPublic = () => {
     setFilteredRuns(filters)
   };
 
-  useEffect( () => {
+  useEffect(() => {
     // console.log("filtered Runs", filteredRuns)
     //   console.log("Runs", runs)
     //   console.log("users", users)
@@ -82,12 +86,12 @@ const RunsPublic = () => {
             filteredRuns
           }
         });
-        
+
         if (isMounted) {
-          
+
           // Initialize addToMyMaps state with false for each map
           setAddToMyRuns(new Array(response.data.length).fill(false));
-        
+
           setRuns(response.data);
           setIsLoading(false);
 
@@ -115,7 +119,7 @@ const RunsPublic = () => {
       }
     };
 
-    
+
     fetchData();
 
     return () => {
@@ -158,11 +162,11 @@ const RunsPublic = () => {
   }
 
   const toggleAddToMyRuns = (index) => {
-      // console.log("add to my runs before", addToMyRuns);
+    // console.log("add to my runs before", addToMyRuns);
     setAddToMyRuns(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
-        // console.log("add to my runs after", newState); // Log the updated state
+      // console.log("add to my runs after", newState); // Log the updated state
       return newState;
     });
   };
@@ -185,8 +189,8 @@ const RunsPublic = () => {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
     } finally {
-        setIsLoading(false); // Set loading to false regardless of success or failure
-      }
+      setIsLoading(false); // Set loading to false regardless of success or failure
+    }
   };
 
 
@@ -207,9 +211,9 @@ const RunsPublic = () => {
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
-     } finally {
-        setIsLoading(false); // Set loading to false regardless of success or failure
-      }
+    } finally {
+      setIsLoading(false); // Set loading to false regardless of success or failure
+    }
   };
 
   // Function to format the current date as 'yyyy-mm-dd'
@@ -233,24 +237,22 @@ const RunsPublic = () => {
 
   return (
     <>
-{!showFilter && 
-<button title="Filter" className='rides-public-filter-ride'
-onClick={() => handleShowFilter()}
-> <FontAwesomeIcon icon={faSliders} /></button>}
-{showFilter && 
-   <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
-  }
+      {!showFilter &&
+        <button title="Filter" className='rides-public-filter-ride'
+          onClick={() => handleShowFilter()}
+        > <FontAwesomeIcon icon={faSliders} /></button>}
+      {showFilter &&
+        <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+      }
       {runs.length === 0 ? (
         <div>No runs available.</div>
       ) : (
         <>
           {auth.accessToken !== undefined ? (
-            <div>
-
-           
+            <div className='rides-public-mapped'>
 
               {runs.map((run, index) => {
-                  // console.log("Ride ID:", run.id);
+                // console.log("Ride ID:", run.id);
                 // Extract the date formatting logic here
                 const originalDate = run.starting_date;
                 // console.log("original date", originalDate)
@@ -270,8 +272,8 @@ onClick={() => handleShowFilter()}
 
                 // Determine if the logged-in user is already in this run
 
-// console.log("userRuns", userRuns)
-// console.log("run,", run)
+                // console.log("userRuns", userRuns)
+                // console.log("run,", run)
                 // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInRun = userRuns.some(userRun => userRun.user_id === auth.userId && userRun.run_id === run.id);
 
@@ -281,108 +283,145 @@ onClick={() => handleShowFilter()}
                 // console.log("is use in run?", isUserInRide)
                 // Render the JSX elements, including the formatted date
                 return (
-          
 
 
-                  <div key={`${run.createdat}-${run.createdby}-${run.distance}`}>
-                            {/* {console.log("key", run)} */}
+
+                  <div
+                    className='rides-public-ride'
+                    key={`${run.createdat}-${run.createdby}-${run.distance}`}>
+                    {/* {console.log("key", run)} */}
                     {/* {console.log("run.id", run.id)} */}
-                    <div>Name: {run.name}</div>
-                    <div>Details: {run.details}</div>
-                    <div>Date: {formattedDate}</div>
 
+
+                    <div className='rides-public-ride-top-buttons'>
+
+                      <button className='orange-button' onClick={() => setShowDetails(prev => prev === run.id ? null : run.id)}>{showDetails === run.id ?
+                        <FontAwesomeIcon icon={faCaretUp} /> :
+                        <FontAwesomeIcon icon={faCaretDown} />}</button>
+
+                      <button className='orange-button' onClick={() => setShowMap(prev => prev === run.id ? null : run.id)}>
+                        {showMap && showMap === run.id ? (
+                          <div className='map-crossed-out'>
+                            <FontAwesomeIcon icon={faMapLocation} />
+                            <div className='cross-map'></div>
+                          </div>
+                        ) : (
+                          <FontAwesomeIcon icon={faMapLocation} />
+                        )}
+                      </button>
+
+                    </div>
+
+
+                    <div className="rides-public-ride-name">Name: {run.name}</div>
+                    <div>Date: {formattedDate}</div>
                     {isPastDate && (
                       <div>This run has already taken place</div>
                     )}
                     <div>Time: {run.starting_time}</div>
                     <div>Distance: {run.distance} km</div>
                     <div>Pace: {run.pace} min/km</div>
-                    <div>Meeting Point: {run.meeting_point}</div>
-                    <div>Created By: {
-                      users.find(user => user.id === run.createdby)?.username || "Unknown User"
-                    }</div>
+
+
+                    {showDetails === run.id && <>
+                      <div>Details: {run.details}</div>
+                      <div>Meeting Point: {run.meeting_point}</div>
+                      <div>Created By: {
+                        users.find(user => user.id === run.createdby)?.username || "Unknown User"
+                      }</div>
 
 
 
-                    {userRuns.length ?
+                      {userRuns.length ?
 
-                      <div>
-                        <div>{usersInThisRun.length} joined this run, {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} publicly</div>
+                        <div>
+                          <div>{usersInThisRun.length} joined this run, {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} publicly</div>
 
-                        {!showUsers && <div onClick={() => setShowUsers(!showUsers)}>+</div>}
+                          {!showUsers && <div onClick={() => setShowUsers(!showUsers)}>+</div>}
 
-                        {showUsers && <div onClick={() => setShowUsers(!showUsers)}>-</div>}
+                          {showUsers && <div onClick={() => setShowUsers(!showUsers)}>-</div>}
 
-                        {showUsers &&
-                          <div>
-                            {userRuns
-                              .filter(userRun => !userRun.isprivate) // Filter out runs where isPrivate is false
-                              .filter(userRun => userRun.run_id === run.id) // Filter userRuns for the specific run
-                              .map(userRun => {
-                                const user = users.find(user => user.id === userRun.user_id);
-                                return user ? user.username : ""; // Return username if user found, otherwise an empty string
-                              })
-                              .join(', ')
-                            }
-                          </div>
-                        }
-                      </div>
-                      :
-                      <div>No users have joined this run</div>
-
-                    }
-
-                    {isUserRun ? (
-                      <div></div>
-                    ) : isUserInRun ? (
-
-
-                      <button onClick={(e) => removeFromRun(e, index, run.id)}>Remove from my runs</button>
-
-                    ) : (
-                      <div>
-                        <button onClick={(e) => addToRun(e, index, run.id, true)}>Join run privately</button>
-                        <button onClick={(e) => addToRun(e, index, run.id, false)}>Join run publicly</button>
-                      </div>
-                    )}
-
-                    {/* {console.log("run messages", run.messages)} */}
-
-                    {(isUserInRun || isUserRun) &&
-
-                      <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
-                    }
-                    {run.messages && (isUserInRun || isUserRun) && (
-                      <div>
-                        {run.messages.map(message => (
-
-
-                          message.status !== 'deleted' && (
+                          {showUsers &&
                             <div>
-                              {message.status === 'flagged' && message.createdby === userId && (
-                                <div>
-                                  <div>Flagged as inappropiate. Not visible for other users</div>
-                                  <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                </div>
-                              )}
-                                                            {message.status === 'flagged' && message.createdby !== userId && (
-                                <div>
-                                  <div>Message concealed due to inappropiate content.
-
-                                  <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                  </div>
-                  
-                                </div>
-                              )}
-                              {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                              {userRuns
+                                .filter(userRun => !userRun.isprivate) // Filter out runs where isPrivate is false
+                                .filter(userRun => userRun.run_id === run.id) // Filter userRuns for the specific run
+                                .map(userRun => {
+                                  const user = users.find(user => user.id === userRun.user_id);
+                                  return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                })
+                                .join(', ')
+                              }
                             </div>
-                          )
-                        )
-                        )}
-                      </div>
-                    )}
+                          }
+                        </div>
+                        :
+                        <div>No users have joined this run</div>
 
+                      }
+
+
+
+                      {isUserRun ? (
+                        <div></div>
+                      ) : isUserInRun ? (
+
+
+                        <button onClick={(e) => removeFromRun(e, index, run.id)}>Remove from my runs</button>
+
+                      ) : (
+                        <div>
+                          <button onClick={(e) => addToRun(e, index, run.id, true)}>Join run privately</button>
+                          <button onClick={(e) => addToRun(e, index, run.id, false)}>Join run publicly</button>
+                        </div>
+                      )}
+
+
+
+                      {/* {console.log("run messages", run.messages)} */}
+
+                      {(isUserInRun || isUserRun) &&
+
+                        <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
+                      }
+                      {run.messages && (isUserInRun || isUserRun) && (
+                        <div>
+                          {run.messages.map(message => (
+
+
+                            message.status !== 'deleted' && (
+                              <div>
+                                {message.status === 'flagged' && message.createdby === userId && (
+                                  <div>
+                                    <div>Flagged as inappropiate. Not visible for other users</div>
+                                    <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                  </div>
+                                )}
+                                {message.status === 'flagged' && message.createdby !== userId && (
+                                  <div>
+                                    <div>Message concealed due to inappropiate content.
+
+                                      <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                    </div>
+
+                                  </div>
+                                )}
+                                {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                              </div>
+                            )
+                          )
+                          )}
+                        </div>
+                      )}
+
+                    </>}
+
+                    {showMap === run.id && <>
                     {run.map && run.map !== null ? <PreviewMap mapId={run.map} /> : <div>This run has no map. The map might have been deleted by the owner.</div>}
+
+ </>
+                        }
+
                   </div>
                 );
               })}

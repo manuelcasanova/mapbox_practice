@@ -30,8 +30,6 @@ const RidesPublic = () => {
   const [showConversation, setShowConversation] = useState(null)
   const [showUsers, setShowUsers] = useState(null)
   const [showModal, setShowModal] = useState(null)
-
-
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRides, setAddToMyRides] = useState([])
@@ -351,129 +349,130 @@ const RidesPublic = () => {
 
 
 
-                        {showDetails === ride.id && <>
-                          <div>Details: {ride.details}</div>
-                          <div>Meeting Point: {ride.meeting_point}</div>
-                          <div>Created By: {
-                            users.find(user => user.id === ride.createdby)?.username || "Unknown User"
-                          }</div>
+                        {showDetails === ride.id &&
+                          <>
+                            <div>Details: {ride.details}</div>
+                            <div>Meeting Point: {ride.meeting_point}</div>
+                            <div>Created By: {
+                              users.find(user => user.id === ride.createdby)?.username || "Unknown User"
+                            }</div>
 
-                          {isUserRide ? (
-                            <div></div>
-                          ) : isUserInRide ? (
-
-
-                            <div className='rides-public-remove-button'>
-                              <button className="red-button small-button" onClick={(e) => removeFromRide(e, index, ride.id)}>Remove from my rides</button>
-                              
-                              {/* <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>{showUsers === ride.id ? 'Hide users' : 'Show users'}</button> */}
-                              <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
-  {showUsers && showUsers === ride.id ? (
-    'Hide users'
-  ) : (
-    'Show users'
-  )}
-</button>
-
-                              
-                              
-                              <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
-                            </div>
-
-                          ) : (
-                            <div className='rides-public-join-buttons'>
-                              <button className='orange-button small-button' onClick={(e) => addToRide(e, index, ride.id, true)}>Join privately</button>
-                              <button className='orange-button small-button' onClick={(e) => addToRide(e, index, ride.id, false)}>Join publicly</button>
-                              {/* <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}>{showUsers ? 'Hide users' : 'Show users'}</button> */}
-                              <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
-  {showUsers && showUsers === ride.id ? (
-    'Hide users'
-  ) : (
-    'Show users'
-  )}
-</button>
-
-                            </div>
-                          )}
-
-                          {showUsers === ride.id && (
-
-                            userRides.length ?
-
-                              <>
-                                <div className='rides-public-joined-information'>
-                                  <div>{usersInThisRide.length} joined this ride</div>
+                            {isUserRide ? (
+                              <div></div>
+                            ) : isUserInRide ? (
 
 
-                                  <div className='rides-public-joined-users-list'>
-                                    {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} of them publicly:
-                                    <span> </span>
-                                    {userRides
-                                      .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
-                                      .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
-                                      .map(userRide => {
-                                        const user = users.find(user => user.id === userRide.user_id);
-                                        return user ? user.username : ""; // Return username if user found, otherwise an empty string
-                                      })
-                                      .join(', ')
-                                    }
+                              <div className='rides-public-remove-button'>
+                                <button className="red-button small-button" onClick={(e) => removeFromRide(e, index, ride.id)}>Remove from my rides</button>
+
+                                {/* <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>{showUsers === ride.id ? 'Hide users' : 'Show users'}</button> */}
+                                <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
+                                  {showUsers && showUsers === ride.id ? (
+                                    'Hide users'
+                                  ) : (
+                                    'Show users'
+                                  )}
+                                </button>
+
+
+
+                                <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
+                              </div>
+
+                            ) : (
+                              <div className='rides-public-join-buttons'>
+                                <button className='orange-button small-button' onClick={(e) => addToRide(e, index, ride.id, true)}>Join privately</button>
+                                <button className='orange-button small-button' onClick={(e) => addToRide(e, index, ride.id, false)}>Join publicly</button>
+                                {/* <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}>{showUsers ? 'Hide users' : 'Show users'}</button> */}
+                                <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
+                                  {showUsers && showUsers === ride.id ? (
+                                    'Hide users'
+                                  ) : (
+                                    'Show users'
+                                  )}
+                                </button>
+
+                              </div>
+                            )}
+
+                            {showUsers === ride.id && (
+
+                              userRides.length ?
+
+                                <>
+                                  <div className='rides-public-joined-information'>
+                                    <div>{usersInThisRide.length} joined this ride</div>
+
+
+                                    <div className='rides-public-joined-users-list'>
+                                      {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} of them publicly:
+                                      <span> </span>
+                                      {userRides
+                                        .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
+                                        .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+                                        .map(userRide => {
+                                          const user = users.find(user => user.id === userRide.user_id);
+                                          return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                        })
+                                        .join(', ')
+                                      }
+                                    </div>
                                   </div>
-                                </div>
-                              </>
+                                </>
 
-                              :
-                              <div>No users have joined this ride</div>
-                          )
-                          }
-
-
-                          {showConversation === ride.id && (
-                            <div className='ride-conversation-container'>
+                                :
+                                <div>No users have joined this ride</div>
+                            )
+                            }
 
 
-                              {
-                                (isUserInRide || isUserRide) &&
-
-                                <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
-                              }
-                              {ride.messages && (isUserInRide || isUserRide) && (
-                                <div>
-                                  {ride.messages.map(message => (
+                            {showConversation === ride.id && (
+                              <div className='ride-conversation-container'>
 
 
-                                    message.status !== 'deleted' && (
-                                      <div>
-                                        {message.status === 'flagged' && message.createdby === userId && (
-                                          <div>
-                                            {/* <div className='flagged-inappropiate-message'>Flagged as inappropiate. Not visible for other users</div> */}
-                                            <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                          </div>
-                                        )}
-                                        {message.status === 'flagged' && message.createdby !== userId && (
-                                          <div>
-                                            <div className='flagged-inappropiate-message'>
-                                              {/* Message concealed due to inappropiate content. */}
+                                {
+                                  (isUserInRide || isUserRide) &&
 
+                                  <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
+                                }
+                                {ride.messages && (isUserInRide || isUserRide) && (
+                                  <div>
+                                    {ride.messages.map(message => (
+
+
+                                      message.status !== 'deleted' && (
+                                        <div>
+                                          {message.status === 'flagged' && message.createdby === userId && (
+                                            <div>
+                                              {/* <div className='flagged-inappropiate-message'>Flagged as inappropiate. Not visible for other users</div> */}
                                               <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                             </div>
+                                          )}
+                                          {message.status === 'flagged' && message.createdby !== userId && (
+                                            <div>
+                                              <div className='flagged-inappropiate-message'>
+                                                {/* Message concealed due to inappropiate content. */}
 
-                                          </div>
-                                        )}
-                                        {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
-                                      </div>
+                                                <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                              </div>
+
+                                            </div>
+                                          )}
+                                          {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                                        </div>
+                                      )
                                     )
-                                  )
-                                  )}
-                                </div>
-                              )}
+                                    )}
+                                  </div>
+                                )}
 
-                            </div>)
-                          }
-
+                              </div>)
+                            }
 
 
 
-                        </>}
+
+                          </>}
 
 
 
