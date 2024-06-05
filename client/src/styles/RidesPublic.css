@@ -36,32 +36,48 @@
 }
 
 
-
-
-
-
 .rides-public-ride {
-  /* margin: 20px 0px; */
+  padding-bottom: 10px;
   border-bottom: 1px dotted var(--color0);
-  /* border: 1px solid blue; */
+padding-top: 10px;
+
+
+padding: 10px 0;
+border-bottom: 1px dotted var(--color0);
+width: 100%;
+max-width: 600px; 
+text-align: center; 
+margin: 0 auto; 
+
 
 }
 
 .rides-public-ride div {
-  /* padding: 2px 0px 2px 0px; */
- 
-    
+  text-align: justify;
+}
 
+.rides-public-ride:first-child {
+  padding-top: 0px;
+}
+
+.rides-public-ride-name {
+  margin-top: 10px;
 }
 
 .rides-public-ride-top-buttons {
-margin: 5px 0px 5px 0px;
+margin: 5px px 5px 0px;
+
 }
+
+.rides-public-ride-top-buttons button:first-child {
+margin-right: 10px;
+  
+  }
 
 .cross-map {
   position: absolute;
   width: 250%;
-  height: 3px;
+  height: 2px;
   background-color: var(--color0);
   top: 50%;
   transform: translateY(-50%) rotate(-45deg);
@@ -107,12 +123,15 @@ margin: 5px 0px 5px 0px;
 
 
 .rides-public-joined-information {
+  background-color: var(--color1);
+  border-radius: 5px;
+  margin: 5px 0px 5px 0px;
+  font-size: smaller;
+  padding: 5px;
   display: flex;
-  /* margin-top: 30px; */
-  /* align-items: center; */
   flex-direction: column;
   justify-content: center;
-  /* border: 1px solid purple; */
+
 }
 
 .rides-public-joined-information div {

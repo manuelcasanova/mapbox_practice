@@ -283,59 +283,29 @@ const RidesPublic = () => {
               <div className='rides-public-mapped'>
 
 
-
                 {rides.map((ride, index) => {
-                  // console.log("Ride ID:", ride.id);
-                  // Extract the date formatting logic here
                   const originalDate = ride.starting_date;
-                  // console.log("original date", originalDate)
-
                   const formattedDate = formatDate(originalDate);
-
                   const isPastDate = formattedDate < currentDateFormatted;
-
-
-
-                  // console.log("isPastDate", isPastDate)
-
-
-                  // Determine if the logged-in user is the creator of this ride
                   const isUserRide = ride.createdby === userId;
-
-
-                  // Determine if the logged-in user is already in this ride
-
-
-                  // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                   const isUserInRide = userRides.some(userRide => userRide.user_id === auth.userId && userRide.ride_id === ride.id);
-
-
-                  // console.log("isUserRide", isUserRide, "isUserInRide", isUserInRide)
-
-
                   const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
 
-
-                  // console.log("is use in ride?", isUserInRide)
-                  // Render the JSX elements, including the formatted date
                   return (
 
                     <>
-
+                      {/* 
                       {showModal && <div className='modal-container'>
-
                         <button onClick={handleShowModal}>x</button>
                         <div className='modal-content'>Modal content</div>
-
-
-                      </div>}
+                      </div>} */}
 
                       <div
                         className='rides-public-ride'
                         key={`${ride.createdat}-${ride.createdby}-${ride.distance}`}>
 
 
-                        {showDetails && (
+                        {/* {showDetails && (
                           <div className='rides-public-ride-top-buttons'>
 
 
@@ -356,12 +326,26 @@ const RidesPublic = () => {
 
 
 
+                          </div>
+                        )} */}
+<div className='rides-public-ride-top-buttons'>
 
-                          </div>)}
+                        <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
+                          <FontAwesomeIcon icon={faCaretUp} /> :
+                          <FontAwesomeIcon icon={faCaretDown} />}</button>
 
+<button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>{showMap ?
+                              <div className='map-crossed-out'>
+                                <FontAwesomeIcon icon={faMapLocation} />
+                                <div className='cross-map'></div>
+                              </div>
 
+                              :
+                              <FontAwesomeIcon icon={faMapLocation} />
+                            }</button>
 
-                        <div>Name: {ride.name}</div>
+</div>
+                        <div className="rides-public-ride-name">Name: {ride.name}</div>
                         <div>Date: {formattedDate}</div>
                         {isPastDate && (
                           <div>This ride has already taken place</div>
@@ -375,22 +359,14 @@ const RidesPublic = () => {
                         {!showDetails && (
                           <div className='rides-public-ride-top-buttons'>
 
-                            <button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>{showMap ?
-                              <div className='map-crossed-out'>
-                                <FontAwesomeIcon icon={faMapLocation} />
-                                <div className='cross-map'></div>
-                              </div>
-
-                              :
-                              <FontAwesomeIcon icon={faMapLocation} />
-                            }</button>
+                          
 
 
-                            <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
+                            {/* <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
                               <FontAwesomeIcon icon={faCaretUp} /> :
-                              <FontAwesomeIcon icon={faCaretDown} />}</button>
+                              <FontAwesomeIcon icon={faCaretDown} />}</button> */}
 
-                            <button onClick={handleShowModal} className='orange-button'>+</button>
+                            {/* <button onClick={handleShowModal} className='orange-button'>+</button> */}
 
                           </div>)}
 
@@ -434,7 +410,7 @@ const RidesPublic = () => {
 
                                   <div className='rides-public-joined-users-list'>
                                     {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} of them publicly:
-
+                                    <span> </span>
                                     {userRides
                                       .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
                                       .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
