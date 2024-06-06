@@ -100,9 +100,16 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
 
   return (
     <div className='filter-container'>
-         <button
+
+            <div className='filter-range'>
+            <button
       className='red-button  hide-big'
       onClick={() => handleShowFilter()}>x</button>
+      <button title="Clear filter"  className='orange-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
+      <button
+      className='red-button  hide-small'
+      onClick={() => handleShowFilter()}>x</button>
+      </div>  
       <div className='filter-range'>
         <label className='filter-label'>Dates:</label>
         <input
@@ -159,12 +166,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
         {/* <span className='filter-span'>km/h</span> */}
       </div>
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
-      <div className='filter-range'>
-      <button title="Clear filter"  className='orange-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
-      <button
-      className='red-button  hide-small'
-      onClick={() => handleShowFilter()}>x</button>
-      </div>
+
     </div>
   );
 };

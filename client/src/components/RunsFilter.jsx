@@ -100,9 +100,17 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
 
   return (
     <div className='filter-container'>
+
+            <div className='filter-range'>
             <button
       className='red-button hide-big'
       onClick={() => handleShowFilter()}>x</button>
+      {/* <button onClick={handleFilter}>Apply Filters</button> */}
+      <button title="Clear filter" className='orange-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
+      <button
+      className='red-button hide-small'
+      onClick={() => handleShowFilter()}>x</button>
+    </div>
        <div className='filter-range'>
        <label className='filter-label'>Dates:</label>
         <input
@@ -158,13 +166,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
         />
         {/* <span>min/km</span> */}
       </div>
-      <div className='filter-range'>
-      {/* <button onClick={handleFilter}>Apply Filters</button> */}
-      <button title="Clear filter" className='orange-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
-      <button
-      className='red-button hide-small'
-      onClick={() => handleShowFilter()}>x</button>
-    </div>
+
     </div>
   );
 };

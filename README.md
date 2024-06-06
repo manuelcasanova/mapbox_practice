@@ -2,6 +2,8 @@
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
 
 
+Conversation in rides and runs. logged in user on right, rest on left
+
 Functionalities
 
 My account -  modify picture
