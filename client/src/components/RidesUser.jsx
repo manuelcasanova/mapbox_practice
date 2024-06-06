@@ -23,10 +23,10 @@ import { removeFromMyRides } from './util_functions/ride_functions/DeleteRide';
 const RidesUser = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const [rides, setRides] = useState([]);
-  const [showFilter, setShowFilter] = useState(false)
-  const [showMap, setShowMap] = useState(false)
-  const [showDetails, setShowDetails] = useState(false)
-  const [showConversation, setShowConversation] = useState(false)
+  const [showFilter, setShowFilter] = useState(null)
+  const [showMap, setShowMap] = useState(null)
+  const [showDetails, setShowDetails] = useState(null)
+  const [showConversation, setShowConversation] = useState(null)
   const [showUsers, setShowUsers] = useState(false)
   const [userRides, setUserRides] = useState([]);
   const [error, setError] = useState(null);
@@ -70,20 +70,12 @@ const RidesUser = () => {
 
   // console.log("rides", rides)
 
-  const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.userId) !== undefined;
+  const isRideCreatedByUser = rides.find(ride => ride.createdby === userId) !== undefined;
   // console.log("isrcbyser", isRideCreatedByUser)
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
     setFilteredRides(filters)
   };
-
-  useEffect(() => {
-    // console.log("confirm delete", confirmDelete)
-    // console.log("rides", rides)
-    // console.log("userRides", userRides)
-    // console.log("filteredRides", filteredRides)
-    // console.log("isRideCreatedByUser", isRideCreatedByUser)
-  }, [confirmDelete])
 
   useEffect(() => {
     let isMounted = true;
@@ -258,31 +250,30 @@ const RidesUser = () => {
                     key={`${ride.createdat}-${ride.name}-${ride.distance}`}>
 
 
-                    {showDetails && (
-                      <>
-                        <div className='rides-public-ride-top-buttons'>
-                          <button className='orange-button' onClick={handleShowMap}>{showMap ?
-                            <div className='map-crossed-out'>
-                              <FontAwesomeIcon icon={faMapLocation} />
-                              <div className='cross-map'></div>
-                            </div>
 
-                            :
+                    <div className='rides-public-ride-top-buttons'>
+
+                      <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
+                        <FontAwesomeIcon icon={faCaretUp} /> :
+                        <FontAwesomeIcon icon={faCaretDown} />}</button>
+
+                      <button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>
+                        {showMap && showMap === ride.id ? (
+                          <div className='map-crossed-out'>
                             <FontAwesomeIcon icon={faMapLocation} />
-                          }</button>
-
-
-                          <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
-                            <FontAwesomeIcon icon={faCaretUp} />
-                            :
-                            <FontAwesomeIcon icon={faCaretDown} />
-                          }</button>
-                        </div>
+                            <div className='cross-map'></div>
+                          </div>
+                        ) : (
+                          <FontAwesomeIcon icon={faMapLocation} />
+                        )}
+                      </button>
 
 
 
-                      </>
-                    )}
+                    </div>
+
+
+
 
 
 
@@ -297,7 +288,7 @@ const RidesUser = () => {
                     <div>Speed: {ride.speed} km/h</div>
 
 
-                    {!showDetails && (
+                    {/* {!showDetails && (
                       <div className='rides-public-ride-top-buttons'>
                         <button className='orange-button' onClick={handleShowMap}>{showMap ?
                           <div className='map-crossed-out'>
@@ -310,19 +301,18 @@ const RidesUser = () => {
                         }</button>
 
 
-                        <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
-                          <FontAwesomeIcon icon={faCaretUp} />
-                          :
-                          <FontAwesomeIcon icon={faCaretDown} />
-                        }</button>
-                      </div>)}
+                      </div>)} */}
 
-                    {showDetails && <>
+                    {showDetails === ride.id && <>
+
                       <div>Details: {ride.details}</div>
                       <div>Meeting Point: {ride.meeting_point}</div>
                       <div>Created By: {ride.createdby}</div>
+
+                      <div className='rides-public-remove-button'>
+
                       <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}> {showUsers ? 'Hide users' : 'Show users'}</button>
-                      <button onClick={() => setShowConversation(!showConversation)} className='orange-button small-button'>{showConversation ? 'Hide conversation' : 'Show conversation'}</button>
+                      <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
 
                       {confirmDelete ? (
                         isRideCreatedByUser ? (
@@ -343,6 +333,8 @@ const RidesUser = () => {
                           <button className="red-button small-button" onClick={handleConfirmDelete}>Remove from my rides</button>
                         )
                       )}
+
+                      </div>
 
                       {showUsers && (
                         userRides.length ?
@@ -386,7 +378,7 @@ const RidesUser = () => {
 
 
 
-                    {showConversation && (
+                    {showConversation === ride.id && (
 
                       <>
                         <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
@@ -414,7 +406,7 @@ const RidesUser = () => {
                       </>
                     )}
 
-                    {showMap && <>
+                    {showMap === ride.id && <>
 
                       {ride.map && ride.map !== null && ride.map !== undefined ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
                     </>

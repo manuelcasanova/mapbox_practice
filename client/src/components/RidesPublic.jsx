@@ -287,14 +287,6 @@ const RidesPublic = () => {
                   const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
 
                   return (
-
-                    <>
-                      {/* 
-                      {showModal && <div className='modal-container'>
-                        <button onClick={handleShowModal}>x</button>
-                        <div className='modal-content'>Modal content</div>
-                      </div>} */}
-
                       <div
                         className='rides-public-ride'
                         key={`${ride.createdat}-${ride.createdby}-${ride.distance}`}>
@@ -479,7 +471,7 @@ const RidesPublic = () => {
                         }
 
                       </div>
-                    </>
+                
                   );
                 })}
 
