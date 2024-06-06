@@ -331,7 +331,19 @@ const RunsPublic = () => {
                       }</div>
 
                       {isUserRun ? (
-                        <div></div>
+                        <div>
+
+<button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
+
+<button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
+                                  {showUsers && showUsers === run.id ? (
+                                    'Hide users'
+                                  ) : (
+                                    'Show users'
+                                  )}
+                                </button>
+
+                        </div>
                       ) : isUserInRun ? (
 
 
