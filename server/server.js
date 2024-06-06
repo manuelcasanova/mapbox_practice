@@ -1355,7 +1355,7 @@ app.get("/rides/otherusers", async (req, res) => {
 
 //Get runs with other users
 app.get("/runs/otherusers", async (req, res) => {
-  // console.log("req.query in runs/otherusers", req.query)
+  //  console.log("req.query in runs/otherusers", req.query)
   try {
 
     // const userId = req.query.userId;
@@ -1562,7 +1562,7 @@ app.get("/rides/public", async (req, res) => {
 app.get("/runs/public", async (req, res) => {
   try {
 
-    //  console.log("req.query on runs/public", req.query)
+      // console.log("req.query on runs/public", req.query)
 
     if (req.query.user && req.query.user.accessToken) {
 
@@ -1608,7 +1608,9 @@ app.get("/runs/public", async (req, res) => {
         const runs = await pool.query(runsQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, paceRangeMin, paceRangeMax, userId]);
-        res.json(runs.rows)
+    
+          // console.log("runs.rows YES filtered runs", runs.rows)
+          res.json(runs.rows)
 
       } else {
 

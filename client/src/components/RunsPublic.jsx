@@ -126,7 +126,7 @@ const RunsPublic = () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, [
-    // auth, 
+    auth, 
     filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged]);
 
   useEffect(() => {
@@ -261,22 +261,8 @@ const RunsPublic = () => {
 
                 const isPastDate = formattedDate < currentDateFormatted;
 
-
-
-                // console.log("isPastDate", isPastDate)
-
-
-                // Determine if the logged-in user is the creator of this run
                 const isUserRun = run.createdby === userId;
-
-
-                // Determine if the logged-in user is already in this run
-
-                // console.log("userRuns", userRuns)
-                // console.log("run,", run)
-                // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInRun = userRuns.some(userRun => userRun.user_id === auth.userId && userRun.run_id === run.id);
-
                 const usersInThisRun = userRuns.filter(userRun => userRun.run_id === run.id);
 
 
