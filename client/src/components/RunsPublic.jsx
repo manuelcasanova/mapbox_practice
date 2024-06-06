@@ -330,78 +330,73 @@ const RunsPublic = () => {
                         users.find(user => user.id === run.createdby)?.username || "Unknown User"
                       }</div>
 
+                      {isUserRun ? (
+                        <div></div>
+                      ) : isUserInRun ? (
 
 
-                      {showUsers === run.id && (
+                        <div className='rides-public-remove-button'>
+                          <button className="red-button small-button" onClick={(e) => removeFromRun(e, index, run.id)}>Remove from my runs</button>
 
-                        userRuns.length ?
-
-                          <>
-                            <div className='rides-public-joined-information'>
-                              <div>{usersInThisRun.length} joined this run</div>
-
-
-                              <div className='rides-public-joined-users-list'>
-                                {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} of them publicly:
-                                <span> </span>
-                                {userRuns
-                                  .filter(userRun => !userRun.isprivate) // Filter out rides where isPrivate is false
-                                  .filter(userRun => userRun.run_id === run.id) // Filter userRides for the specific ride
-                                  .map(userRun => {
-                                    const user = users.find(user => user.id === userRun.user_id);
-                                    return user ? user.username : ""; // Return username if user found, otherwise an empty string
-                                  })
-                                  .join(', ')
-                                }
-                              </div>
-                            </div>
-                          </>
-                          :
-                          <div>No users have joined this run</div>
-                      )
-                      }
-
-                      
-
-
-
-{isUserRun ? (
-                              <div></div>
-                            ) : isUserInRun ? (
-
-
-                              <div className='rides-public-remove-button'>
-                                <button className="red-button small-button" onClick={(e) => removeFromRun(e, index, run.id)}>Remove from my runs</button>
-
-                                {/* <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>{showUsers === run.id ? 'Hide users' : 'Show users'}</button> */}
-                                <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
-                                  {showUsers && showUsers === run.id ? (
-                                    'Hide users'
-                                  ) : (
-                                    'Show users'
-                                  )}
-                                </button>
-
-
-
-                                <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
-                              </div>
-
+                          {/* <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>{showUsers === run.id ? 'Hide users' : 'Show users'}</button> */}
+                          <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
+                            {showUsers && showUsers === run.id ? (
+                              'Hide users'
                             ) : (
-                              <div className='rides-public-join-buttons'>
-                                <button className='orange-button small-button' onClick={(e) => addToRun(e, index, run.id, true)}>Join privately</button>
-                                <button className='orange-button small-button' onClick={(e) => addToRun(e, index, run.id, false)}>Join publicly</button>
-                                {/* <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}>{showUsers ? 'Hide users' : 'Show users'}</button> */}
-                                <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
-                                  {showUsers && showUsers === run.id ? (
-                                    'Hide users'
-                                  ) : (
-                                    'Show users'
-                                  )}
-                                </button>
-
-                              </div>
+                              'Show users'
                             )}
+                          </button>
+
+
+
+                          <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
+                        </div>
+
+                      ) : (
+                        <div className='rides-public-join-buttons'>
+                          <button className='orange-button small-button' onClick={(e) => addToRun(e, index, run.id, true)}>Join privately</button>
+                          <button className='orange-button small-button' onClick={(e) => addToRun(e, index, run.id, false)}>Join publicly</button>
+                          {/* <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}>{showUsers ? 'Hide users' : 'Show users'}</button> */}
+                          <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
+                            {showUsers && showUsers === run.id ? (
+                              'Hide users'
+                            ) : (
+                              'Show users'
+                            )}
+                          </button>
+
+                        </div>
+                      )}
+
+
+{showUsers === run.id && (
+
+userRuns.length ?
+
+  <>
+    <div className='rides-public-joined-information'>
+      <div>{usersInThisRun.length} joined this run</div>
+
+
+      <div className='rides-public-joined-users-list'>
+        {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} of them publicly:
+        <span> </span>
+        {userRuns
+          .filter(userRun => !userRun.isprivate) // Filter out rides where isPrivate is false
+          .filter(userRun => userRun.run_id === run.id) // Filter userRides for the specific ride
+          .map(userRun => {
+            const user = users.find(user => user.id === userRun.user_id);
+            return user ? user.username : ""; // Return username if user found, otherwise an empty string
+          })
+          .join(', ')
+        }
+      </div>
+    </div>
+  </>
+  :
+  <div>No users have joined this run</div>
+)
+}
 
 
                       {showConversation === run.id && (
@@ -420,7 +415,7 @@ const RunsPublic = () => {
                                   <div>
                                     {message.status === 'flagged' && message.createdby === userId && (
                                       <div>
-                                        <div>Flagged as inappropiate. Not visible for other users</div>
+                                        {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
                                         <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                       </div>
                                     )}

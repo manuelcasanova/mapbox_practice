@@ -84,6 +84,7 @@ const handleKeyDown = (e) => {
   <button
     disabled={!newMessage}
     onClick={handleSubmit}
+    className="orange-button small-button"
   >
     {isLoading ? "Sending..." : "Send"} 
   </button>

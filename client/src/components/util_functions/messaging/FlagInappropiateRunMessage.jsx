@@ -38,10 +38,10 @@ export default function FlagInapropiateRunMessage({ messageId, setMessageFlagged
   };
 
   return (
-    <>
-      <button className="red-button" onClick={handleInappropiate}><FontAwesomeIcon icon={faBan} /></button>
+    <div>
+      <button className="red-button small-button" onClick={handleInappropiate}><FontAwesomeIcon icon={faBan} /></button>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-    </>
+    </div>
   );
 }

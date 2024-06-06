@@ -140,7 +140,7 @@ const RunsAll = () => {
                             <div>
                               {message.status === 'flagged' && (
                                 <div>
-                                  <div>Flagged as inappropiate. Not visible for other users</div>
+                                  {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
                                   <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                 </div>
                               )}

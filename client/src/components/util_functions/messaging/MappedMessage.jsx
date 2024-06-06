@@ -102,17 +102,23 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
       </div>
 
 
-
-
-
-
       <div className="mapped-messages-admin-buttons">
 
       {message.status === "reported" && <div className="mapped-messages-reported">Message reported as inappropiate. Pending review.</div>}
 
-        {(message.status === "flagged" && user.isAdmin) && <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />}
+        {(message.status === "flagged" && user.isAdmin) && 
+        <>
+         <div className="mapped-messages-reported">&nbsp;Approve message&nbsp;</div>
+        <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />
+        </>
+        }
 
-        {(message.status === "reported") && user.isAdmin && <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />}
+        {(message.status === "reported") && user.isAdmin && 
+        <>
+          <div className="mapped-messages-reported">&nbsp;Approve/conceal message&nbsp;</div>
+        <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />
+        </>
+        }
 
         {(message.status === "reported") && user.isAdmin && <FlagInapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged} />}
       </div>
