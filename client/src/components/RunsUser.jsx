@@ -152,6 +152,7 @@ const RunsUser = () => {
         });
         // Check if the response data is not an empty array before updating the state
         if (Array.isArray(response.data) && response.data.length > 0) {
+          // console.log(response.data)
           setUserRuns(response.data);
         } else {
           setUserRuns([])
@@ -251,9 +252,15 @@ const RunsUser = () => {
                     className='rides-public-ride'
                     key={`${run.createdat}-${run.name}-${run.distance}`}>
 
-                    {showDetails && (
+                
                       <>
                       <div className='rides-public-ride-top-buttons'>
+                      <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
+                          <FontAwesomeIcon icon={faCaretUp} />
+                          :
+                          <FontAwesomeIcon icon={faCaretDown} />
+                        }</button>
+
                         <button className='orange-button' onClick={handleShowMap}>{showMap ?
                           <div className='map-crossed-out'>
                             <FontAwesomeIcon icon={faMapLocation} />
@@ -264,15 +271,11 @@ const RunsUser = () => {
                           <FontAwesomeIcon icon={faMapLocation} />
                         }</button>
 
-                        <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
-                          <FontAwesomeIcon icon={faCaretUp} />
-                          :
-                          <FontAwesomeIcon icon={faCaretDown} />
-                        }</button>
+           
                       </div>
                     
                     </>
-                    )}
+                   
 
                     <div>Name: {run.name}</div>
 
@@ -284,7 +287,7 @@ const RunsUser = () => {
                     <div>Distance: {run.distance} km</div>
                     <div>Speed: {run.speed} km/h</div>
 
-                    {!showDetails && (
+                    {/* {!showDetails && (
                       <div className='rides-public-ride-top-buttons'>
                         <button className='orange-button' onClick={handleShowMap}>{showMap ?
                           <div className='map-crossed-out'>
@@ -301,7 +304,7 @@ const RunsUser = () => {
                           :
                           <FontAwesomeIcon icon={faCaretDown} />
                         }</button>
-                      </div>)}
+                      </div>)} */}
 
                     {showDetails && <>
                       <div>Details: {run.details}</div>
