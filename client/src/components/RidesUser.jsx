@@ -70,7 +70,7 @@ const RidesUser = () => {
 
   // console.log("rides", rides)
 
-  const isRideCreatedByUser = rides.find(ride => ride.createdby === userId) !== undefined;
+
   // console.log("isrcbyser", isRideCreatedByUser)
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
@@ -238,7 +238,7 @@ const RidesUser = () => {
                 // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
                 const formattedDate = formatDate(originalDate);
-
+                const isRideCreatedByUser = ride.createdby === userId;
                 const isPastDate = formattedDate < currentDateFormatted;
 
                 const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
