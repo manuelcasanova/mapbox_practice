@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
-
 import useAuth from "../hooks/useAuth"
-
 import RidesFilter from './RidesFilter';
 
 import '../styles/RidesPublic.css'
@@ -13,23 +11,22 @@ import { faSliders, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import MappedMessage from './util_functions/messaging/MappedMessage';
 
+
 const RidesPublic = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const [rides, setRides] = useState([]);
-
   const [showFilter, setShowFilter] = useState(false)
   const [showMap, setShowMap] = useState(null)
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
   const [showUsers, setShowUsers] = useState(null)
-  const [showModal, setShowModal] = useState(null)
+  // const [showModal, setShowModal] = useState(null)
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRides, setAddToMyRides] = useState([])
@@ -178,9 +175,9 @@ const RidesPublic = () => {
     setShowFilter(prev => !prev)
   }
 
-  const handleShowModal = () => {
-    setShowModal(prev => !prev)
-  }
+  // const handleShowModal = () => {
+  //   setShowModal(prev => !prev)
+  // }
 
 
   const toggleAddToMyRides = (index) => {
@@ -396,9 +393,7 @@ const RidesPublic = () => {
                             )}
 
                             {showUsers === ride.id && (
-
                               userRides.length ?
-
                                 <>
                                   <div className='rides-public-joined-information'>
                                     <div>{usersInThisRide.length} joined this ride</div>
@@ -407,6 +402,8 @@ const RidesPublic = () => {
                                     <div className='rides-public-joined-users-list'>
                                       {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} of them publicly:
                                       <span> </span>
+
+
                                       {userRides
                                         .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
                                         .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
@@ -418,12 +415,12 @@ const RidesPublic = () => {
                                       }
                                     </div>
                                   </div>
-                                </>
 
+
+                                </>
                                 :
                                 <div>No users have joined this ride</div>
-                            )
-                            }
+                            )}
 
 
                             {showConversation === ride.id && (

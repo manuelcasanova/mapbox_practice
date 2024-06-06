@@ -2,14 +2,6 @@
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
 
 
-Components css: 
-
-faMapLocation slashed!
-
-all rides, manage my rides: show one map, show one detail, remove from my rides change to confirm only on one, etc.
-
-
-
 Functionalities
 
 My account -  modify picture
@@ -19,11 +11,6 @@ Delete personal message - Just inactivate and show "deleted message"
 Admin rides/runs, be able to search by ride/run ID as an admin
 Search users (no muted)
 Search maps (by user, by name. no muted)
-
-
-
-
-
 
 
 

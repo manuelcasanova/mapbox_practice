@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-// import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
-// import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 import RidesFilter from './RidesFilter';
+
+import '../styles/RidesPublic.css'
 
 import { faSliders, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import '../styles/RidesPublic.css'
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
@@ -261,28 +260,28 @@ const RidesUser = () => {
 
                     {showDetails && (
                       <>
-                      <div className='rides-public-ride-top-buttons'>
-                        <button className='orange-button' onClick={handleShowMap}>{showMap ?
-                          <div className='map-crossed-out'>
+                        <div className='rides-public-ride-top-buttons'>
+                          <button className='orange-button' onClick={handleShowMap}>{showMap ?
+                            <div className='map-crossed-out'>
+                              <FontAwesomeIcon icon={faMapLocation} />
+                              <div className='cross-map'></div>
+                            </div>
+
+                            :
                             <FontAwesomeIcon icon={faMapLocation} />
-                            <div className='cross-map'></div>
-                          </div>
-
-                          :
-                          <FontAwesomeIcon icon={faMapLocation} />
-                        }</button>
+                          }</button>
 
 
-                        <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
-                          <FontAwesomeIcon icon={faCaretUp} />
-                          :
-                          <FontAwesomeIcon icon={faCaretDown} />
-                        }</button>
-                      </div>
-                    
-                    
-            
-                    </>
+                          <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
+                            <FontAwesomeIcon icon={faCaretUp} />
+                            :
+                            <FontAwesomeIcon icon={faCaretDown} />
+                          }</button>
+                        </div>
+
+
+
+                      </>
                     )}
 
 
@@ -326,48 +325,56 @@ const RidesUser = () => {
                       <button onClick={() => setShowConversation(!showConversation)} className='orange-button small-button'>{showConversation ? 'Hide conversation' : 'Show conversation'}</button>
 
                       {confirmDelete ? (
-                      isRideCreatedByUser ? (
-                        <>
-                        <button className="red-button small-button" onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}>Confirm delete</button>
-                        <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
-                        </>
+                        isRideCreatedByUser ? (
+                          <>
+                            <button className="red-button small-button" onClick={() => deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}>Confirm delete</button>
+                            <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
+                          </>
+                        ) : (
+                          <>
+                            <button className="red-button small-button" onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
+                            <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
+                          </>
+                        )
                       ) : (
-                        <>
-                        <button className="red-button small-button" onClick={() => removeFromMyRides(ride.id)}>Confirm remove from my rides</button>
-                        <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
-                        </>
-                      )
-                    ) : (
-                      isRideCreatedByUser ? (
-                        <button className="red-button small-button" onClick={handleConfirmDelete}>Delete</button>
-                      ) : (
-                        <button className="red-button small-button" onClick={handleConfirmDelete}>Remove from my rides</button>
-                      )
-                    )}
+                        isRideCreatedByUser ? (
+                          <button className="red-button small-button" onClick={handleConfirmDelete}>Delete</button>
+                        ) : (
+                          <button className="red-button small-button" onClick={handleConfirmDelete}>Remove from my rides</button>
+                        )
+                      )}
 
                       {showUsers && (
                         userRides.length ?
-                          <div>
-                            <div>{usersInThisRide.filter(obj => obj.isprivate && obj.ride_id === ride.id).length} joined this ride privately</div>
-                            <div>{usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} joined this ride publicly:</div>
+                          <>
+                            <div className='rides-public-joined-information'>
 
-                            <div>
-                              {userRides
-                                .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
-                                .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
-                                .map(userRide => {
-                                  const user = users.find(user => user.id === userRide.user_id);
-                                  return user ? user.username : ""; // Return username if user found, otherwise an empty string
-                                })
-                                .join(', ')
-                              }
+                              <div>{usersInThisRide.length} joined this ride</div>
 
 
+                              <div className='rides-public-joined-users-list'>
+                                {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} of them publicly:
+                                <span> </span>
+
+
+                                {userRides
+                                  .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
+                                  .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+                                  .map(userRide => {
+                                    const user = users.find(user => user.id === userRide.user_id);
+                                    return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                  })
+                                  .join(', ')
+                                }
+
+                              </div>
                             </div>
-                          </div>
+
+
+
+                          </>
                           :
                           <div>No users have joined this ride</div>
-
                       )}
 
                     </>}
@@ -375,37 +382,37 @@ const RidesUser = () => {
 
 
 
-      
 
 
 
-{showConversation && (
 
-<>
-                    <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
+                    {showConversation && (
 
-                    {ride.messages && (
-                      <div>
-                        {ride.messages.map(message => (
+                      <>
+                        <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
+
+                        {ride.messages && (
+                          <div>
+                            {ride.messages.map(message => (
 
 
-                          message.status !== 'deleted' && (
-                            <div>
-                              {message.status === 'flagged' && message.createdby === userId && (
+                              message.status !== 'deleted' && (
                                 <div>
-                                  {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
-                                  <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                  {message.status === 'flagged' && message.createdby === userId && (
+                                    <div>
+                                      {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
+                                      <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                    </div>
+                                  )}
+                                  {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
                                 </div>
-                              )}
-                              {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
-                            </div>
-                          )
-                        )
+                              )
+                            )
+                            )}
+                          </div>
                         )}
-                      </div>
+                      </>
                     )}
-</>
-                  )}
 
                     {showMap && <>
 
