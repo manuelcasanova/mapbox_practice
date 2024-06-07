@@ -54,7 +54,7 @@ const RunsAll = () => {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
 
-  const defaultFilteredRides = {
+  const defaultFilteredRuns = {
     dateStart: yesterday.toISOString(),
     dateEnd: "9999-12-31T00:00:00.000Z",
     distanceMin: 0,
@@ -63,11 +63,11 @@ const RunsAll = () => {
     speedMax: 100000
   };
 
-  const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
+  const [filteredRuns, setFilteredRuns] = useState(defaultFilteredRuns);
 
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
-    setFilteredRides(filters)
+    setFilteredRuns(filters)
   };
   // console.log("ridesl all", rides)
 
@@ -80,7 +80,8 @@ const RunsAll = () => {
       try {
         const response = await axios.get(`${BACKEND}/runs/`, {
           params: {
-            user: auth
+            user: auth,
+            filteredRuns
           }
         });
         if (isMounted) {
@@ -117,7 +118,7 @@ const RunsAll = () => {
     };
   }, [
     // auth, 
-    messageDeleted, messageReported, messageFlagged, runStatusUpdated]);
+    filteredRuns,messageDeleted, messageReported, messageFlagged, runStatusUpdated]);
 
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)

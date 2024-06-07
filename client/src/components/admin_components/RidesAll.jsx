@@ -65,6 +65,8 @@ const RidesAll = () => {
 
   const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
 
+  // console.log("filtered Rides in Rides All", filteredRides)
+
   const onFilter = (filters) => {
     // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
     setFilteredRides(filters)
@@ -80,7 +82,8 @@ const RidesAll = () => {
       try {
         const response = await axios.get(`${BACKEND}/rides/`, {
           params: {
-            user: auth
+            user: auth,
+            filteredRides
           }
         });
         if (isMounted) {
@@ -117,7 +120,7 @@ const RidesAll = () => {
     };
   }, [
     // auth, 
-    messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
+    filteredRides, messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
 
 
   const handleShowFilter = () => {

@@ -66,42 +66,42 @@ app.use('/forgot-password', require('./routes/forgot-password'));
 
 
 app.put('/users/edit/password', async (req, res) => {
-try {
+  try {
 
     if (!req?.body?.id) {
-        return res.status(400).json({ 'message': 'ID parameter is required.' });
+      return res.status(400).json({ 'message': 'ID parameter is required.' });
     }
     try {
-      
-        let hashedPwd;
 
-        const data = await pool.query('SELECT * FROM users WHERE id = $1', [req.body.id])
-        const user = data.rows;
+      let hashedPwd;
 
-        if (!user) {
-            return res.status(204).json({ "message": `No user matches ID ${req.body.id}.` });
-        }
-        //console.log('user', user)
-        if (req.body?.pwd) {
-            hashedPwd = await bcrypt.hash(req.body.pwd, 10);
-        }
-        // console.log("hashed pwd", hashedPwd)
-        if (req.body?.pwd)
+      const data = await pool.query('SELECT * FROM users WHERE id = $1', [req.body.id])
+      const user = data.rows;
 
-
-            await pool.query('UPDATE users SET password=$1 WHERE id=$2', [hashedPwd, req.body.id])
+      if (!user) {
+        return res.status(204).json({ "message": `No user matches ID ${req.body.id}.` });
+      }
+      //console.log('user', user)
+      if (req.body?.pwd) {
+        hashedPwd = await bcrypt.hash(req.body.pwd, 10);
+      }
+      // console.log("hashed pwd", hashedPwd)
+      if (req.body?.pwd)
 
 
-        res.json();
+        await pool.query('UPDATE users SET password=$1 WHERE id=$2', [hashedPwd, req.body.id])
+
+
+      res.json();
 
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'An error occurred while resetting the password.' });
+      console.error(error);
+      return res.status(500).json({ message: 'An error occurred while resetting the password.' });
     }
-} catch (error) {
-  console.error("Error updating password", error);
-  res.status(500).send("Internal Server Error");
-}
+  } catch (error) {
+    console.error("Error updating password", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 
@@ -181,7 +181,7 @@ app.post("/users/modifyusername", async (req, res) => {
   try {
     // Update the username in the database
     await pool.query('UPDATE users SET username = $1 WHERE id = $2', [newUsername, userId]);
-    
+
     // Return success response
     res.status(200).json({ message: "Username updated successfully" });
   } catch (error) {
@@ -1419,18 +1419,47 @@ app.get("/maps/:id", async (req, res) => {
 
 //Get all rides (admin)
 app.get("/rides", async (req, res) => {
+  // console.log(req.query)
   try {
 
-    if (req.query.user && req.query.user.isAdmin) {
-      const rides = await pool.query(
-        'SELECT * FROM rides ORDER BY starting_date DESC'
-      );
-      res.json(rides.rows)
+const userId = req.query.user.userId
+
+    if (req.query.user && req.query.user.accessToken) {
+      if (req.query.filteredRides) {
+        const dateStart = req.query.filteredRides.dateStart
+        const dateEnd = req.query.filteredRides.dateEnd
+        const distanceMin = req.query.filteredRides.distanceMin
+        const distanceMax = req.query.filteredRides.distanceMax
+        const speedRangeMin = req.query.filteredRides.speedMin
+        const speedRangeMax = req.query.filteredRides.speedMax
+        const ridesQuery = `
+     SELECT DISTINCT r.*
+     FROM rides r
+     WHERE starting_date >= $1
+     AND starting_date <= $2
+       AND distance >= $3
+       AND distance <= $4
+       AND speed >= $5
+       AND speed <= $6
+       AND r.isactive = true
+   `
+        // Execute the query with parameters
+        const rides = await pool.query(ridesQuery, [
+          dateStart, dateEnd,
+          distanceMin, distanceMax, speedRangeMin, speedRangeMax]);
+        //  console.log("rides.rows YES filtered rides", rides.rows)
+        res.json(rides.rows)
+      } else {
+        const rides = await pool.query(`
+        SELECT DISTINCT r.* 
+        FROM rides r
+        `, [userId]);
+        res.json(rides.rows);
+      }
     } else {
       // Return an error message indicating unauthorized access
       res.status(403).json({ error: "Unauthorized access" });
     }
-
   } catch (err) {
     console.error(err.message)
   }
@@ -1440,54 +1469,90 @@ app.get("/rides", async (req, res) => {
 //Get all runs (admin)
 app.get("/runs", async (req, res) => {
   try {
+    const userId = req.query.user ? req.query.user.userId : null;
 
-    if (req.query.user && req.query.user.isAdmin) {
-      const runs = await pool.query(
-        'SELECT * FROM runs'
-      );
-      res.json(runs.rows)
+    if (req.query.user && req.query.user.accessToken) {
+      if (req.query.filteredRuns) {
+        const {
+          dateStart,
+          dateEnd,
+          distanceMin,
+          distanceMax,
+          speedMin: paceRangeMin,
+          speedMax: paceRangeMax
+        } = req.query.filteredRuns;
+
+        // Log the parameters for debugging
+        console.log("Filtered Runs Parameters: ", {
+          dateStart,
+          dateEnd,
+          distanceMin,
+          distanceMax,
+          paceRangeMin,
+          paceRangeMax
+        });
+
+        // Check for missing parameters
+        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !paceRangeMin || !paceRangeMax) {
+          console.log("One or more parameters are missing or invalid");
+          return res.status(400).json({ error: "Missing or invalid parameters" });
+        }
+
+        // SQL query
+        const runsQuery = `
+          SELECT DISTINCT r.*
+          FROM runs r
+          WHERE starting_date >= $1
+          AND starting_date <= $2
+          AND distance >= $3
+          AND distance <= $4
+          AND pace >= $5
+          AND pace <= $6
+          AND r.isactive = true
+        `;
+
+        // Execute the query with parameters
+        const runs = await pool.query(runsQuery, [
+          dateStart, dateEnd,
+          distanceMin, distanceMax, paceRangeMin, paceRangeMax
+        ]);
+
+        // Log query result
+        console.log("Runs Query Result: ", runs.rows);
+
+        res.json(runs.rows);
+      } else {
+        // Fetch all runs
+        const runs = await pool.query(`
+          SELECT DISTINCT r.* 
+          FROM runs r
+        `, [userId]);
+
+        res.json(runs.rows);
+      }
     } else {
-      // Return an error message indicating unauthorized access
       res.status(403).json({ error: "Unauthorized access" });
     }
-
   } catch (err) {
-    console.error(err.message)
+    console.error("Error in /runs endpoint: ", err.message, err.stack);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 
+
 //Get all public rides (user)
 app.get("/rides/public", async (req, res) => {
+  const userId = req.query.user.userId
   try {
-
-      // console.log("req.query on rides/public", req.query)
-
     if (req.query.user && req.query.user.accessToken) {
-
-      const userId = req.query.user.userId
-      //  console.log("req. query user userId", req.query.user.userId)
-// console.log("req.query.filteredRides?", req.query.filteredRides !== null)
-
       if (req.query.filteredRides) {
-          // console.log("req.query", req.query.filteredRides)
-
-
         const dateStart = req.query.filteredRides.dateStart
         const dateEnd = req.query.filteredRides.dateEnd
         const distanceMin = req.query.filteredRides.distanceMin
         const distanceMax = req.query.filteredRides.distanceMax
         const speedRangeMin = req.query.filteredRides.speedMin
         const speedRangeMax = req.query.filteredRides.speedMax
-
-        // console.log(
-        // dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax)
-
-        // Construct the SQL query with parameters
-
-        // AND starting_date >= $1
-        //  AND starting_date <= $2
-
         const ridesQuery = `
      SELECT DISTINCT r.*
      FROM rides r
@@ -1509,50 +1574,25 @@ app.get("/rides/public", async (req, res) => {
        AND u1.isactive = true
        AND u2.isactive = true
    `
-
-
-
         // Execute the query with parameters
         const rides = await pool.query(ridesQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId]);
-          //  console.log("rides.rows YES filtered rides", rides.rows)
+        //  console.log("rides.rows YES filtered rides", rides.rows)
         res.json(rides.rows)
-
       } else {
-        // console.log("No filtered rides")
-
-        // If there are no filtering parameters provided, return all public rides
-        // const rides = await pool.query(`
-        // SELECT * FROM rides WHERE ridetype='public'
-        // `);
-
-
         const rides = await pool.query(`
         SELECT DISTINCT r.* 
         FROM rides r
         LEFT JOIN followers f ON r.createdby = f.followee_id
         WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $1))
         `, [userId]);
-
-
-        //    `SELECT DISTINCT m.* 
-        //    FROM maps m
-        //    LEFT JOIN followers f ON m.createdBy = f.followee_id
-        //    WHERE (m.mapType = 'public' OR (m.mapType = 'followers' AND f.follower_id = $1))
-        //    ORDER BY m.id DESC
-
-        //  `, [userId]
-        //  console.log("rides.rows no filtered rides", rides.rows)
         res.json(rides.rows);
       }
-
     } else {
       // Return an error message indicating unauthorized access
       res.status(403).json({ error: "Unauthorized access" });
     }
-
-
   } catch (err) {
     console.error(err.message)
   }
@@ -1562,12 +1602,12 @@ app.get("/rides/public", async (req, res) => {
 app.get("/runs/public", async (req, res) => {
   try {
 
-      // console.log("req.query on runs/public", req.query)
+    // console.log("req.query on runs/public", req.query)
 
     if (req.query.user && req.query.user.accessToken) {
 
       const userId = req.query.user.userId
-      
+
       //  console.log("req. query", req.query.user)
 
 
@@ -1608,9 +1648,9 @@ app.get("/runs/public", async (req, res) => {
         const runs = await pool.query(runsQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, paceRangeMin, paceRangeMax, userId]);
-    
-          // console.log("runs.rows YES filtered runs", runs.rows)
-          res.json(runs.rows)
+
+        // console.log("runs.rows YES filtered runs", runs.rows)
+        res.json(runs.rows)
 
       } else {
 
@@ -1735,7 +1775,7 @@ app.get('/runs/messages', async (req, res) => {
 
 app.get("/rides/messages/reported", async (req, res) => {
   const isAdmin = req.query.isAdmin;
-// console.log("isAdmin", isAdmin)
+  // console.log("isAdmin", isAdmin)
   if (isAdmin !== 'true') {
     return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
@@ -1752,7 +1792,7 @@ app.get("/rides/messages/reported", async (req, res) => {
 
 app.get("/rides/messages/flagged", async (req, res) => {
   const isAdmin = req.query.isAdmin;
-// console.log("isAdmin", isAdmin)
+  // console.log("isAdmin", isAdmin)
   if (isAdmin !== 'true') {
     return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
@@ -1769,12 +1809,12 @@ app.get("/rides/messages/flagged", async (req, res) => {
 
 app.get("/runs/messages/reported", async (req, res) => {
   const isAdmin = req.query.isAdmin;
-// console.log("isAdmin", isAdmin)
+  // console.log("isAdmin", isAdmin)
   if (isAdmin !== 'true') {
     return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
     try {
-      
+
       const reportedMessages = await pool.query(`SELECT * from run_message WHERE status = 'reported' ORDER BY reportedat DESC;`);
       // console.log(reportedMessages.rows)
       res.json(reportedMessages.rows)
@@ -1788,7 +1828,7 @@ app.get("/runs/messages/reported", async (req, res) => {
 
 app.get("/runs/messages/flagged", async (req, res) => {
   const isAdmin = req.query.isAdmin;
-// console.log("isAdmin", isAdmin)
+  // console.log("isAdmin", isAdmin)
   if (isAdmin !== 'true') {
     return res.status(403).json({ error: 'Forbidden: Access denied. Admin permission required.' });
   } else {
@@ -2345,7 +2385,7 @@ app.get('/messages/reportedrunnotifications', async (req, res) => {
       `
       );
       res.json(result.rows);
-        // console.log(result.rows);
+      // console.log(result.rows);
     } catch (error) {
       console.error('Error fetching reported run message notifications:', error);
       res.status(500).json({ error: 'Internal Server Error' });

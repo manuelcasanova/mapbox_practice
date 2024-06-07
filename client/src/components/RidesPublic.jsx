@@ -36,11 +36,6 @@ const RidesPublic = () => {
   const [userRides, setUserRides] = useState([]);
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
 
-  
-  // const [filteredRides, setFilteredRides] = useState()
-  // console.log("auth in RidesPublic", auth)
-
-
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
@@ -69,9 +64,6 @@ const RidesPublic = () => {
   //  console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
 
-
-  //Function to get the filters from the child component RidesFilter.
-  // FORMAT: {dateRange: {end: "Mar 27 2024, 17:00:00 GMT-0700 (Pacific Daylight Time", start: "Mar 28 2024, 17:00:00 GMT-0700 (Pacific Daylight Time"}, distanceRange: {min: 1, max: 100}, speedRange: {min: 10, max: 30}}
 
 
   const onFilter = (filters) => {
