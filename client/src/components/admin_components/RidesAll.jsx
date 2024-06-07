@@ -6,6 +6,11 @@ import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 
 
+import { faSliders, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+
 //Util functions
 import { formatDate } from "../util_functions/FormatDate";
 import fetchUsernameAndId from '../util_functions/FetchUsername'
@@ -14,6 +19,7 @@ import AddRideMessage from '../util_functions/messaging/AddRideMessage';
 import MappedMessage from '../util_functions/messaging/MappedMessage';
 import { deactivateRide } from '../util_functions/ride_functions/DeleteRide';
 import { deleteRide } from '../util_functions/ride_functions/DeleteRide';
+import RidesFilter from '../../components/RidesFilter'
 
 
 //Components
@@ -27,6 +33,12 @@ const RidesAll = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
 
+  const [showFilter, setShowFilter] = useState(false)
+  const [showMap, setShowMap] = useState(null)
+  const [showDetails, setShowDetails] = useState(null)
+  const [showConversation, setShowConversation] = useState(null)
+  const [showUsers, setShowUsers] = useState(null)
+
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
 
@@ -39,6 +51,24 @@ const RidesAll = () => {
 
   const isRideCreatedByUser = rides.find(ride => ride.createdby === auth.userId) !== undefined;
 
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
+
+  const defaultFilteredRides = {
+    dateStart: yesterday.toISOString(),
+    dateEnd: "9999-12-31T00:00:00.000Z",
+    distanceMin: 0,
+    distanceMax: 100000,
+    speedMin: 0,
+    speedMax: 100000
+  };
+
+  const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
+
+  const onFilter = (filters) => {
+    // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
+    setFilteredRides(filters)
+  };
   // console.log("ridesl all", rides)
 
   useEffect(() => {
@@ -50,7 +80,7 @@ const RidesAll = () => {
       try {
         const response = await axios.get(`${BACKEND}/rides/`, {
           params: {
-            user: auth 
+            user: auth
           }
         });
         if (isMounted) {
@@ -89,6 +119,11 @@ const RidesAll = () => {
     // auth, 
     messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
 
+
+  const handleShowFilter = () => {
+    setShowFilter(prev => !prev)
+  }
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -99,73 +134,127 @@ const RidesAll = () => {
 
   return (
     <>
-      {rides.length === 0 ? (
-        <div>No rides available.</div>
-      ) : (
-        <>
-        {auth.accessToken !== undefined && auth.isAdmin ? (
-        <div>
-{rides.map(ride => {
-  // Extract the date formatting logic here
-  const originalDate = ride.starting_date;
-  const formattedDate = formatDate(originalDate);
+
+      {!showFilter &&
+        <button title="Filter" className='rides-public-filter-ride'
+          onClick={() => handleShowFilter()}
+        > <FontAwesomeIcon icon={faSliders} /></button>}
+
+      <div className='rides-public-container'>
+
+        {showFilter &&
+          <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+        }
+
+        {rides.length === 0 ? (
+          <div>No rides available.</div>
+        ) : (
+          <>
+            {auth.accessToken !== undefined && auth.isAdmin ? (
+              <div className='rides-public-mapped'>
+                {rides.map(ride => {
+                  // Extract the date formatting logic here
+                  const originalDate = ride.starting_date;
+                  const formattedDate = formatDate(originalDate);
 
 
 
-  // Render the JSX elements, including the formatted date
-  return (
-    
-    
-<div key={`${ride.id}-${ride.name}-${ride.distance}`} >
-{!ride.isactive && <div>Inactive ride</div>}
-{!ride.isactive &&<button onClick={()=>{deleteRide(ride.id, auth, setRides)}}>Definitively delete</button>}
-{ride.isactive && <button onClick={()=>{deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated)}}>Inactivate</button>}
+                  // Render the JSX elements, including the formatted date
+                  return (
+                    <>
+
+                      <div className='rides-public-ride' key={`${ride.id}-${ride.name}-${ride.distance}`} >
 
 
-      <div>Name: {ride.name}</div>
-      <div>Details: {ride.details}</div>
-      <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
-      <div>Time: {ride.starting_time}</div>
-      <div>Distance: {ride.distance} km</div>
-      <div>Speed: {ride.speed} km/h</div>
-      <div>Meeting Point: {ride.meeting_point}</div>
-      <div>Created By: {ride.createdby}</div>
+
+                        <div className='rides-public-ride-top-buttons'>
+
+                          <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
+                            <FontAwesomeIcon icon={faCaretUp} /> :
+                            <FontAwesomeIcon icon={faCaretDown} />}</button>
+
+                          <button className='orange-button' onClick={() => setShowMap(prev => prev === ride.id ? null : ride.id)}>
+                            {showMap && showMap === ride.id ? (
+                              <div className='map-crossed-out'>
+                                <FontAwesomeIcon icon={faMapLocation} />
+                                <div className='cross-map'></div>
+                              </div>
+                            ) : (
+                              <FontAwesomeIcon icon={faMapLocation} />
+                            )}
+                          </button>
+
+                        </div>
+
+                        <div className='inactive-buttons'>
+                          {!ride.isactive && <div className='inactive-r'>Inactive ride</div>}
+                          {!ride.isactive && <button className='red-button small-button' onClick={() => { deleteRide(ride.id, auth, setRides) }}>Definitively delete</button>}
+                          {ride.isactive && <button className="red-button small-button" onClick={() => { deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated) }}>Inactivate</button>}
+                        </div>
+                        <div >Name: {ride.name}</div>
+
+                        <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
+                        <div>Time: {ride.starting_time}</div>
+                        <div>Distance: {ride.distance} km</div>
+                        <div>Speed: {ride.speed} km/h</div>
 
 
-      {ride.messages && (
-                      <div>
-                        {ride.messages.map(message => (
+                        {showDetails === ride.id &&
+                          <>
+                            <div>Details: {ride.details}</div>
+                            <div>Meeting Point: {ride.meeting_point}</div>
+                            <div>Created By: {ride.createdby}</div>
 
-                          message.status !== 'deleted' && (
-                            <div>
-                              {message.status === 'flagged' && (
-                                <div>
-                                  {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
-                                  <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                </div>
-                              )}
-                              {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                            <div className='rides-public-remove-button'>
+                            <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
                             </div>
-                          )
-                        )
-                        )}
+                            
+                            {showConversation === ride.id && ride.messages && (
+                              <div>
+                                {ride.messages.map(message => (
+
+                                  message.status !== 'deleted' && (
+                                    <div>
+                                      {message.status === 'flagged' && (
+                                        <div>
+                                          {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
+                                          <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                        </div>
+                                      )}
+                                      {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                                    </div>
+                                  )
+                                )
+                                )}
+                              </div>
+                            )}
+                          
+
+
+
+                          </>}
+
+
+
+ 
+
+                          {showMap === ride.id && <>
+                          {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
+                        </>
+                        }
                       </div>
-                    )}
+                    </>
+                  );
+                })}
 
 
-
-      {ride.map && ride.map !== null && <PreviewMap mapId={ride.map} />}
-    </div>
-  );
-})}
-
-
-        </div>
+              </div>
             ) : (
               <p>Please log in as an administrator to see rides.</p>
             )}
           </>
-      )}
+        )}
+      </div>
     </>
   );
 };

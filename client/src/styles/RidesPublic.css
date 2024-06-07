@@ -164,8 +164,24 @@ margin: 2px 0px 2px 0px;
   /* border: 3px solid green */
   background-color: var(--color1);
   border-radius: 5px;
-  
 }
+
+.inactive-buttons {
+  padding-top: 10px;
+display: flex;
+align-items: center;
+
+}
+
+.inactive-r {
+color: white;
+background-color: red;
+font-style: italic;
+margin-right: 5px;
+padding: 3px;
+border-radius: 5px;
+}
+
 
 @media (min-width:500px) {
   .ride-conversation-container{

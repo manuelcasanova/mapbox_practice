@@ -6,6 +6,11 @@ import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 
 
+import { faSliders, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+
 //Util functions
 import { formatDate } from "../util_functions/FormatDate";
 import fetchUsernameAndId from '../util_functions/FetchUsername'
@@ -18,6 +23,7 @@ import { deleteRun } from '../util_functions/run_functions/DeleteRun';
 
 //Components
 import PreviewMap from '../PreviewMap';
+import RunsFilter from '../../components/RunsFilter'
 
 const RunsAll = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
@@ -26,6 +32,12 @@ const RunsAll = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
+
+  const [showFilter, setShowFilter] = useState(false)
+  const [showMap, setShowMap] = useState(null)
+  const [showDetails, setShowDetails] = useState(null)
+  const [showConversation, setShowConversation] = useState(null)
+  const [showUsers, setShowUsers] = useState(null)
 
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
@@ -39,7 +51,25 @@ const RunsAll = () => {
 
   const isRunCreatedByUser = runs.find(run => run.createdby === auth.userId) !== undefined;
 
-  // console.log("runsl all", runs)
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
+
+  const defaultFilteredRides = {
+    dateStart: yesterday.toISOString(),
+    dateEnd: "9999-12-31T00:00:00.000Z",
+    distanceMin: 0,
+    distanceMax: 100000,
+    speedMin: 0,
+    speedMax: 100000
+  };
+
+  const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
+
+  const onFilter = (filters) => {
+    // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
+    setFilteredRides(filters)
+  };
+  // console.log("ridesl all", rides)
 
   useEffect(() => {
     let isMounted = true;
@@ -50,7 +80,7 @@ const RunsAll = () => {
       try {
         const response = await axios.get(`${BACKEND}/runs/`, {
           params: {
-            user: auth 
+            user: auth
           }
         });
         if (isMounted) {
@@ -89,6 +119,10 @@ const RunsAll = () => {
     // auth, 
     messageDeleted, messageReported, messageFlagged, runStatusUpdated]);
 
+  const handleShowFilter = () => {
+    setShowFilter(prev => !prev)
+  }
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -99,73 +133,130 @@ const RunsAll = () => {
 
   return (
     <>
-      {runs.length === 0 ? (
-        <div>No runs available.</div>
-      ) : (
-        <>
-        {auth.accessToken !== undefined && auth.isAdmin ? (
-        <div>
-{runs.map(run => {
-  // Extract the date formatting logic here
-  const originalDate = run.starting_date;
-  const formattedDate = formatDate(originalDate);
+
+      {!showFilter &&
+        <button title="Filter" className='rides-public-filter-ride'
+          onClick={() => handleShowFilter()}
+        > <FontAwesomeIcon icon={faSliders} /></button>}
+
+      <div className='rides-public-container'>
+
+        {showFilter &&
+          <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+        }
 
 
 
-  // Render the JSX elements, including the formatted date
-  return (
-    
-    
-<div key={`${run.id}-${run.name}-${run.distance}`} >
-{!run.isactive && <div>Inactive run</div>}
-{!run.isactive &&<button onClick={()=>{deleteRun(run.id, auth, setRuns)}}>Definitively delete</button>}
-{run.isactive && <button onClick={()=>{deactivateRun(run.id, auth, runs, setRuns, setConfirmDelete, isRunCreatedByUser, setRunStatusUpdated)}}>Inactivate</button>}
-
-
-      <div>Name: {run.name}</div>
-      <div>Details: {run.details}</div>
-      <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
-      <div>Time: {run.starting_time}</div>
-      <div>Distance: {run.distance} km</div>
-      <div>Speed: {run.speed} km/h</div>
-      <div>Meeting Point: {run.meeting_point}</div>
-      <div>Created By: {run.createdby}</div>
-
-
-      {run.messages && (
-                      <div>
-                        {run.messages.map(message => (
-
-                          message.status !== 'deleted' && (
-                            <div>
-                              {message.status === 'flagged' && (
-                                <div>
-                                  {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
-                                  <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                </div>
-                              )}
-                              {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
-                            </div>
-                          )
-                        )
-                        )}
-                      </div>
-                    )}
 
 
 
-      {run.map && run.map !== null && <PreviewMap mapId={run.map} />}
+        {runs.length === 0 ? (
+          <div>No runs available.</div>
+        ) : (
+          <>
+            {auth.accessToken !== undefined && auth.isAdmin ? (
+              <div className='rides-public-mapped'>
+                {runs.map(run => {
+                  // Extract the date formatting logic here
+                  const originalDate = run.starting_date;
+                  const formattedDate = formatDate(originalDate);
+
+
+
+                  // Render the JSX elements, including the formatted date
+                  return (
+
+<>
+                    <div className='rides-public-ride' key={`${run.id}-${run.name}-${run.distance}`} >
+
+                    <div className='rides-public-ride-top-buttons'>
+
+<button className='orange-button' onClick={() => setShowDetails(prev => prev === run.id ? null : run.id)}>{showDetails === run.id ?
+  <FontAwesomeIcon icon={faCaretUp} /> :
+  <FontAwesomeIcon icon={faCaretDown} />}</button>
+
+<button className='orange-button' onClick={() => setShowMap(prev => prev === run.id ? null : run.id)}>
+  {showMap && showMap === run.id ? (
+    <div className='map-crossed-out'>
+      <FontAwesomeIcon icon={faMapLocation} />
+      <div className='cross-map'></div>
     </div>
-  );
-})}
+  ) : (
+    <FontAwesomeIcon icon={faMapLocation} />
+  )}
+</button>
+
+</div>
+<div className='inactive-buttons'>
+                      {!run.isactive && <div className='inactive-r'>Inactive run</div>}
+                      {!run.isactive && <button className='red-button small-button' onClick={() => { deleteRun(run.id, auth, setRuns) }}>Definitively delete</button>}
+                      {run.isactive && <button className="red-button small-button" onClick={() => { deactivateRun(run.id, auth, runs, setRuns, setConfirmDelete, isRunCreatedByUser, setRunStatusUpdated) }}>Inactivate</button>}
+                      </div>
+
+                      <div>Name: {run.name}</div>
+                      <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
+                      <div>Time: {run.starting_time}</div>
+                      <div>Distance: {run.distance} km</div>
+                      <div>Pace: {run.pace} km/h</div>
 
 
-        </div>
+                      {showDetails === run.id &&
+                          <>
+
+                      <div>Details: {run.details}</div>
+                      <div>Meeting Point: {run.meeting_point}</div>
+                      <div>Created By: {run.createdby}</div>
+
+
+                      <div className='rides-public-remove-button'>
+                            <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev ===run.id   ? null :run.id )}>{showConversation ===run.id  ? 'Hide conversation' : 'Show conversation'}</button>
+                            </div>
+                            
+
+                      {showConversation === run.id &&  run.messages && (
+                        <div>
+                          {run.messages.map(message => (
+
+                            message.status !== 'deleted' && (
+                              <div>
+                                {message.status === 'flagged' && (
+                                  <div>
+                                    {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
+                                    <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                  </div>
+                                )}
+                                {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                              </div>
+                            )
+                          )
+                          )}
+                        </div>
+                      )}
+
+
+{showMap === run.id &&
+<>
+{run.map && run.map !== null && <PreviewMap mapId={run.map} />}
+</>
+}
+
+                  
+
+                      </>
+                }
+                    </div>
+                    </>
+                  );
+                })}
+
+
+              </div>
             ) : (
               <p>Please log in as an administrator to see runs.</p>
             )}
           </>
-      )}
+        )}
+      </div>
     </>
   );
 };

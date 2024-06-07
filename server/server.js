@@ -1423,7 +1423,7 @@ app.get("/rides", async (req, res) => {
 
     if (req.query.user && req.query.user.isAdmin) {
       const rides = await pool.query(
-        'SELECT * FROM rides'
+        'SELECT * FROM rides ORDER BY starting_date DESC'
       );
       res.json(rides.rows)
     } else {

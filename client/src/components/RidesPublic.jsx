@@ -272,11 +272,10 @@ const RidesPublic = () => {
 
       <div className='rides-public-container'>
 
-
-
         {showFilter &&
           <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
         }
+        
         {rides.length === 0 ? (
           <div>No rides available.</div>
         ) : (
