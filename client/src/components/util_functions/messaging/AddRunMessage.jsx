@@ -10,7 +10,7 @@ export default function AddRunMessage({ userId, userIsLoggedIn, runId, setMessag
 
   useEffect(() => {
     // Focus on the input field when the component mounts
-    // inputRef.current.focus();
+    inputRef.current.focus();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -74,6 +74,7 @@ const handleKeyDown = (e) => {
 return (
   <div className="add-ride-message-container">
     <textarea 
+    placeholder="Aa"
     wrap="soft"
     className="add-ride-message-input" ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
       handleKeyDown} />

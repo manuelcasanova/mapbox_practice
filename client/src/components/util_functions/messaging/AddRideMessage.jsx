@@ -11,10 +11,10 @@ export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMess
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
 
-  // useEffect(() => {
-  //   // Focus on the input field when the component mounts
-  //   inputRef.current.focus();
-  // }, []);
+  useEffect(() => {
+    // Focus on the input field when the component mounts
+    inputRef.current.focus();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,6 +77,7 @@ const handleKeyDown = (e) => {
 return (
   <div className="add-ride-message-container">
     <textarea 
+      placeholder="Aa"
     wrap="soft"
     className="add-ride-message-input"
     ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={

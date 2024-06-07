@@ -126,7 +126,7 @@ const RunsPublic = () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, [
-    auth, 
+    auth,
     filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged]);
 
   useEffect(() => {
@@ -319,24 +319,8 @@ const RunsPublic = () => {
                       {isUserRun ? (
                         <div>
 
-<button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
+                          <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
 
-<button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
-                                  {showUsers && showUsers === run.id ? (
-                                    'Hide users'
-                                  ) : (
-                                    'Show users'
-                                  )}
-                                </button>
-
-                        </div>
-                      ) : isUserInRun ? (
-
-
-                        <div className='rides-public-remove-button'>
-                          <button className="red-button small-button" onClick={(e) => removeFromRun(e, index, run.id)}>Remove from my runs</button>
-
-                          {/* <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>{showUsers === run.id ? 'Hide users' : 'Show users'}</button> */}
                           <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
                             {showUsers && showUsers === run.id ? (
                               'Hide users'
@@ -345,7 +329,19 @@ const RunsPublic = () => {
                             )}
                           </button>
 
+                        </div>
+                      ) : isUserInRun ? (
 
+                        <div className='rides-public-remove-button'>
+                          <button className="red-button small-button" onClick={(e) => removeFromRun(e, index, run.id)}>Remove from my runs</button>
+
+                          <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === run.id ? null : run.id)}>
+                            {showUsers && showUsers === run.id ? (
+                              'Hide users'
+                            ) : (
+                              'Show users'
+                            )}
+                          </button>
 
                           <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
                         </div>
@@ -367,34 +363,34 @@ const RunsPublic = () => {
                       )}
 
 
-{showUsers === run.id && (
+                      {showUsers === run.id && (
 
-userRuns.length ?
+                        userRuns.length ?
 
-  <>
-    <div className='rides-public-joined-information'>
-      <div>{usersInThisRun.length} joined this run</div>
+                          <>
+                            <div className='rides-public-joined-information'>
+                              <div>{usersInThisRun.length} joined this run</div>
 
 
-      <div className='rides-public-joined-users-list'>
-        {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} of them publicly:
-        <span> </span>
-        {userRuns
-          .filter(userRun => !userRun.isprivate) // Filter out rides where isPrivate is false
-          .filter(userRun => userRun.run_id === run.id) // Filter userRides for the specific ride
-          .map(userRun => {
-            const user = users.find(user => user.id === userRun.user_id);
-            return user ? user.username : ""; // Return username if user found, otherwise an empty string
-          })
-          .join(', ')
-        }
-      </div>
-    </div>
-  </>
-  :
-  <div>No users have joined this run</div>
-)
-}
+                              <div className='rides-public-joined-users-list'>
+                                {usersInThisRun.filter(obj => !obj.isprivate && obj.run_id === run.id).length} of them publicly:
+                                <span> </span>
+                                {userRuns
+                                  .filter(userRun => !userRun.isprivate) // Filter out rides where isPrivate is false
+                                  .filter(userRun => userRun.run_id === run.id) // Filter userRides for the specific ride
+                                  .map(userRun => {
+                                    const user = users.find(user => user.id === userRun.user_id);
+                                    return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                  })
+                                  .join(', ')
+                                }
+                              </div>
+                            </div>
+                          </>
+                          :
+                          <div>No users have joined this run</div>
+                      )
+                      }
 
 
                       {showConversation === run.id && (
