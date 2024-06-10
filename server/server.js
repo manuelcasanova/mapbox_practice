@@ -1447,7 +1447,10 @@ const userId = req.query.user.userId
         const rides = await pool.query(ridesQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax]);
-        //  console.log("rides.rows YES filtered rides", rides.rows)
+         console.log("rides.rows YES filtered rides"
+        //  , 
+        //  rides.rows
+        )
         res.json(rides.rows)
       } else {
         const rides = await pool.query(`
@@ -1700,8 +1703,41 @@ app.get("/rides/user/:id", async (req, res) => {
     }
 
     const rides = await pool.query(
-      // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
-      'SELECT * FROM rides WHERE createdby = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4  AND distance <= $5 AND speed >= $6 AND speed <= $7 AND isactive = true UNION SELECT rides.* FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id WHERE ride_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND speed >= $6 AND speed <= $7 ORDER BY id DESC'
+ 
+      `SELECT * FROM rides 
+      WHERE createdby = $1 
+      AND starting_date >= $2 
+      AND starting_date <= $3 
+      AND distance >= $4  
+      AND distance <= $5 
+      AND speed >= $6 
+      AND speed <= $7 
+      AND isactive = true 
+
+      UNION SELECT rides.* 
+      FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id 
+      WHERE ride_users.user_id = $1 
+      AND starting_date >= $2 
+      AND starting_date <= $3
+       AND distance >= $4 
+       AND distance <= $5 
+       AND speed >= $6 
+       AND speed <= $7 
+
+
+
+       
+       ORDER BY id DESC`
+
+
+      
+          // LEFT JOIN muted m2 ON ride_users.user_id = m2.mutee AND m2.muter = $1
+          // LEFT JOIN muted m3 ON ride_users.user_id = m3.muter AND m3.mutee = $1
+
+          //     AND (m2.mute IS NULL OR m2.mute = false)
+          //     AND (m3.mute IS NULL OR m3.mute = false)
+
+
 
       , [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax]
     );

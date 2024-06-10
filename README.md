@@ -2,7 +2,7 @@
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
 
 
-admin rides filters
+Check if muted maps, rides, runs, user in all users, user in following, user in follower should not be visible.
 
 Conversation in rides and runs. logged in user on right, rest on left
 
