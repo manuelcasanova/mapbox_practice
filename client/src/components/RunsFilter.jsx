@@ -14,10 +14,10 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
   const [dateEnd, setDateEnd] = useState("9999-12-31");
   const [distanceMin, setDistanceMin] = useState(0);
   const [distanceMax, setDistanceMax] = useState(100000);
-  const [paceMin, setPaceMin] = useState(0);
-  const [paceMax, setPaceMax] = useState(100000);
+  const [speedMin, setSpeedMin] = useState(0);
+  const [speedMax, setSpeedMax] = useState(100000);
 
-  // console.log (dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax)
+  // console.log (dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax)
 
   const handleFilter = () => {
     // Prepare filter criteria
@@ -41,12 +41,12 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
     };
 
 
-    if (paceMin !== '') {
-      filters.paceMin = parseFloat(paceMin)
+    if (speedMin !== '') {
+      filters.speedMin = parseFloat(speedMin)
     }
 
-    if (paceMax !== '') {
-      filters.paceMax = parseFloat(paceMax)
+    if (speedMax !== '') {
+      filters.speedMax = parseFloat(speedMax)
     }
 
     // Pass filters to parent component
@@ -75,18 +75,18 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
 
   const handlePaceMinChange = (e) => {
     const value = e.target.value.trim() !== '' ? parseFloat(e.target.value) : 0;
-    setPaceMin(value);
+    setSpeedMin(value);
   };
 
   const handlePaceMaxChange = (e) => {
     const value = e.target.value.trim() !== '' ? parseFloat(e.target.value) : 100000;
-    setPaceMax(value);
+    setSpeedMax(value);
   };
 
   useEffect(() => {
     // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax]); // Dependency array includes modified states
+  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax]); // Dependency array includes modified states
 
 
   const clearFilter = () => {
@@ -94,8 +94,8 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
     setDateEnd('9999-12-31');
     setDistanceMin(0);
     setDistanceMax(100000);
-    setPaceMin(0);
-    setPaceMax(100000);
+    setSpeedMin(0);
+    setSpeedMax(100000);
   };
 
   return (
@@ -152,7 +152,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
         <input
           className='filter-input'
           type="number"
-          value={paceMin === 0 ? "" : paceMin}
+          value={speedMin === 0 ? "" : speedMin}
           onChange={handlePaceMinChange}
           placeholder='Min (min/km)'
         />
@@ -160,7 +160,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
         <input
           className='filter-input'
           type="number"
-          value={paceMax === 100000 ? "" : paceMax}
+          value={speedMax === 100000 ? "" : speedMax}
           onChange={handlePaceMaxChange}
           placeholder='Max (min/km)'
         />

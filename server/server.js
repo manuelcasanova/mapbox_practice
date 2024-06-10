@@ -1441,7 +1441,7 @@ const userId = req.query.user.userId
        AND distance <= $4
        AND speed >= $5
        AND speed <= $6
-       AND r.isactive = true
+      
    `
         // Execute the query with parameters
         const rides = await pool.query(ridesQuery, [
@@ -1473,27 +1473,31 @@ app.get("/runs", async (req, res) => {
 
     if (req.query.user && req.query.user.accessToken) {
       if (req.query.filteredRuns) {
+        // console.log(
+        //   "req.query.filteredRuns,", req.query.filteredRuns
+        // )
         const {
           dateStart,
           dateEnd,
           distanceMin,
           distanceMax,
-          speedMin: paceRangeMin,
-          speedMax: paceRangeMax
+          speedMin,
+          speedMax
         } = req.query.filteredRuns;
 
+
         // Log the parameters for debugging
-        console.log("Filtered Runs Parameters: ", {
-          dateStart,
-          dateEnd,
-          distanceMin,
-          distanceMax,
-          paceRangeMin,
-          paceRangeMax
-        });
+        // console.log("Filtered Runs Parameters: ", {
+        //   dateStart,
+        //   dateEnd,
+        //   distanceMin,
+        //   distanceMax,
+        //   speedMin,
+        //   speedMax
+        // });
 
         // Check for missing parameters
-        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !paceRangeMin || !paceRangeMax) {
+        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedMin || !speedMax) {
           console.log("One or more parameters are missing or invalid");
           return res.status(400).json({ error: "Missing or invalid parameters" });
         }
@@ -1508,13 +1512,13 @@ app.get("/runs", async (req, res) => {
           AND distance <= $4
           AND pace >= $5
           AND pace <= $6
-          AND r.isactive = true
+        
         `;
 
         // Execute the query with parameters
         const runs = await pool.query(runsQuery, [
           dateStart, dateEnd,
-          distanceMin, distanceMax, paceRangeMin, paceRangeMax
+          distanceMin, distanceMax, speedMin, speedMax
         ]);
 
         // Log query result
