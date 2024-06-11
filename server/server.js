@@ -1550,9 +1550,9 @@ app.get("/runs", async (req, res) => {
 
 //Get all public rides (user)
 app.get("/rides/public", async (req, res) => {
-  const userId = req.query.user.userId
   try {
     if (req.query.user && req.query.user.accessToken) {
+      const userId = req.query.user.userId
       if (req.query.filteredRides) {
         const dateStart = req.query.filteredRides.dateStart
         const dateEnd = req.query.filteredRides.dateEnd
@@ -1594,6 +1594,7 @@ app.get("/rides/public", async (req, res) => {
         LEFT JOIN followers f ON r.createdby = f.followee_id
         WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $1))
         `, [userId]);
+        console.log("no filted rides")
         res.json(rides.rows);
       }
     } else {
@@ -1607,28 +1608,17 @@ app.get("/rides/public", async (req, res) => {
 
 //Get all public runs (user)
 app.get("/runs/public", async (req, res) => {
+  console.log("req.query runs/bpucli", req.query)
   try {
-
-    // console.log("req.query on runs/public", req.query)
-
     if (req.query.user && req.query.user.accessToken) {
-
       const userId = req.query.user.userId
-
-      //  console.log("req. query", req.query.user)
-
-
       if (req.query.filteredRuns) {
-        // console.log("req.query", req.query.filteredRides)
-
-
         const dateStart = req.query.filteredRuns.dateStart
         const dateEnd = req.query.filteredRuns.dateEnd
         const distanceMin = req.query.filteredRuns.distanceMin
         const distanceMax = req.query.filteredRuns.distanceMax
         const paceRangeMin = req.query.filteredRuns.paceMin
         const paceRangeMax = req.query.filteredRuns.paceMax
-
         const runsQuery = `
      SELECT DISTINCT r.*
      FROM runs r
@@ -1667,7 +1657,7 @@ app.get("/runs/public", async (req, res) => {
         LEFT JOIN followers f ON r.createdby = f.followee_id
         WHERE (r.runtype='public' OR (r.runtype = 'followers' and f.follower_id = $1))
         `, [userId]);
-
+console.log("no filted runs")
         res.json(runs.rows);
       }
 
