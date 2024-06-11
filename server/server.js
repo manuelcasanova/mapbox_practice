@@ -1703,39 +1703,47 @@ app.get("/rides/user/:id", async (req, res) => {
     }
 
     const rides = await pool.query(
- 
-      `SELECT * FROM rides 
-      WHERE createdby = $1 
-      AND starting_date >= $2 
-      AND starting_date <= $3 
-      AND distance >= $4  
-      AND distance <= $5 
-      AND speed >= $6 
-      AND speed <= $7 
-      AND isactive = true 
-
-      UNION SELECT rides.* 
-      FROM rides INNER JOIN ride_users ON rides.id = ride_users.ride_id 
-      WHERE ride_users.user_id = $1 
-      AND starting_date >= $2 
-      AND starting_date <= $3
-       AND distance >= $4 
-       AND distance <= $5 
-       AND speed >= $6 
-       AND speed <= $7 
 
 
+   `SELECT *
+FROM rides
+WHERE (createdby = $1 OR NOT EXISTS (
+    SELECT 1
+    FROM muted
+    WHERE (muter = $1 OR mutee = $1)
+      AND (rides.createdby = muter OR rides.createdby = mutee)
+      AND mute = true
+  ))
+  AND starting_date >= $2 
+  AND starting_date <= $3 
+  AND distance >= $4  
+  AND distance <= $5 
+  AND speed >= $6 
+  AND speed <= $7 
+  AND isactive = true 
 
-       
-       ORDER BY id DESC`
+UNION 
 
+SELECT rides.*
+FROM rides
+INNER JOIN ride_users ON rides.id = ride_users.ride_id
+WHERE ride_users.user_id = $1 
+  AND starting_date >= $2 
+  AND starting_date <= $3
+  AND distance >= $4 
+  AND distance <= $5 
+  AND speed >= $6 
+  AND speed <= $7 
+  AND NOT EXISTS (
+    SELECT 1
+    FROM muted
+    WHERE (muter = $1 OR mutee = $1)
+      AND (rides.createdby = muter OR rides.createdby = mutee)
+      AND mute = true
+  )
+ORDER BY id DESC;
+`
 
-      
-          // LEFT JOIN muted m2 ON ride_users.user_id = m2.mutee AND m2.muter = $1
-          // LEFT JOIN muted m3 ON ride_users.user_id = m3.muter AND m3.mutee = $1
-
-          //     AND (m2.mute IS NULL OR m2.mute = false)
-          //     AND (m3.mute IS NULL OR m3.mute = false)
 
 
 
@@ -1771,7 +1779,49 @@ app.get("/runs/user/:id", async (req, res) => {
 
     const runs = await pool.query(
       // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
-      'SELECT * FROM runs WHERE createdby = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4  AND distance <= $5 AND pace >= $6 AND pace <= $7 AND isactive = true UNION SELECT runs.* FROM runs INNER JOIN run_users ON runs.id = run_users.run_id WHERE run_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND pace >= $6 AND pace <= $7 ORDER BY id DESC'
+      // 'SELECT * FROM runs WHERE createdby = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4  AND distance <= $5 AND pace >= $6 AND pace <= $7 AND isactive = true UNION SELECT runs.* FROM runs INNER JOIN run_users ON runs.id = run_users.run_id WHERE run_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND pace >= $6 AND pace <= $7 ORDER BY id DESC'
+
+
+      `SELECT *
+      FROM runs
+      WHERE (createdby = $1 OR NOT EXISTS (
+          SELECT 1
+          FROM muted
+          WHERE (muter = $1 OR mutee = $1)
+            AND (runs.createdby = muter OR runs.createdby = mutee)
+            AND mute = true
+        ))
+        AND starting_date >= $2 
+        AND starting_date <= $3 
+        AND distance >= $4  
+        AND distance <= $5 
+        AND pace >= $6 
+        AND pace <= $7 
+        AND isactive = true 
+      
+      UNION 
+      
+      SELECT runs.*
+      FROM runs
+      INNER JOIN run_users ON runs.id = run_users.run_id
+      WHERE run_users.user_id = $1 
+        AND starting_date >= $2 
+        AND starting_date <= $3
+        AND distance >= $4 
+        AND distance <= $5 
+        AND pace >= $6 
+        AND pace <= $7 
+        AND NOT EXISTS (
+          SELECT 1
+          FROM muted
+          WHERE (muter = $1 OR mutee = $1)
+            AND (runs.createdby = muter OR runs.createdby = mutee)
+            AND mute = true
+        )
+      ORDER BY id DESC;
+      `
+
+
 
       , [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax]
     );

@@ -277,7 +277,7 @@ const RidesUser = () => {
 
 
 
-                    <div>Name: {ride.name}</div>
+                    <div className="rides-public-ride-name">Name: {ride.name}</div>
 
                     <div>Date: {formattedDate}</div>
                     {isPastDate && (
