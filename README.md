@@ -6,16 +6,24 @@
 Functionalities
 
 
-Delete personal message - Just inactivate and show "deleted message"
-Name: max characters
-picture: max mb
+
+Next:
+
+
 My account -  modify picture 
 
-
-
 Admin rides/runs, be able to search by ride/run ID as an admin
+
 Search users (no muted)
+
 Search maps (by user, by name. no muted)
+
+Name: max characters
+picture: max mb
+
+OAuth
+
+Organize backend like in casinosteps.ca
 
 
 
@@ -25,11 +33,6 @@ REACT_APP_API_URL=http://localhost:3500
 
 FIX: on persist login when reload, auth is fixed, but rideApp is undefined. If I set default state to true. Ok to show rides. But no when click on filter.
 
-Next:
-
-OAuth
-
-Organize backend like in casinosteps.ca
 
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
@@ -69,6 +72,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Delete personal message - Just inactivate and show "deleted message"
 
 Modify password
 

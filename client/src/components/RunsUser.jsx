@@ -244,6 +244,33 @@ const RunsUser = () => {
                 const isRunCreatedByUser = run.createdby === userId;
                 const isPastDate = formattedDate < currentDateFormatted;
 
+                const formattedMessageDate = (createdAt) => {
+                  const date = new Date(createdAt);
+
+                  // Options for the date part
+                  const dateOptions = {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                  };
+
+                  // Options for the time part
+                  const timeOptions = {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false,
+                  };
+
+                  // Format date and time separately
+                  const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
+                  const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
+
+                  // Return the desired output format
+                  return `${formattedDate} at ${formattedTime}`;
+                };
+
+
                 const usersInThisRun = userRuns.filter(userRun => userRun.run_id === run.id);
 
                 // Render the JSX elements, including the formatted date
@@ -252,16 +279,16 @@ const RunsUser = () => {
                     className='rides-public-ride'
                     key={`${run.createdat}-${run.name}-${run.distance}`}>
 
-                
-                      <>
+
+                    <>
                       <div className='rides-public-ride-top-buttons'>
-                      <button className='orange-button' onClick={() => setShowDetails(prev => prev === run.id ? null : run.id)}>{showDetails === run.id ?
+                        <button className='orange-button' onClick={() => setShowDetails(prev => prev === run.id ? null : run.id)}>{showDetails === run.id ?
                           <FontAwesomeIcon icon={faCaretUp} />
                           :
                           <FontAwesomeIcon icon={faCaretDown} />
                         }</button>
 
-<button className='orange-button' onClick={() => setShowMap(prev => prev === run.id ? null : run.id)}>{showMap && showMap === run.id ?
+                        <button className='orange-button' onClick={() => setShowMap(prev => prev === run.id ? null : run.id)}>{showMap && showMap === run.id ?
                           <div className='map-crossed-out'>
                             <FontAwesomeIcon icon={faMapLocation} />
                             <div className='cross-map'></div>
@@ -271,11 +298,11 @@ const RunsUser = () => {
                           <FontAwesomeIcon icon={faMapLocation} />
                         }</button>
 
-           
+
                       </div>
-                    
+
                     </>
-                   
+
 
                     <div>Name: {run.name}</div>
 
@@ -313,32 +340,32 @@ const RunsUser = () => {
 
                       <div className='rides-public-remove-button'>
 
-                      <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}> {showUsers ? 'Hide users' : 'Show users'}</button>
-                      <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
+                        <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}> {showUsers ? 'Hide users' : 'Show users'}</button>
+                        <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === run.id ? null : run.id)}>{showConversation === run.id ? 'Hide conversation' : 'Show conversation'}</button>
 
-                      {confirmDelete ? (
-                      isRunCreatedByUser ? (
-                        <>
-                        <button className="red-button small-button" onClick={() => deactivateRun(run.id, auth, runs, setRuns, setConfirmDelete, isRunCreatedByUser, setRunStatusUpdated)}>Confirm delete</button>
-                        <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
-                        </>
-                      ) : (
-                        <>
-                        <button className="red-button small-button" onClick={() => removeFromMyRuns(run.id)}>Confirm remove from my runs</button>
-                        <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
-                        </>
-                      )
-                    ) : (
-                      isRunCreatedByUser ? (
-                        <button className="red-button small-button" onClick={handleConfirmDelete}>Delete</button>
-                      ) : (
-                        <button className="red-button small-button" onClick={handleConfirmDelete}>Remove from my runs</button>
-                      )
-                    )}
+                        {confirmDelete ? (
+                          isRunCreatedByUser ? (
+                            <>
+                              <button className="red-button small-button" onClick={() => deactivateRun(run.id, auth, runs, setRuns, setConfirmDelete, isRunCreatedByUser, setRunStatusUpdated)}>Confirm delete</button>
+                              <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
+                            </>
+                          ) : (
+                            <>
+                              <button className="red-button small-button" onClick={() => removeFromMyRuns(run.id)}>Confirm remove from my runs</button>
+                              <button className="red-button button-close small-button" onClick={handleConfirmDelete}>x</button>
+                            </>
+                          )
+                        ) : (
+                          isRunCreatedByUser ? (
+                            <button className="red-button small-button" onClick={handleConfirmDelete}>Delete</button>
+                          ) : (
+                            <button className="red-button small-button" onClick={handleConfirmDelete}>Remove from my runs</button>
+                          )
+                        )}
 
-</div>
+                      </div>
 
-{showUsers && (
+                      {showUsers && (
                         userRuns.length ?
                           <>
                             <div className='rides-public-joined-information'>
@@ -373,28 +400,59 @@ const RunsUser = () => {
                     </>}
 
                     {showConversation === run.id && (
-<>
-                    <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
+                      <>
+                        <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
 
-                    {run.messages && (
-                      <div>
-                        {run.messages.map(message => (
-                          message.status !== 'deleted' && (
-                            <div>
-                              {message.status === 'flagged' && message.createdby === userId && (
-                                <div>
-                                  {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
-                                  <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                </div>
-                              )}
-                              {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
-                            </div>
-                          )
-                        ))}
-                      </div>
+                        {run.messages && (
+                          <div>
+                            {run.messages.map(message => (
+
+                              <>
+                                {message.status === 'deleted' &&
+                                  <div
+                                    key={message.id}
+                                    className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
+                                      ? 'my-comment'
+                                      : 'their-comment'
+                                      }`}
+                                  >
+                                    <div className="mapped-messages-name-and-message">
+
+                                      <div className="mapped-messages-username deleted-message">
+
+                                        {users.find(user => user.id === message.createdby)?.username || "Unknown User"}
+                                      </div>
+                                      <div className='deleted-message'>Deleted message</div>
+
+                                    </div>
+                                    <div className="mapped-messages-date deleted-message">{formattedMessageDate(message.createdat)}</div>
+
+                                  </div>
+                                }
+
+
+                                {message.status !== 'deleted' && (
+                                  <div>
+                                    {message.status === 'flagged' && message.createdby === userId && (
+                                      <div>
+                                        {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
+                                        <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                      </div>
+                                    )}
+                                    {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                                  </div>
+                                )}
+                              </>
+
+
+
+
+
+                            ))}
+                          </div>
+                        )}
+                      </>
                     )}
-</>
-                  )}
 
                     {showMap === run.id && <>
                       {run.map && run.map !== null && run.map !== undefined ? <PreviewMap mapId={run.map} /> : <div>This run has no map. The map might have been deleted by the owner.</div>}

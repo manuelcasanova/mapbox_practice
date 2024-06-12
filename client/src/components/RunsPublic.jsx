@@ -43,6 +43,32 @@ const RunsPublic = () => {
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
+  const formattedMessageDate = (createdAt) => {
+    const date = new Date(createdAt);
+
+    // Options for the date part
+    const dateOptions = {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    };
+
+    // Options for the time part
+    const timeOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    };
+
+    // Format date and time separately
+    const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
+    const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
+
+    // Return the desired output format
+    return `${formattedDate} at ${formattedTime}`;
+  };
+
   //  console.log("filteredRuns", filteredRuns)
   const userId = auth.userId;
   // console.log("auth in Rides Public", auth)
@@ -404,15 +430,46 @@ const RunsPublic = () => {
                             <div>
                               {run.messages.map(message => (
 
+<>
 
-                                message.status !== 'deleted' && (
+
+{
+                                        message.status === 'deleted' &&
+                                          <div
+                                            key={message.id}
+                                            className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
+                                              ? 'my-comment'
+                                              : 'their-comment'
+                                              }`}
+                                          >
+                                            <div className="mapped-messages-name-and-message">
+
+                                              <div className="mapped-messages-username deleted-message">
+
+                                                {users.find(user => user.id === message.createdby)?.username || "Unknown User"}
+                                              </div>
+                                              <div className='deleted-message'>Deleted message</div>
+
+                                            </div>
+                                            <div className="mapped-messages-date deleted-message">{formattedMessageDate(message.createdat)}</div>
+
+                                          </div>
+                                      }
+
+
+                               { message.status !== 'deleted' && (
                                   <div>
+
+
                                     {message.status === 'flagged' && message.createdby === userId && (
                                       <div>
                                         {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
                                         <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                       </div>
                                     )}
+
+
+
                                     {message.status === 'flagged' && message.createdby !== userId && (
                                       <div>
                                         <div>Message concealed due to inappropiate content.
@@ -424,10 +481,25 @@ const RunsPublic = () => {
                                     )}
                                     {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
                                   </div>
-                                )
+                                )}
+
+
+
+</>
+
+
+
                               )
                               )}
+
+
+
+
                             </div>
+
+
+
+
                           )}
 
                         </div>)

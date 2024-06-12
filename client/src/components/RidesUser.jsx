@@ -242,17 +242,17 @@ const RidesUser = () => {
                 const isRideCreatedByUser = ride.createdby === userId;
                 const isPastDate = formattedDate < currentDateFormatted;
 
-        
+
                 const formattedMessageDate = (createdAt) => {
                   const date = new Date(createdAt);
-                  
+
                   // Options for the date part
                   const dateOptions = {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric',
                   };
-                  
+
                   // Options for the time part
                   const timeOptions = {
                     hour: '2-digit',
@@ -260,19 +260,16 @@ const RidesUser = () => {
                     second: '2-digit',
                     hour12: false,
                   };
-                
+
                   // Format date and time separately
                   const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
                   const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
-                
+
                   // Return the desired output format
                   return `${formattedDate} at ${formattedTime}`;
                 };
-                
-                // Example usage:
-                const createdAt = '2024-06-12T20:25:37.064Z';
-                const formattedCreatedAt = formattedMessageDate(createdAt);
-                console.log(formattedCreatedAt); // Output: "12-Jun-2024 at 20:25:37"
+
+
 
 
                 const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
@@ -342,8 +339,8 @@ const RidesUser = () => {
                       <div>Details: {ride.details}</div>
                       <div>Meeting Point: {ride.meeting_point}</div>
                       <div>Created By: {
-                              users.find(user => user.id === ride.createdby)?.username || "Unknown User"
-                            }</div>
+                        users.find(user => user.id === ride.createdby)?.username || "Unknown User"
+                      }</div>
 
                       <div className='rides-public-remove-button'>
 
@@ -421,21 +418,21 @@ const RidesUser = () => {
 
                         {ride.messages && (
                           <div>
-                            {ride.messages.map(message => 
+                            {ride.messages.map(message =>
                             (
                               <>
                                 {message.status === 'deleted' &&
                                   <div
                                     key={message.id}
                                     className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
-                                        ? 'my-comment'
-                                        : 'their-comment'
+                                      ? 'my-comment'
+                                      : 'their-comment'
                                       }`}
                                   >
-                                  <div className="mapped-messages-name-and-message">
+                                    <div className="mapped-messages-name-and-message">
 
                                       <div className="mapped-messages-username deleted-message">
-                                   
+
                                         {users.find(user => user.id === message.createdby)?.username || "Unknown User"}
                                       </div>
                                       <div className='deleted-message'>Deleted message</div>
@@ -443,7 +440,8 @@ const RidesUser = () => {
                                     </div>
                                     <div className="mapped-messages-date deleted-message">{formattedMessageDate(message.createdat)}</div>
 
-                                  </div>}
+                                  </div>
+                                }
 
                                 {message.status !== 'deleted' && (
                                   <div>
