@@ -7,6 +7,8 @@ Check if muted maps, rides, runs, user in all users, user in following, user in 
 if no filtered rides or runs, consider muted as well. THE ISSUE WITH PUblIC RUNS SEEMS TO BE RELATED TO FILTER. No filtered RUNS. check for muted if no filtered runs as well
 
 
+Runs public is showing run isactive false
+
 
 Conversation in rides and runs. logged in user on right, rest on left
 

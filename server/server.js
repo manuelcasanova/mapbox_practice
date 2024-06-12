@@ -1594,7 +1594,7 @@ app.get("/rides/public", async (req, res) => {
         LEFT JOIN followers f ON r.createdby = f.followee_id
         WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $1))
         `, [userId]);
-        console.log("no filted rides")
+        // console.log("no filted rides")
         res.json(rides.rows);
       }
     } else {
@@ -1697,13 +1697,7 @@ app.get("/rides/user/:id", async (req, res) => {
 
    `SELECT *
 FROM rides
-WHERE (createdby = $1 OR NOT EXISTS (
-    SELECT 1
-    FROM muted
-    WHERE (muter = $1 OR mutee = $1)
-      AND (rides.createdby = muter OR rides.createdby = mutee)
-      AND mute = true
-  ))
+WHERE createdby = $1
   AND starting_date >= $2 
   AND starting_date <= $3 
   AND distance >= $4  
@@ -1774,13 +1768,7 @@ app.get("/runs/user/:id", async (req, res) => {
 
       `SELECT *
       FROM runs
-      WHERE (createdby = $1 OR NOT EXISTS (
-          SELECT 1
-          FROM muted
-          WHERE (muter = $1 OR mutee = $1)
-            AND (runs.createdby = muter OR runs.createdby = mutee)
-            AND mute = true
-        ))
+      WHERE createdby = $1
         AND starting_date >= $2 
         AND starting_date <= $3 
         AND distance >= $4  
