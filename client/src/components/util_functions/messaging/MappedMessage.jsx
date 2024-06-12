@@ -71,6 +71,7 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
 
         {message.status !== "flagged" && <div>{message.message}</div>}
 
+        {/* {message.status === "deleted" && <div>Message deleted by user</div>} */}
 
         {message.status === 'flagged' && message.createdby !== userId && (
           <div>

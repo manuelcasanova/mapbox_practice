@@ -60,6 +60,16 @@ min-height: 30px;
  
 }
 
+.deleted-message {
+  color: red;
+  font-style: italic;
+  font-size: smaller;
+}
+
+.deleted-message-margin {
+margin-left: 50%
+}
+
 .mapped-messages-date {
   font-style: italic;
   font-size: smaller;

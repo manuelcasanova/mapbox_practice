@@ -5,8 +5,12 @@
 
 Functionalities
 
-My account -  modify picture 
+
 Delete personal message - Just inactivate and show "deleted message"
+Name: max characters
+picture: max mb
+My account -  modify picture 
+
 
 
 Admin rides/runs, be able to search by ride/run ID as an admin
