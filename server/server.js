@@ -1422,7 +1422,7 @@ app.get("/rides", async (req, res) => {
   // console.log(req.query)
   try {
 
-const userId = req.query.user.userId
+    const userId = req.query.user.userId
 
     if (req.query.user && req.query.user.accessToken) {
       if (req.query.filteredRides) {
@@ -1447,9 +1447,9 @@ const userId = req.query.user.userId
         const rides = await pool.query(ridesQuery, [
           dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax]);
-         console.log("rides.rows YES filtered rides"
-        //  , 
-        //  rides.rows
+        console.log("rides.rows YES filtered rides"
+          //  , 
+          //  rides.rows
         )
         res.json(rides.rows)
       } else {
@@ -1592,7 +1592,12 @@ app.get("/rides/public", async (req, res) => {
         SELECT DISTINCT r.* 
         FROM rides r
         LEFT JOIN followers f ON r.createdby = f.followee_id
+        LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = r.createdby
+        LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $1
         WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $1))
+        AND r.isactive = true
+        AND (mute1.mute IS NULL OR mute1.mute = false)
+        AND (mute2.mute IS NULL OR mute2.mute = false)
         `, [userId]);
         // console.log("no filted rides")
         res.json(rides.rows);
@@ -1608,7 +1613,7 @@ app.get("/rides/public", async (req, res) => {
 
 //Get all public runs (user)
 app.get("/runs/public", async (req, res) => {
-  console.log("req.query runs/bpucli", req.query)
+  // console.log("req.query runs/bpucli", req.query)
   try {
     if (req.query.user && req.query.user.accessToken) {
       const userId = req.query.user.userId
@@ -1655,9 +1660,14 @@ app.get("/runs/public", async (req, res) => {
         SELECT DISTINCT r.* 
         FROM runs r
         LEFT JOIN followers f ON r.createdby = f.followee_id
+        LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = r.createdby
+        LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $1
         WHERE (r.runtype='public' OR (r.runtype = 'followers' and f.follower_id = $1))
+        AND r.isactive = true
+        AND (mute1.mute IS NULL OR mute1.mute = false)
+        AND (mute2.mute IS NULL OR mute2.mute = false)
         `, [userId]);
-console.log("no filted runs")
+        // console.log("no filtered runs")
         res.json(runs.rows);
       }
 
@@ -1695,7 +1705,7 @@ app.get("/rides/user/:id", async (req, res) => {
     const rides = await pool.query(
 
 
-   `SELECT *
+      `SELECT *
 FROM rides
 WHERE createdby = $1
   AND starting_date >= $2 
