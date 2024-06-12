@@ -509,7 +509,8 @@ app.get("/users/followee", async (req, res) => {
     if (req.query.user) {
       // console.log("user id", req.query.user.id)
       const fetchFollowee = await pool.query(
-        'SELECT * FROM followers WHERE follower_id = $1 OR followee_id = $1',
+        `SELECT * FROM followers 
+        WHERE follower_id = $1 OR followee_id = $1 ORDER BY lastmodification DESC`,
         [req.query.user.userId]
       );
       res.json(fetchFollowee.rows)
@@ -530,7 +531,7 @@ app.get("/users/followers", async (req, res) => {
     if (req.query.user) {
       //  console.log("req query", req.query)
       const fetchFollowers = await pool.query(
-        'SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC',
+        `SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC`,
         [req.query.user.userId]
       );
       // console.log(fetchFollowers.rows)

@@ -1,15 +1,6 @@
 
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
 
-
-Check if muted maps, rides, runs, user in all users, user in following, user in follower should not be visible.
-
-if no filtered rides or runs, consider muted as well. THE ISSUE WITH PUblIC RUNS SEEMS TO BE RELATED TO FILTER. No filtered RUNS. check for muted if no filtered runs as well
-
-
-Runs public is showing run isactive false
-
-
 Conversation in rides and runs. logged in user on right, rest on left
 
 Functionalities
