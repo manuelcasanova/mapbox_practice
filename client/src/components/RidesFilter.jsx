@@ -16,6 +16,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
   const [distanceMax, setDistanceMax] = useState(100000);
   const [speedMin, setSpeedMin] = useState(0);
   const [speedMax, setSpeedMax] = useState(100000);
+  const [rideName, setRideName] = useState("all")
 
   // console.log (dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax)
 
@@ -47,6 +48,10 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
 
     if (speedMax !== '') {
       filters.speedMax = parseFloat(speedMax)
+    }
+
+    if (rideName !== '') {
+      filters.rideName = rideName
     }
 
     // Pass filters to parent component
@@ -83,10 +88,15 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
     setSpeedMax(value);
   };
 
+  const handleNameChange = (e) => {
+    const value = e.target.value.trim() !== '' ? (e.target.value) : '';
+    setRideName(value);
+  };
+
   useEffect(() => {
     // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax]); // Dependency array includes modified states
+  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, rideName]); // Dependency array includes modified states
 
 
   const clearFilter = () => {
@@ -96,6 +106,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
     setDistanceMax(100000);
     setSpeedMin(0);
     setSpeedMax(100000);
+    setRideName('')
   };
 
   return (
@@ -165,6 +176,19 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
         />
         {/* <span className='filter-span'>km/h</span> */}
       </div>
+
+      <div className='filter-range'>
+      <label className='filter-label'>Name:</label>
+      <input
+        className='filter-input'
+          type="text"
+          value={rideName === '' || rideName === "all" ? '' : rideName}
+          onChange={handleNameChange}
+          placeholder='Aa'
+        />
+      
+      </div>
+
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
 
     </div>

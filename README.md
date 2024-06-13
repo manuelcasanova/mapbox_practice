@@ -52,6 +52,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 DONE
 
+Admin/rides search by name
+
 Rides/runs admin - delete messages render and format
 
 Delete personal message - Just inactivate and show "deleted message"

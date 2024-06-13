@@ -1420,20 +1420,24 @@ app.get("/maps/:id", async (req, res) => {
 
 //Get all rides (admin)
 app.get("/rides", async (req, res) => {
-  // console.log(req.query)
+  // console.log(req.query.filteredRides)
   try {
 
     const userId = req.query.user.userId
 
     if (req.query.user && req.query.user.accessToken) {
-      if (req.query.filteredRides) {
+      if (req.query.filteredRides) 
+      
+        {
+      
         const dateStart = req.query.filteredRides.dateStart
         const dateEnd = req.query.filteredRides.dateEnd
         const distanceMin = req.query.filteredRides.distanceMin
         const distanceMax = req.query.filteredRides.distanceMax
         const speedRangeMin = req.query.filteredRides.speedMin
         const speedRangeMax = req.query.filteredRides.speedMax
-        const ridesQuery = `
+        const rideName = req.query.filteredRides.rideName;
+        let ridesQuery = `
      SELECT DISTINCT r.*
      FROM rides r
      WHERE starting_date >= $1
@@ -1442,17 +1446,25 @@ app.get("/rides", async (req, res) => {
        AND distance <= $4
        AND speed >= $5
        AND speed <= $6
-      
    `
+
+   let queryParams = [
+    dateStart, dateEnd,
+    distanceMin, distanceMax, speedRangeMin, speedRangeMax
+  ];
+
+  if (rideName && rideName !== "all") {
+    ridesQuery += ` AND name ILIKE $7`;
+    queryParams.push(`%${rideName}%`);
+  }
+
         // Execute the query with parameters
-        const rides = await pool.query(ridesQuery, [
-          dateStart, dateEnd,
-          distanceMin, distanceMax, speedRangeMin, speedRangeMax]);
-        console.log("rides.rows YES filtered rides"
-          //  , 
-          //  rides.rows
-        )
-        res.json(rides.rows)
+        const rides = await pool.query(ridesQuery, queryParams);
+        res.json(rides.rows);
+        // console.log("rides.rows YES filtered rides"
+
+        // )
+  
       } else {
         const rides = await pool.query(`
         SELECT DISTINCT r.* 
