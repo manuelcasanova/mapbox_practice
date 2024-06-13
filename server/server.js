@@ -1437,6 +1437,14 @@ app.get("/rides", async (req, res) => {
         const speedRangeMin = req.query.filteredRides.speedMin
         const speedRangeMax = req.query.filteredRides.speedMax
         const rideName = req.query.filteredRides.rideName;
+
+        // Check for missing parameters
+        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedRangeMin || !speedRangeMax || !rideName) {
+          console.log("One or more parameters are missing or invalid");
+          return res.status(400).json({ error: "Missing or invalid parameters" });
+        }
+
+
         let ridesQuery = `
      SELECT DISTINCT r.*
      FROM rides r
@@ -1498,19 +1506,9 @@ app.get("/runs", async (req, res) => {
           distanceMin,
           distanceMax,
           speedMin,
-          speedMax
+          speedMax,
+          runName
         } = req.query.filteredRuns;
-
-
-        // Log the parameters for debugging
-        // console.log("Filtered Runs Parameters: ", {
-        //   dateStart,
-        //   dateEnd,
-        //   distanceMin,
-        //   distanceMax,
-        //   speedMin,
-        //   speedMax
-        // });
 
         // Check for missing parameters
         if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedMin || !speedMax) {
@@ -1519,7 +1517,7 @@ app.get("/runs", async (req, res) => {
         }
 
         // SQL query
-        const runsQuery = `
+        let runsQuery = `
           SELECT DISTINCT r.*
           FROM runs r
           WHERE starting_date >= $1
@@ -1531,16 +1529,22 @@ app.get("/runs", async (req, res) => {
         
         `;
 
-        // Execute the query with parameters
-        const runs = await pool.query(runsQuery, [
+        let queryParams = [
           dateStart, dateEnd,
           distanceMin, distanceMax, speedMin, speedMax
-        ]);
-
-        // Log query result
-        console.log("Runs Query Result: ", runs.rows);
-
-        res.json(runs.rows);
+        ];
+      
+        if (runName && runName !== "all") {
+          runsQuery += ` AND name ILIKE $7`;
+          queryParams.push(`%${runName}%`);
+        }
+      
+              // Execute the query with parameters
+              const runs = await pool.query(runsQuery, queryParams);
+              res.json(runs.rows);
+              // console.log("rides.rows YES filtered rides"
+      
+              // )
       } else {
         // Fetch all runs
         const runs = await pool.query(`

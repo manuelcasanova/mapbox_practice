@@ -16,6 +16,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
   const [distanceMax, setDistanceMax] = useState(100000);
   const [speedMin, setSpeedMin] = useState(0);
   const [speedMax, setSpeedMax] = useState(100000);
+  const [runName, setRunName] = useState("all")
 
   // console.log (dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax)
 
@@ -47,6 +48,10 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
 
     if (speedMax !== '') {
       filters.speedMax = parseFloat(speedMax)
+    }
+
+    if (runName !== '') {
+      filters.runName = runName
     }
 
     // Pass filters to parent component
@@ -83,10 +88,16 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
     setSpeedMax(value);
   };
 
+  const handleNameChange = (e) => {
+    const value = e.target.value.trim() !== '' ? (e.target.value) : '';
+    setRunName(value);
+  };
+
+
   useEffect(() => {
     // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax]); // Dependency array includes modified states
+  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, runName]); // Dependency array includes modified states
 
 
   const clearFilter = () => {
@@ -96,6 +107,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
     setDistanceMax(100000);
     setSpeedMin(0);
     setSpeedMax(100000);
+    setRunName('')
   };
 
   return (
@@ -165,6 +177,18 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
           placeholder='Max (min/km)'
         />
         {/* <span>min/km</span> */}
+      </div>
+
+      <div className='filter-range'>
+      <label className='filter-label'>Name:</label>
+      <input
+        className='filter-input'
+          type="text"
+          value={runName === '' || runName === "all" ? '' : runName}
+          onChange={handleNameChange}
+          placeholder='Aa'
+        />
+      
       </div>
 
     </div>
