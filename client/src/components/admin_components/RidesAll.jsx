@@ -42,6 +42,32 @@ const RidesAll = () => {
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
 
+  const formattedMessageDate = (createdAt) => {
+    const date = new Date(createdAt);
+
+    // Options for the date part
+    const dateOptions = {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    };
+
+    // Options for the time part
+    const timeOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    };
+
+    // Format date and time separately
+    const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
+    const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
+
+    // Return the desired output format
+    return `${formattedDate} at ${formattedTime}`;
+  };
+
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
@@ -206,32 +232,72 @@ const RidesAll = () => {
                           <>
                             <div>Details: {ride.details}</div>
                             <div>Meeting Point: {ride.meeting_point}</div>
-                            <div>Created By: {ride.createdby}</div>
+                            <div>Created By: {
+                              users.find(user => user.id === ride.createdby)?.username || "Unknown User"
+                            }</div>
 
                             <div className='rides-public-remove-button'>
-                            <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
+                              <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
                             </div>
-                            
+
                             {showConversation === ride.id && ride.messages && (
                               <div>
                                 {ride.messages.map(message => (
+                                  <>
 
-                                  message.status !== 'deleted' && (
-                                    <div>
-                                      {message.status === 'flagged' && (
-                                        <div>
-                                          {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
-                                          <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                    {
+                                      message.status === 'deleted' &&
+                                      <div
+                                        key={message.id}
+                                        className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
+                                          ? 'my-comment'
+                                          : 'their-comment'
+                                          }`}
+                                      >
+                                        <div className="mapped-messages-name-and-message">
+
+                                          <div className="mapped-messages-username deleted-message">
+
+                                            {users.find(user => user.id === message.createdby)?.username || "Unknown User"}
+                                          </div>
+                                          <div className='deleted-message'>Deleted message. Visible for admin.</div>
+                                          <div>{`${message.message}`}</div>
+
                                         </div>
-                                      )}
-                                      {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
-                                    </div>
-                                  )
+                                        <div className="mapped-messages-date deleted-message">{formattedMessageDate(message.createdat)}</div>
+
+                                      </div>
+                                    }
+
+
+                                    {
+                                      message.status !== 'deleted' && (
+                                        <div>
+
+
+                                          {message.status === 'flagged' && (
+                                            <div>
+                                              {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
+                                              <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                            </div>
+                                          )}
+
+
+                                          {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                                        </div>
+                                      )
+                                    }
+                                  </>
                                 )
+
+
+
+
+
                                 )}
                               </div>
                             )}
-                          
+
 
 
 
@@ -239,9 +305,9 @@ const RidesAll = () => {
 
 
 
- 
 
-                          {showMap === ride.id && <>
+
+                        {showMap === ride.id && <>
                           {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
                         </>
                         }

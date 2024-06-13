@@ -6,8 +6,9 @@
 Functionalities
 
 
-
 Next:
+
+
 
 
 My account -  modify picture 
@@ -16,7 +17,7 @@ Admin rides/runs, be able to search by ride/run ID as an admin
 
 Search users (no muted)
 
-Search maps (by user, by name. no muted)
+Search maps (by user, by name.)
 
 Name: max characters
 picture: max mb
@@ -25,36 +26,14 @@ OAuth
 
 Organize backend like in casinosteps.ca
 
-
-
-client/.env
-
 REACT_APP_API_URL=http://localhost:3500
 
-FIX: on persist login when reload, auth is fixed, but rideApp is undefined. If I set default state to true. Ok to show rides. But no when click on filter.
-
-
-
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
-
 
 Remove logs and unused dependencies
 
 Fix eslint errors
 
-<!-- CSS AND ORGANIZATION: -->
-
-Navbar: MAPS (see my maps, see public mas), RIdes (see my rides, see public rides). search (athletes, rides, maps). RIGHT --> login/logout, notifications (private messages, messages on rides)
-
-LEFT MAIN: Picture, Name, Following, Followers, Rides created, Rides joined
-
-CENTER MAIN: Next rides
-
-RIGHT MAIN: TOP: Following (order by how many rides) BELOW: Not following (order by how many rides)
-
-Show notifications above everything else on the right if open them
-
-<!-- /CSS AND ORGANIZATION  -->
 
 
 PRODUCTION
@@ -72,6 +51,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Rides/runs admin - delete messages render and format
 
 Delete personal message - Just inactivate and show "deleted message"
 
