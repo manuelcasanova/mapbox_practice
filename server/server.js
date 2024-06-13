@@ -1577,7 +1577,11 @@ app.get("/rides/public", async (req, res) => {
         const distanceMax = req.query.filteredRides.distanceMax
         const speedRangeMin = req.query.filteredRides.speedMin
         const speedRangeMax = req.query.filteredRides.speedMax
-        const ridesQuery = `
+        const rideName = req.query.filteredRides.rideName
+
+
+
+        let ridesQuery = `
      SELECT DISTINCT r.*
      FROM rides r
      LEFT JOIN followers f ON r.createdby = f.followee_id
@@ -1598,12 +1602,21 @@ app.get("/rides/public", async (req, res) => {
        AND u1.isactive = true
        AND u2.isactive = true
    `
-        // Execute the query with parameters
-        const rides = await pool.query(ridesQuery, [
+
+        let queryParams = [
           dateStart, dateEnd,
-          distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId]);
-        //  console.log("rides.rows YES filtered rides", rides.rows)
-        res.json(rides.rows)
+          distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId
+        ];
+      
+        if (rideName && rideName !== "all") {
+          ridesQuery += ` AND name ILIKE $8`;
+          queryParams.push(`%${rideName}%`);
+        }
+      
+        const rides = await pool.query(ridesQuery, queryParams);
+        res.json(rides.rows);
+
+
       } else {
         const rides = await pool.query(`
         SELECT DISTINCT r.* 

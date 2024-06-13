@@ -36,7 +36,21 @@ const RunsPublic = () => {
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
 
   const { auth } = useAuth();
-  const [filteredRuns, setFilteredRuns] = useState();
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
+
+  const defaultFilteredRuns = {
+    dateStart: yesterday.toISOString(),
+    dateEnd: "9999-12-31T00:00:00.000Z",
+    distanceMin: 0,
+    distanceMax: 100000,
+    speedMin: 0,
+    speedMax: 100000,
+    rideName: ''
+  };
+
+  const [filteredRuns, setFilteredRuns] = useState(defaultFilteredRuns);
 
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
