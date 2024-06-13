@@ -53,7 +53,7 @@ const RidesPublic = () => {
     distanceMax: 100000,
     speedMin: 0,
     speedMax: 100000,
-    rideName: ''
+    rideName: 'all'
   };
 
   const { auth } = useAuth();

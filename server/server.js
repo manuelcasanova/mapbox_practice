@@ -1421,6 +1421,7 @@ app.get("/maps/:id", async (req, res) => {
 //Get all rides (admin)
 app.get("/rides", async (req, res) => {
   // console.log(req.query.filteredRides)
+  // console.log("req query /rides", req.query)
   try {
 
     const userId = req.query.user.userId
@@ -1494,7 +1495,7 @@ app.get("/rides", async (req, res) => {
 app.get("/runs", async (req, res) => {
   try {
     const userId = req.query.user ? req.query.user.userId : null;
-
+// console.log("runs admin req.query", req.query)
     if (req.query.user && req.query.user.accessToken) {
       if (req.query.filteredRuns) {
         // console.log(
@@ -1643,7 +1644,7 @@ app.get("/rides/public", async (req, res) => {
 
 //Get all public runs (user)
 app.get("/runs/public", async (req, res) => {
-  // console.log("req.query runs/bpucli", req.query)
+  //  console.log("req.query runs/bpucli", req.query)
   try {
     if (req.query.user && req.query.user.accessToken) {
       const userId = req.query.user.userId
@@ -1652,9 +1653,10 @@ app.get("/runs/public", async (req, res) => {
         const dateEnd = req.query.filteredRuns.dateEnd
         const distanceMin = req.query.filteredRuns.distanceMin
         const distanceMax = req.query.filteredRuns.distanceMax
-        const paceRangeMin = req.query.filteredRuns.paceMin
-        const paceRangeMax = req.query.filteredRuns.paceMax
-        const runsQuery = `
+        const paceRangeMin = req.query.filteredRuns.speedMin
+        const paceRangeMax = req.query.filteredRuns.speedMax
+        const runName =  req.query.filteredRuns.runName
+        let runsQuery = `
      SELECT DISTINCT r.*
      FROM runs r
      LEFT JOIN followers f ON r.createdby = f.followee_id
@@ -1676,13 +1678,19 @@ app.get("/runs/public", async (req, res) => {
        AND u2.isactive = true
    `;
 
-        // Execute the query with parameters
-        const runs = await pool.query(runsQuery, [
-          dateStart, dateEnd,
-          distanceMin, distanceMax, paceRangeMin, paceRangeMax, userId]);
+   let queryParams = [
+    dateStart, dateEnd,
+    distanceMin, distanceMax, paceRangeMin, paceRangeMax, userId
+  ];
 
-        // console.log("runs.rows YES filtered runs", runs.rows)
-        res.json(runs.rows)
+  if (runName && runName !== "all") {
+    runsQuery += ` AND name ILIKE $8`;
+    queryParams.push(`%${runName}%`);
+  }
+
+  const runs = await pool.query(runsQuery, queryParams);
+  // console.log("runs rows in runspublic", runs.rows)
+  res.json(runs.rows);
 
       } else {
 
@@ -1697,7 +1705,7 @@ app.get("/runs/public", async (req, res) => {
         AND (mute1.mute IS NULL OR mute1.mute = false)
         AND (mute2.mute IS NULL OR mute2.mute = false)
         `, [userId]);
-        // console.log("no filtered runs")
+         console.log("no filtered runs")
         res.json(runs.rows);
       }
 

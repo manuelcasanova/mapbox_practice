@@ -89,7 +89,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
   };
 
   const handleNameChange = (e) => {
-    const value = e.target.value.trim() !== '' ? (e.target.value) : '';
+    const value = e.target.value.trim() !== '' ? (e.target.value) : 'all';
     setRideName(value);
   };
 
@@ -106,7 +106,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
     setDistanceMax(100000);
     setSpeedMin(0);
     setSpeedMax(100000);
-    setRideName('')
+    setRideName('all')
   };
 
   return (

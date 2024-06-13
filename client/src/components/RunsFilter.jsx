@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 
-
 const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
 
 
@@ -89,7 +88,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
   };
 
   const handleNameChange = (e) => {
-    const value = e.target.value.trim() !== '' ? (e.target.value) : '';
+    const value = e.target.value.trim() !== '' ? (e.target.value) : 'all';
     setRunName(value);
   };
 
