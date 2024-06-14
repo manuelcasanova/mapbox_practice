@@ -87,7 +87,8 @@ const RunsAll = () => {
     distanceMax: 100000,
     speedMin: 0,
     speedMax: 100000,
-    runName: 'all'
+    runName: 'all',
+    rId: 0
   };
 
   const [filteredRuns, setFilteredRuns] = useState(defaultFilteredRuns);

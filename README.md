@@ -10,7 +10,26 @@ Next:
 
 Search user rides fix and by name
 
-Admin rides/runs, be able to search by ride/run ID as an admin
+Admin rides/runs, be able to search by ride/run ID as an admin:
+
+DONE on 
+Admin - rides
+Admin - runs
+
+
+PENDING on
+
+
+Public -rides
+Public -runs
+User -rides
+User -runs
+
+Or, in the last four just not show the id option.
+
+
+
+
 
 Search users (no muted)
 

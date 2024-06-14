@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/RidesFilter.css'
 
-import { faUndo} from "@fortawesome/free-solid-svg-icons";
+import { faUndo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
+import useAuth from "../hooks/useAuth"
 
 const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
 
@@ -16,6 +16,9 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
   const [speedMin, setSpeedMin] = useState(0);
   const [speedMax, setSpeedMax] = useState(100000);
   const [runName, setRunName] = useState("all")
+  const [rId, setRId] = useState(0)
+
+  const { auth } = useAuth()
 
   // console.log (dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax)
 
@@ -51,6 +54,10 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
 
     if (runName !== '') {
       filters.runName = runName
+    }
+
+    if (rId !== '') {
+      filters.rId = rId
     }
 
     // Pass filters to parent component
@@ -92,11 +99,15 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
     setRunName(value);
   };
 
+  const handleRIdChange = (e) => {
+    const value = e.target.value.trim() !== '' ? (e.target.value) : 0;
+    setRId(value);
+  };
 
   useEffect(() => {
     // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, runName]); // Dependency array includes modified states
+  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, runName, rId]); // Dependency array includes modified states
 
 
   const clearFilter = () => {
@@ -106,26 +117,27 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
     setDistanceMax(100000);
     setSpeedMin(0);
     setSpeedMax(100000);
-    setRunName('')
+    setRunName('');
+    setRId(0);
   };
 
   return (
     <div className='filter-container'>
 
-            <div className='filter-range'>
-            <button
-      className='red-button hide-big'
-      onClick={() => handleShowFilter()}>x</button>
-      {/* <button onClick={handleFilter}>Apply Filters</button> */}
-      <button title="Clear filter" className='orange-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
-      <button
-      className='red-button hide-small'
-      onClick={() => handleShowFilter()}>x</button>
-    </div>
-       <div className='filter-range'>
-       <label className='filter-label'>Dates:</label>
+      <div className='filter-range'>
+        <button
+          className='red-button hide-big'
+          onClick={() => handleShowFilter()}>x</button>
+        {/* <button onClick={handleFilter}>Apply Filters</button> */}
+        <button title="Clear filter" className='orange-button' onClick={() => { clearFilter(); handleFilter(); }}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
+        <button
+          className='red-button hide-small'
+          onClick={() => handleShowFilter()}>x</button>
+      </div>
+      <div className='filter-range'>
+        <label className='filter-label'>Dates:</label>
         <input
-        className='filter-input'
+          className='filter-input'
           type="date"
           value={dateStart}
           onChange={handleDateStartChange}
@@ -179,16 +191,33 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
       </div>
 
       <div className='filter-range'>
-      <label className='filter-label'>Name:</label>
-      <input
-        className='filter-input'
+        <label className='filter-label'>Name:</label>
+        <input
+          className='filter-input'
           type="text"
           value={runName === '' || runName === "all" ? '' : runName}
           onChange={handleNameChange}
           placeholder='Aa'
         />
-      
+
       </div>
+
+
+      {auth.isAdmin &&
+        <div className='filter-range'>
+          <label className='filter-label'>Id:</label>
+          <input
+            className='filter-input'
+            type="number"
+            value={rId === 0 ? "" : rId}
+            onChange={handleRIdChange}
+            placeholder='Number'
+          />
+
+        </div>
+
+      }
+
 
     </div>
   );

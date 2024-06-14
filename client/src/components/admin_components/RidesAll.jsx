@@ -19,11 +19,11 @@ import AddRideMessage from '../util_functions/messaging/AddRideMessage';
 import MappedMessage from '../util_functions/messaging/MappedMessage';
 import { deactivateRide } from '../util_functions/ride_functions/DeleteRide';
 import { deleteRide } from '../util_functions/ride_functions/DeleteRide';
-import RidesFilter from '../../components/RidesFilter'
 
 
 //Components
 import PreviewMap from '../PreviewMap';
+import RidesFilter from '../../components/RidesFilter'
 
 const RidesAll = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
@@ -87,7 +87,8 @@ const RidesAll = () => {
     distanceMax: 100000,
     speedMin: 0,
     speedMax: 100000,
-    rideName: 'all'
+    rideName: 'all',
+    rId: 0
   };
 
   const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);

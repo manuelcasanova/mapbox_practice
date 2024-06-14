@@ -55,6 +55,10 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
       filters.rideName = rideName
     }
 
+    if (rId !== '') {
+      filters.rId = rId
+    }
+
     // Pass filters to parent component
     onFilter(filters);
   };
@@ -113,7 +117,8 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
     setDistanceMax(100000);
     setSpeedMin(0);
     setSpeedMax(100000);
-    setRideName('all')
+    setRideName('all');
+    setRId(0);
   };
 
   return (

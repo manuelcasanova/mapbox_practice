@@ -1420,12 +1420,10 @@ app.get("/maps/:id", async (req, res) => {
 
 //Get all rides (admin)
 app.get("/rides", async (req, res) => {
-  // console.log(req.query.filteredRides)
+  console.log(req.query.filteredRides)
   // console.log("req query /rides", req.query)
   try {
-
     const userId = req.query.user.userId
-
     if (req.query.user && req.query.user.accessToken) {
       if (req.query.filteredRides) {
 
@@ -1436,6 +1434,7 @@ app.get("/rides", async (req, res) => {
         const speedRangeMin = req.query.filteredRides.speedMin
         const speedRangeMax = req.query.filteredRides.speedMax
         const rideName = req.query.filteredRides.rideName;
+        const rId = req.query.filteredRides.rId
 
         // Check for missing parameters
         if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedRangeMin || !speedRangeMax || !rideName) {
@@ -1460,10 +1459,16 @@ app.get("/rides", async (req, res) => {
           distanceMin, distanceMax, speedRangeMin, speedRangeMax
         ];
 
+        if (rId !== '0') {
+          ridesQuery += `AND id = $7`;
+          queryParams.push(rId);
+        }
+
         if (rideName && rideName !== "all") {
-          ridesQuery += ` AND name ILIKE $7`;
+          ridesQuery += ` AND name ILIKE $${queryParams.length + 1}`;
           queryParams.push(`%${rideName}%`);
         }
+
 
         // Execute the query with parameters
         const rides = await pool.query(ridesQuery, queryParams);
@@ -1493,12 +1498,10 @@ app.get("/rides", async (req, res) => {
 app.get("/runs", async (req, res) => {
   try {
     const userId = req.query.user ? req.query.user.userId : null;
-    // console.log("runs admin req.query", req.query)
+    // console.log("runs admin req.query", req.query.filteredRuns)
     if (req.query.user && req.query.user.accessToken) {
       if (req.query.filteredRuns) {
-        // console.log(
-        //   "req.query.filteredRuns,", req.query.filteredRuns
-        // )
+  
         const {
           dateStart,
           dateEnd,
@@ -1506,16 +1509,18 @@ app.get("/runs", async (req, res) => {
           distanceMax,
           speedMin,
           speedMax,
-          runName
+          runName,
+          rId
         } = req.query.filteredRuns;
 
+console.log("runs rId", rId)
+
         // Check for missing parameters
-        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedMin || !speedMax) {
+        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedMin || !speedMax || !rId) {
           console.log("One or more parameters are missing or invalid");
           return res.status(400).json({ error: "Missing or invalid parameters" });
         }
 
-        // SQL query
         let runsQuery = `
           SELECT DISTINCT r.*
           FROM runs r
@@ -1533,8 +1538,13 @@ app.get("/runs", async (req, res) => {
           distanceMin, distanceMax, speedMin, speedMax
         ];
 
+        if (rId !== '0') {
+          runsQuery += `AND id = $7`;
+          queryParams.push(rId);
+        }
+
         if (runName && runName !== "all") {
-          runsQuery += ` AND name ILIKE $7`;
+          runsQuery += ` AND name ILIKE $${queryParams.length + 1}`;
           queryParams.push(`%${runName}%`);
         }
 
@@ -1827,7 +1837,7 @@ app.get("/rides/user/:id", async (req, res) => {
 //Get users runs
 app.get("/runs/user/:id", async (req, res) => {
 
-  console.log("req.query.filtered rides", req.query.filteredRuns)
+  // console.log("req.query.filtered rides", req.query.filteredRuns)
 
   try {
     const { id } = req.params;
