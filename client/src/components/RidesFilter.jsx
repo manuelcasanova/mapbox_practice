@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/RidesFilter.css'
 
-import { faUndo} from "@fortawesome/free-solid-svg-icons";
+import { faUndo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
+import useAuth from "../hooks/useAuth"
 
 
 const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
@@ -17,8 +17,9 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
   const [speedMin, setSpeedMin] = useState(0);
   const [speedMax, setSpeedMax] = useState(100000);
   const [rideName, setRideName] = useState("all")
+  const [rId, setRId] = useState(0)
 
-  // console.log (dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax)
+  const { auth } = useAuth()
 
   const handleFilter = () => {
     // Prepare filter criteria
@@ -93,10 +94,16 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
     setRideName(value);
   };
 
+  const handleRIdChange = (e) => {
+    const value = e.target.value.trim() !== '' ? (e.target.value) : 0;
+    setRId(value);
+  };
+
+
   useEffect(() => {
     // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, rideName]); // Dependency array includes modified states
+  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, rideName, rId]); // Dependency array includes modified states
 
 
   const clearFilter = () => {
@@ -112,26 +119,26 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
   return (
     <div className='filter-container'>
 
-            <div className='filter-range'>
-            <button
-      className='red-button  hide-big'
-      onClick={() => handleShowFilter()}>x</button>
-      <button title="Clear filter"  className='orange-button' onClick={() => {clearFilter(); handleFilter();}}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
-      <button
-      className='red-button  hide-small'
-      onClick={() => handleShowFilter()}>x</button>
-      </div>  
+      <div className='filter-range'>
+        <button
+          className='red-button  hide-big'
+          onClick={() => handleShowFilter()}>x</button>
+        <button title="Clear filter" className='orange-button' onClick={() => { clearFilter(); handleFilter(); }}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
+        <button
+          className='red-button  hide-small'
+          onClick={() => handleShowFilter()}>x</button>
+      </div>
       <div className='filter-range'>
         <label className='filter-label'>Dates:</label>
         <input
-        className='filter-input'
+          className='filter-input'
           type="date"
           value={dateStart}
           onChange={handleDateStartChange}
 
         />
         <input
-        className='filter-input'
+          className='filter-input'
           type="date"
           value={dateEnd === "9999-12-31" ? "" : dateEnd}
           onChange={handleDateEndChange}
@@ -141,7 +148,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
       <div className='filter-range'>
         <label className='filter-label'>Distance:</label>
         <input
-        className='filter-input'
+          className='filter-input'
           type="number"
           value={distanceMin === 0 ? "" : distanceMin}
           onChange={handleDistanceMinChange}
@@ -149,7 +156,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
         />
         {/* <span className='filter-span'>km -</span> */}
         <input
-        className='filter-input'
+          className='filter-input'
           type="number"
           value={distanceMax === 100000 ? "" : distanceMax}
           onChange={handleDistanceMaxChange}
@@ -160,7 +167,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
       <div className='filter-range'>
         <label className='filter-label'>Speed:</label>
         <input
-        className='filter-input'
+          className='filter-input'
           type="number"
           value={speedMin === 0 ? "" : speedMin}
           onChange={handleSpeedMinChange}
@@ -168,7 +175,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
         />
         {/* <span className='filter-span'>km/h -</span> */}
         <input
-        className='filter-input'
+          className='filter-input'
           type="number"
           value={speedMax === 100000 ? "" : speedMax}
           onChange={handleSpeedMaxChange}
@@ -178,16 +185,36 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
       </div>
 
       <div className='filter-range'>
-      <label className='filter-label'>Name:</label>
-      <input
-        className='filter-input'
+        <label className='filter-label'>Name:</label>
+        <input
+          className='filter-input'
           type="text"
           value={rideName === '' || rideName === "all" ? '' : rideName}
           onChange={handleNameChange}
           placeholder='Aa'
         />
-      
+
       </div>
+
+
+{auth.isAdmin && 
+      <div className='filter-range'>
+      <label className='filter-label'>Id:</label>
+      <input
+        className='filter-input'
+        type="number"
+        value={rId === 0 ? "" : rId}
+        onChange={handleRIdChange}
+        placeholder='Number'
+      />
+
+    </div>
+
+}
+
+
+
+
 
       {/* <button onClick={handleFilter}>Apply Filters</button> */}
 
