@@ -41,7 +41,8 @@ const RunsUser = () => {
     distanceMin: 0,
     distanceMax: 100000,
     paceMin: 0,
-    paceMax: 100000
+    paceMax: 100000,
+    runName: "all"
   };
 
   const [filteredRuns, setFilteredRuns] = useState(defaultFilteredRuns);

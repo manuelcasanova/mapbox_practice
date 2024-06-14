@@ -1427,10 +1427,8 @@ app.get("/rides", async (req, res) => {
     const userId = req.query.user.userId
 
     if (req.query.user && req.query.user.accessToken) {
-      if (req.query.filteredRides) 
-      
-        {
-      
+      if (req.query.filteredRides) {
+
         const dateStart = req.query.filteredRides.dateStart
         const dateEnd = req.query.filteredRides.dateEnd
         const distanceMin = req.query.filteredRides.distanceMin
@@ -1457,15 +1455,15 @@ app.get("/rides", async (req, res) => {
        AND speed <= $6
    `
 
-   let queryParams = [
-    dateStart, dateEnd,
-    distanceMin, distanceMax, speedRangeMin, speedRangeMax
-  ];
+        let queryParams = [
+          dateStart, dateEnd,
+          distanceMin, distanceMax, speedRangeMin, speedRangeMax
+        ];
 
-  if (rideName && rideName !== "all") {
-    ridesQuery += ` AND name ILIKE $7`;
-    queryParams.push(`%${rideName}%`);
-  }
+        if (rideName && rideName !== "all") {
+          ridesQuery += ` AND name ILIKE $7`;
+          queryParams.push(`%${rideName}%`);
+        }
 
         // Execute the query with parameters
         const rides = await pool.query(ridesQuery, queryParams);
@@ -1473,7 +1471,7 @@ app.get("/rides", async (req, res) => {
         // console.log("rides.rows YES filtered rides"
 
         // )
-  
+
       } else {
         const rides = await pool.query(`
         SELECT DISTINCT r.* 
@@ -1495,7 +1493,7 @@ app.get("/rides", async (req, res) => {
 app.get("/runs", async (req, res) => {
   try {
     const userId = req.query.user ? req.query.user.userId : null;
-// console.log("runs admin req.query", req.query)
+    // console.log("runs admin req.query", req.query)
     if (req.query.user && req.query.user.accessToken) {
       if (req.query.filteredRuns) {
         // console.log(
@@ -1534,18 +1532,18 @@ app.get("/runs", async (req, res) => {
           dateStart, dateEnd,
           distanceMin, distanceMax, speedMin, speedMax
         ];
-      
+
         if (runName && runName !== "all") {
           runsQuery += ` AND name ILIKE $7`;
           queryParams.push(`%${runName}%`);
         }
-      
-              // Execute the query with parameters
-              const runs = await pool.query(runsQuery, queryParams);
-              res.json(runs.rows);
-              // console.log("rides.rows YES filtered rides"
-      
-              // )
+
+        // Execute the query with parameters
+        const runs = await pool.query(runsQuery, queryParams);
+        res.json(runs.rows);
+        // console.log("rides.rows YES filtered rides"
+
+        // )
       } else {
         // Fetch all runs
         const runs = await pool.query(`
@@ -1608,12 +1606,12 @@ app.get("/rides/public", async (req, res) => {
           dateStart, dateEnd,
           distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId
         ];
-      
+
         if (rideName && rideName !== "all") {
           ridesQuery += ` AND name ILIKE $8`;
           queryParams.push(`%${rideName}%`);
         }
-      
+
         const rides = await pool.query(ridesQuery, queryParams);
         res.json(rides.rows);
 
@@ -1655,7 +1653,7 @@ app.get("/runs/public", async (req, res) => {
         const distanceMax = req.query.filteredRuns.distanceMax
         const paceRangeMin = req.query.filteredRuns.speedMin
         const paceRangeMax = req.query.filteredRuns.speedMax
-        const runName =  req.query.filteredRuns.runName
+        const runName = req.query.filteredRuns.runName
         let runsQuery = `
      SELECT DISTINCT r.*
      FROM runs r
@@ -1678,19 +1676,19 @@ app.get("/runs/public", async (req, res) => {
        AND u2.isactive = true
    `;
 
-   let queryParams = [
-    dateStart, dateEnd,
-    distanceMin, distanceMax, paceRangeMin, paceRangeMax, userId
-  ];
+        let queryParams = [
+          dateStart, dateEnd,
+          distanceMin, distanceMax, paceRangeMin, paceRangeMax, userId
+        ];
 
-  if (runName && runName !== "all") {
-    runsQuery += ` AND name ILIKE $8`;
-    queryParams.push(`%${runName}%`);
-  }
+        if (runName && runName !== "all") {
+          runsQuery += ` AND name ILIKE $8`;
+          queryParams.push(`%${runName}%`);
+        }
 
-  const runs = await pool.query(runsQuery, queryParams);
-  // console.log("runs rows in runspublic", runs.rows)
-  res.json(runs.rows);
+        const runs = await pool.query(runsQuery, queryParams);
+        // console.log("runs rows in runspublic", runs.rows)
+        res.json(runs.rows);
 
       } else {
 
@@ -1705,7 +1703,7 @@ app.get("/runs/public", async (req, res) => {
         AND (mute1.mute IS NULL OR mute1.mute = false)
         AND (mute2.mute IS NULL OR mute2.mute = false)
         `, [userId]);
-         console.log("no filtered runs")
+        console.log("no filtered runs")
         res.json(runs.rows);
       }
 
@@ -1733,66 +1731,103 @@ app.get("/rides/user/:id", async (req, res) => {
     const distanceMax = req.query.filteredRides.distanceMax
     const speedRangeMin = req.query.filteredRides.speedMin
     const speedRangeMax = req.query.filteredRides.speedMax
+     const rideName = `%${req.query.filteredRides.rideName}%`
 
 
     // Check if id is null or undefined
     if (id === null || id === undefined) {
       return res.status(400).json({ error: 'User ID is required.' });
     }
+    let ridesQueryNoName =
+    `SELECT *
+    FROM rides
+    WHERE createdby = $1
+      AND starting_date >= $2 
+      AND starting_date <= $3 
+      AND distance >= $4  
+      AND distance <= $5 
+      AND speed >= $6 
+      AND speed <= $7 
+      AND isactive = true 
+    
+    UNION 
+    
+    SELECT rides.*
+    FROM rides
+    INNER JOIN run_users ON rides.id = run_users.run_id
+    WHERE run_users.user_id = $1 
+      AND starting_date >= $2 
+      AND starting_date <= $3
+      AND distance >= $4 
+      AND distance <= $5 
+      AND speed >= $6 
+      AND speed <= $7 
+      AND NOT EXISTS (
+        SELECT 1
+        FROM muted
+        WHERE (muter = $1 OR mutee = $1)
+          AND (rides.createdby = muter OR rides.createdby = mutee)
+          AND mute = true
+      )
+    ORDER BY id DESC;
+    `
 
-    const rides = await pool.query(
+  let ridesQueryName =
+    `SELECT *
+    FROM rides
+    WHERE createdby = $1
+      AND starting_date >= $2 
+      AND starting_date <= $3 
+      AND distance >= $4  
+      AND distance <= $5 
+      AND speed >= $6 
+      AND speed <= $7 
+      AND isactive = true 
+      AND name ILIKE $8
+    
+    UNION 
+    
+    SELECT rides.*
+    FROM rides
+    INNER JOIN run_users ON rides.id = run_users.run_id
+    WHERE run_users.user_id = $1 
+      AND starting_date >= $2 
+      AND starting_date <= $3
+      AND distance >= $4 
+      AND distance <= $5 
+      AND speed >= $6 
+      AND speed <= $7 
+      AND NOT EXISTS (
+        SELECT 1
+        FROM muted
+        WHERE (muter = $1 OR mutee = $1)
+          AND (rides.createdby = muter OR rides.createdby = mutee)
+          AND mute = true
+      )
+          AND name ILIKE $8
+    ORDER BY id DESC;
+    `
+
+  let queryParamsNoName = [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax]
+
+  let queryParamsName = [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax, rideName]
 
 
-      `SELECT *
-FROM rides
-WHERE createdby = $1
-  AND starting_date >= $2 
-  AND starting_date <= $3 
-  AND distance >= $4  
-  AND distance <= $5 
-  AND speed >= $6 
-  AND speed <= $7 
-  AND isactive = true 
-
-UNION 
-
-SELECT rides.*
-FROM rides
-INNER JOIN ride_users ON rides.id = ride_users.ride_id
-WHERE ride_users.user_id = $1 
-  AND starting_date >= $2 
-  AND starting_date <= $3
-  AND distance >= $4 
-  AND distance <= $5 
-  AND speed >= $6 
-  AND speed <= $7 
-  AND NOT EXISTS (
-    SELECT 1
-    FROM muted
-    WHERE (muter = $1 OR mutee = $1)
-      AND (rides.createdby = muter OR rides.createdby = mutee)
-      AND mute = true
-  )
-ORDER BY id DESC;
-`
+  const rides = !rideName || rideName === "%all%" ? await pool.query(ridesQueryNoName, queryParamsNoName) : await pool.query(ridesQueryName, queryParamsName);
 
 
-
-
-      , [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax]
-    );
-    // console.log("rides rows", rides.rows)
-    res.json(rides.rows)
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+  // console.log("rides rows", rides.rows)
+  res.json(rides.rows)
+} catch (err) {
+  console.error(err.message);
+  res.status(500).json({ error: 'Internal Server Error' });
+}
 });
 
 //Get users runs
 app.get("/runs/user/:id", async (req, res) => {
 
-  //  console.log("req.query.filtered rides", req.query.filteredRuns)
+  console.log("req.query.filtered rides", req.query.filteredRuns)
 
   try {
     const { id } = req.params;
@@ -1800,20 +1835,17 @@ app.get("/runs/user/:id", async (req, res) => {
     const dateEnd = req.query.filteredRuns.dateEnd
     const distanceMin = req.query.filteredRuns.distanceMin
     const distanceMax = req.query.filteredRuns.distanceMax
-    const paceRangeMin = req.query.filteredRuns.paceMin
-    const paceRangeMax = req.query.filteredRuns.paceMax
+    const paceRangeMin = req.query.filteredRuns.speedMin
+    const paceRangeMax = req.query.filteredRuns.speedMax
+    const runName = `%${req.query.filteredRuns.runName}%`
 
-
+    console.log(runName)
     // Check if id is null or undefined
     if (id === null || id === undefined) {
       return res.status(400).json({ error: 'User ID is required.' });
     }
 
-    const runs = await pool.query(
-      // 'SELECT * FROM rides where createdby = $1 ORDER BY createdAt DESC, starting_date desc, starting_time DESC'
-      // 'SELECT * FROM runs WHERE createdby = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4  AND distance <= $5 AND pace >= $6 AND pace <= $7 AND isactive = true UNION SELECT runs.* FROM runs INNER JOIN run_users ON runs.id = run_users.run_id WHERE run_users.user_id = $1 AND starting_date >= $2 AND starting_date <= $3 AND distance >= $4 AND distance <= $5 AND pace >= $6 AND pace <= $7 ORDER BY id DESC'
-
-
+    let runsQueryNoName =
       `SELECT *
       FROM runs
       WHERE createdby = $1
@@ -1847,10 +1879,50 @@ app.get("/runs/user/:id", async (req, res) => {
       ORDER BY id DESC;
       `
 
+    let runsQueryName =
+      `SELECT *
+      FROM runs
+      WHERE createdby = $1
+        AND starting_date >= $2 
+        AND starting_date <= $3 
+        AND distance >= $4  
+        AND distance <= $5 
+        AND pace >= $6 
+        AND pace <= $7 
+        AND isactive = true 
+        AND name ILIKE $8
+      
+      UNION 
+      
+      SELECT runs.*
+      FROM runs
+      INNER JOIN run_users ON runs.id = run_users.run_id
+      WHERE run_users.user_id = $1 
+        AND starting_date >= $2 
+        AND starting_date <= $3
+        AND distance >= $4 
+        AND distance <= $5 
+        AND pace >= $6 
+        AND pace <= $7 
+        AND NOT EXISTS (
+          SELECT 1
+          FROM muted
+          WHERE (muter = $1 OR mutee = $1)
+            AND (runs.createdby = muter OR runs.createdby = mutee)
+            AND mute = true
+        )
+            AND name ILIKE $8
+      ORDER BY id DESC;
+      `
+
+    let queryParamsNoName = [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax]
+
+    let queryParamsName = [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax, runName]
 
 
-      , [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax]
-    );
+    const runs = !runName || runName === "%all%" ? await pool.query(runsQueryNoName, queryParamsNoName) : await pool.query(runsQueryName, queryParamsName);
+
+
     // console.log("runs rows", runs.rows)
     res.json(runs.rows)
   } catch (err) {

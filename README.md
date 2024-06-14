@@ -8,16 +8,15 @@ Functionalities
 
 Next:
 
-
-
-
-My account -  modify picture 
+Search user rides fix and by name
 
 Admin rides/runs, be able to search by ride/run ID as an admin
 
 Search users (no muted)
 
 Search maps (by user, by name.)
+
+My account -  modify picture 
 
 Name: max characters
 picture: max mb
