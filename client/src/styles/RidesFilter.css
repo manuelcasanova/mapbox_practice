@@ -160,7 +160,7 @@ display: flex;
 }
 
 
-@media screen and (min-width: 501px) and (max-width: 999px) {
+@media screen and (min-width: 501px) and (max-width: 1300px) {
 
   .filter-container {
     /* flex-direction: row; */
@@ -178,7 +178,7 @@ display: flex;
 
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1301px) {
   .filter-container {
     /* margin: 5% 15% 5% 15%; */
     display: flex;
