@@ -11,10 +11,14 @@ import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
 // import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faSliders } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../styles/Navbar.css'
 
+//Components
+import UsernameFilter from '../components/UsernameFilter'
+
+//Styles
 
 import '../styles/Navbar.css'
 import '../styles/Users.css'
@@ -34,6 +38,18 @@ const UsersAll = () => {
   const userLoggedInObject = auth
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
   const isLoggedIn = auth.loggedIn
+  const [showFilter, setShowFilter] = useState(false)
+
+const defaultFilteredUsers = {
+  userName: 'all'
+}
+
+  const [filteredUsers, setFilteredUsers] = useState(defaultFilteredUsers);
+
+
+  const onFilter = (filters) => {
+    setFilteredUsers(filters)
+  };
 
   // console.log("users", users)
   // console.log("followers", followers)
@@ -71,6 +87,10 @@ const UsersAll = () => {
     return !!(followFromLoggedIn && followToLoggedIn); // Convert to boolean
   });
 
+  const handleShowFilter = () => {
+    setShowFilter(prev => !prev)
+  }
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -83,8 +103,23 @@ const UsersAll = () => {
   const allUsersMutedOrMe = usersExceptMe.every(user => mutedUsers.includes(user.id));
 
   return (
+
+
+<>
+{!showFilter &&
+        <button title="Filter" className='rides-public-filter-ride'
+          onClick={() => handleShowFilter()}
+        > <FontAwesomeIcon icon={faSliders} /></button>}
+
+
     <div className='users-all-container'>
-      {allUsersMutedOrMe ? (
+
+
+
+          {showFilter &&
+          <UsernameFilter onFilter={onFilter} handleShowFilter={handleShowFilter}  />
+        }
+{allUsersMutedOrMe ? (
         <div>No users available or all users are muted.</div>
       ) : (
         <>
@@ -137,6 +172,7 @@ const UsersAll = () => {
         </>
       )}
     </div>
+    </>
   );
 };
 

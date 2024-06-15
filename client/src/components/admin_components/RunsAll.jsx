@@ -115,7 +115,7 @@ const RunsAll = () => {
         if (isMounted) {
           setRuns(response.data);
           setIsLoading(false);
-setRunsAllComponentMount(true)
+          setRunsAllComponentMount(true)
           // Fetch messages for each run
           const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id));
           const runMessages = await Promise.all(runMessagesPromises);
@@ -171,7 +171,7 @@ setRunsAllComponentMount(true)
       <div className='rides-public-container'>
 
         {showFilter &&
-          <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} runsAllComponentMount={runsAllComponentMount}  />
+          <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} runsAllComponentMount={runsAllComponentMount} />
         }
 
 
@@ -250,7 +250,7 @@ setRunsAllComponentMount(true)
 
                                   <>
 
-{
+                                    {
                                       message.status === 'deleted' &&
                                       <div
                                         key={message.id}
