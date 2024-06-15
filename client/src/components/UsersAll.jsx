@@ -46,7 +46,7 @@ const defaultFilteredUsers = {
 
   const [filteredUsers, setFilteredUsers] = useState(defaultFilteredUsers);
 
-
+// console.log("filtered users", filteredUsers)
   const onFilter = (filters) => {
     setFilteredUsers(filters)
   };
@@ -58,14 +58,14 @@ const defaultFilteredUsers = {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted, filteredUsers)
     fetchFollowee(auth, setFollowers, setIsLoading, setError, isMounted)
     fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
 
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [auth, hasMutedChanges]);
+  }, [auth, hasMutedChanges, filteredUsers]);
 
   const handleMutedChanges = () => {
     setHasMutedChanges(prevState => !prevState);

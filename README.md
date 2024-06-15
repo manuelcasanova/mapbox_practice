@@ -2,7 +2,13 @@
 
 Functionalities
 
-Search users (no muted)
+Search users:
+
+All -OK
+Followers -
+Following -
+Muted - 
+Admin -
 
 Search maps (by user, by name.)
 

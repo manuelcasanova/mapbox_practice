@@ -150,24 +150,25 @@ app.get("/users", async (req, res) => {
 //Get all users (name only)
 app.get("/users/names", async (req, res) => {
   try {
-    // console.log("req. query in users/names", req.query)
-    // if (req.query.user.accessToken !== undefined) {
-    const users = await pool.query(
-      'SELECT id, username FROM users ORDER BY username'
-      //         `SELECT u.id, u.username 
-      //         FROM users u
-      //         LEFT JOIN muted m ON (m.mutee = u.id AND m.muter = $1) OR (m.mutee = $1 AND m.muter = u.id)
-      //         WHERE m.mute IS NULL OR m.mute = false
-      //         ORDER BY u.username
-      //         `,
-      // [loggedInUserId]
-    );
-    // console.log("users.rows in users/names", users.rows)
+      // console.log("req. query in users/names", req.query.filteredUsers)
+
+const filteredUsername = req.query?.filteredUsers?.userName
+
+let query = `SELECT id, username FROM users`
+
+let queryParams = [];
+
+if (filteredUsername && filteredUsername.toLowerCase() !== "all") {
+  query += ` WHERE username ILIKE $${queryParams.length + 1}`;
+  queryParams.push(`%${filteredUsername}%`);
+}
+
+query += ` ORDER BY username ASC`;
+
+const users = await pool.query(query, queryParams)
+// console.log("users/names", users.rows)
     res.json(users.rows)
-    // } else {
-    //   // Return an error message indicating unauthorized access
-    //   res.status(403).json({ error: "Unauthorized access" });
-    // }
+ 
 
   } catch (err) {
     console.error(err.message)
