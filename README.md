@@ -1,35 +1,6 @@
-
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
 
-
-
 Functionalities
-
-
-Next:
-
-Search user rides fix and by name
-
-Admin rides/runs, be able to search by ride/run ID as an admin:
-
-DONE on 
-Admin - rides
-Admin - runs
-
-
-PENDING on
-
-
-Public -rides
-Public -runs
-User -rides
-User -runs
-
-Or, in the last four just not show the id option.
-
-
-
-
 
 Search users (no muted)
 
@@ -53,7 +24,6 @@ Remove logs and unused dependencies
 Fix eslint errors
 
 
-
 PRODUCTION
 
 Future:
@@ -69,6 +39,10 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Admin/rides/runs search by id
+
+Admin/runs search by name
 
 Admin/rides search by name
 

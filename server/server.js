@@ -1513,7 +1513,7 @@ app.get("/runs", async (req, res) => {
           rId
         } = req.query.filteredRuns;
 
-console.log("runs rId", rId)
+// console.log("runs rId", rId)
 
         // Check for missing parameters
         if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedMin || !speedMax || !rId) {
@@ -1849,7 +1849,7 @@ app.get("/runs/user/:id", async (req, res) => {
     const paceRangeMax = req.query.filteredRuns.speedMax
     const runName = `%${req.query.filteredRuns.runName}%`
 
-    console.log(runName)
+    // console.log(runName)
     // Check if id is null or undefined
     if (id === null || id === undefined) {
       return res.status(400).json({ error: 'User ID is required.' });

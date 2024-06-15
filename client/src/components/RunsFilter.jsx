@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import useAuth from "../hooks/useAuth"
 
-const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
+const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) => {
 
 
   const [dateStart, setDateStart] = useState(new Date().toISOString().split('T')[0]);
@@ -203,7 +203,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter }) => {
       </div>
 
 
-      {auth.isAdmin &&
+      {auth.isAdmin && runsAllComponentMount && 
         <div className='filter-range'>
           <label className='filter-label'>Id:</label>
           <input

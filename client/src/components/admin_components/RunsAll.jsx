@@ -38,7 +38,7 @@ const RunsAll = () => {
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
   const [showUsers, setShowUsers] = useState(null)
-
+  const [runsAllComponentMount, setRunsAllComponentMount] = useState(false)
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
 
@@ -115,7 +115,7 @@ const RunsAll = () => {
         if (isMounted) {
           setRuns(response.data);
           setIsLoading(false);
-
+setRunsAllComponentMount(true)
           // Fetch messages for each run
           const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id));
           const runMessages = await Promise.all(runMessagesPromises);
@@ -171,7 +171,7 @@ const RunsAll = () => {
       <div className='rides-public-container'>
 
         {showFilter &&
-          <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+          <RunsFilter onFilter={onFilter} handleShowFilter={handleShowFilter} runsAllComponentMount={runsAllComponentMount}  />
         }
 
 

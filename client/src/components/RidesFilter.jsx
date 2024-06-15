@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useAuth from "../hooks/useAuth"
 
 
-const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
+const RideFilter = ({ rides, onFilter, handleShowFilter, ridesAllComponentMount }) => {
 
 
   const [dateStart, setDateStart] = useState(new Date().toISOString().split('T')[0]);
@@ -202,7 +202,7 @@ const RideFilter = ({ rides, onFilter, handleShowFilter }) => {
       </div>
 
 
-{auth.isAdmin && 
+{auth.isAdmin && ridesAllComponentMount && 
       <div className='filter-range'>
       <label className='filter-label'>Id:</label>
       <input

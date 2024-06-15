@@ -38,7 +38,7 @@ const RidesAll = () => {
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
   const [showUsers, setShowUsers] = useState(null)
-
+  const [ridesAllComponentMount, setRidesAllComponentMount] = useState(false)
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
 
@@ -72,6 +72,7 @@ const RidesAll = () => {
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
+ 
 
   const [rideStatusUpdated, setRideStatusUpdated] = useState(false)
 
@@ -117,6 +118,7 @@ const RidesAll = () => {
         if (isMounted) {
           setRides(response.data);
           setIsLoading(false);
+          setRidesAllComponentMount(true)
 
           // Fetch messages for each ride
           const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id));
@@ -174,7 +176,7 @@ const RidesAll = () => {
       <div className='rides-public-container'>
 
         {showFilter &&
-          <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+          <RidesFilter onFilter={onFilter} handleShowFilter={handleShowFilter} ridesAllComponentMount={ridesAllComponentMount} />
         }
 
         {rides.length === 0 ? (
