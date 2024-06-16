@@ -1268,32 +1268,49 @@ app.post("/user/deactivate/:id", async (req, res) => {
 app.get("/maps/public", async (req, res) => {
   try {
 
-    const userId = req.query.userId;
-    // console.log("req query", req)
+    const userId = req.query.user.userId;
+    // console.log("userId", userId)
+    // console.log("req query maps/public", req.query)
     // console.log("userId serverjs", userId)
-    const maps = await pool.query(
+    const username = req.query?.filteredMaps?.userName;
+    const title = req.query?.filteredMaps?.title;
 
-      `
-      SELECT DISTINCT m.* 
-      FROM maps m
-      LEFT JOIN followers f ON m.createdBy = f.followee_id
-      LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = m.createdBy
-      LEFT JOIN muted mute2 ON mute2.muter = m.createdBy AND mute2.mutee = $1
-      INNER JOIN users u1 ON m.createdBy = u1.id
-      INNER JOIN users u2 ON $1 = u2.id
-      WHERE (m.mapType = 'public' OR (m.mapType = 'followers' AND f.follower_id = $1))
-      AND (mute1.mute IS NULL OR mute1.mute = false)
+// console.log("maps,public title", title)
+
+let query = 
+`
+SELECT DISTINCT m.* 
+FROM maps m
+LEFT JOIN followers f ON m.createdby = f.followee_id
+LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = m.createdby
+LEFT JOIN muted mute2 ON mute2.muter = m.createdBy AND mute2.mutee = $1
+INNER JOIN users u1 ON m.createdby = u1.id
+INNER JOIN users u2 ON $1 = u2.id
+WHERE (m.maptype = 'public' OR (m.maptype = 'followers' AND f.follower_id = $1))
+AND (mute1.mute IS NULL OR mute1.mute = false)
 AND (mute2.mute IS NULL OR mute2.mute = false)
 AND m.isactive = true
-AND u1.isActive = true
-    AND u2.isActive = true
-      ORDER BY m.id DESC
-      
-    `, [userId]
+AND u1.isactive = true
+AND u2.isactive = true
+
+`
+
+let queryParams = [userId]
 
 
+if (title && title.toLowerCase() !== 'all') {
+  query += ` AND m.title ILIKE $${queryParams.length + 1}`;
+  queryParams.push(`%${title}%`)
+}
+
+query += ` ORDER BY m.id DESC`
+
+
+// console.log("query", query)
+
+    const maps = await pool.query(query, queryParams
     );
-    // console.log("maps. rows", maps.rows)
+    //  console.log("maps. rows", maps.rows)
     res.json(maps.rows)
   } catch (err) {
     console.error(err.message)
@@ -1421,7 +1438,7 @@ app.get("/maps/:id", async (req, res) => {
 
 //Get all rides (admin)
 app.get("/rides", async (req, res) => {
-  console.log(req.query.filteredRides)
+  // console.log(req.query.filteredRides)
   // console.log("req query /rides", req.query)
   try {
     const userId = req.query.user.userId

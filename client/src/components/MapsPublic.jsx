@@ -1,17 +1,23 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import { formatDate } from "./util_functions/FormatDate";
+
 import PreviewMap from './PreviewMap';
-// import { useAuth } from "./Context/AuthContext";
+
 import useAuth from "../hooks/useAuth"
 
 import '../styles/MapsPublic.css'
 
-
-
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
+import fetchMaps from './util_functions/FetchMaps';
+
+//Components
+import MapFilter from './MapFilter';
+
+import { faSliders } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import '../styles/Navbar.css'
 
 
 const MapsPublic = () => {
@@ -25,6 +31,21 @@ const MapsPublic = () => {
   const [showAllMaps, setShowAllMaps] = useState(false)
   const { auth } = useAuth();
   const BACKEND = process.env.REACT_APP_API_URL;
+
+  const [showFilter, setShowFilter] = useState(false)
+
+  const defaultFilteredMaps = {
+    userName: 'all',
+    title: 'all'
+  }
+  
+    const [filteredMaps, setFilteredMaps] = useState(defaultFilteredMaps);
+
+console.log("filtered maps", filteredMaps)
+
+    const onFilter = (filters) => {
+      setFilteredMaps(filters)
+    };
 
   const handleShowMaps = () => {
     setShowAllMaps(prev => !prev)
@@ -57,39 +78,11 @@ const MapsPublic = () => {
 
   useEffect(() => {
     let isMounted = true;
-
-    const fetchData = async () => {
-      try {
-        setIsLoading(true); // Set loading to true before API call
-        const response = await axios.get(`${BACKEND}/maps/public`, {
-          params: {
-            userId: userId
-          }
-        });
-        if (isMounted) {
-          // Initialize addToMyMaps state with false for each map
-          setAddToMyMaps(new Array(response.data.length).fill(false));
-          setMaps(response.data);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        if (isMounted) {
-          if (error.response && error.response.data && error.response.data.error) {
-            setError(error.response.data.error)
-          } else {
-            setError(error.message)
-          }
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-
+    fetchMaps(auth, setMaps, setAddToMyMaps, setIsLoading, setError, isMounted, filteredMaps); // Call fetchMaps function
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
-  }, [auth]);
+  }, [auth, filteredMaps]);
 
   useEffect(() => {
     const fetchUserMaps = async () => {
@@ -112,6 +105,7 @@ const MapsPublic = () => {
 
     fetchUserMaps();
   }, [userId, addToMyMaps]);
+
 
   const toggleAddToMyMaps = (index) => {
     //  console.log("add to my maps before", addToMyMaps);
@@ -159,7 +153,9 @@ const MapsPublic = () => {
     }
   };
 
-
+  const handleShowFilter = () => {
+    setShowFilter(prev => !prev)
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -171,6 +167,15 @@ const MapsPublic = () => {
 
   return (
     <>
+{!showFilter &&
+        <button title="Filter" className='rides-public-filter-ride'
+          onClick={() => handleShowFilter()}
+        > <FontAwesomeIcon icon={faSliders} /></button>}
+
+{showFilter &&
+          <MapFilter onFilter={onFilter} handleShowFilter={handleShowFilter}  />
+        }
+
       {maps.length === 0 ? (
         <>
         <div className='users-title'>Maps</div>

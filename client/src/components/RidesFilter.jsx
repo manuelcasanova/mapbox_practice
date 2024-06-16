@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useAuth from "../hooks/useAuth"
 
 
-const RideFilter = ({ rides, onFilter, handleShowFilter, ridesAllComponentMount }) => {
+const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
 
 
   const [dateStart, setDateStart] = useState(new Date().toISOString().split('T')[0]);

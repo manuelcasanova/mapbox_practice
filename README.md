@@ -2,15 +2,7 @@
 
 Functionalities
 
-Search users:
-
-All -OK
-Followers -
-Following -
-Muted - 
-Admin -
-
-Search maps (by user, by name.)
+Filter maps by username
 
 My account -  modify picture 
 
@@ -45,6 +37,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Public maps filter by map name
 
 Admin/rides/runs search by id
 
