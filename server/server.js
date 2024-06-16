@@ -1303,6 +1303,11 @@ if (title && title.toLowerCase() !== 'all') {
   queryParams.push(`%${title}%`)
 }
 
+if (username && username.toLowerCase() !== 'all') {
+  query += ` AND u1.username ILIKE $${queryParams.length + 1}`;
+  queryParams.push(`%${username}%`)
+}
+
 query += ` ORDER BY m.id DESC`
 
 

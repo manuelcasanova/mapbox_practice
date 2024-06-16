@@ -67,7 +67,7 @@ const MapFilter = ({ handleShowFilter, onFilter }) => {
       </div>
 
       <div className='filter-range'>
-        <label className='filter-label'>Username:</label>
+        <label className='filter-label'>Creator:</label>
         <input
           className='filter-input'
           type="text"

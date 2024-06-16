@@ -2,7 +2,7 @@
 
 Functionalities
 
-Filter maps by username
+
 
 My account -  modify picture 
 
@@ -26,6 +26,8 @@ PRODUCTION
 
 Future:
 
+
+
 logic for read/unread messages
 
 Possibility of receving email when:
@@ -37,6 +39,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Public maps filter by username
 
 Public maps filter by map name
 
