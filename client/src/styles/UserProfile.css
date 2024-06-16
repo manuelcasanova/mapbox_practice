@@ -54,6 +54,13 @@ max-width: 200px;
 cursor: pointer;
 }
 
+.file-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+
 .user-profile-default-icon {
   display: flex; 
   justify-content: center; 

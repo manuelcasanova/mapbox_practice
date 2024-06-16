@@ -10,7 +10,7 @@ import AuthContext from "../context/AuthProvider";
 
 //Context
 // import { useAuth } from "./Context/AuthContext";
-import useAuth from "../hooks/useAuth"
+import useAuth from '../hooks/useAuth';
 import useLogout from "../hooks/useLogout";
 
 //Util functions
@@ -27,19 +27,17 @@ export default function UserProfile({ setRideAppUndefined }) {
   const { auth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
   const profilePicture = 'http://localhost:3500/profile_pictures/' + auth.profilePicture;
-
-  // console.log("user int UserProfile", user)
-  // console.log("auth in UserProfile", auth.username)
-
   const loggedInUser = auth;
   const logOut = useLogout(setRideAppUndefined)
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const [newUsername, setNewUsername] = useState("");
   const [isEditingUsername, setIsEditingUsername] = useState(false);
-  const [showEditPassword, setShowEditPassword] = useState(false)
+  const [showEditPassword, setShowEditPassword] = useState(false);
+  const [showUploadFile, setShowUploadFile] = useState(false)
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  // console.log(newUsername)
+console.log("selectedFile", selectedFile)
 
   useEffect(() => {
     if (isEditingUsername) {
@@ -53,13 +51,11 @@ export default function UserProfile({ setRideAppUndefined }) {
     setIsEditingUsername(false)
   }
 
-  const handleShowConfirmDelete = () => { 
+  const handleShowConfirmDelete = () => {
     setShowConfirmDelete(true)
     setShowEditPassword(false)
     setIsEditingUsername(false)
   }
-
-
 
   const handleDeactivateUser = () => {
     deactivateUser(auth, loggedInUser);
@@ -94,8 +90,34 @@ export default function UserProfile({ setRideAppUndefined }) {
     setIsEditingUsername(true)
     setShowConfirmDelete(false)
     setShowEditPassword(false)
-    
   }
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleFileUpload = async () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('profilePicture', selectedFile);
+
+      try {
+        const response = await fetch(`http://localhost:3500/profile_pictures/${auth.userId}/`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          // Optionally update state or perform any other actions upon successful upload
+          console.log('File uploaded successfully');
+        } else {
+          console.error('Failed to upload file');
+        }
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
 
   return (
     <>
@@ -106,7 +128,7 @@ export default function UserProfile({ setRideAppUndefined }) {
             {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
               <div className="user-profile-image-container">
                 <img className="user-profile-image" src={profilePicture} alt={auth.username} />
-                <FontAwesomeIcon icon={faEdit} />
+                <FontAwesomeIcon icon={faEdit} onClick={() => setShowUploadFile(prev => !prev)}/>
               </div>
             ) : (
               <div className="user-profile-default-icon" onClick={() => navigate('/user/profile')}>
@@ -116,7 +138,13 @@ export default function UserProfile({ setRideAppUndefined }) {
               </div>
             )}
 
-
+{showUploadFile && (
+         <div className="file-upload-section">
+         <input type="file" accept=".jpg" onChange={handleFileChange} />
+         <button className="orange-button small-button" onClick={handleFileUpload}>Upload Profile Picture</button>
+       </div>
+)}
+   
 
             <div className="user-profile-username-container">
 
@@ -133,11 +161,11 @@ export default function UserProfile({ setRideAppUndefined }) {
 
             {isEditingUsername &&
               <div className='user-profile-edit-buttons-container'>
-             
+
                 <button
                   disabled={newUsername === ""}
                   className="user-profile-save-username-button" onClick={handleUpdateUsername} >Save username</button>
-                   <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>
+                <button className='user-profile-delete-button-close' onClick={handleNo}>X</button>
               </div>
 
             }
@@ -153,9 +181,9 @@ export default function UserProfile({ setRideAppUndefined }) {
 
 
 
-             {showEditPassword &&
+            {showEditPassword &&
               <UserEditPassword user={auth} users={users} setUsers={setUsers} />
-            } 
+            }
 
             <div className="delete-buttons-container">
               {!showConfirmDelete &&
