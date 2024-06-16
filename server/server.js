@@ -10,7 +10,9 @@ const PORT = process.env.PORT || 3500;
 const pool = require('./config/db');
 const { report } = require('./routes/register');
 const bcrypt = require('bcrypt')
+const multer = require('multer');
 const path = require('path'); // To serve static files.
+const fs = require('fs');
 
 
 app.set("view engine", 'ejs');
@@ -63,6 +65,60 @@ app.use('/forgot-password', require('./routes/forgot-password'));
 
 // app.use(verifyJWT);
 
+// Multer setup for file upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const userId = req.params.userId;
+    const uploadPath = path.join(__dirname, `profile_pictures/${userId}`);
+
+    // Ensure the directory exists
+    fs.mkdir(uploadPath, { recursive: true }, (err) => {
+      if (err) {
+        return cb(err);
+      }
+      cb(null, uploadPath);
+    });
+  },
+  filename: (req, file, cb) => {
+    cb(null, 'profile_picture.jpg'); // Always save as profile_picture.jpg
+  }
+});
+
+const upload = multer({ storage });
+
+// Endpoint to handle profile picture upload
+app.post('/profile_pictures/:userId', upload.single('profilePicture'), async (req, res) => {
+  // console.log("req.params", req.params)
+  const userId = req.params.userId;
+  const profilePicturePath = `profile_pictures/${userId}/profile_picture.jpg`;
+
+  try {
+    // Update user's profile_picture in the database
+    const updateProfilePictureQuery = `
+      UPDATE users
+      SET profile_picture = $1
+      WHERE id = $2
+      RETURNING *
+    `;
+
+    const updateResult = await pool.query(updateProfilePictureQuery, [profilePicturePath, userId]);
+
+    // Handle successful update
+    if (updateResult.rowCount > 0) {
+
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+      
+      res.status(200).json({ message: 'Profile picture uploaded successfully' });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error uploading profile picture:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 app.put('/users/edit/password', async (req, res) => {
