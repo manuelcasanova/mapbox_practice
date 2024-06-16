@@ -166,13 +166,20 @@
 /* For the My account button on the navbar */
 
 .profile-picture {
-  max-width: 50px;
-  max-height: 50px;
-  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   border: 1px solid white;
   padding: 2px;
-
+overflow: hidden;
 }
+
+.navbar img {
+  max-width: 50px; 
+  max-height: 50px; 
+  object-fit: cover; 
+}
+
 
 .profile-default-icon {
   /* padding-top: 12px; */

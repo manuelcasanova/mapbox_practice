@@ -37,17 +37,21 @@
 .user-profile-image {
   margin-top: 30px;
   display: flex;
-  flex-direction: column;
-  align-items: center; 
-  border-radius: 50%;
-  border: solid 5px var(--color0);
-  padding: 10px;
-max-height: 200px;
-max-width: 200px;
-  margin-bottom: 30px;
-  overflow: hidden; 
-  transition: padding 0.5s; 
+  align-items: center;
+  justify-content: center;
+  width: 200px; /* Adjust size as needed */
+  height: 200px; /* Adjust size as needed */
+  border-radius: 50%; /* Makes the container circular */
+  border: solid 5px var(--color0); /* Border styling */
+  overflow: hidden; /* Clip the image to the container shape */
 }
+
+.user-profile-image img {
+  width: 100%; /* Ensure the image takes up the container space */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the container while maintaining aspect ratio */
+}
+
 
 .user-profile-image:hover {
   padding: 0px;
@@ -55,9 +59,13 @@ cursor: pointer;
 }
 
 .file-upload-section {
+  margin: 5% 0% 0% 0%;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  border: 2px solid var(--color0);
+  padding: 20px;
+  border-radius: 20px;
 }
 
 

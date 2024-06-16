@@ -26,7 +26,9 @@ export default function UserProfile({ setRideAppUndefined }) {
   const navigate = useNavigate()
   const { auth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
-  const profilePicture = 'http://localhost:3500/profile_pictures/' + auth.profilePicture;
+  const [profilePicture, setProfilePicture] = useState(`http://localhost:3500/${auth.profilePicture}`)
+
+  console.log("profile picture", profilePicture)
   const loggedInUser = auth;
   const logOut = useLogout(setRideAppUndefined)
 
@@ -37,13 +39,23 @@ export default function UserProfile({ setRideAppUndefined }) {
   const [showUploadFile, setShowUploadFile] = useState(false)
   const [selectedFile, setSelectedFile] = useState(null);
 
-console.log("selectedFile", selectedFile)
+
+
+  console.log("profile Picture", profilePicture)
+  // useEffect(() => {
+  //   setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
+  // }, [auth.profilePicture]);
+
 
   useEffect(() => {
     if (isEditingUsername) {
       usernameInputRef.current.focus();
     }
   }, [isEditingUsername]);
+
+useEffect(() => {
+
+}, [profilePicture])
 
   const handleShowEditPassword = () => {
     setShowEditPassword(prev => !prev)
@@ -108,8 +120,12 @@ console.log("selectedFile", selectedFile)
         });
 
         if (response.ok) {
-          // Optionally update state or perform any other actions upon successful upload
+        
+          //here
+          setProfilePicture(`http://localhost:3500/${auth.profilePicture}?${Date.now()}`);
+setShowUploadFile(prev => !prev)
           console.log('File uploaded successfully');
+
         } else {
           console.error('Failed to upload file');
         }
@@ -125,26 +141,36 @@ console.log("selectedFile", selectedFile)
         (
           <div className="user-profile">
 
+{!showUploadFile && (
+  <>
             {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
               <div className="user-profile-image-container">
                 <img className="user-profile-image" src={profilePicture} alt={auth.username} />
-                <FontAwesomeIcon icon={faEdit} onClick={() => setShowUploadFile(prev => !prev)}/>
+                <FontAwesomeIcon icon={faEdit} onClick={() => setShowUploadFile(prev => !prev)} />
               </div>
             ) : (
               <div className="user-profile-default-icon" onClick={() => navigate('/user/profile')}>
                 {/* <FontAwesomeIcon icon={faUser} /> */}
-                <FontAwesomeIcon icon={faImage} />
-                <FontAwesomeIcon icon={faPlus} />
+                <FontAwesomeIcon icon={faImage} onClick={() => setShowUploadFile(prev => !prev)} />
+                <FontAwesomeIcon icon={faPlus} onClick={() => setShowUploadFile(prev => !prev)} />
               </div>
             )}
+</>
+)
 
-{showUploadFile && (
-         <div className="file-upload-section">
-         <input type="file" accept=".jpg" onChange={handleFileChange} />
-         <button className="orange-button small-button" onClick={handleFileUpload}>Upload Profile Picture</button>
-       </div>
-)}
-   
+          }   
+
+            {showUploadFile && (
+              <>
+              <div className="file-upload-section">
+                <input type="file" accept=".jpg" onChange={handleFileChange} />
+                <button className="orange-button small-button" onClick={handleFileUpload}>Upload Profile Picture</button>
+                <button className='red-button button-close small-button'  style={{ width: '50px' }} onClick={() => setShowUploadFile(prev => !prev)}>x</button>
+              </div>
+             
+              </>
+            )}
+
 
             <div className="user-profile-username-container">
 
