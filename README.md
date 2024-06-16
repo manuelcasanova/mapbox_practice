@@ -2,8 +2,6 @@
 
 Functionalities
 
-
-
 My account -  modify picture 
 
 Name: max characters

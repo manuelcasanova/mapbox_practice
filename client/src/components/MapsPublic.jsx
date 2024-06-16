@@ -41,7 +41,7 @@ const MapsPublic = () => {
   
     const [filteredMaps, setFilteredMaps] = useState(defaultFilteredMaps);
 
-console.log("filtered maps", filteredMaps)
+// console.log("filtered maps", filteredMaps)
 
     const onFilter = (filters) => {
       setFilteredMaps(filters)

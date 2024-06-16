@@ -54,7 +54,7 @@ const MapFilter = ({ handleShowFilter, onFilter }) => {
   };
 
   return (
-    <div className='filter-container'>
+    <div className='filter-container filter-container-map'>
 
       <div className='filter-range'>
         <button

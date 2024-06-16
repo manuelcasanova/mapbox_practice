@@ -1,18 +1,20 @@
 
 
 .filter-container {
-  /* margin: 5% 15% 5% 15%; */
+ 
 
   background-color: var(--color1);
   padding: 10px;
   border-radius: 5px;
 
+
+  
   display: flex;
   flex-direction: column;
   justify-content: center; 
   align-items: center;
    gap: 5px; 
-   /* This two combined to have a max width but still centered */
+
    margin: 10px auto;
    max-width: 700px;
 
@@ -134,6 +136,10 @@ padding: 3px;
   margin: 5px;
 }
 
+.filter-container-map {
+
+}
+
   .filter-range {
 display: flex;
 /* flex-direction: column; */
@@ -164,7 +170,11 @@ display: flex;
 
   .filter-container {
     /* flex-direction: row; */
-    
+ 
+  }
+
+  .filter-container-map {
+    margin: 5px auto;
   }
 
   .hide-small {
@@ -191,6 +201,21 @@ display: flex;
      min-width: 100%;
      max-width: 100%
   }
+
+
+.filter-container-map {
+  min-width: 60%;
+     max-width: 60%
+}
+
+.filter-container-map div:first-child {
+max-width: 15%;
+}
+
+.filter-container-map .filter-input {
+width: 70%;
+}
+
 
 
   .filter-input[type="date"] {
