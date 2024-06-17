@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 import useLogout from "../hooks/useLogout";
@@ -9,7 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../styles/Navbar.css'
 
 
-export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) {
+export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, profilePicture, setProfilePicture }) {
+
+   console.log("profile picture in navbar", profilePicture)
 
   // console.log("rideApp in Navbar", rideApp)
   const logout = useLogout();
@@ -19,7 +21,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
 
   //  console.log("auth in Navbar", auth)
 
-  const profilePicture = 'http://localhost:3500/' + auth.profilePicture;
+  // const profilePicture = 'http://localhost:3500/' + auth.profilePicture;
 
   const signOut = async () => {
     await logout();
@@ -52,6 +54,10 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined }) 
   const handleMouseLeave = (category) => {
     setShowOptions({ ...showOptions, [category]: false });
   };
+
+  useEffect(() => {
+
+  }, [profilePicture])
 
   return (
     <div className="navbar">

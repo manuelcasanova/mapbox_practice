@@ -58,6 +58,17 @@
 cursor: pointer;
 }
 
+.hover-edit-image-buttons {
+  font-size: x-large;
+color: white;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 50%; /* Position at 50% from the top of the parent */
+  left: 38%; /* Position at 50% from the left of the parent */
+  cursor: pointer;
+}
+
 .file-upload-section {
   margin: 5% 0% 0% 0%;
   display: flex;

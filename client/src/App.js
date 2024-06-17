@@ -49,9 +49,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 // Define a layout component to wrap the routes
-const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined, showNavsidebar, toggleNavsidebar, handleMouseLeave }) => {
+const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setRideAppUndefined, showNavsidebar, toggleNavsidebar, handleMouseLeave, profilePicture, setProfilePicture }) => {
 
   const { auth } = useAuth()
+
+
   const isAdmin = auth.isAdmin
 
   return (
@@ -60,7 +62,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
       <div className='head'>
         <Title rideApp={rideApp} setRideApp={setRideApp} />
-        <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} />
+        <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture}/>
 
         {showNavsidebar && <Navsidebar rideApp={rideApp} fromButton={fromButton} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
       </div>
@@ -108,16 +110,21 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
 function App() {
 
+  const { auth } = useAuth()
+
+console.log("auth in app", auth)
+
   const [fromButton, setFromButton] = useState(false)
   const [rideApp, setRideApp] = useState(true)
   //before (). It worked well until PersistLogin on reload page
 
   const [showNavsidebar, setShowNavsidebar] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(`http://localhost:3500/${auth.profilePicture}`)
 
 
   useEffect(() => {
     // console.log("ride app in app.js", rideApp)
-  }, [rideApp])
+  }, [rideApp, profilePicture])
 
 
   const toggleNavsidebar = () => {
@@ -167,6 +174,7 @@ function App() {
                 setFromButton={setFromButton}
                 setRideAppUndefined={setRideAppUndefined}
                 handleMouseLeave={handleMouseLeave}
+                profilePicture={profilePicture}
               >
 
                 <Routes>
@@ -196,7 +204,7 @@ function App() {
                     <Route exact path="/users/muted" element={<><MutedUsers /></>}></Route>
                     <Route exact path="/users/pending" element={<><PendingUsers /></>}></Route>
                     <Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}></Route>
-                    <Route exact path="/user/profile" element={<><UserProfile setRideAppUndefined={setRideAppUndefined} /></>}></Route>
+                    <Route exact path="/user/profile" element={<><UserProfile setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture} setProfilePicture={setProfilePicture}/></>}></Route>
                   </Route>
                 </Routes>
               </Layout>
