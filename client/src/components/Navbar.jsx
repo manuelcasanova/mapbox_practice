@@ -11,7 +11,7 @@ import '../styles/Navbar.css'
 
 export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, profilePicture, setProfilePicture }) {
 
-   console.log("profile picture in navbar", profilePicture)
+    console.log("profile picture in navbar", profilePicture)
 
   // console.log("rideApp in Navbar", rideApp)
   const logout = useLogout();
@@ -54,6 +54,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, pr
   const handleMouseLeave = (category) => {
     setShowOptions({ ...showOptions, [category]: false });
   };
+
 
   useEffect(() => {
 

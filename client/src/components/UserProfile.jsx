@@ -28,7 +28,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const [users, setUsers] = useState();
 
 
-  console.log("profile picture", profilePicture)
+  // console.log("profile picture", profilePicture)
   const loggedInUser = auth;
   const logOut = useLogout(setRideAppUndefined)
 

@@ -53,6 +53,8 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
   const { auth } = useAuth()
 
+  
+
 
   const isAdmin = auth.isAdmin
 
@@ -62,7 +64,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
       <div className='head'>
         <Title rideApp={rideApp} setRideApp={setRideApp} />
-        <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture}/>
+        <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture} setProfilePicture={setProfilePicture}/>
 
         {showNavsidebar && <Navsidebar rideApp={rideApp} fromButton={fromButton} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} />}
       </div>
@@ -112,15 +114,21 @@ function App() {
 
   const { auth } = useAuth()
 
-console.log("auth in app", auth)
+// console.log("auth in app", auth)
 
   const [fromButton, setFromButton] = useState(false)
   const [rideApp, setRideApp] = useState(true)
   //before (). It worked well until PersistLogin on reload page
 
   const [showNavsidebar, setShowNavsidebar] = useState(false);
-  const [profilePicture, setProfilePicture] = useState(`http://localhost:3500/${auth.profilePicture}`)
+  const [profilePicture, setProfilePicture] = useState(null);
 
+
+  useEffect(() => {
+    if (auth.profilePicture) {
+      setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
+    }
+  }, [auth.profilePicture]);
 
   useEffect(() => {
     // console.log("ride app in app.js", rideApp)
