@@ -2,10 +2,12 @@
 
 Functionalities
 
+Fix my maps
+
 Show user picture instead of id in:
 
-users/all
-users/followee
+users/all -ok
+users/followee -ok
 users/following
 users/pending
 users/muted

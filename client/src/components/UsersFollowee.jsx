@@ -22,6 +22,7 @@ const Followee = () => {
   const [followers, setFollowers] = useState([])
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showLargePicture, setShowLargePicture] = useState(null)
   const { auth } = useAuth();
   const userLoggedInObject = auth
   // console.log("user in Users Followee", user.id)
@@ -106,7 +107,22 @@ const Followee = () => {
                     key={user.id}>
 
 
-<div className='users-all-picture'> {user.id}</div> 
+<div className='users-all-picture-container'
+                        onClick={() => setShowLargePicture(user.id)}
+                        >
+                          <img className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                        </div>
+
+
+                        {showLargePicture === user.id && <div
+                        className='large-picture'
+                        onClick={() => setShowLargePicture(null)}
+                        >
+                         <img 
+                         className='users-all-picture-large'
+                         onClick={() => setShowLargePicture(null)}
+                         src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                          </div>}
 <div className='user-details'>
 <div className='users-all-name'>{user.username}</div>
 </div>
