@@ -1,8 +1,7 @@
-
 .user-profile {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   /* border: 1px solid #e0e0e0; */
   /* border-radius: 10px; */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -14,6 +13,7 @@
 
 .user-profile-image-container {
   position: relative;
+
 }
 
 .user-profile-image-container:hover .fa-pen-to-square {
@@ -21,51 +21,49 @@
 }
 
 .user-profile-image-container:hover .user-profile-image {
-  padding: 0px; 
+  padding: 0px;
 }
 
 .user-profile-image-container .fa-pen-to-square {
-  font-size: 20px; 
-  position: absolute; 
+  font-size: 20px;
+  position: absolute;
   top: 50%;
   left: 85%;
-  transform: translate(-50%, -50%); 
+  transform: translate(-50%, -50%);
   color: var(--color1);
 }
 
 
 .user-profile-image {
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px; /* Adjust size as needed */
-  height: 200px; /* Adjust size as needed */
-  border-radius: 50%; /* Makes the container circular */
-  border: solid 5px var(--color0); /* Border styling */
-  overflow: hidden; /* Clip the image to the container shape */
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: solid 5px var(--color0);
+  padding: 2px;
+  overflow: hidden;
+  object-fit: cover;
+  
 }
 
-.user-profile-image img {
-  width: 100%; /* Ensure the image takes up the container space */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: cover; /* Cover the container while maintaining aspect ratio */
-}
+
+
 
 
 .user-profile-image:hover {
   padding: 0px;
-cursor: pointer;
+  cursor: pointer;
 }
 
 .hover-edit-image-buttons {
   font-size: x-large;
-color: white;
+  color: white;
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 50%; /* Position at 50% from the top of the parent */
-  left: 38%; /* Position at 50% from the left of the parent */
+  top: 50%;
+  /* Position at 50% from the top of the parent */
+  left: 38%;
+  /* Position at 50% from the left of the parent */
   cursor: pointer;
 }
 
@@ -81,8 +79,8 @@ color: white;
 
 
 .user-profile-default-icon {
-  display: flex; 
-  justify-content: center; 
+  display: flex;
+  justify-content: center;
   align-items: center;
   margin-top: 30px;
   border-radius: 50%;
@@ -90,10 +88,10 @@ color: white;
   padding: 10px;
   min-width: 100px;
   min-height: 100px;
-max-height: 200px;
-max-width: 200px;
+  max-height: 200px;
+  max-width: 200px;
   margin-bottom: 30px;
-  overflow: hidden; 
+  overflow: hidden;
   transition: padding 0.5s;
   position: relative;
   color: var(--color0);
@@ -107,32 +105,45 @@ max-width: 200px;
 }
 
 .user-profile-default-icon:hover .fa-plus {
-  color: var(--color0); /* Change the color to var(--color0) when hovered */
+  color: var(--color0);
+  /* Change the color to var(--color0) when hovered */
 }
 
 .user-profile-default-icon .fa-image {
-  font-size: 48px; /* Adjust the size as needed */
-  position: absolute; /* Position the image icon absolutely */
-  top: 50%; /* Position at vertical center */
-  left: 50%; /* Position at horizontal center */
-  transform: translate(-50%, -50%); /* Center the icon */
+  font-size: 48px;
+  /* Adjust the size as needed */
+  position: absolute;
+  /* Position the image icon absolutely */
+  top: 50%;
+  /* Position at vertical center */
+  left: 50%;
+  /* Position at horizontal center */
+  transform: translate(-50%, -50%);
+  /* Center the icon */
 }
 
 .user-profile-default-icon .fa-plus {
-  font-size: 14px; /* Adjust the size as needed */
-  position: absolute; /* Position the plus icon absolutely */
-  top: 30px; /* Position at 10px from the top */
-  right: 30px; /* Position at 10px from the right */
+  font-size: 14px;
+  /* Adjust the size as needed */
+  position: absolute;
+  /* Position the plus icon absolutely */
+  top: 30px;
+  /* Position at 10px from the top */
+  right: 30px;
+  /* Position at 10px from the right */
   color: white;
 }
+
 .user-profile-username-container {
   display: flex;
   flex-direction: column;
-  align-items: center; 
-/* margin-bottom: 30px; */
+  align-items: center;
+  /* margin-bottom: 30px; */
 }
 
-.user-profile-username, .user-profile-email, .user-profile-permissions {
+.user-profile-username,
+.user-profile-email,
+.user-profile-permissions {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,7 +166,7 @@ max-width: 200px;
 .user-profile-edit-buttons-container {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 }
 
 .user-profile-edit-button {
@@ -191,15 +202,17 @@ max-width: 200px;
 }
 
 .user-profile-save-username-button[disabled] {
-  opacity: 0.5; /* Example: reduces opacity to visually indicate disabled state */
-  cursor: not-allowed; /* Example: changes cursor to not-allowed */
+  opacity: 0.5;
+  /* Example: reduces opacity to visually indicate disabled state */
+  cursor: not-allowed;
+  /* Example: changes cursor to not-allowed */
 }
 
 .delete-buttons-container {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 }
 
 .user-profile-delete-button-close {
@@ -211,15 +224,18 @@ max-width: 200px;
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 
-/* Center */
+  /* Center */
 
-display: flex; /* Center horizontally and vertically */
-justify-content: center; /* Center horizontally */
-align-items: center; /* Center vertically */
-width: 30px; 
-height: 30px;
+  display: flex;
+  /* Center horizontally and vertically */
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  width: 30px;
+  height: 30px;
 }
 
 .user-profile-delete-button-close:hover {
