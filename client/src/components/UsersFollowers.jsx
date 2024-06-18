@@ -22,6 +22,7 @@ const Followers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
   const userLoggedInObject = auth;
+  const [showLargePicture, setShowLargePicture] = useState(null)
 
   // console.log("user in Users FOllowers", user.id)
 
@@ -110,7 +111,22 @@ const Followers = () => {
 
 
 
-<div className='users-all-picture'> {user.id}</div>  {/* Hide on production */}
+<div className='users-all-picture-container'
+                        onClick={() => setShowLargePicture(user.id)}
+                        >
+                          <img className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                        </div>
+
+
+                        {showLargePicture === user.id && <div
+                        className='large-picture'
+                        onClick={() => setShowLargePicture(null)}
+                        >
+                         <img 
+                         className='users-all-picture-large'
+                         onClick={() => setShowLargePicture(null)}
+                         src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                          </div>}
 <div className='user-details'>
 
                     <div className='users-all-name'>{user.username}</div>

@@ -8,9 +8,9 @@ Show user picture instead of id in:
 
 users/all -ok
 users/followee -ok
-users/following
-users/pending
-users/muted
+users/following -ok
+users/pending -ok
+users/muted 
 admin/users
 
 users/messaging/user:id

@@ -25,7 +25,7 @@ const PendingUsers = () => {
   const [newRequest, setNewRequest] = useState(false)
   const currentDate = new Date();
   const [loginhistory, setLoginHistory] = useState([]);
-
+  const [showLargePicture, setShowLargePicture] = useState(null)
 
 // console.log("user in UsersPening", user)
 // console.log("userLoggedin", userLoggedin)
@@ -216,7 +216,22 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
 
 
 <div className="users-pending-user">
-              <div className='users-all-picture'> {user.id}</div>
+<div className='users-all-picture-container'
+                        onClick={() => setShowLargePicture(user.id)}
+                        >
+                          <img className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                        </div>
+
+
+                        {showLargePicture === user.id && <div
+                        className='large-picture'
+                        onClick={() => setShowLargePicture(null)}
+                        >
+                         <img 
+                         className='users-all-picture-large'
+                         onClick={() => setShowLargePicture(null)}
+                         src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                          </div>}
               <div className='user-details'>
               <div className='users-all-name'>{user.username}</div>
               </div>
