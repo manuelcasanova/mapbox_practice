@@ -67,7 +67,12 @@ export default function UsersMessaging() {
                          <img 
                          className='users-all-picture-large'
                          onClick={() => setShowLargePicture(null)}
-                         src={`http://localhost:3500/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  />
+                         src={`http://localhost:3500/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  
+                         onError={(e) => {
+                          e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                          e.target.src = `http://localhost:3500/profile_pictures/user.jpg`; // Default fallback image URL
+                        }}
+                         />
                           </div>}
 
 
