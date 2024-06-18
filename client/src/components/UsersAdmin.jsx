@@ -19,6 +19,7 @@ const UsersAdmin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
+  const [showLargePicture, setShowLargePicture] = useState(null)
 
   //  console.log("users", users)
 
@@ -129,7 +130,22 @@ const UsersAdmin = () => {
                     {!user.isactive && <div className="users-inactive">User is inactive</div>}
 
                     <div className='user-admin-details'>
-                      <div className='users-admin-picture'>  {user.id}</div>
+                    <div className='users-all-picture-container'
+                        
+                        >
+                          <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                        </div>
+
+
+                        {showLargePicture === user.id && <div
+                        className='large-picture'
+                        onClick={() => setShowLargePicture(null)}
+                        >
+                         <img 
+                         className='users-all-picture-large'
+                         onClick={() => setShowLargePicture(null)}
+                         src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                          </div>}
                       <div className='users-admin-name'>Name: {user.username}</div>
                       <div className='users-admin-name'>Email: {user.email}</div>
                     </div>

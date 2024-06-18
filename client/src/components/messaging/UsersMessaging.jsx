@@ -22,7 +22,7 @@ export default function UsersMessaging() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-
+  const [showLargePicture, setShowLargePicture] = useState(null)
 
   // console.log("user", user)
   //  console.log("userForMessages", userForMessages);
@@ -49,6 +49,31 @@ export default function UsersMessaging() {
     <>
       {auth ? (
         <div className="users-messaging-container">
+
+{selectedUser && <>
+  <div className='users-messaging-picture-container'
+                        
+                        >
+                          <img 
+                          onClick={() => setShowLargePicture(selectedUser.id)}
+                          className='users-messaging-picture' src={`http://localhost:3500/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  />
+                        </div>
+
+
+                        {showLargePicture === selectedUser.id && <div
+                        className='large-picture'
+                        onClick={() => setShowLargePicture(null)}
+                        >
+                         <img 
+                         className='users-all-picture-large'
+                         onClick={() => setShowLargePicture(null)}
+                         src={`http://localhost:3500/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  />
+                          </div>}
+
+
+</>}
+        
+
           <div className="users-messaging-user">Chat with {selectedUsername}</div>
           <WriteMessage userForMessages={userForMessages} setUpdateMessages={setUpdateMessages} />
           <ReadMessage userForMessages={userForMessages} updateMessages={updateMessages} />

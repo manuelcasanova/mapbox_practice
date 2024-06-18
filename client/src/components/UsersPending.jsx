@@ -217,9 +217,9 @@ const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
 
 <div className="users-pending-user">
 <div className='users-all-picture-container'
-                        onClick={() => setShowLargePicture(user.id)}
+                        
                         >
-                          <img className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                          <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
                         </div>
 
 

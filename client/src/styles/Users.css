@@ -43,7 +43,6 @@
     position: relative;
 }
 
-
 .users-all-picture {
     width: 30px;
     height: 30px;
@@ -51,6 +50,23 @@
     border: solid 1px var(--color0);
     object-fit: cover;
     object-position: center;
+}
+
+.users-messaging-picture-container {
+
+ padding: 10px;
+ display: flex;
+justify-content: center;
+}
+
+.users-messaging-picture {
+width: 50px;
+height: 50px;
+border-radius: 50px;
+border: solid 1px var(--color0);
+padding: 2px;
+object-fit: cover;
+object-position: center;
 }
 
 .users-all-picture-large {
@@ -182,13 +198,19 @@
 @media (max-width:600px) {
     .users-admin-user {
         padding: 5px 0px;
-        /* flex-wrap: wrap; */
         flex-direction: column;
         border-bottom: 1px dotted var(--color0);
     }
 
+    .users-all-picture-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
     .user-admin-details {
         flex-direction: column;
+        text-align: center;
     }
 
 }

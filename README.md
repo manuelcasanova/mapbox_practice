@@ -4,18 +4,6 @@ Functionalities
 
 Fix my maps
 
-Show user picture instead of id in:
-
-users/all -ok
-users/followee -ok
-users/following -ok
-users/pending -ok
-users/muted 
-admin/users
-
-users/messaging/user:id
-
-
 Name: max characters
 picture: max mb
 
@@ -55,6 +43,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Show user picture instead of id 
 
 My account -  modify picture 
 
