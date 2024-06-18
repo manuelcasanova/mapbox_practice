@@ -11,7 +11,7 @@ import '../styles/Navbar.css'
 
 export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, profilePicture, setProfilePicture }) {
 
-    console.log("profile picture in navbar", profilePicture)
+    // console.log("profile picture in navbar", profilePicture)
 
   // console.log("rideApp in Navbar", rideApp)
   const logout = useLogout();

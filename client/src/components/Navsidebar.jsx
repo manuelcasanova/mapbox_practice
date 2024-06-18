@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 import useLogout from "../hooks/useLogout";
@@ -10,7 +10,7 @@ import '../styles/Navsidebar.css'
 import '../styles/Hamburger.css'
 
 
-export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined, toggleNavsidebar, handleMouseLeave }) {
+export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined, toggleNavsidebar, handleMouseLeave, profilePicture }) {
 
   // console.log("setFromButton", setFromButton)
   // console.log("rideApp in Navsidebar", rideApp)
@@ -19,7 +19,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   const { auth } = useAuth();
   const downArrow = "⌄"
 
-  const profilePicture = 'http://localhost:3500/profile_pictures/' + auth.profilePicture;
+  // const profilePicture = 'http://localhost:3500/profile_pictures/' + auth.profilePicture;
 
   const signOut = async () => {
     await logout();
@@ -94,6 +94,10 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
   // const handleMouseLeave = (category) => {
   //   setShowOptions({ ...showOptions, [category]: false });
   // };
+
+  useEffect(() => {
+
+  }, [profilePicture])
 
   return (
     <div className="navsidebar"
