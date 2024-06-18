@@ -1,22 +1,22 @@
 .users-all-container {
     /* background-color: var(--color1); */
     margin: 0 auto auto auto;
-    
+
     /* max-width: 700px; */
     /* min-width: 250px; */
     padding: 10px;
-    
+
     border-radius: 10px;
     max-width: 700px;
 }
 
 .users-title {
-display: flex;
-justify-content: center;
-padding: 20px;
-font-weight: 900;
-font-size: x-large;
-color: var(--color0);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    font-weight: 900;
+    font-size: x-large;
+    color: var(--color0);
 }
 
 .users-all-user {
@@ -33,22 +33,50 @@ color: var(--color0);
     justify-content: space-between;
 }
 
-.users-all-picture {
-
+.users-all-picture-container {
+    width: 30px;
+    /* Adjust container size as needed */
+    height: 30px;
+    /* Adjust container size as needed */
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
 }
+
+
+.users-all-picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: solid 1px var(--color0);
+    object-fit: cover;
+    object-position: center;
+}
+
+.users-all-picture-large {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: solid 1px var(--color0);
+    object-fit: cover;
+    object-position: center;
+}
+
 
 .user-details {
     flex: 1;
-    margin-left: 10px; /* Adjust as needed for spacing */
+    margin-left: 10px;
+    /* Adjust as needed for spacing */
 }
 
 .user-actions {
     display: flex;
-    gap: 5px; /* Adjust as needed for spacing between buttons */
+    gap: 5px;
+    /* Adjust as needed for spacing between buttons */
     /* margin-left: 100px; */
-flex-wrap: wrap;
-   
-    
+    flex-wrap: wrap;
+
+
 }
 
 .user-actions button {
@@ -56,7 +84,7 @@ flex-wrap: wrap;
 }
 
 .users-pending-request-user-wrapper {
-   margin-right: 10px;
+    margin-right: 10px;
 }
 
 .users-pending-request-made {
@@ -64,16 +92,16 @@ flex-wrap: wrap;
 }
 
 .users-pending-user {
- display: flex;
- flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 /* Admin */
 
 .users-inactive {
-background-color: red;
-color: white;
-padding: 5px;
+    background-color: red;
+    color: white;
+    padding: 5px;
 }
 
 .users-admin-picture {
@@ -90,16 +118,16 @@ padding: 5px;
 }
 
 .user-admin-details {
-/* background-color: red; */
-display: flex;
+    /* background-color: red; */
+    display: flex;
 }
 
 .user-admin-admin {
     display: flex;
-/* background-color: green; */
-margin: 5px;
-align-items: center;
-gap: 10px
+    /* background-color: green; */
+    margin: 5px;
+    align-items: center;
+    gap: 10px
 }
 
 .users-admin-inner-container {
@@ -114,9 +142,9 @@ gap: 10px
     }
 
     .users-pending-request-made {
-       margin-bottom: 0px;
-       margin-left: 10px;
-       font-style: italic;
+        margin-bottom: 0px;
+        margin-left: 10px;
+        font-style: italic;
     }
 }
 
@@ -132,16 +160,19 @@ gap: 10px
         flex-wrap: wrap;
         border-bottom: 1px dotted var(--color0);
     }
-    
+
     .user-details {
-        margin-left: 10px; /* Remove left margin for smaller screens */
-      
-        width: 100%; /* Make details take full width */
+        margin-left: 10px;
+        /* Remove left margin for smaller screens */
+
+        width: 100%;
+        /* Make details take full width */
     }
-    
+
     .user-actions {
- padding: 10px 0px;
-        justify-content: flex-end; /* Align buttons to the right */
+        padding: 10px 0px;
+        justify-content: flex-end;
+        /* Align buttons to the right */
     }
 
 
@@ -161,4 +192,3 @@ gap: 10px
     }
 
 }
-

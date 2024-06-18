@@ -66,7 +66,9 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
         <Title rideApp={rideApp} setRideApp={setRideApp} />
         <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture} setProfilePicture={setProfilePicture}/>
 
-        {showNavsidebar && <Navsidebar rideApp={rideApp} fromButton={fromButton} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} profilePicture={profilePicture} setProfilePicture={setProfilePicture}/>}
+         {showNavsidebar &&  
+        <Navsidebar rideApp={rideApp} fromButton={fromButton} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} profilePicture={profilePicture} setProfilePicture={setProfilePicture}/>
+         }
       </div>
 
 

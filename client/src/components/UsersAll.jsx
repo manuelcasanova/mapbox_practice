@@ -39,14 +39,15 @@ const UsersAll = () => {
   const usersExceptMe = users.filter(user => user.id !== userLoggedin);
   const isLoggedIn = auth.loggedIn
   const [showFilter, setShowFilter] = useState(false)
+  const [showLargePicture, setShowLargePicture] = useState(null)
 
-const defaultFilteredUsers = {
-  userName: 'all'
-}
+  const defaultFilteredUsers = {
+    userName: 'all'
+  }
 
   const [filteredUsers, setFilteredUsers] = useState(defaultFilteredUsers);
 
-// console.log("filtered users", filteredUsers)
+  // console.log("filtered users", filteredUsers)
   const onFilter = (filters) => {
     setFilteredUsers(filters)
   };
@@ -105,73 +106,89 @@ const defaultFilteredUsers = {
   return (
 
 
-<>
-{!showFilter &&
+    <>
+      {!showFilter &&
         <button title="Filter" className='rides-public-filter-ride'
           onClick={() => handleShowFilter()}
         > <FontAwesomeIcon icon={faSliders} /></button>}
 
 
-    <div className='users-all-container'>
+      <div className='users-all-container'>
 
 
 
-          {showFilter &&
-          <UsernameFilter onFilter={onFilter} handleShowFilter={handleShowFilter}  />
+        {showFilter &&
+          <UsernameFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
         }
-{allUsersMutedOrMe ? (
-        <div>No users available or all users are muted.</div>
-      ) : (
-        <>
+        {allUsersMutedOrMe ? (
+          <div>No users available or all users are muted.</div>
+        ) : (
+          <>
 
-          {auth.accessToken !== undefined ? (
-            <div>
-<div className="users-title">All users</div>
+            {auth.accessToken !== undefined ? (
+              <div>
+                <div className="users-title">All users</div>
 
-              {followingEachOther.map((isFollowing, index) => {
-                const user = usersExceptMe[index];
-                const isMuted = mutedUsers.includes(user.id);
+                {followingEachOther.map((isFollowing, index) => {
+                  const user = usersExceptMe[index];
+                  const isMuted = mutedUsers.includes(user.id);
 
-// console.log("user in usersAll", user)
+                  // console.log("user in usersAll", user)
 
-                if (!isMuted) {
-                  return (
-                    <div
-                    className='users-all-user'
-                    key={user.id}>
-                      <div className='users-all-picture'> {user.id}</div>
-                      <div className='user-details'>
-                      <div className='users-all-name'>{user.username}</div>
+                  if (!isMuted) {
+                    return (
+                      <div
+                        className='users-all-user'
+                        key={user.id}>
+                        <div className='users-all-picture-container'
+                        onClick={() => setShowLargePicture(user.id)}
+                        >
+                          <img className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                        </div>
+
+
+                        {showLargePicture === user.id && <div
+                        className='large-picture'
+                        onClick={() => setShowLargePicture(null)}
+                        >
+                         <img 
+                         className='users-all-picture-large'
+                         onClick={() => setShowLargePicture(null)}
+                         src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  />
+                          </div>}
+
+                        <div className='user-details'>
+                          <div className='users-all-name'>{user.username}</div>
+                        </div>
+
+
+                        <div className='user-actions'>
+
+                          {isFollowing &&
+
+                            <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>  <FontAwesomeIcon icon={faEnvelope} /></button>
+
+
+                          }
+
+                          <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
+
+
+
+                          <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+
+                        </div>
                       </div>
-
-
-                      <div className='user-actions'>
-
-                      {isFollowing && 
-                      
-                      <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}>  <FontAwesomeIcon icon={faEnvelope} /></button>
-                    
-                      
-                      }
-
-                      <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-             
-
-
-<MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
-
-                      </div>
-                    </div>
-                  );
-                }
-              })}
-            </div>
-          ) : (
-            <p>Please log in to see users.</p>
-          )}
-        </>
-      )}
-    </div>
+                    );
+                  }
+                })}
+              </div>
+            ) : (
+              <p>Please log in to see users.</p>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 };

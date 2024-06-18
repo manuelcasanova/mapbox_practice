@@ -2,10 +2,26 @@
 
 Functionalities
 
-My account -  modify picture 
+Show user picture instead of id in:
+
+users/all
+users/followee
+users/following
+users/pending
+users/muted
+admin/users
+
+users/messaging/user:id
+
 
 Name: max characters
 picture: max mb
+
+
+
+JWT, persist login, protected routes, reload nav to login, etc.
+
+
 
 OAuth
 
@@ -37,6 +53,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+My account -  modify picture 
 
 Public maps filter by username
 
