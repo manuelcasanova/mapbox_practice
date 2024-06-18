@@ -3,3 +3,7 @@
 *.zip
 *.json
 
+
+# profile images
+
+/profile_pictures
