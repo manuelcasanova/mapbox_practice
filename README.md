@@ -5,19 +5,15 @@ Functionalities
 Max characters:
 TEXT
 
-rides.details, meeting_point, 
-runs.details, meeting_point, name
+
 ride_message.message
 run_message.message
 user_messages.content
 
-VARCHAR (message in frontend)
-runs.name 255
-users.username 255, email, password
-maps.title varchar 255
-rides.name
 
-users: username
+
+
+
 
 JWT, persist login, protected routes, reload nav to login, etc.
 

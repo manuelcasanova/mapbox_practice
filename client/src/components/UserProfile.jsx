@@ -27,6 +27,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const { auth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
+console.log("auth", auth)
 
   // console.log("profile picture", profilePicture)
   const loggedInUser = auth;
@@ -42,11 +43,14 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
 const [showErrorFileSize, setShowErrorFileSize] = useState(false);
 
 
-  // console.log("profile Picture", profilePicture)
+
   // useEffect(() => {
   //   setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
   // }, [auth.profilePicture]);
 
+useEffect(() => {
+  console.log(profilePicture)
+}, [profilePicture])
 
   useEffect(() => {
     if (isEditingUsername) {
@@ -90,7 +94,7 @@ const [showErrorFileSize, setShowErrorFileSize] = useState(false);
   };
 
   const handleUpdateUsername = () => {
-    if (newUsername.trim() !== "") {
+    if (newUsername.trim() !== "" && newUsername.length < 255) {
       updateUsername(newUsername.trim());
       setIsEditingUsername(false);
       setNewUsername("");

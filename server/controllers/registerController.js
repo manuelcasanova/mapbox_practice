@@ -27,9 +27,35 @@ try {
         try {
    
 
-    pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *', [user, email, hashedPwd], (error, results) => {
-        // console.log(results)
-    })
+            pool.query(
+                'INSERT INTO users (username, email, password, profile_picture) VALUES ($1, $2, $3, $4) RETURNING id',
+                [user, email, hashedPwd, 'profile_pictures/x/profile_picture.jpg'],
+                (error, results) => {
+                    if (error) {
+                        // Handle error
+                        console.error('Error inserting user:', error);
+                    } else {
+                        const userId = results.rows[0].id;
+                        const profilePicturePath = `profile_pictures/${userId}/profile_picture.jpg`;
+            
+                        // Update the user's profile picture path with the dynamically generated path
+                        pool.query(
+                            'UPDATE users SET profile_picture = $1 WHERE id = $2',
+                            [profilePicturePath, userId],
+                            (updateError, updateResults) => {
+                                if (updateError) {
+                                    // Handle update error
+                                    console.error('Error updating profile picture path:', updateError);
+                                } else {
+                                    console.log('User inserted and profile picture path updated successfully');
+                                }
+                            }
+                        );
+                    }
+                }
+            );
+
+   
 
     res.status(201).json({ 'success': `New user ${user} created!` });
 } catch (err) {

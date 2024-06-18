@@ -150,7 +150,12 @@ export default function CreateRide() {
               <div className="create-label-input">
                 <label>Ride title</label>
                 <input
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => {
+                    const userInput = e.target.value;
+                    if (userInput.length <= 255) {
+                      setTitle(userInput);
+                    }
+                  }}
                   value={title}
                   required></input>
               </div>
@@ -231,7 +236,12 @@ export default function CreateRide() {
               <div className="create-label-input">
                 <label>Meeting Point</label>
                 <input
-                  onChange={(e) => setMeetingPoint(e.target.value)}
+                  onChange={(e) => {
+                    const userInput = e.target.value;
+                    if (userInput.length <= 255) {
+                      setMeetingPoint(userInput);
+                    }
+                  }}
                   value={meetingPoint}
                   required></input>
               </div>
@@ -239,7 +249,12 @@ export default function CreateRide() {
               <div className="create-label-input">
                 <label>Details</label>
                 <input
-                  onChange={(e) => setDetails(e.target.value)}
+                  onChange={(e) => {
+                    const userInput = e.target.value;
+                    if (userInput.length <= 255) {
+                      setDetails(userInput);
+                    }
+                  }}
                   value={details}
                   required></input>
               </div>

@@ -72,7 +72,12 @@ export default function CreateMap({ setFromButton }) {
             <div>STEP 1: Name the map</div>
 
             <input
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                const userInput = e.target.value;
+                if (userInput.length <= 255) {
+                  setTitle(userInput);
+                }
+              }}
               value={title}
               required></input>
 

@@ -7,7 +7,7 @@ import '../../styles/Register.css'
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const EMAIL_REGEX = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+const EMAIL_REGEX = /^(?=.{1,100}$)[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
 const BACKEND = process.env.REACT_APP_API_URL;
 const REGISTER_URL = `${BACKEND}/register`;
 
@@ -124,7 +124,12 @@ const Register = () => {
                             id={user}
                             ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
+                            onChange={(e) => {
+                                const userInput = e.target.value;
+                                if (userInput.length <= 255) {
+                                  setUser(userInput);
+                                }
+                              }}
                             value={user}
                             required
                             aria-invalid={validName ? "false" : "true"}
@@ -151,7 +156,15 @@ const Register = () => {
                             id={email}
                             autoComplete="off"
                             // onChange={(e) => setEmail(e.target.value)}
-                            onChange={(e) => setEmail(e.target.value.toLowerCase())}
+
+
+                            onChange={(e) => {
+                                const userInput = e.target.value;
+                                if (userInput.length <= 100) {
+                                    setEmail(e.target.value.toLowerCase())
+                                }
+                              }}
+
                             value={email}
                             required
                             aria-invalid={validEmail ? "false" : "true"}
