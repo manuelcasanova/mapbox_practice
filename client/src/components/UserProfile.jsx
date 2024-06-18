@@ -39,7 +39,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const [showEditImageIcons, setShowEditImageIcons] = useState(false);
   const [showUploadFile, setShowUploadFile] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
+const [showErrorFileSize, setShowErrorFileSize] = useState(false);
 
 
   // console.log("profile Picture", profilePicture)
@@ -106,7 +106,18 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   }
 
   const handleFileChange = async (e) => {
+
+setShowErrorFileSize(false)
+
     const file = e.target.files[0];
+
+    const maxSize = 1 * 1024 * 1024; // 1MB in bytes
+    if (file && file.size > maxSize) {
+      console.error('File size exceeds the limit of 1MB');
+      setShowErrorFileSize(true)
+      return
+    }
+
     setSelectedFile(file);
 
     const formData = new FormData();
@@ -171,6 +182,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
               <>
                 <div className="file-upload-section">
                   <input type="file" accept=".jpg" onChange={handleFileChange} />
+                  {showErrorFileSize && <div>File size exceeds the limit of 1MB</div>}
                   {/* <button className="orange-button small-button" onClick={handleFileUpload}>Upload Profile Picture</button>*/
                     <button className='red-button button-close small-button' style={{ width: '50px' }} onClick={() => setShowUploadFile(prev => !prev)}>x</button>}
                 </div>

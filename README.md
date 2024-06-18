@@ -2,12 +2,7 @@
 
 Functionalities
 
-Fix my maps
-
 Name: max characters
-picture: max mb
-
-
 
 JWT, persist login, protected routes, reload nav to login, etc.
 
@@ -43,6 +38,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Limit profile image to 1MB size max
 
 Show user picture instead of id 
 
