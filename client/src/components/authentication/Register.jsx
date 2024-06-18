@@ -105,7 +105,7 @@ const Register = () => {
                     <div className="level-title">Success!</div>
                     <p>
                         {/* <a href="https://www.salsasteps.ca/login">Sign In</a> */}
-                        <Link to="/login">Sign In</Link>
+                        <Link className="sign-link" to="/login">Sign In</Link>
                     </p>
                 </section>
             ) : (
@@ -220,7 +220,7 @@ const Register = () => {
                     <div className='login-questions'>
                         Already registered?<br />
                        
-                            <Link to="/login">Sign In</Link>
+                            <Link className="sign-link"  to="/login">Sign In</Link>
                    
                     </div>
                 </section>

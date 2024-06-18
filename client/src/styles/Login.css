@@ -50,6 +50,15 @@ form {
   outline: none;
 }
 
+.no-margin-bottom {
+  margin-bottom: 0px;
+}
+
+
+.login-input[type="checkbox"]{
+  background-color: red;
+}
+
 .login-button {
   font-family: 'Rams W01 Black', sans-serif; 
   padding: 10px 20px;
@@ -91,4 +100,10 @@ form {
 
 .link:hover {
   text-decoration: underline;
+}
+
+.sign-link {
+  /* text-decoration: none; */
+  color: var(--color0);
+ 
 }

@@ -194,7 +194,7 @@ const Login = ({ rideApp }) => {
                 <button className='login-button'>Sign In</button>
                 <div className="persistCheck">
                     <input
-                         className='login-input'
+                         className='login-input no-margin-bottom'
                         type="checkbox"
                         id="persist"
                         onChange={toggleCheck}
@@ -206,13 +206,13 @@ const Login = ({ rideApp }) => {
             <div className='login-questions'>
                 Need an Account?<br />
                
-                    <Link to="/register">Sign Up</Link>
+                    <Link className="sign-link" to="/register">Sign Up</Link>
                
             </div>
             <div className='login-questions'>
                 Forgot password?<br />
                
-                    <Link to="/resetpassword">Reset</Link>
+                    <Link className="sign-link" to="/resetpassword">Reset</Link>
                
             </div>
         </section>

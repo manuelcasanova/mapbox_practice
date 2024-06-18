@@ -50,6 +50,7 @@
     border: solid 1px var(--color0);
     object-fit: cover;
     object-position: center;
+    cursor: pointer;
 }
 
 .users-messaging-picture-container {
@@ -67,6 +68,7 @@ border: solid 1px var(--color0);
 padding: 2px;
 object-fit: cover;
 object-position: center;
+cursor: pointer;
 }
 
 .users-all-picture-large {
