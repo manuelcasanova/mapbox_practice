@@ -159,7 +159,7 @@ setShowErrorFileSize(false)
                 {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
                   <div className="user-profile-image-container" onMouseEnter={() => setShowEditImageIcons(true)} onMouseLeave={() => setShowEditImageIcons(false)} onClick={() => setShowUploadFile(prev => !prev)}>
                     <img className="user-profile-image" src={profilePicture} alt={
-                      auth.username
+                      ""
                       } />
                     {/* <FontAwesomeIcon icon={faEdit} onClick={() => setShowUploadFile(prev => !prev)} /> */}
                    {showEditImageIcons && ( 

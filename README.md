@@ -2,10 +2,11 @@
 
 Functionalities
 
+
+Try to ger default icon upon register instead of alt
+
 Max characters:
 TEXT
-
-
 ride_message.message
 run_message.message
 user_messages.content

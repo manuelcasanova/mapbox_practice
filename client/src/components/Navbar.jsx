@@ -219,7 +219,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, pr
         >
           <div onClick={() => handleMouseEnter("myprofile")}>
             {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
-              <img className="profile-picture" src={profilePicture} alt={auth.username} />
+              <img className="profile-picture" src={profilePicture} alt=""/>
             ) : (
               <div className="profile-default-icon" onClick={() => navigate('/user/profile')}>
                 <FontAwesomeIcon icon={faUser} />

@@ -119,7 +119,7 @@ export default function Navsidebar({ setFromButton, rideApp, setRideAppUndefined
           // onClick={() => handleMouseEnter("myprofile")}
           >
             {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
-              <img className="navsidebar-profile-picture" src={profilePicture} alt={auth.username} />
+              <img className="navsidebar-profile-picture" src={profilePicture} alt="" />
             ) : (
               <div className="navsidebar-profile-default-icon" onClick={() => navigate('/user/profile')}>
                 <FontAwesomeIcon icon={faUser} />
