@@ -41,6 +41,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const [showUploadFile, setShowUploadFile] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [showErrorFileSize, setShowErrorFileSize] = useState(false);
+  const [reload, setReload] = useState(false)
 
 
 
@@ -145,6 +146,9 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
     } catch (error) {
       console.error('Error uploading file:', error);
     }
+
+setReload(prev => !prev)
+
   };
 
 
@@ -163,10 +167,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
                     <img
                       className="user-profile-image"
                       src={profilePicture}
-                      onError={(e) => {
-                        e.target.onerror = null; // Prevent infinite loop in case default image also fails
-                        e.target.src = 'http://localhost:3500/profile_pictures/user.jpg/'; // Path to your default image
-                      }}
+
                       alt=""
                     />
 

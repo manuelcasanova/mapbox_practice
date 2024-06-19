@@ -46,6 +46,7 @@ import useAuth from './hooks/useAuth';
 //Hooks
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { setOptions } from 'leaflet';
 
 
 // Define a layout component to wrap the routes
@@ -129,6 +130,8 @@ function App() {
   useEffect(() => {
     if (auth.profilePicture) {
       setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
+    } else {
+      setProfilePicture(`http://localhost:3500/profile_pictures/user.jpg`);
     }
   }, [auth.profilePicture]);
 

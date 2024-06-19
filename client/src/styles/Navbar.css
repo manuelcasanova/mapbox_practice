@@ -174,13 +174,7 @@
 overflow: hidden;
 }
 
-/* Target images with alt attribute across different classes */
-.profile-picture[alt],
-.navsidebar-profile-picture[alt],
-.user-profile-image[alt] {
 
-  object-fit: cover; 
-}
 
   
 
