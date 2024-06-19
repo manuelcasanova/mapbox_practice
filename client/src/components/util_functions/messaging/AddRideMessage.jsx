@@ -65,9 +65,11 @@ export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMess
 };
 
 const handleMessageChange = (e) => {
-  setMessage(e.target.value);
+  const inputValue = e.target.value;
+  if (inputValue.length < 255) {
+    setMessage(inputValue);
+  }
 };
-
 const handleKeyDown = (e) => {
   if (e.key === 'Enter') {
     handleSubmit(e);

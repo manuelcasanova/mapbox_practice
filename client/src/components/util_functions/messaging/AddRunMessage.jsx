@@ -62,7 +62,10 @@ export default function AddRunMessage({ userId, userIsLoggedIn, runId, setMessag
 };
 
 const handleMessageChange = (e) => {
-  setMessage(e.target.value);
+  const inputValue = e.target.value;
+  if (inputValue.length < 255) {
+    setMessage(inputValue);
+  }
 };
 
 const handleKeyDown = (e) => {

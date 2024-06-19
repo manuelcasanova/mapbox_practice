@@ -45,7 +45,7 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
     }
     finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
@@ -58,15 +58,15 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
     sendMessage(e, newMessage, receiver, sender, userLoggedIn)
     setNewMessage("");
   };
-  
 
 
-const handleKeyDown = (e) => {
-  // console.log("enter")
-  if (e.key === 'Enter') {
-  handleSubmit(e)
-  }
-};
+
+  const handleKeyDown = (e) => {
+    // console.log("enter")
+    if (e.key === 'Enter') {
+      handleSubmit(e)
+    }
+  };
 
 
 
@@ -75,20 +75,27 @@ const handleKeyDown = (e) => {
   return (
     <div className="users-messaging-send">
       <input
-      placeholder="Aa"
-          ref={inputRef}
-        onChange={(e) => setNewMessage(e.target.value)}
+        placeholder="Aa"
+        ref={inputRef}
+
+        onChange={(e) => {
+          const inputValue = e.target.value;
+          if (inputValue.length < 255) {
+            setNewMessage(inputValue);
+          }
+        }}
+        
         onKeyDown={handleKeyDown}
         value={newMessage}
         required></input>
-  <button
-    disabled={!newMessage}
-    onClick={handleSubmit}
-    className="orange-button small-button"
-  >
-    {isLoading ? "Sending..." : "Send"} 
-  </button>
-  {error && <p>{error}</p>}
+      <button
+        disabled={!newMessage}
+        onClick={handleSubmit}
+        className="orange-button small-button"
+      >
+        {isLoading ? "Sending..." : "Send"}
+      </button>
+      {error && <p>{error}</p>}
     </div>
   );
 }
