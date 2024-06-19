@@ -27,7 +27,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const { auth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
-console.log("auth", auth)
+  console.log("auth", auth)
 
   // console.log("profile picture", profilePicture)
   const loggedInUser = auth;
@@ -40,7 +40,7 @@ console.log("auth", auth)
   const [showEditImageIcons, setShowEditImageIcons] = useState(false);
   const [showUploadFile, setShowUploadFile] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-const [showErrorFileSize, setShowErrorFileSize] = useState(false);
+  const [showErrorFileSize, setShowErrorFileSize] = useState(false);
 
 
 
@@ -48,9 +48,9 @@ const [showErrorFileSize, setShowErrorFileSize] = useState(false);
   //   setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
   // }, [auth.profilePicture]);
 
-useEffect(() => {
-  console.log(profilePicture)
-}, [profilePicture])
+  useEffect(() => {
+    console.log(profilePicture)
+  }, [profilePicture])
 
   useEffect(() => {
     if (isEditingUsername) {
@@ -111,7 +111,7 @@ useEffect(() => {
 
   const handleFileChange = async (e) => {
 
-setShowErrorFileSize(false)
+    setShowErrorFileSize(false)
 
     const file = e.target.files[0];
 
@@ -158,16 +158,27 @@ setShowErrorFileSize(false)
               <>
                 {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
                   <div className="user-profile-image-container" onMouseEnter={() => setShowEditImageIcons(true)} onMouseLeave={() => setShowEditImageIcons(false)} onClick={() => setShowUploadFile(prev => !prev)}>
-                    <img className="user-profile-image" src={profilePicture} alt={
-                      ""
-                      } />
+
+
+                    <img
+                      className="user-profile-image"
+                      src={profilePicture}
+                      onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop in case default image also fails
+                        e.target.src = 'http://localhost:3500/profile_pictures/user.jpg/'; // Path to your default image
+                      }}
+                      alt=""
+                    />
+
+
+
                     {/* <FontAwesomeIcon icon={faEdit} onClick={() => setShowUploadFile(prev => !prev)} /> */}
-                   {showEditImageIcons && ( 
+                    {showEditImageIcons && (
                       <div className='hover-edit-image-buttons'>
-                        <FontAwesomeIcon icon={faImage}  />
-                        <FontAwesomeIcon icon={faPlus}  />
+                        <FontAwesomeIcon icon={faImage} />
+                        <FontAwesomeIcon icon={faPlus} />
                       </div>
-                    )} 
+                    )}
 
                   </div>
                 ) : (
