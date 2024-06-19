@@ -22,15 +22,15 @@ const Register = () => {
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 // console.log("validname", validName)
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('@example.com');
     const [validEmail, setValidEmail] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
 
-    const [pwd, setPwd] = useState('');
+    const [pwd, setPwd] = useState('Password1!');
     const [validPwd, setValidPwd] = useState(false);
     const [pwdFocus, setPwdFocus] = useState(false);
 
-    const [matchPwd, setMatchPwd] = useState('');
+    const [matchPwd, setMatchPwd] = useState('Password1!');
     const [validMatch, setValidMatch] = useState(false);
     const [matchFocus, setMatchFocus] = useState(false);
 
