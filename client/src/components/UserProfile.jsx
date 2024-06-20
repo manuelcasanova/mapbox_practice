@@ -24,10 +24,10 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
 
   const usernameInputRef = useRef(null);
   const navigate = useNavigate()
-  const { auth, updateUsername } = useContext(AuthContext);
+  const { auth, setAuth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
-  console.log("auth", auth)
+  // console.log("auth", auth)
 
   // console.log("profile picture", profilePicture)
   const loggedInUser = auth;
@@ -50,7 +50,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   // }, [auth.profilePicture]);
 
   useEffect(() => {
-    console.log(profilePicture)
+    // console.log("profile picture in userprofile", profilePicture)
   }, [profilePicture])
 
   useEffect(() => {
@@ -136,7 +136,12 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
 
       if (response.ok) {
         // Update profile picture URL and toggle upload file section visibility
-        setProfilePicture(`http://localhost:3500/${auth.profilePicture}?${Date.now()}`);
+        const newProfilePictureUrlForAuth = `http://localhost:3500/profile_pictures/${auth.userId}/profile_picture.jpg`
+        setAuth(prevAuth => ({
+          ...prevAuth,
+          profilePicture: newProfilePictureUrlForAuth
+        }));
+        setProfilePicture(`${auth.profilePicture}?${Date.now()}`);
         setShowUploadFile(false); // Assuming setShowUploadFile is used to toggle visibility
 
         console.log('File uploaded successfully');
@@ -147,7 +152,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
       console.error('Error uploading file:', error);
     }
 
-setReload(prev => !prev)
+    setReload(prev => !prev)
 
   };
 
@@ -164,12 +169,12 @@ setReload(prev => !prev)
                   <div className="user-profile-image-container" onMouseEnter={() => setShowEditImageIcons(true)} onMouseLeave={() => setShowEditImageIcons(false)} onClick={() => setShowUploadFile(prev => !prev)}>
 
 
-                    <img
-                      className="user-profile-image"
-                      src={profilePicture}
+<img
+  className="user-profile-image"
+  src={profilePicture.includes('http://localhost:3500') ? profilePicture : `http://localhost:3500/${profilePicture}`}
+  alt=""
+/>
 
-                      alt=""
-                    />
 
 
 

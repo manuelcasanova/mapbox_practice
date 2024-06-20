@@ -126,10 +126,19 @@ function App() {
   const [showNavsidebar, setShowNavsidebar] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
 
+  // console.log("prof pic in ap", profilePicture)
+
 
   useEffect(() => {
     if (auth.profilePicture) {
-      setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
+
+      if (auth.profilePicture.includes('http://localhost:3500')) {
+      setProfilePicture(`${auth.profilePicture}`);
+      } else {
+        setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
+      }
+
+
     } else {
       setProfilePicture(`http://localhost:3500/profile_pictures/user.jpg`);
     }
