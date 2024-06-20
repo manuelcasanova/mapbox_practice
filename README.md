@@ -2,13 +2,11 @@
 
 Functionalities
 
-
-Try to ger default icon upon register instead of alt.
-Go to previous commit to get previous logic.
-
-
-
 JWT, persist login, protected routes, reload nav to login, etc.
+
+
+- Fix: on not trusted device, navigate to login on reload 
+- Fix: on trusted device, is loggedin but does not recognize admin
 
 
 OAuth

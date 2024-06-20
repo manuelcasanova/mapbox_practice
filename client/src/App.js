@@ -45,7 +45,7 @@ import useAuth from './hooks/useAuth';
 
 //Hooks
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { setOptions } from 'leaflet';
 
 
@@ -200,7 +200,9 @@ function App() {
               >
 
                 <Routes>
-                  <Route element={<PersistLogin />}>
+                  <Route element={
+                    
+                    <PersistLogin />}>
                     <Route exact path="/rides" element={<></>}> </Route>
                     <Route exact path="/runs" element={<></>}> </Route>
                     <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} rideApp={rideApp} /></>}> </Route>
