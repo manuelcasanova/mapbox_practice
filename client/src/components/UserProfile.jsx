@@ -27,9 +27,10 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const { auth, setAuth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
-  // console.log("auth", auth)
+  console.log("auth", auth)
+  console.log("profile picture", profilePicture)
 
-  // console.log("profile picture", profilePicture)
+
   const loggedInUser = auth;
   const logOut = useLogout(setRideAppUndefined)
 
@@ -141,7 +142,10 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
           ...prevAuth,
           profilePicture: newProfilePictureUrlForAuth
         }));
-        setProfilePicture(`${auth.profilePicture}?${Date.now()}`);
+        setProfilePicture(`${
+          // auth.profilePicture
+          newProfilePictureUrlForAuth
+        }?${Date.now()}`);
         setShowUploadFile(false); // Assuming setShowUploadFile is used to toggle visibility
 
         console.log('File uploaded successfully');

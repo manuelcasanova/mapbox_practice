@@ -133,7 +133,7 @@ function App() {
   useEffect(() => {
     if (auth.profilePicture) {
 
-      if (auth.profilePicture.includes('${BACKEND}')) {
+      if (auth.profilePicture.includes(`${BACKEND}`)) {
         setProfilePicture(`${auth.profilePicture}`);
       } else {
         setProfilePicture(`${BACKEND}/${auth.profilePicture}`);
