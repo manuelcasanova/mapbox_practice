@@ -1,5 +1,6 @@
 import './App.css';
 
+import RequireAuth from './components/authentication/RequireAuth';
 import Title from './components/Title'
 import Navbar from './components/Navbar'
 import Navsidebar from './components/Navsidebar';
@@ -54,22 +55,22 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
   const { auth } = useAuth()
 
-  
+
 
 
   const isAdmin = auth.isAdmin
 
   return (
-  
+
     <div className='app-and-head'>
 
       <div className='head'>
         <Title rideApp={rideApp} setRideApp={setRideApp} />
-        <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture} setProfilePicture={setProfilePicture}/>
+        <Navbar setFromButton={setFromButton} setRideApp={setRideApp} rideApp={rideApp} setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
 
-         {showNavsidebar &&  
-        <Navsidebar rideApp={rideApp} fromButton={fromButton} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} profilePicture={profilePicture} setProfilePicture={setProfilePicture}/>
-         }
+        {showNavsidebar &&
+          <Navsidebar rideApp={rideApp} fromButton={fromButton} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} toggleNavsidebar={toggleNavsidebar} handleMouseLeave={handleMouseLeave} profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
+        }
       </div>
 
 
@@ -103,7 +104,7 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
         {children}
 
-       
+
       </div>
       <Footer rideApp={rideApp} />
 
@@ -117,7 +118,7 @@ function App() {
 
   const { auth } = useAuth()
 
-// console.log("auth in app", auth)
+  // console.log("auth in app", auth)
 
   const [fromButton, setFromButton] = useState(false)
   const [rideApp, setRideApp] = useState(true)
@@ -133,7 +134,7 @@ function App() {
     if (auth.profilePicture) {
 
       if (auth.profilePicture.includes('http://localhost:3500')) {
-      setProfilePicture(`${auth.profilePicture}`);
+        setProfilePicture(`${auth.profilePicture}`);
       } else {
         setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
       }
@@ -200,35 +201,35 @@ function App() {
               >
 
                 <Routes>
-                  <Route element={
-                    
-                    <PersistLogin />}>
-                    <Route exact path="/rides" element={<></>}> </Route>
-                    <Route exact path="/runs" element={<></>}> </Route>
-                    <Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} rideApp={rideApp} /></>}> </Route>
-                    <Route exact path="/maps/public" element={<><MapsPublic /></>}></Route>
-                    <Route exact path="/maps/create" element={<><CreateMap setFromButton={setFromButton} /></>}></Route>
-                    <Route exact path="/maps/:id" element={<><SeeMap /></>}></Route>
-                    <Route exact path="/createride" element={<><CreateRide /></>}></Route>
-                    <Route exact path="/createrun" element={<><CreateRun /></>}></Route>
-                    <Route exact path="/rides/public" element={<><RidesPublic /></>}></Route>
-                    <Route exact path="/runs/public" element={<><RunsPublic /></>}></Route>
-                    <Route exact path="/rides/mine" element={<><RidesUser /></>}></Route>
-                    <Route exact path="/runs/mine" element={<><RunsUser /></>}></Route>
-                    <Route exact path="/rides/all" element={<><RidesAll /></>}></Route>
-                    <Route exact path="/runs/all" element={<><RunsAll /></>}></Route>
-                    <Route exact path="/rides/messages/reported" element={<><ReportedMessages /></>}></Route>
-                    <Route exact path="/runs/messages/reported" element={<><ReportedRunMessages /></>}></Route>
-                    <Route exact path="/runs/messages/flagged" element={<><FlaggedRunMessages /></>}></Route>
-                    <Route exact path="/rides/messages/flagged" element={<><FlaggedMessages /></>}></Route>
-                    <Route exact path="/users/admin" element={<><UsersAdmin /></>}></Route>
-                    <Route exact path="/users/all" element={<><UsersAll /></>}></Route>
-                    <Route exact path="/users/followee" element={<><Followee /></>}></Route>
-                    <Route exact path="/users/followers" element={<><Followers /></>}></Route>
-                    <Route exact path="/users/muted" element={<><MutedUsers /></>}></Route>
-                    <Route exact path="/users/pending" element={<><PendingUsers /></>}></Route>
-                    <Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}></Route>
-                    <Route exact path="/user/profile" element={<><UserProfile setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture} setProfilePicture={setProfilePicture}/></>}></Route>
+                  <Route element={<PersistLogin />}>
+                    <Route element={<RequireAuth  />}><Route exact path="/rides" element={<></>}/></Route>
+                    <Route element={<RequireAuth  />}><Route exact path="/runs" element={<></>}/></Route>
+                    <Route element={<RequireAuth  />}><Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} rideApp={rideApp} /></>}/></Route>
+                    <Route element={<RequireAuth  />}><Route exact path="/maps/public" element={<><MapsPublic /></>}/></Route>
+                    <Route element={<RequireAuth  />}><Route exact path="/maps/create" element={<><CreateMap setFromButton={setFromButton} /></>}/></Route>
+                    <Route element={<RequireAuth  />}><Route exact path="/maps/:id" element={<><SeeMap /></>}/></Route>
+                    <Route element={<RequireAuth  />}><Route exact path="/createride" element={<><CreateRide /></>}/></Route>
+                    <Route element={<RequireAuth  />}><Route exact path="/createrun" element={<><CreateRun /></>}/></Route>
+
+                    <Route element={<RequireAuth  />}><Route exact path="/rides/public" element={<><RidesPublic /></>}/></Route>
+
+                     <Route element={<RequireAuth  />}><Route exact path="/runs/public" element={<><RunsPublic /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/rides/mine" element={<><RidesUser /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/runs/mine" element={<><RunsUser /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/rides/all" element={<><RidesAll /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/runs/all" element={<><RunsAll /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/rides/messages/reported" element={<><ReportedMessages /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/runs/messages/reported" element={<><ReportedRunMessages /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/runs/messages/flagged" element={<><FlaggedRunMessages /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/rides/messages/flagged" element={<><FlaggedMessages /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/users/admin" element={<><UsersAdmin /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/users/all" element={<><UsersAll /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/users/followee" element={<><Followee /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/users/followers" element={<><Followers /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/users/muted" element={<><MutedUsers /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/users/pending" element={<><PendingUsers /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/users/messaging/:userId" element={<><UsersMessaging /></>}/></Route>
+                     <Route element={<RequireAuth  />}><Route exact path="/user/profile" element={<><UserProfile setRideAppUndefined={setRideAppUndefined} profilePicture={profilePicture} setProfilePicture={setProfilePicture} /></>}/></Route>
                   </Route>
                 </Routes>
               </Layout>
