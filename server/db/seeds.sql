@@ -1,17 +1,16 @@
 -- Insert users
-INSERT INTO users (username, isadmin, issuperadmin, email, password, isselected, isactive, profile_picture)
-VALUES ('Manuel Casanova', true, true, 'manuel@example.com', 'password123', true, true, 'nogoodformat.jpg'),
-       ('Laura Admin', true, false, 'laura@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true, 'nogoodformat.jpg'),
-       ('Alice_wonder', false, false, 'alice@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true, 'nogoodformat.jpg'),
-       ('Bob_robinson', false, false, 'bob@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true, 'nogoodformat.jpg'),
-       ('Emma_jones', false, false, 'emma@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true, 'nogoodformat.jpg'),
-       ('manucasanova', true, true, 'manucasanova@hotmail.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', false, true, 'manuel.jpg')
+INSERT INTO users (username, isadmin, issuperadmin, email, password, isselected, isactive)
+VALUES  ('manucasanova', true, true, 'manucasanova@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', false, true),
+       ('Laura Admin', true, false, 'laura@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true),
+       ('Alice_wonder', false, false, 'alice@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true),
+       ('Bob_robinson', false, false, 'bob@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true),
+       ('Emma_jones', false, false, 'emma@example.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', true, true)
        ;
 
 
 INSERT INTO maps (title, createdBy, mapType) VALUES 
 ('Stanley Park Loop PRIVATE', 1, 'private'),
-('Grouse Mountain PUBLIC', 5, 'public'),
+('Grouse Mountain PUBLIC', 3, 'public'),
 ('User1 Public Map PUBLIC', 1, 'public');
 
 -- INSERT INTO map_users (map_id, user_id)
