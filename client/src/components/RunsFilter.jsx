@@ -13,14 +13,14 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
   const [dateEnd, setDateEnd] = useState("9999-12-31");
   const [distanceMin, setDistanceMin] = useState(0);
   const [distanceMax, setDistanceMax] = useState(100000);
-  const [speedMin, setSpeedMin] = useState(0);
-  const [speedMax, setSpeedMax] = useState(100000);
+  const [paceMin, setPaceMin] = useState(0);
+  const [paceMax, setPaceMax] = useState(100000);
   const [runName, setRunName] = useState("all")
   const [rId, setRId] = useState(0)
 
   const { auth } = useAuth()
 
-  // console.log (dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax)
+  // console.log (dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax)
 
   const handleFilter = () => {
     // Prepare filter criteria
@@ -44,12 +44,12 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
     };
 
 
-    if (speedMin !== '') {
-      filters.speedMin = parseFloat(speedMin)
+    if (paceMin !== '') {
+      filters.paceMin = parseFloat(paceMin)
     }
 
-    if (speedMax !== '') {
-      filters.speedMax = parseFloat(speedMax)
+    if (paceMax !== '') {
+      filters.paceMax = parseFloat(paceMax)
     }
 
     if (runName !== '') {
@@ -86,12 +86,12 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
 
   const handlePaceMinChange = (e) => {
     const value = e.target.value.trim() !== '' ? parseFloat(e.target.value) : 0;
-    setSpeedMin(value);
+    setPaceMin(value);
   };
 
   const handlePaceMaxChange = (e) => {
     const value = e.target.value.trim() !== '' ? parseFloat(e.target.value) : 100000;
-    setSpeedMax(value);
+    setPaceMax(value);
   };
 
   const handleNameChange = (e) => {
@@ -107,7 +107,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
   useEffect(() => {
     // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, runName, rId]); // Dependency array includes modified states
+  }, [dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax, runName, rId]); // Dependency array includes modified states
 
 
   const clearFilter = () => {
@@ -115,8 +115,8 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
     setDateEnd('9999-12-31');
     setDistanceMin(0);
     setDistanceMax(100000);
-    setSpeedMin(0);
-    setSpeedMax(100000);
+    setPaceMin(0);
+    setPaceMax(100000);
     setRunName('');
     setRId(0);
   };
@@ -175,7 +175,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
         <input
           className='filter-input'
           type="number"
-          value={speedMin === 0 ? "" : speedMin}
+          value={paceMin === 0 ? "" : paceMin}
           onChange={handlePaceMinChange}
           placeholder='Min (min/km)'
         />
@@ -183,7 +183,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
         <input
           className='filter-input'
           type="number"
-          value={speedMax === 100000 ? "" : speedMax}
+          value={paceMax === 100000 ? "" : paceMax}
           onChange={handlePaceMaxChange}
           placeholder='Max (min/km)'
         />

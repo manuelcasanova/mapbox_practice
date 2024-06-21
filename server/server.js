@@ -1586,8 +1586,8 @@ app.get("/runs", async (req, res) => {
           dateEnd,
           distanceMin,
           distanceMax,
-          speedMin,
-          speedMax,
+          paceMin,
+          paceMax,
           runName,
           rId
         } = req.query.filteredRuns;
@@ -1595,7 +1595,7 @@ app.get("/runs", async (req, res) => {
 // console.log("runs rId", rId)
 
         // Check for missing parameters
-        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedMin || !speedMax || !rId) {
+        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !paceMin || !paceMax || !rId) {
           console.log("One or more parameters are missing or invalid");
           return res.status(400).json({ error: "Missing or invalid parameters" });
         }
@@ -1614,7 +1614,7 @@ app.get("/runs", async (req, res) => {
 
         let queryParams = [
           dateStart, dateEnd,
-          distanceMin, distanceMax, speedMin, speedMax
+          distanceMin, distanceMax, paceMin, paceMax
         ];
 
         if (rId !== '0') {
@@ -1740,8 +1740,8 @@ app.get("/runs/public", async (req, res) => {
         const dateEnd = req.query.filteredRuns.dateEnd
         const distanceMin = req.query.filteredRuns.distanceMin
         const distanceMax = req.query.filteredRuns.distanceMax
-        const paceRangeMin = req.query.filteredRuns.speedMin
-        const paceRangeMax = req.query.filteredRuns.speedMax
+        const paceRangeMin = req.query.filteredRuns.paceMin
+        const paceRangeMax = req.query.filteredRuns.paceMax
         const runName = req.query.filteredRuns.runName
         let runsQuery = `
      SELECT DISTINCT r.*
@@ -1811,6 +1811,8 @@ app.get("/runs/public", async (req, res) => {
 app.get("/rides/user/:id", async (req, res) => {
 
   // console.log("req.query.filtered rides", req.query.filteredRides)
+
+  // console.log("req. query", req.query)
 
   try {
     const { id } = req.params;
@@ -1905,7 +1907,7 @@ app.get("/rides/user/:id", async (req, res) => {
   const rides = !rideName || rideName === "%all%" ? await pool.query(ridesQueryNoName, queryParamsNoName) : await pool.query(ridesQueryName, queryParamsName);
 
 
-  // console.log("rides rows", rides.rows)
+  // console.log("rides rows in rides/user/id", rides.rows)
   res.json(rides.rows)
 } catch (err) {
   console.error(err.message);
@@ -1917,6 +1919,7 @@ app.get("/rides/user/:id", async (req, res) => {
 app.get("/runs/user/:id", async (req, res) => {
 
   // console.log("req.query.filtered rides", req.query.filteredRuns)
+  // console.log("req query", req.query)
 
   try {
     const { id } = req.params;
@@ -1924,8 +1927,8 @@ app.get("/runs/user/:id", async (req, res) => {
     const dateEnd = req.query.filteredRuns.dateEnd
     const distanceMin = req.query.filteredRuns.distanceMin
     const distanceMax = req.query.filteredRuns.distanceMax
-    const paceRangeMin = req.query.filteredRuns.speedMin
-    const paceRangeMax = req.query.filteredRuns.speedMax
+    const paceRangeMin = req.query.filteredRuns.paceMin
+    const paceRangeMax = req.query.filteredRuns.paceMax
     const runName = `%${req.query.filteredRuns.runName}%`
 
     // console.log(runName)

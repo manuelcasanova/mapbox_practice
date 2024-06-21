@@ -10,8 +10,8 @@ const PersistLogin = () => {
     const { auth } = useAuth();
     const [persist] = useLocalStorage('persist', false);
 
-    console.log("auth in PersistLogin", auth)
-    console.log("persist in PersistLogin", persist)
+    // console.log("auth in PersistLogin", auth)
+    // console.log("persist in PersistLogin", persist)
 
     useEffect(() => {
         let isMounted = true;

@@ -2,17 +2,9 @@
 
 Functionalities
 
-JWT, persist login, protected routes, reload nav to login, etc.
-
-
-- Fix: on not trusted device, navigate to login on reload 
-- Fix: on trusted device, is loggedin but does not recognize admin
-
-
 OAuth
 
 Organize backend like in casinosteps.ca
-
 
 REACT_APP_API_URL=http://localhost:3500
 
@@ -27,8 +19,6 @@ PRODUCTION
 
 Future:
 
-
-
 logic for read/unread messages
 
 Possibility of receving email when:
@@ -40,6 +30,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Protected routes
 
 Limit profile image to 1MB size max
 

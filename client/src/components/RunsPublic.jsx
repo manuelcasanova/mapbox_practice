@@ -45,8 +45,8 @@ const RunsPublic = () => {
     dateEnd: "9999-12-31T00:00:00.000Z",
     distanceMin: 0,
     distanceMax: 100000,
-    speedMin: 0,
-    speedMax: 100000,
+    paceMin: 0,
+    paceMax: 100000,
     runName: 'all'
     
   };
