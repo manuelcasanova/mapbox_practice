@@ -23,7 +23,8 @@ const Followers = () => {
   const { auth } = useAuth();
   const userLoggedInObject = auth;
   const [showLargePicture, setShowLargePicture] = useState(null)
-
+  const BACKEND = process.env.REACT_APP_API_URL;
+ 
   // console.log("user in Users FOllowers", user.id)
 
   const userLoggedin = auth.userId
@@ -114,10 +115,10 @@ const Followers = () => {
 <div className='users-all-picture-container'
                        
                         >
-                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`} 
+                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={` ${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`} 
                               onError={(e) => {
                                 e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                                e.target.src = `http://localhost:3500/profile_pictures/user.jpg`; // Default fallback image URL
+                                e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
                               }}
                           />
                         </div>
@@ -130,10 +131,10 @@ const Followers = () => {
                          <img 
                          className='users-all-picture-large'
                          onClick={() => setShowLargePicture(null)}
-                         src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  
+                         src={` ${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
                          onError={(e) => {
                           e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                          e.target.src = `http://localhost:3500/profile_pictures/user.jpg`; // Default fallback image URL
+                          e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
                         }}
                          />
                           </div>}

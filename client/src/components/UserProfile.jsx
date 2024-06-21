@@ -42,11 +42,11 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const [selectedFile, setSelectedFile] = useState(null);
   const [showErrorFileSize, setShowErrorFileSize] = useState(false);
   const [reload, setReload] = useState(false)
-
+  const BACKEND = process.env.REACT_APP_API_URL;
 
 
   // useEffect(() => {
-  //   setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
+  //   setProfilePicture(`${BACKEND}/${auth.profilePicture}`);
   // }, [auth.profilePicture]);
 
   useEffect(() => {
@@ -129,14 +129,14 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
     formData.append('profilePicture', file);
 
     try {
-      const response = await fetch(`http://localhost:3500/profile_pictures/${auth.userId}/`, {
+      const response = await fetch(`${BACKEND}/profile_pictures/${auth.userId}/`, {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
         // Update profile picture URL and toggle upload file section visibility
-        const newProfilePictureUrlForAuth = `http://localhost:3500/profile_pictures/${auth.userId}/profile_picture.jpg`
+        const newProfilePictureUrlForAuth = `${BACKEND}/profile_pictures/${auth.userId}/profile_picture.jpg`
         setAuth(prevAuth => ({
           ...prevAuth,
           profilePicture: newProfilePictureUrlForAuth
@@ -171,7 +171,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
 
 <img
   className="user-profile-image"
-  src={profilePicture.includes('http://localhost:3500') ? profilePicture : `http://localhost:3500/${profilePicture}`}
+  src={profilePicture.includes(`${BACKEND}`) ? profilePicture : `${BACKEND}/${profilePicture}`}
   alt=""
 />
 

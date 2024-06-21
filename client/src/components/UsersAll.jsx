@@ -40,6 +40,7 @@ const UsersAll = () => {
   const isLoggedIn = auth.loggedIn
   const [showFilter, setShowFilter] = useState(false)
   const [showLargePicture, setShowLargePicture] = useState(null)
+  const BACKEND = process.env.REACT_APP_API_URL;
 
   const defaultFilteredUsers = {
     userName: 'all'
@@ -143,10 +144,10 @@ const UsersAll = () => {
                         <div className='users-all-picture-container'
                       
                         >
-                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}  
+                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
                           onError={(e) => {
                             e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                            e.target.src = `http://localhost:3500/profile_pictures/user.jpg`; // Default fallback image URL
+                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
                           }}
                           />
                         </div>
@@ -159,10 +160,10 @@ const UsersAll = () => {
                          <img 
                          className='users-all-picture-large'
                          onClick={() => setShowLargePicture(null)}
-                         src={`http://localhost:3500/profile_pictures/${user.id}/profile_picture.jpg`}
+                         src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
                          onError={(e) => {
                           e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                          e.target.src = `http://localhost:3500/profile_pictures/user.jpg`; // Default fallback image URL
+                          e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
                         }}
                          />
                           </div>}

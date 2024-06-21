@@ -126,22 +126,22 @@ function App() {
 
   const [showNavsidebar, setShowNavsidebar] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
-
+  const BACKEND = process.env.REACT_APP_API_URL;
   // console.log("prof pic in ap", profilePicture)
 
 
   useEffect(() => {
     if (auth.profilePicture) {
 
-      if (auth.profilePicture.includes('http://localhost:3500')) {
+      if (auth.profilePicture.includes('${BACKEND}')) {
         setProfilePicture(`${auth.profilePicture}`);
       } else {
-        setProfilePicture(`http://localhost:3500/${auth.profilePicture}`);
+        setProfilePicture(`${BACKEND}/${auth.profilePicture}`);
       }
 
 
     } else {
-      setProfilePicture(`http://localhost:3500/profile_pictures/user.jpg`);
+      setProfilePicture(`${BACKEND}/profile_pictures/user.jpg`);
     }
   }, [auth.profilePicture]);
 

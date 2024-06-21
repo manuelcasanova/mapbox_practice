@@ -2,11 +2,7 @@
 
 Functionalities
 
-OAuth
-
 Organize backend like in casinosteps.ca
-
-REACT_APP_API_URL=http://localhost:3500
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
@@ -18,6 +14,8 @@ Fix eslint errors
 PRODUCTION
 
 Future:
+
+OAuth
 
 logic for read/unread messages
 

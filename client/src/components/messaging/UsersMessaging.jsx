@@ -23,6 +23,7 @@ export default function UsersMessaging() {
   const [error, setError] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const [showLargePicture, setShowLargePicture] = useState(null)
+  const BACKEND = process.env.REACT_APP_API_URL;
 
   // console.log("user", user)
   //  console.log("userForMessages", userForMessages);
@@ -56,7 +57,7 @@ export default function UsersMessaging() {
                         >
                           <img 
                           onClick={() => setShowLargePicture(selectedUser.id)}
-                          className='users-messaging-picture' src={`http://localhost:3500/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  />
+                          className='users-messaging-picture' src={`${BACKEND}/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  />
                         </div>
 
 
@@ -67,10 +68,10 @@ export default function UsersMessaging() {
                          <img 
                          className='users-all-picture-large'
                          onClick={() => setShowLargePicture(null)}
-                         src={`http://localhost:3500/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  
+                         src={`${BACKEND}/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  
                          onError={(e) => {
                           e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                          e.target.src = `http://localhost:3500/profile_pictures/user.jpg`; // Default fallback image URL
+                          e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
                         }}
                          />
                           </div>}
