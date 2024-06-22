@@ -1824,6 +1824,7 @@ app.get("/rides/user/:id", async (req, res) => {
     const speedRangeMax = req.query.filteredRides.speedMax
      const rideName = `%${req.query.filteredRides.rideName}%`
 
+    //  console.log("server rides user id:", id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax, rideName)
 
     // Check if id is null or undefined
     if (id === null || id === undefined) {
@@ -1845,8 +1846,8 @@ app.get("/rides/user/:id", async (req, res) => {
     
     SELECT rides.*
     FROM rides
-    INNER JOIN run_users ON rides.id = run_users.run_id
-    WHERE run_users.user_id = $1 
+    INNER JOIN ride_users ON rides.id = ride_users.ride_id
+    WHERE ride_users.user_id = $1 
       AND starting_date >= $2 
       AND starting_date <= $3
       AND distance >= $4 
@@ -1880,8 +1881,8 @@ app.get("/rides/user/:id", async (req, res) => {
     
     SELECT rides.*
     FROM rides
-    INNER JOIN run_users ON rides.id = run_users.run_id
-    WHERE run_users.user_id = $1 
+    INNER JOIN ride_users ON rides.id = ride_users.ride_id
+    WHERE ride_users.user_id = $1 
       AND starting_date >= $2 
       AND starting_date <= $3
       AND distance >= $4 

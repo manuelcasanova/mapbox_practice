@@ -46,9 +46,7 @@ const RidesUser = () => {
   };
 
   const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
-  // const [filteredRides, setFilteredRides] = useState()
 
-  // const [filteredRides, setFilteredRides] = useState();
   const [addToMyRides, setAddToMyRides] = useState([])
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
