@@ -114,7 +114,7 @@ const Followee = () => {
                           <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
                               onError={(e) => {
                                 e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                                e.target.src = `${BACKEND}}/profile_pictures/user.jpg`; // Default fallback image URL
+                                e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
                               }}
                           />
                         </div>
@@ -127,10 +127,10 @@ const Followee = () => {
                          <img 
                          className='users-all-picture-large'
                          onClick={() => setShowLargePicture(null)}
-                         src={`${BACKEND}}/profile_pictures/${user.id}/profile_picture.jpg`}  
+                         src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
                          onError={(e) => {
                           e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                          e.target.src = `${BACKEND}}/profile_pictures/user.jpg`; // Default fallback image URL
+                          e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
                         }}
                          />
                           </div>}
