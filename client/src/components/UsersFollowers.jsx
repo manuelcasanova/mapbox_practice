@@ -115,7 +115,7 @@ const Followers = () => {
 <div className='users-all-picture-container'
                        
                         >
-                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={` ${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`} 
+                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`} 
                               onError={(e) => {
                                 e.target.onerror = null; // Prevent infinite loop in case of repeated error
                                 e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
