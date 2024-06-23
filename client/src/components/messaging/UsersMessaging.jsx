@@ -45,7 +45,7 @@ export default function UsersMessaging() {
    const selectedUser = users.find(u => u.id === userForMessages);
    const selectedUsername = selectedUser ? selectedUser.username : '';
 
-
+console.log("selecter user", selectedUser)
   return (
     <>
       {auth ? (
@@ -57,7 +57,12 @@ export default function UsersMessaging() {
                         >
                           <img 
                           onClick={() => setShowLargePicture(selectedUser.id)}
-                          className='users-messaging-picture' src={`${BACKEND}/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  />
+                          className='users-messaging-picture' src={`${BACKEND}/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  
+                          onError={(e) => {
+                            e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                          }}
+                          />
                         </div>
 
 
