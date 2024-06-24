@@ -6,13 +6,14 @@ import axios from 'axios';
 const BACKEND = process.env.REACT_APP_API_URL;
 
 export const activateUser = async (user, loggedInUser) => {
-
+// console.log("loggedInUser in activateuser in DeleteUser.jsx", loggedInUser)
+// console.log("user in activate user in jsx", user)
   try {
    
 
     const userId = user.id;
-    const isUserLoggedIn = loggedInUser.loggedIn
-   
+    const isUserLoggedIn = loggedInUser.accessToken !== null;
+   console.log("deleteuser.jsx isUserLoggedIn", isUserLoggedIn)
  
     await axios.post(`${BACKEND}/user/activate/${userId}`, {
       data: { userId, isUserLoggedIn }
@@ -26,11 +27,11 @@ export const activateUser = async (user, loggedInUser) => {
 };
 
 export const deactivateUser = async (user, loggedInUser) => {
-
+  // console.log("user in deactivate user in jsx", user)
   try {
    
 
-    const userId = user.userId;
+    const userId = user;
     const isUserLoggedIn = loggedInUser.accessToken !== undefined
    
  

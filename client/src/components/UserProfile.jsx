@@ -27,11 +27,13 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const { auth, setAuth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
-  console.log("auth", auth)
-  console.log("profile picture", profilePicture)
+  // console.log("auth", auth)
+  // console.log("profile picture", profilePicture)
 
 
   const loggedInUser = auth;
+  const user = loggedInUser.userId
+  // console.log("loggedInUser in UserProfile", loggedInUser)
   const logOut = useLogout(setRideAppUndefined)
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
@@ -77,7 +79,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   }
 
   const handleDeactivateUser = () => {
-    deactivateUser(auth, loggedInUser);
+    deactivateUser(user, loggedInUser);
     logOut()
     handleShowConfirmDelete()
     navigate('/')

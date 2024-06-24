@@ -24,7 +24,7 @@ const UsersAdmin = () => {
   //  console.log("users", users)
 
   const loggedInUser = auth;
-  //  console.log("loggedInUser in Users Admin", loggedInUser)
+   console.log("loggedInUser in Users Admin", loggedInUser)
 
 
   useEffect(() => {
