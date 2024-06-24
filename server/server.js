@@ -109,7 +109,7 @@ app.post('/profile_pictures/:userId', upload.single('profilePicture'), async (re
       res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', '0');
-      
+
       res.status(200).json({ message: 'Profile picture uploaded successfully' });
     } else {
       res.status(404).json({ error: 'User not found' });
@@ -206,25 +206,25 @@ app.get("/users", async (req, res) => {
 //Get all users (name only)
 app.get("/users/names", async (req, res) => {
   try {
-      // console.log("req. query in users/names", req.query.filteredUsers)
+    // console.log("req. query in users/names", req.query.filteredUsers)
 
-const filteredUsername = req.query?.filteredUsers?.userName
+    const filteredUsername = req.query?.filteredUsers?.userName
 
-let query = `SELECT id, username FROM users`
+    let query = `SELECT id, username FROM users`
 
-let queryParams = [];
+    let queryParams = [];
 
-if (filteredUsername && filteredUsername.toLowerCase() !== "all") {
-  query += ` WHERE username ILIKE $${queryParams.length + 1}`;
-  queryParams.push(`%${filteredUsername}%`);
-}
+    if (filteredUsername && filteredUsername.toLowerCase() !== "all") {
+      query += ` WHERE username ILIKE $${queryParams.length + 1}`;
+      queryParams.push(`%${filteredUsername}%`);
+    }
 
-query += ` ORDER BY username ASC`;
+    query += ` ORDER BY username ASC`;
 
-const users = await pool.query(query, queryParams)
-// console.log("users/names", users.rows)
+    const users = await pool.query(query, queryParams)
+    // console.log("users/names", users.rows)
     res.json(users.rows)
- 
+
 
   } catch (err) {
     console.error(err.message)
@@ -1241,31 +1241,48 @@ app.delete(`/runs/delete/users/:id`, async (req, res) => {
 //Delete a user
 app.delete("/user/delete/:id", async (req, res) => {
   try {
-    // console.log("req bod", req.body.user)
+    //  console.log("req bod", req.body)
     // console.log("delete user")
-
+  
     const userToDeleteIsSuperAdmin = req.body.userObject.issuperadmin;
     // console.log(userToDeleteIsSuperAdmin)
 
     if (req.body.loggedInUser.isSuperAdmin && !userToDeleteIsSuperAdmin) {
 
+  // Construct the path to the profile picture folder
+  const uploadPath = path.join(__dirname, `profile_pictures/${req.body.user}`);
 
-      // const deleteUsers = 
-      await pool.query(
-        "DELETE FROM users WHERE id = $1 RETURNING *", [req.body.user]
-      )
-      res.json("The user was deleted")
-
-      // res.json(deleteFollowRequest.rows[0])
-
-    } else {
-      res.json("Users can only be deleted by Super Admins")
+    // Check if the directory exists
+    if (fs.existsSync(uploadPath)) {
+      // Delete directory recursively
+      fs.rmSync(uploadPath, { recursive: true });
     }
 
-  } catch (err) {
-    console.error(err.message)
-  }
-})
+   // Delete user from the database
+   const deleteQuery = `
+   DELETE FROM users
+   WHERE id = $1
+   RETURNING *
+ `;
+ const deleteResult = await pool.query(deleteQuery, [req.body.user]);
+
+        // res.json(deleteFollowRequest.rows[0])
+        if (deleteResult.rowCount > 0) {
+          res.json({ message: 'User and associated profile picture deleted successfully' });
+        } else {
+          res.status(404).json({ error: 'User not found' });
+        }
+
+
+      } else {
+        res.json("Users can only be deleted by Super Admins")
+      }
+
+    } catch (err) {
+      console.error('Error deleting user and profile picture:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  })
 
 //Activate a user
 app.post("/user/activate/:id", async (req, res) => {
@@ -1331,10 +1348,10 @@ app.get("/maps/public", async (req, res) => {
     const username = req.query?.filteredMaps?.userName;
     const title = req.query?.filteredMaps?.title;
 
-// console.log("maps,public title", title)
+    // console.log("maps,public title", title)
 
-let query = 
-`
+    let query =
+      `
 SELECT DISTINCT m.* 
 FROM maps m
 LEFT JOIN followers f ON m.createdby = f.followee_id
@@ -1351,23 +1368,23 @@ AND u2.isactive = true
 
 `
 
-let queryParams = [userId]
+    let queryParams = [userId]
 
 
-if (title && title.toLowerCase() !== 'all') {
-  query += ` AND m.title ILIKE $${queryParams.length + 1}`;
-  queryParams.push(`%${title}%`)
-}
+    if (title && title.toLowerCase() !== 'all') {
+      query += ` AND m.title ILIKE $${queryParams.length + 1}`;
+      queryParams.push(`%${title}%`)
+    }
 
-if (username && username.toLowerCase() !== 'all') {
-  query += ` AND u1.username ILIKE $${queryParams.length + 1}`;
-  queryParams.push(`%${username}%`)
-}
+    if (username && username.toLowerCase() !== 'all') {
+      query += ` AND u1.username ILIKE $${queryParams.length + 1}`;
+      queryParams.push(`%${username}%`)
+    }
 
-query += ` ORDER BY m.id DESC`
+    query += ` ORDER BY m.id DESC`
 
 
-// console.log("query", query)
+    // console.log("query", query)
 
     const maps = await pool.query(query, queryParams
     );
@@ -1580,7 +1597,7 @@ app.get("/runs", async (req, res) => {
     // console.log("runs admin req.query", req.query.filteredRuns)
     if (req.query.user && req.query.user.accessToken) {
       if (req.query.filteredRuns) {
-  
+
         const {
           dateStart,
           dateEnd,
@@ -1592,7 +1609,7 @@ app.get("/runs", async (req, res) => {
           rId
         } = req.query.filteredRuns;
 
-// console.log("runs rId", rId)
+        // console.log("runs rId", rId)
 
         // Check for missing parameters
         if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !paceMin || !paceMax || !rId) {
@@ -1822,7 +1839,7 @@ app.get("/rides/user/:id", async (req, res) => {
     const distanceMax = req.query.filteredRides.distanceMax
     const speedRangeMin = req.query.filteredRides.speedMin
     const speedRangeMax = req.query.filteredRides.speedMax
-     const rideName = `%${req.query.filteredRides.rideName}%`
+    const rideName = `%${req.query.filteredRides.rideName}%`
 
     //  console.log("server rides user id:", id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax, rideName)
 
@@ -1831,7 +1848,7 @@ app.get("/rides/user/:id", async (req, res) => {
       return res.status(400).json({ error: 'User ID is required.' });
     }
     let ridesQueryNoName =
-    `SELECT *
+      `SELECT *
     FROM rides
     WHERE createdby = $1
       AND starting_date >= $2 
@@ -1864,8 +1881,8 @@ app.get("/rides/user/:id", async (req, res) => {
     ORDER BY id DESC;
     `
 
-  let ridesQueryName =
-    `SELECT *
+    let ridesQueryName =
+      `SELECT *
     FROM rides
     WHERE createdby = $1
       AND starting_date >= $2 
@@ -1900,20 +1917,20 @@ app.get("/rides/user/:id", async (req, res) => {
     ORDER BY id DESC;
     `
 
-  let queryParamsNoName = [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax]
+    let queryParamsNoName = [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax]
 
-  let queryParamsName = [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax, rideName]
-
-
-  const rides = !rideName || rideName === "%all%" ? await pool.query(ridesQueryNoName, queryParamsNoName) : await pool.query(ridesQueryName, queryParamsName);
+    let queryParamsName = [id, dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax, rideName]
 
 
-  // console.log("rides rows in rides/user/id", rides.rows)
-  res.json(rides.rows)
-} catch (err) {
-  console.error(err.message);
-  res.status(500).json({ error: 'Internal Server Error' });
-}
+    const rides = !rideName || rideName === "%all%" ? await pool.query(ridesQueryNoName, queryParamsNoName) : await pool.query(ridesQueryName, queryParamsName);
+
+
+    // console.log("rides rows in rides/user/id", rides.rows)
+    res.json(rides.rows)
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 //Get users runs

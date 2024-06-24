@@ -2,6 +2,8 @@
 
 Functionalities
 
+Delete image when inactivate user (when user deletes their account)
+
 Organize backend like in casinosteps.ca
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
@@ -28,6 +30,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Delete folder with profile image when delete user
 
 Protected routes
 
