@@ -382,7 +382,16 @@ const RidesPublic = () => {
                             }</div>
 
                             {isUserRide ? (
-                              <div></div>
+                              <>
+                                     <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
+                                     {showUsers && showUsers === ride.id ? (
+                                       'Hide users'
+                                     ) : (
+                                       'Show users'
+                                     )}
+                                   </button>
+                             <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
+                             </>
                             ) : isUserInRide ? (
 
 

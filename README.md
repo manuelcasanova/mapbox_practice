@@ -8,9 +8,6 @@ Fix: Runs conversation, reload every 10 seconds
 
 Fix: Muted: should not be seen in all users, following, followers
 
-Fix: Rides/public cannot see conversation if my ride
-
-
 
 Organize backend like in casinosteps.ca
 
