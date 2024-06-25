@@ -4,6 +4,7 @@ const fetchMutedUsers = async (userLoggedin, isLoggedIn, setMutedUsers, setIsLoa
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
     const response = await axios.get(`${BACKEND}/users/muted`, { params: { userId: userLoggedin, isLoggedIn: isLoggedIn } });
+    console.log("muted users in FetchMutedUsers", response.data.mutedUsers)
     setMutedUsers(response.data.mutedUsers);
   } catch (error) {
     console.error('Error fetching muted users:', error);
