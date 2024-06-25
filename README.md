@@ -2,7 +2,6 @@
 
 Functionalities
 
-Fix: Muted: should not be seen in, following, followers
 
 Fix: Rides conversation, reload every 10 seconds
 
@@ -40,7 +39,7 @@ sign up. Receive an email so not anyone can sign up for you
 
 DONE
 
-Muted: should not be seen in all users
+Muted: should not be seen in all users, following, followers
 
 Delete folder with profile image when delete user
 

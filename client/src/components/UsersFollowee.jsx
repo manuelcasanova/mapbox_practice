@@ -104,8 +104,15 @@ const amFollowingThem = followers.some(follower =>
                 );
 
                 const areFollowingMe = followers.some(follower =>
-                  follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'accepted'
+                  follower.followee_id === userLoggedin &&
+                  follower.follower_id === user.id &&
+                  follower.status === 'accepted' &&
+                  !mutedUsers.some(mutedUser =>
+                    (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) &&
+                    mutedUser.mute
+                  )
                 );
+                
 
                 const pendingAcceptThem = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'

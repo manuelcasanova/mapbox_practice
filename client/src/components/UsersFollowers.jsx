@@ -8,6 +8,7 @@ import fetchFollowers from './util_functions/FetchFollowers';
 import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
+import fetchMutedUsers from './util_functions/FetchMutedUsers';
 
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,6 +23,7 @@ const Followers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
   const userLoggedInObject = auth;
+  const isLoggedIn = auth.loggedIn
   const [showLargePicture, setShowLargePicture] = useState(null)
   const BACKEND = process.env.REACT_APP_API_URL;
  
@@ -39,6 +41,7 @@ const Followers = () => {
     const controller = new AbortController();
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     fetchFollowers(auth, setFollowers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -58,8 +61,14 @@ const Followers = () => {
   }
 
   const areAnyFollowingMe = followers.some(follower =>
-    follower.followee_id === userLoggedin && follower.status === 'accepted'
+    follower.followee_id === userLoggedin &&
+    follower.status === 'accepted' &&
+    !mutedUsers.some(mutedUser =>
+      (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) &&
+      mutedUser.mute
+    )
   );
+  
 
 // console.log("areanyfm", areAnyFollowingMe)
 
@@ -78,17 +87,31 @@ const Followers = () => {
             <div>
               {users.map(user => {
 
-                const amFollowingThem = followers.some(follower =>
-                  follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'accepted'
-                );
+const amFollowingThem = followers.some(follower =>
+  follower.follower_id === userLoggedin &&
+  follower.followee_id === user.id &&
+  follower.status === 'accepted' &&
+  !mutedUsers.some(mutedUser =>
+    (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) &&
+    mutedUser.mute
+  )
+);
+
 
                 const pendingAcceptMe = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
                 );
 
                 const areFollowingMe = followers.some(follower =>
-                  follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'accepted'
+                  follower.followee_id === userLoggedin &&
+                  follower.follower_id === user.id &&
+                  follower.status === 'accepted' &&
+                  !mutedUsers.some(mutedUser =>
+                    (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) &&
+                    mutedUser.mute
+                  )
                 );
+                
 
                 const pendingAcceptThem = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
