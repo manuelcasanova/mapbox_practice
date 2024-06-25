@@ -6,7 +6,9 @@ Fix: Rides conversation, reload every 10 seconds
 
 Fix: Runs conversation, reload every 10 seconds
 
-Fix: Muted: should not be seen in all users, following, followers
+Fix: Muted: should not be seen in, following, followers
+
+Fix: List of muted
 
 
 Organize backend like in casinosteps.ca
@@ -39,6 +41,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Muted: should not be seen in all users
 
 Delete folder with profile image when delete user
 

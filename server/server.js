@@ -256,10 +256,10 @@ app.get('/users/muted', async (req, res) => {
 
   try {
 
-    const result = await pool.query('SELECT mutee FROM muted WHERE muter = $1 AND mute = true', [userId]);
+    const result = await pool.query('SELECT * FROM muted WHERE mute = true AND (muter = $1 OR mutee = $1)', [userId]);
     //  const result = await pool.query('SELECT * from muted');
 
-    const mutedUsers = result.rows.map(row => row.mutee);
+    const mutedUsers = result.rows
     console.log("muted users in server users/muted", mutedUsers)
     res.json({ mutedUsers });
   } catch (error) {
