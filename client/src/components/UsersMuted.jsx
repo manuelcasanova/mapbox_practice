@@ -21,6 +21,9 @@ const MutedUsers = () => {
   const [showLargePicture, setShowLargePicture] = useState(null)
   const BACKEND = process.env.REACT_APP_API_URL;
 
+  console.log("users in UsersMuted", users)
+  console.log("mutedUsers in UsersMuted", mutedUsers)
+
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -31,7 +34,11 @@ const MutedUsers = () => {
     };
   }, [userLoggedin]);
 
-  const mutedUserObjects = users.filter(user => mutedUsers.includes(user.id));
+  const mutedUserObjects = mutedUsers
+  .filter(mutedUser => mutedUser.muter === userLoggedin)
+  .map(mutedUser => users.find(user => user.id === mutedUser.mutee));
+
+  console.log("mutedUserObjects in UsersMuted.jsx", mutedUserObjects)
 
   // useEffect(() => {
   //   console.log("mutedUserObjects", mutedUserObjects);
