@@ -27,7 +27,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const { auth, setAuth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
-  console.log("auth", auth)
+  // console.log("auth", auth)
   // console.log("profile picture", profilePicture)
 
 
@@ -35,9 +35,9 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const user = auth
   // console.log("loggedInUser in UserProfile", loggedInUser)
 
-  console.log("User profile loggedInUser", loggedInUser)
+  // console.log("User profile loggedInUser", loggedInUser)
 
-  console.log("User profile user", user)
+  // console.log("User profile user", user)
 
   const logOut = useLogout(setRideAppUndefined)
 

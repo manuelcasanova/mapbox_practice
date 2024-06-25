@@ -45,7 +45,7 @@ export default function UsersMessaging() {
    const selectedUser = users.find(u => u.id === userForMessages);
    const selectedUsername = selectedUser ? selectedUser.username : '';
 
-console.log("selecter user", selectedUser)
+// console.log("selecter user", selectedUser)
   return (
     <>
       {auth ? (
