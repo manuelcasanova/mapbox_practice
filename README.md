@@ -2,7 +2,7 @@
 
 Functionalities
 
-Fix: Rides by followers visible with status pending. Should be only with accepted.
+Fix: see my rides in public rides
 
 Fix: Rides conversation, reload every 10 seconds
 
@@ -39,6 +39,8 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Fix: Rides by followers visible with status pending. Should be only with accepted.
 
 Muted: should not be seen in all users, following, followers
 

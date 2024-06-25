@@ -1706,7 +1706,7 @@ app.get("/rides/public", async (req, res) => {
      LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $7
      INNER JOIN users u1 ON r.createdby = u1.id
      INNER JOIN users u2 ON $7 = u2.id
-     WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $7))
+     WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $7 and f.status = 'accepted'))
      AND starting_date >= $1
      AND starting_date <= $2
        AND distance >= $3
@@ -1741,7 +1741,7 @@ app.get("/rides/public", async (req, res) => {
         LEFT JOIN followers f ON r.createdby = f.followee_id
         LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = r.createdby
         LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $1
-        WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $1))
+        WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $1 and f.status = 'accepted'))
         AND r.isactive = true
         AND (mute1.mute IS NULL OR mute1.mute = false)
         AND (mute2.mute IS NULL OR mute2.mute = false)
@@ -1780,7 +1780,7 @@ app.get("/runs/public", async (req, res) => {
      LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $7
      INNER JOIN users u1 ON r.createdby = u1.id
      INNER JOIN users u2 ON $7 = u2.id
-     WHERE (r.runtype='public' OR (r.runtype = 'followers' and f.follower_id = $7))
+     WHERE (r.runtype='public' OR (r.runtype = 'followers' and f.follower_id = $7 and f.status = 'accepted'))
      AND starting_date >= $1
      AND starting_date <= $2
        AND distance >= $3
@@ -1816,7 +1816,7 @@ app.get("/runs/public", async (req, res) => {
         LEFT JOIN followers f ON r.createdby = f.followee_id
         LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = r.createdby
         LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $1
-        WHERE (r.runtype='public' OR (r.runtype = 'followers' and f.follower_id = $1))
+        WHERE (r.runtype='public' OR (r.runtype = 'followers' and f.follower_id = $1 and f.status = 'accepted'))
         AND r.isactive = true
         AND (mute1.mute IS NULL OR mute1.mute = false)
         AND (mute2.mute IS NULL OR mute2.mute = false)
