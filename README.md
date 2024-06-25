@@ -2,7 +2,15 @@
 
 Functionalities
 
-Delete image when inactivate user (when user deletes their account)
+Fix: Rides conversation, reload every 10 seconds
+
+Fix: Runs conversation, reload every 10 seconds
+
+Fix: Muted: should not be seen in all users, following, followers
+
+Fix: Rides/public cannot see conversation if my ride
+
+
 
 Organize backend like in casinosteps.ca
 
@@ -16,6 +24,10 @@ Fix eslint errors
 PRODUCTION
 
 Future:
+
+Delete message from users messages
+
+See the list of users who joined a ride half screen scrollable after clicking on a button
 
 OAuth
 

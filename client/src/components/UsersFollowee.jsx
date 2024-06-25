@@ -106,7 +106,7 @@ const Followee = () => {
                     <div 
                     className='users-all-user'
                     key={user.id}>
-{console.log(user.id)}
+{/* {console.log(user.id)} */}
 
 <div className='users-all-picture-container'
                         
