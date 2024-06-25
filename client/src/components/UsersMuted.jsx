@@ -20,9 +20,11 @@ const MutedUsers = () => {
   const [mutedUsers, setMutedUsers] = useState([])
   const [showLargePicture, setShowLargePicture] = useState(null)
   const BACKEND = process.env.REACT_APP_API_URL;
+  const [hasMutedChanges, setHasMutedChanges] = useState(false);
 
-  console.log("users in UsersMuted", users)
-  console.log("mutedUsers in UsersMuted", mutedUsers)
+  // console.log("users in UsersMuted", users)
+  // console.log("mutedUsers in UsersMuted", mutedUsers)
+  // console.log("has muted changes", hasMutedChanges)
 
   useEffect(() => {
     let isMounted = true;
@@ -32,28 +34,20 @@ const MutedUsers = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [userLoggedin]);
+  }, [userLoggedin, hasMutedChanges]);
+
+  const handleMutedChanges = () => {
+    setHasMutedChanges(prevState => !prevState);
+  };
+
 
   const mutedUserObjects = mutedUsers
   .filter(mutedUser => mutedUser.muter === userLoggedin)
   .map(mutedUser => users.find(user => user.id === mutedUser.mutee));
 
-  console.log("mutedUserObjects in UsersMuted.jsx", mutedUserObjects)
+  // console.log("mutedUserObjects in UsersMuted.jsx", mutedUserObjects)
 
-  // useEffect(() => {
-  //   console.log("mutedUserObjects", mutedUserObjects);
-  // }, [mutedUserObjects])
 
-  // console.log("user", user)
-  // console.log("loggedInUserId", userLoggedin)
-  // console.log("isUserLoggedIn", isLoggedIn)
-  // useEffect(() => {
-  //   console.log("mutedUsers", mutedUsers)
-  // }, [mutedUsers])
-
-  // useEffect(() => {
-  //   console.log("users", users)
-  // }, [users])
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -62,6 +56,7 @@ const MutedUsers = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
 
   return (
     <div className='users-all-container'>
@@ -109,7 +104,19 @@ const MutedUsers = () => {
 <div className='users-all-name'>{user.username}</div>
 </div>
 <div className='user-actions'>
-              <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers}/>
+
+
+
+
+              <MuteUserButton userId={user.id} userLoggedin={userLoggedin} 
+              
+              isMuted={mutedUsers.some(mute => 
+                (mute.muter === user.id && mute.mutee === userLoggedin) || 
+                (mute.muter === userLoggedin && mute.mutee === user.id)
+              )}
+              
+              
+              setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges}/>
               </div>
             </div>
           ))}

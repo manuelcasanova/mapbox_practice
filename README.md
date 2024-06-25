@@ -2,13 +2,11 @@
 
 Functionalities
 
+Fix: Muted: should not be seen in, following, followers
+
 Fix: Rides conversation, reload every 10 seconds
 
 Fix: Runs conversation, reload every 10 seconds
-
-Fix: Muted: should not be seen in, following, followers
-
-Fix: List of muted
 
 
 Organize backend like in casinosteps.ca

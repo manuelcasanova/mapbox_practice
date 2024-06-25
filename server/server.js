@@ -260,7 +260,7 @@ app.get('/users/muted', async (req, res) => {
     //  const result = await pool.query('SELECT * from muted');
 
     const mutedUsers = result.rows
-    console.log("muted users in server users/muted", mutedUsers)
+    // console.log("muted users in server users/muted", mutedUsers)
     res.json({ mutedUsers });
   } catch (error) {
     console.error('Error fetching muted users:', error);

@@ -32,7 +32,7 @@ const UsersAll = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
-   console.log("auth in Users All", auth)
+  //  console.log("auth in Users All", auth)
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
   const userLoggedin = auth.userId
   const userLoggedInObject = auth
@@ -41,6 +41,8 @@ const UsersAll = () => {
   const [showFilter, setShowFilter] = useState(false)
   const [showLargePicture, setShowLargePicture] = useState(null)
   const BACKEND = process.env.REACT_APP_API_URL;
+
+  // console.log("hat muted changes in Users all", hasMutedChanges)
 
   const defaultFilteredUsers = {
     userName: 'all'
@@ -63,7 +65,7 @@ const UsersAll = () => {
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted, filteredUsers)
     fetchFollowee(auth, setFollowers, setIsLoading, setError, isMounted)
     fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
-
+// console.log("usersAll render")
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -102,9 +104,9 @@ const UsersAll = () => {
     return <div>Error: {error}</div>;
   }
 
-  console.log("users except me", usersExceptMe)
+  // console.log("users except me", usersExceptMe)
 
-  console.log("Muted users before number now object", mutedUsers)
+  // console.log("Muted users before number now object", mutedUsers)
   // const allUsersMutedOrMe = usersExceptMe.every(user => mutedUsers.includes(user.id));
 
   const userIDsExceptMe = usersExceptMe.map(user => user.id);
@@ -113,7 +115,7 @@ const UsersAll = () => {
   );
   
 
-  console.log("allUsersMuterOrMe", allUsersMutedOrMe)
+  // console.log("allUsersMuterOrMe", allUsersMutedOrMe)
 
   return (
 
@@ -143,7 +145,7 @@ const UsersAll = () => {
 
                 {followingEachOther.map((isFollowing, index) => {
                   const user = usersExceptMe[index];
-                  console.log("muted users in following each other map", mutedUsers)
+                  // console.log("muted users in following each other map", mutedUsers)
                   const isMuted = mutedUsers.some(mute => 
                     (mute.muter === user.id && mute.mutee === userLoggedin) || 
                     (mute.muter === userLoggedin && mute.mutee === user.id)
@@ -201,7 +203,7 @@ const UsersAll = () => {
 
 
 
-                          <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+                          <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={isMuted} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
 
                         </div>
                       </div>
