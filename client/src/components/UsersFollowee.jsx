@@ -10,6 +10,7 @@ import fetchFollowee from './util_functions/FetchFollowee';
 import MuteUserButton from './util_functions/mute_functions/MuteUserButton';
 import FollowUserButton from './util_functions/follow_functions/FollowUserButton';
 import ApproveFollowerButton from './util_functions/follow_functions/ApproveFollower';
+import fetchMutedUsers from './util_functions/FetchMutedUsers';
 
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,10 +26,14 @@ const Followee = () => {
   const [showLargePicture, setShowLargePicture] = useState(null)
   const { auth } = useAuth();
   const userLoggedInObject = auth
+  const isLoggedIn = auth.loggedIn
   // console.log("user in Users Followee", user.id)
   const BACKEND = process.env.REACT_APP_API_URL;
 
   const userLoggedin = auth.userId
+
+  console.log("mutedUsers in UsersFollowee", mutedUsers)
+    console.log("followers in UsersFollowee", followers)
 
   useEffect(() => {
       // console.log("followers in UsersFollowee", followers)
@@ -40,6 +45,7 @@ const Followee = () => {
     const controller = new AbortController();
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     fetchFollowee(auth, setFollowers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -58,8 +64,14 @@ const Followee = () => {
   }
 
   const amIFollowingAnybody = followers.some(followee =>
-    followee.follower_id === userLoggedin && followee.status === 'accepted'
+    followee.follower_id === userLoggedin &&
+    followee.status === 'accepted' &&
+    !mutedUsers.some(mutedUser =>
+      (mutedUser.muter === followee.follower_id || mutedUser.mutee === followee.follower_id) &&
+      mutedUser.mute
+    )
   );
+  
 
   return (
     <div className='users-all-container'>
@@ -76,9 +88,16 @@ const Followee = () => {
               <div className="users-title">Following</div>
               {users.map(user => {
 
-                const amFollowingThem = followers.some(follower =>
-                  follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'accepted'
-                );
+const amFollowingThem = followers.some(follower =>
+  follower.follower_id === userLoggedin && 
+  follower.followee_id === user.id && 
+  follower.status === 'accepted' &&
+  !mutedUsers.some(mutedUser =>
+    (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) && 
+    mutedUser.mute
+  )
+);
+
 
                 const pendingAcceptMe = followers.some(follower =>
                   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
