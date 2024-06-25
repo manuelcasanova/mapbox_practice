@@ -27,13 +27,18 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const { auth, setAuth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
-  // console.log("auth", auth)
+  console.log("auth", auth)
   // console.log("profile picture", profilePicture)
 
 
-  const loggedInUser = auth;
-  const user = loggedInUser.userId
+  const loggedInUser = auth.userId;
+  const user = auth
   // console.log("loggedInUser in UserProfile", loggedInUser)
+
+  console.log("User profile loggedInUser", loggedInUser)
+
+  console.log("User profile user", user)
+
   const logOut = useLogout(setRideAppUndefined)
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
@@ -78,11 +83,16 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
     setIsEditingUsername(false)
   }
 
-  const handleDeactivateUser = () => {
-    deactivateUser(user, loggedInUser);
-    logOut()
-    handleShowConfirmDelete()
-    navigate('/')
+  const handleDeactivateUser = async () => {
+    try {
+      await deactivateUser(user, loggedInUser); // Wait for deactivateUser to complete
+      logOut(); // Proceed with logging out the user
+      handleShowConfirmDelete(); // Proceed with showing confirmation for user deletion
+      navigate('/'); // Navigate to the homepage
+    } catch (error) {
+      console.error('Error deactivating user:', error);
+      // Handle errors as needed, e.g., display an error message to the user
+    }
   };
 
   const handleNo = () => {

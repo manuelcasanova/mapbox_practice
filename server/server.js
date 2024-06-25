@@ -1295,7 +1295,7 @@ app.post("/user/activate/:id", async (req, res) => {
 
     if (isLoggedIn) {
 
-      // console.log("here")
+      console.log("here")
 
       const activateUser = await pool.query(
         "UPDATE users SET isactive = true, email = REPLACE(email, 'inactive-', '') WHERE id = $1 RETURNING *", [userId]
@@ -1303,7 +1303,7 @@ app.post("/user/activate/:id", async (req, res) => {
       res.json(activateUser.rows[0])
       console.log("res.json", activateUser.rows[0])
 
-      // console.log("here2")
+      console.log("here2")
 
     } else {
       res.json("User can only be activated by user if logged in")
@@ -1318,7 +1318,7 @@ app.post("/user/activate/:id", async (req, res) => {
 
 app.post("/user/deactivate/:id", async (req, res) => {
   try {
-    // console.log("req body user deactivate id", req.body)
+     console.log("req body user deactivate id", req.body)
 //  console.log("req.params user deactivate id", typeof req.params.id)
     const isLoggedIn = req.body.data.isUserLoggedIn
     const userId = req.body.data.userId
