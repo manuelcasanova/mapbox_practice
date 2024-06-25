@@ -2,6 +2,7 @@
 
 Functionalities
 
+Fix: Rides by followers visible with status pending. Should be only with accepted.
 
 Fix: Rides conversation, reload every 10 seconds
 
