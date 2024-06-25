@@ -20,11 +20,12 @@ const UsersAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
   const [showLargePicture, setShowLargePicture] = useState(null)
+  const [refresh, setRefresh] = useState(false)
 
   //  console.log("users", users)
 
   const loggedInUser = auth;
-   console.log("loggedInUser in Users Admin", loggedInUser)
+  //  console.log("loggedInUser in Users Admin", loggedInUser)
 
 
   useEffect(() => {
@@ -63,16 +64,18 @@ const UsersAdmin = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [auth]);
+  }, [auth, refresh]);
 
   const handleDeactivate = async (user) => {
     await deactivateUser(user, loggedInUser);
     setUsers(users.map(u => u.id === user.id ? { ...u, isactive: false } : u));
+    setRefresh(prev => !prev)
   };
 
   const handleActivate = async (user) => {
     await activateUser(user, loggedInUser);
     setUsers(users.map(u => u.id === user.id ? { ...u, isactive: true } : u));
+    setRefresh(prev => !prev)
   };
 
   const handleDelete = async (user) => {

@@ -28,6 +28,30 @@ CREATE TABLE users (
   location VARCHAR(255)
 );
 
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255),
+  isadmin BOOLEAN DEFAULT false,
+  issuperadmin BOOLEAN DEFAULT false,
+  email VARCHAR(255),
+  password VARCHAR(255),
+  isselected BOOLEAN DEFAULT false,
+  isactive BOOLEAN DEFAULT true,
+  refreshtoken VARCHAR(255),
+  profile_picture VARCHAR(255),
+  location VARCHAR(255),
+
+  -- Constraint to enforce uniqueness of email, except when it starts with 'inactive-'
+  CONSTRAINT email_unique_except_inactive CHECK (
+    NOT (email LIKE 'inactive-%' AND isactive = true)
+  ),
+
+  -- Partial index to enforce uniqueness on active emails
+  UNIQUE(email) WHERE (isactive = true)
+);
+
+
 CREATE TABLE login_history (
   id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(id) ON DELETE CASCADE,

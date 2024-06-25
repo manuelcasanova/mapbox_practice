@@ -13,7 +13,7 @@ export const activateUser = async (user, loggedInUser) => {
 
     const userId = user.id;
     const isUserLoggedIn = loggedInUser.accessToken !== null;
-   console.log("deleteuser.jsx isUserLoggedIn", isUserLoggedIn)
+  //  console.log("deleteuser.jsx isUserLoggedIn", isUserLoggedIn)
  
     await axios.post(`${BACKEND}/user/activate/${userId}`, {
       data: { userId, isUserLoggedIn }
@@ -27,15 +27,15 @@ export const activateUser = async (user, loggedInUser) => {
 };
 
 export const deactivateUser = async (user, loggedInUser) => {
-  console.log("user in deactivate user in jsx", user)
-  console.log("loggedInUser in jsx, ", loggedInUser)
+  // console.log("user in deactivate user in jsx", user)
+  // console.log("loggedInUser in jsx, ", loggedInUser)
   try {
    
 
     const userId = user.id || user.userId;
     const isUserLoggedIn = loggedInUser.accessToken !== null;
    
-    console.log("userId deactivateUser", userId, "isUserLoggedIn", isUserLoggedIn)
+    // console.log("userId deactivateUser", userId, "isUserLoggedIn", isUserLoggedIn)
  
     await axios.post(`${BACKEND}/user/deactivate/${userId}`, {
       data: { userId, isUserLoggedIn }
