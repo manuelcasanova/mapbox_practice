@@ -2198,6 +2198,9 @@ app.post("/rides/addmessage", async (req, res) => {
 
       const insertedMessage = await pool.query(insertMessageQuery);
 
+  // Emit the new message to all connected clients via websocket
+  io.emit('message', insertedMessage.rows[0]);
+
       // console.log(insertedMessage.rows); // Logging the inserted message
 
       res.status(201).json({ message: "Message added successfully", data: insertedMessage.rows });
