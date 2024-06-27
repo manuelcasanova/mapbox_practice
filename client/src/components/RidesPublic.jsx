@@ -480,7 +480,7 @@ const RidesPublic = () => {
                                 <button 
                                 className='orange-button button-small'
                                 onClick={handleReloadMessages}
-                                >Refresh messages</button>
+                                >Update messages</button>
                                 <button
                                 className='info-button'
                                 onClick={handleShowInfo}
