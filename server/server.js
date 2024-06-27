@@ -1,7 +1,11 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 const bodyParser = require('body-parser')
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const cookieParser = require('cookie-parser');
@@ -14,6 +18,22 @@ const multer = require('multer');
 const path = require('path'); // To serve static files.
 const fs = require('fs');
 
+// WebSocket connection handling
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  // Handle incoming messages from clients
+  socket.on('message', (message) => {
+    console.log('Received message:', message);
+    // Broadcast message to all connected clients
+    io.emit('message', message); // Broadcast to all connected clients
+  });
+
+  // Handle disconnections
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
 
 app.set("view engine", 'ejs');
 
