@@ -182,6 +182,32 @@ padding: 3px;
 border-radius: 5px;
 }
 
+.refresh-messages-and-info {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the end of the container */
+  gap: 10px; /* Adds spacing between buttons */
+}
+
+.info-button {
+  background-color: blue;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.info-button:hover {
+  background-color: navy;
+}
+
+
 
 @media (min-width:500px) {
   .ride-conversation-container{

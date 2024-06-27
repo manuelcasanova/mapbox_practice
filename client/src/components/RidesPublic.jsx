@@ -41,7 +41,8 @@ const RidesPublic = () => {
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
-
+  const [reloadMessages, setReloadMessages] = useState(false)
+  const [showInfo, setShowInfo] = useState(false)
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
@@ -169,7 +170,7 @@ const RidesPublic = () => {
     };
   }, [
     // auth, 
-    filteredRides, messageSent, messageDeleted, messageReported, messageFlagged]);
+    filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, reloadMessages]);
 
   useEffect(() => {
     const fetchUserRides = async () => {
@@ -207,6 +208,13 @@ const RidesPublic = () => {
     setShowModal(prev => !prev)
   }
 
+  const handleReloadMessages = () => {
+    setReloadMessages(prev => !prev)
+  }
+
+  const handleShowInfo = () => {
+    setShowInfo(prev => !prev)
+  }
 
   const toggleAddToMyRides = (index) => {
     // console.log("add to my rides before", addToMyRides);
@@ -468,6 +476,23 @@ const RidesPublic = () => {
 
                                   <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
                                 }
+                                <div className='refresh-messages-and-info'>
+                                <button 
+                                className='orange-button button-small'
+                                onClick={handleReloadMessages}
+                                >Refresh messages</button>
+                                <button
+                                className='info-button'
+                                onClick={handleShowInfo}
+                                >i</button>
+                                </div>
+
+{showInfo && (
+  <div className='info'>We are working on a feature to update messages automatically when any user writes them. Stay tuned!</div>
+)}
+
+
+
                                 {ride.messages && (isUserInRide || isUserRide) && (
                                   <div>
                                     {ride.messages.map(message => (

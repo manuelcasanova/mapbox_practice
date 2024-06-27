@@ -38,6 +38,7 @@ import ReportedRunNotifications from './components/notifications/ReportedRunNoti
 import FlaggedMessages from './components/admin_components/FlaggedMessages';
 import FlaggedRunMessages from './components/admin_components/FlaggedRunMessages'
 import ResetPassword from './components/authentication/ResetPassword';
+import TestWebSocket from './components/util_functions/TestWebSocket';
 
 
 //Context
@@ -203,6 +204,7 @@ function App() {
                 <Routes>
                   <Route element={<PersistLogin />}>
                     <Route element={<RequireAuth  />}><Route exact path="/rides" element={<></>}/></Route>
+                    <Route element={<RequireAuth  />}><Route exact path="/websocket" element={<TestWebSocket />}/></Route>
                     <Route element={<RequireAuth  />}><Route exact path="/runs" element={<></>}/></Route>
                     <Route element={<RequireAuth  />}><Route exact path="/maps" element={<><AllMaps fromButton={fromButton} setFromButton={setFromButton} rideApp={rideApp} /></>}/></Route>
                     <Route element={<RequireAuth  />}><Route exact path="/maps/public" element={<><MapsPublic /></>}/></Route>
