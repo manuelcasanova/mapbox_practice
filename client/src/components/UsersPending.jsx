@@ -181,7 +181,7 @@ loginhistory.sort((a, b) => new Date(b.login_time) - new Date(a.login_time));
 const isNewRequest = fetchIsNewRequest(pendingUsersObject, loginhistory);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loading"></div>;
   }
 
   if (error) {

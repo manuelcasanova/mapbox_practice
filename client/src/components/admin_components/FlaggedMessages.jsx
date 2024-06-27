@@ -63,7 +63,7 @@ export default function FlaggedMessages() {
   return (
     <>
       {isLoading ? (
-        <p>Loading...</p>
+        <div className="loading"></div>
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (

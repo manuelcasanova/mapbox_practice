@@ -94,7 +94,7 @@ const renderedMessages = messages.map((message) => {
 return (
   <div className="users-messaging-messages">
     {isLoading ? (
-      <p>Loading...</p>
+      <div className="loading"></div>
     ) : error ? (
       <p>Error: {error.message}</p>
     ) : (

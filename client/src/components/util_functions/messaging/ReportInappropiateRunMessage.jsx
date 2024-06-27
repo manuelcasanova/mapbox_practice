@@ -49,7 +49,7 @@ export default function ReportInappropiateRunMessage({ messageId, setMessageRepo
       <button 
       className="orange-button small-button"
       onClick={handleInappropiate} disabled={isLoading}>Report</button>
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <div className="loading"></div>}
       {error && <p>{error}</p>}
     </div>
   );

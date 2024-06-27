@@ -27,7 +27,7 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
 // console.log (`PreviewMapChild --> mapId ${mapId} mapTitle ${mapTitle} mapCreatedBy ${mapCreatedBy}`)
 
   if (!rideCoords || rideCoords.length === 0) {
-    return <div>Loading...</div>; 
+    return <div className="loading"></div>; 
   }
 
   const coords = rideCoords.slice(1);

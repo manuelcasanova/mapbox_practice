@@ -98,7 +98,7 @@ const UsersAdmin = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loading"></div>;
   }
 
   if (error) {

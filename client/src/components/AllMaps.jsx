@@ -97,7 +97,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   return (
     <div className="all-maps-container">
       {isLoading ? (
-        <div>Loading...</div>
+        <div className="loading"></div>
       ) : maps.length > 0 ? (
         <>
 

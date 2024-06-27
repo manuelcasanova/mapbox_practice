@@ -55,6 +55,15 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
   // Find the username corresponding to the message.createdby ID
   const createdByUsername = users.find(user => user.id === message.createdby)?.username || 'Unknown User';
 
+  if (isLoading) {
+    return <div className="loading"></div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+
   return (
     <div
     key={message.id}
