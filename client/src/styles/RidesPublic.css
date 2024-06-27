@@ -189,18 +189,29 @@ border-radius: 5px;
 }
 
 .info-button {
+  margin: 10px 10px 10px 0px; 
   background-color: blue;
   color: white;
-  padding: 8px;
+  padding: 10px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   font-size: 16px;
-  width: 30px;
-  height: 30px;
+max-height: 10px;
+max-width: 10px;
   display: flex;
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
+}
+
+.info-message {
+  padding: 10px;
+  font-style: italic;
+  font-size: smaller;
+  background-color: blue;
+  color: white;
+  margin: 5px;
+  border-radius: 5px;
 }
 
 .info-button:hover {

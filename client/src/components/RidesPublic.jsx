@@ -488,7 +488,7 @@ const RidesPublic = () => {
                                 </div>
 
 {showInfo && (
-  <div className='info'>We are working on a feature to update messages automatically when any user writes them. Stay tuned!</div>
+  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
 )}
 
 
