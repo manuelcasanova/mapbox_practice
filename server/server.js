@@ -1391,7 +1391,7 @@ LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = m.createdby
 LEFT JOIN muted mute2 ON mute2.muter = m.createdBy AND mute2.mutee = $1
 INNER JOIN users u1 ON m.createdby = u1.id
 INNER JOIN users u2 ON $1 = u2.id
-WHERE (m.maptype = 'public' OR (m.maptype = 'followers' AND f.follower_id = $1))
+WHERE (m.maptype = 'public' OR (m.maptype = 'followers' AND f.follower_id = $1) OR (m.createdby = $1))
 AND (mute1.mute IS NULL OR mute1.mute = false)
 AND (mute2.mute IS NULL OR mute2.mute = false)
 AND m.isactive = true
@@ -1438,7 +1438,28 @@ app.get("/maps/", async (req, res) => {
       //User's maps only
       //'SELECT * FROM maps WHERE createdby = $1 ORDER BY id DESC', [userId]
       //User's maps and user in maps
-      'SELECT * FROM maps WHERE createdby = $1 AND isactive = true UNION SELECT maps.* FROM maps INNER JOIN map_users ON maps.id = map_users.map_id WHERE map_users.user_id = $1 AND maps.isactive = true ORDER BY id DESC',
+
+
+      `SELECT * 
+      FROM maps 
+      WHERE createdby = $1 
+      AND isactive = true 
+      
+      UNION 
+      
+      SELECT maps.* 
+      FROM maps 
+      INNER JOIN map_users ON maps.id = map_users.map_id 
+      
+      WHERE map_users.user_id = $1 
+      AND maps.isactive = true 
+      ORDER BY id DESC`
+      
+
+    
+      ,
+
+
       [userId]
 
     );

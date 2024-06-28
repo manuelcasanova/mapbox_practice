@@ -2,8 +2,6 @@
 
 Functionalities
 
-See my maps even if not public on All maps
-
 Organize backend like in casinosteps.ca
 
 MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
@@ -36,6 +34,10 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+Do not see maps in my maps if user muted
+
+See my maps even if not public on All maps
 
 All users - do not include isactive false
 

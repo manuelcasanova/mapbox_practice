@@ -8,11 +8,15 @@ import '../styles/AllMaps.css'
 
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
+import fetchMutedUsers from "./util_functions/FetchMutedUsers";
 
 
 
 export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const { auth } = useAuth();
+  const userLoggedin = auth.userId
+  const isLoggedIn = auth.loggedIn
+
   const [maps, setMaps] = useState([]);
   const [error, setError] = useState(null);
   const [mapId, setMapId] = useState(null) //Declare it here instead of bringin from useAuth
@@ -22,8 +26,8 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const [fake, setFake] = useState(true)
   const BACKEND = process.env.REACT_APP_API_URL;
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
-
-  
+const [mutedUsers, setMutedUsers] = useState([])
+  // console.log("muted users in All maps", mutedUsers)
   useEffect(()=> {
     // console.log("from button", fromButton)
   }, [fromButton])
@@ -40,6 +44,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -57,36 +62,54 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-
+  
     const fetchData = async () => {
       try {
         const response = await axios.get(`${BACKEND}/maps`, {
           params: { userId },
           signal: controller.signal
         });
-        // console.log("response data", response.data)
+  
         if (isMounted) {
-          setMaps(response.data);
+          // Filter maps based on mutedUsers involving userId
+          const filteredMaps = response.data.filter(map => {
+            // Check if map's createdby is muter or mutee when userId is involved
+            let muterMuted = mutedUsers.some(mutedUser => {
+              return mutedUser.muter === userId && map.createdby === mutedUser.mutee;
+            });
+  
+            let muteeMuted = mutedUsers.some(mutedUser => {
+              return mutedUser.mutee === userId && map.createdby === mutedUser.muter;
+            });
+  
+            // Include the map if it's not related to a mutedUser involving userId
+            return !(muterMuted || muteeMuted);
+          });
+  
+          setMaps(filteredMaps);
+  
           // Set the initial mapId to the id of the first map if available
-          if (response.data.length > 0) {
-            setMapId(response.data[0].id);
+          if (filteredMaps.length > 0) {
+            setMapId(filteredMaps[0].id);
           }
+  
           setIsLoading(false);
         }
       } catch (error) {
-        if (error.name !== 'CanceledError') {
+        if (error.name !== 'AbortError') {
           console.error(error);
         }
       }
     };
-
+  
     fetchData();
-
+  
     return () => {
       isMounted = false;
       controller.abort();
     };
-  }, [userId, fake]);
+  }, [userId, fake, mutedUsers]); // Ensure mutedUsers is included in dependencies
+  
 
 
 

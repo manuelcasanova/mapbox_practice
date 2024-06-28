@@ -21,6 +21,7 @@ const MutedUsers = () => {
   const [showLargePicture, setShowLargePicture] = useState(null)
   const BACKEND = process.env.REACT_APP_API_URL;
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
+  const [showInfo, setShowInfo] = useState(false)
 
   // console.log("users in UsersMuted", users)
   // console.log("mutedUsers in UsersMuted", mutedUsers)
@@ -40,10 +41,13 @@ const MutedUsers = () => {
     setHasMutedChanges(prevState => !prevState);
   };
 
+  const handleShowInfo = () => {
+    setShowInfo(prev => !prev)
+  }
 
   const mutedUserObjects = mutedUsers
-  .filter(mutedUser => mutedUser.muter === userLoggedin)
-  .map(mutedUser => users.find(user => user.id === mutedUser.mutee));
+    .filter(mutedUser => mutedUser.muter === userLoggedin)
+    .map(mutedUser => users.find(user => user.id === mutedUser.mutee));
 
   // console.log("mutedUserObjects in UsersMuted.jsx", mutedUserObjects)
 
@@ -63,60 +67,72 @@ const MutedUsers = () => {
       {!isLoggedIn ? (
         <p>Please log in to see users.</p>
       ) : mutedUserObjects.length === 0 ? (<>
-         <div className="users-title">Muted users</div>
-       <div>No muted users.</div>
+        <div className="users-title">Muted Users</div>
+        <div>No muted users.</div>
       </>
-       
+
       ) : (
         <div>
-          <div className="users-title">Muted users</div>
+          <div className="muted-users-title">
+            <div className="users-title">Muted Users</div>
+            <button
+              className='info-button'
+            onClick={handleShowInfo}
+            >i</button>
+
+          </div>
+
+          {showInfo && (
+  <div className='info-message'>Users you've muted won't have access to view your maps, rides, or runs. They also won't be able to locate you in user lists, followers, or following lists. Similarly, you won't be able to find them or view their maps or rides.</div>
+)} 
+
           {mutedUserObjects.map(user => (
-            <div 
-            className='users-all-user'
-             key={user.id} >
-            <div className='users-all-picture-container'
-                  
-                        >
-                          <img       onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
-                              onError={(e) => {
-                                e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                                e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
-                              }}
-                          />
-                        </div>
+            <div
+              className='users-all-user'
+              key={user.id} >
+              <div className='users-all-picture-container'
+
+              >
+                <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                    e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                  }}
+                />
+              </div>
 
 
-                        {showLargePicture === user.id && <div
-                        className='large-picture'
-                        onClick={() => setShowLargePicture(null)}
-                        >
-                         <img 
-                         className='users-all-picture-large'
-                         onClick={() => setShowLargePicture(null)}
-                         src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
-                         onError={(e) => {
-                          e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                          e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
-                        }}
-                         />
-                          </div>}
+              {showLargePicture === user.id && <div
+                className='large-picture'
+                onClick={() => setShowLargePicture(null)}
+              >
+                <img
+                  className='users-all-picture-large'
+                  onClick={() => setShowLargePicture(null)}
+                  src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                    e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                  }}
+                />
+              </div>}
               <div className='user-details'>
-<div className='users-all-name'>{user.username}</div>
-</div>
-<div className='user-actions'>
+                <div className='users-all-name'>{user.username}</div>
+              </div>
+              <div className='user-actions'>
 
 
 
 
-              <MuteUserButton userId={user.id} userLoggedin={userLoggedin} 
-              
-              isMuted={mutedUsers.some(mute => 
-                (mute.muter === user.id && mute.mutee === userLoggedin) || 
-                (mute.muter === userLoggedin && mute.mutee === user.id)
-              )}
-              
-              
-              setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges}/>
+                <MuteUserButton userId={user.id} userLoggedin={userLoggedin}
+
+                  isMuted={mutedUsers.some(mute =>
+                    (mute.muter === user.id && mute.mutee === userLoggedin) ||
+                    (mute.muter === userLoggedin && mute.mutee === user.id)
+                  )}
+
+
+                  setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
               </div>
             </div>
           ))}
@@ -124,7 +140,7 @@ const MutedUsers = () => {
       )}
     </div>
   );
-  
+
 };
 
 export default MutedUsers

@@ -142,7 +142,7 @@ const UsersAll = () => {
 
             {auth.accessToken !== undefined ? (
               <div>
-                <div className="users-title">All users</div>
+                <div className="users-title">All Users</div>
 
                 {followingEachOther.map((isFollowing, index) => {
 
