@@ -1,4 +1,4 @@
-@import url(https://db.onlinewebfonts.com/c/ef37d5a2aade0e1cb69df8d3f5f2aa60?family=Rams+W01+Black);
+
 
 /* || RESET */
 * {
@@ -13,6 +13,10 @@ body {
   min-height: 100vh;
 }
 
+@font-face {
+  font-family: 'Rams W01 Black';
+  src: url('../src/fonts/Rams\ W01\ Black.eot');
+}
 
 .app-and-head {
 

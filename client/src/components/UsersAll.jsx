@@ -65,7 +65,7 @@ const UsersAll = () => {
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted, filteredUsers)
     fetchFollowee(auth, setFollowers, setIsLoading, setError, isMounted)
     fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
-// console.log("usersAll render")
+    // console.log("usersAll render")
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -111,9 +111,10 @@ const UsersAll = () => {
 
   const userIDsExceptMe = usersExceptMe.map(user => user.id);
   const allUsersMutedOrMe = userIDsExceptMe.every(userId =>
-      mutedUsers.some(mute => (mute.muter === userId || mute.mutee === userId) && mute.mute)
+    mutedUsers.some(mute => (mute.muter === userId || mute.mutee === userId) && mute.mute)
   );
-  
+
+
 
   // console.log("allUsersMuterOrMe", allUsersMutedOrMe)
 
@@ -144,46 +145,50 @@ const UsersAll = () => {
                 <div className="users-title">All users</div>
 
                 {followingEachOther.map((isFollowing, index) => {
+
                   const user = usersExceptMe[index];
+
                   // console.log("muted users in following each other map", mutedUsers)
-                  const isMuted = mutedUsers.some(mute => 
-                    (mute.muter === user.id && mute.mutee === userLoggedin) || 
+                  const isMuted = mutedUsers.some(mute =>
+                    (mute.muter === user.id && mute.mutee === userLoggedin) ||
                     (mute.muter === userLoggedin && mute.mutee === user.id)
-                );
+
+                  );
+                  const isActive = user.isactive
 
                   // console.log("user in usersAll", user)
 
-                  if (!isMuted) {
+                  if (!isMuted && isActive) {
                     return (
                       <div
                         className='users-all-user'
                         key={user.id}>
                         <div className='users-all-picture-container'
-                      
+
                         >
-                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
-                          onError={(e) => {
-                            e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
-                          }}
+                          <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
+                            onError={(e) => {
+                              e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                              e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                            }}
                           />
                         </div>
 
 
                         {showLargePicture === user.id && <div
-                        className='large-picture'
-                        onClick={() => setShowLargePicture(null)}
+                          className='large-picture'
+                          onClick={() => setShowLargePicture(null)}
                         >
-                         <img 
-                         className='users-all-picture-large'
-                         onClick={() => setShowLargePicture(null)}
-                         src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
-                         onError={(e) => {
-                          e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                          e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
-                        }}
-                         />
-                          </div>}
+                          <img
+                            className='users-all-picture-large'
+                            onClick={() => setShowLargePicture(null)}
+                            src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
+                            onError={(e) => {
+                              e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                              e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                            }}
+                          />
+                        </div>}
 
                         <div className='user-details'>
                           <div className='users-all-name'>{user.username}</div>

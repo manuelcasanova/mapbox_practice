@@ -230,7 +230,7 @@ app.get("/users/names", async (req, res) => {
 
     const filteredUsername = req.query?.filteredUsers?.userName
 
-    let query = `SELECT id, username FROM users`
+    let query = `SELECT id, username, isactive FROM users`
 
     let queryParams = [];
 

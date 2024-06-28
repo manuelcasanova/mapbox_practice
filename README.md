@@ -2,10 +2,14 @@
 
 Functionalities
 
-Fix: Rides conversation, reload every 10 seconds
 
-Fix: Runs conversation, reload every 10 seconds
+All users - do not include isactive false
 
+FOllowing - do not include isactive false
+
+FOllowers - do not include isactive false
+
+See my maps even if not public on All maps
 
 Organize backend like in casinosteps.ca
 
@@ -19,6 +23,8 @@ Fix eslint errors
 PRODUCTION
 
 Future:
+
+Web socket for rides/runs conversation
 
 Delete message from users messages
 

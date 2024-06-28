@@ -39,7 +39,7 @@ export default function ReadMessages({ userForMessages, updateMessages }) {
     const interval = setInterval(() => {
       fetchUserMessages(auth, userForMessages, messages, setMessages);
       // console.log("interval, fetchuserMessages")
-    }, 10000); // 10 seconds
+    }, 3000); // 3 seconds
 
     return () => {
       isMounted = false; // Cleanup function to handle unmounting

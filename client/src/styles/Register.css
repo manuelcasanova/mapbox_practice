@@ -1,5 +1,10 @@
 /* Login.css */
 
+@font-face {
+  font-family: 'Rams W01 Black';
+  src: url('/src/fonts/Rams\ W01\ Black.eot');
+}
+
 .section-classname {
   height: 100vh;
   display: flex;
