@@ -10,6 +10,7 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const cookieParser = require('cookie-parser');
 const credentials = require('./middleware/credentials')
+const verifyJWT = require('./middleware/verifyJWT');
 const PORT = process.env.PORT || 3500;
 const pool = require('./config/db');
 const { report } = require('./routes/register');
