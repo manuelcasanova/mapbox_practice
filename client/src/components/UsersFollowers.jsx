@@ -69,7 +69,7 @@ const Followers = () => {
     )
     &&
   users.some(user =>
-    user.id === follower.follower_id && user.isActive
+    user.id === follower.follower_id && user.isactive
   )
   );
   

@@ -36,7 +36,7 @@ const UsersAll = () => {
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
   const userLoggedin = auth.userId
   const userLoggedInObject = auth
-  const usersExceptMe = users.filter(user => user.id !== userLoggedin);
+  const usersExceptMe = users.filter(user => user.id !== userLoggedin && user.isactive);
   const isLoggedIn = auth.loggedIn
   const [showFilter, setShowFilter] = useState(false)
   const [showLargePicture, setShowLargePicture] = useState(null)

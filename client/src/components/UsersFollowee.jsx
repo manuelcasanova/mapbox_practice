@@ -34,10 +34,10 @@ const Followee = () => {
 
   // console.log("mutedUsers in UsersFollowee", mutedUsers)
   console.log("users in UsersFollowee", users)
-    console.log("followers in UsersFollowee", followers)
+  console.log("followers in UsersFollowee", followers)
 
   useEffect(() => {
-      // console.log("followers in UsersFollowee", followers)
+    // console.log("followers in UsersFollowee", followers)
   })
 
 
@@ -72,18 +72,18 @@ const Followee = () => {
       mutedUser.mute
     )
     &&
-  users.some(user =>
-    user.id === followee.followee_id && user.isActive
-  )
+    users.some(user =>
+      user.id === followee.followee_id && user.isactive
+    )
   );
-  
+
 
   return (
     <div className='users-all-container'>
       {!amIFollowingAnybody ? (
         <>
-         <div className="users-title">Following</div>
-        <div>You are not following anybody.</div>
+          <div className="users-title">Following</div>
+          <div>You are not following anybody.</div>
         </>
       ) : (
         <>
@@ -93,15 +93,15 @@ const Followee = () => {
               <div className="users-title">Following</div>
               {users.map(user => {
 
-const amFollowingThem = followers.some(follower =>
-  follower.follower_id === userLoggedin && 
-  follower.followee_id === user.id && 
-  follower.status === 'accepted' &&
-  !mutedUsers.some(mutedUser =>
-    (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) && 
-    mutedUser.mute
-  )
-);
+                const amFollowingThem = followers.some(follower =>
+                  follower.follower_id === userLoggedin &&
+                  follower.followee_id === user.id &&
+                  follower.status === 'accepted' &&
+                  !mutedUsers.some(mutedUser =>
+                    (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) &&
+                    mutedUser.mute
+                  )
+                );
 
 
                 const pendingAcceptMe = followers.some(follower =>
@@ -117,7 +117,7 @@ const amFollowingThem = followers.some(follower =>
                     mutedUser.mute
                   )
                 );
-                
+
 
                 const pendingAcceptThem = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
@@ -128,62 +128,62 @@ const amFollowingThem = followers.some(follower =>
                 );
 
                 // Check if both users are following each other and they are not muted
-            const canMessage = amFollowingThem && areFollowingMe && !isMuted;
+                const canMessage = amFollowingThem && areFollowingMe && !isMuted;
 
                 if (amFollowingThem) {
 
                   return (
 
-                    <div 
-                    className='users-all-user'
-                    key={user.id}>
-{/* {console.log(user.id)} */}
+                    <div
+                      className='users-all-user'
+                      key={user.id}>
+                      {/* {console.log(user.id)} */}
 
-<div className='users-all-picture-container'
-                        
-                        >
-                          <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
-                              onError={(e) => {
-                                e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                                e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
-                              }}
-                          />
-                        </div>
+                      <div className='users-all-picture-container'
+
+                      >
+                        <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
+                          onError={(e) => {
+                            e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                          }}
+                        />
+                      </div>
 
 
-                        {showLargePicture === user.id && <div
+                      {showLargePicture === user.id && <div
                         className='large-picture'
                         onClick={() => setShowLargePicture(null)}
-                        >
-                         <img 
-                         className='users-all-picture-large'
-                         onClick={() => setShowLargePicture(null)}
-                         src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
-                         onError={(e) => {
-                          e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                          e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
-                        }}
-                         />
-                          </div>}
-<div className='user-details'>
-<div className='users-all-name'>{user.username}</div>
-</div>
+                      >
+                        <img
+                          className='users-all-picture-large'
+                          onClick={() => setShowLargePicture(null)}
+                          src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
+                          onError={(e) => {
+                            e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                          }}
+                        />
+                      </div>}
+                      <div className='user-details'>
+                        <div className='users-all-name'>{user.username}</div>
+                      </div>
 
 
-<div className='user-actions'>
-         
-{pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
+                      <div className='user-actions'>
 
-                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}><FontAwesomeIcon icon={faEnvelope} /></button>}
-               
+                        {pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
 
-                      {amFollowingThem && <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />}
+                        {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}><FontAwesomeIcon icon={faEnvelope} /></button>}
 
 
-                      <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+                        {amFollowingThem && <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />}
 
 
-</div>
+                        <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+
+
+                      </div>
                     </div>
                   );
                 } else {
