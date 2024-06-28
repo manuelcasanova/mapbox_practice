@@ -56,6 +56,10 @@ const RunsUser = () => {
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
+
+  const [reloadMessages, setReloadMessages] = useState(false)
+  const [showInfo, setShowInfo] = useState(false)
+
   const [runStatusUpdated, setRunStatusUpdated] = useState(false)
 
   // console.log("runs", runs)
@@ -140,7 +144,7 @@ const RunsUser = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [id, filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, runStatusUpdated]);
+  }, [id, filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, runStatusUpdated, reloadMessages]);
 
 
   useEffect(() => {
@@ -211,6 +215,15 @@ const RunsUser = () => {
   const handleShowMap = () => {
     setShowMap(prev => !prev)
   }
+
+  const handleReloadMessages = () => {
+    setReloadMessages(prev => !prev)
+  }
+
+  const handleShowInfo = () => {
+    setShowInfo(prev => !prev)
+  }
+
 
   if (isLoading) {
     return <div className="loading"></div>;
@@ -403,6 +416,21 @@ const RunsUser = () => {
                     {showConversation === run.id && (
                       <>
                         <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
+
+                        <div className='refresh-messages-and-info'>
+                                <button 
+                                className='orange-button button-small'
+                                onClick={handleReloadMessages}
+                                >Update messages</button>
+                                <button
+                                className='info-button'
+                                onClick={handleShowInfo}
+                                >i</button>
+                                </div>
+
+{showInfo && (
+  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+)}
 
                         {run.messages && (
                           <div>

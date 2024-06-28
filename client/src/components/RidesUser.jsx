@@ -55,6 +55,9 @@ const RidesUser = () => {
 
   const [rideStatusUpdated, setRideStatusUpdated] = useState(false)
 
+  const [reloadMessages, setReloadMessages] = useState(false)
+  const [showInfo, setShowInfo] = useState(false)
+
   // console.log("rides", rides)
   // console.log("filtered rides", filteredRides)
 
@@ -135,7 +138,7 @@ const RidesUser = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
+  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages]);
 
 
   useEffect(() => {
@@ -204,6 +207,14 @@ const RidesUser = () => {
 
   const handleShowMap = () => {
     setShowMap(prev => !prev)
+  }
+
+  const handleReloadMessages = () => {
+    setReloadMessages(prev => !prev)
+  }
+
+  const handleShowInfo = () => {
+    setShowInfo(prev => !prev)
   }
 
 
@@ -414,6 +425,21 @@ const RidesUser = () => {
 
                       <>
                         <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
+
+                        <div className='refresh-messages-and-info'>
+                                <button 
+                                className='orange-button button-small'
+                                onClick={handleReloadMessages}
+                                >Update messages</button>
+                                <button
+                                className='info-button'
+                                onClick={handleShowInfo}
+                                >i</button>
+                                </div>
+
+{showInfo && (
+  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+)}
 
                         {ride.messages && (
                           <div>

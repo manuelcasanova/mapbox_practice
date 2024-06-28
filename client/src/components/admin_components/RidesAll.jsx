@@ -41,6 +41,8 @@ const RidesAll = () => {
   const [ridesAllComponentMount, setRidesAllComponentMount] = useState(false)
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
+  const [reloadMessages, setReloadMessages] = useState(false)
+  const [showInfo, setShowInfo] = useState(false)
 
   const formattedMessageDate = (createdAt) => {
     const date = new Date(createdAt);
@@ -150,12 +152,21 @@ const RidesAll = () => {
     };
   }, [
     // auth, 
-    filteredRides, messageDeleted, messageReported, messageFlagged, rideStatusUpdated]);
+    filteredRides, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages]);
 
 
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)
   }
+
+  const handleReloadMessages = () => {
+    setReloadMessages(prev => !prev)
+  }
+
+  const handleShowInfo = () => {
+    setShowInfo(prev => !prev)
+  }
+
 
   if (isLoading) {
     return <div className="loading"></div>;
@@ -246,6 +257,21 @@ const RidesAll = () => {
 
                             {showConversation === ride.id && ride.messages && (
                               <div>
+                        <div className='refresh-messages-and-info'>
+                                <button 
+                                className='orange-button button-small'
+                                onClick={handleReloadMessages}
+                                >Update messages</button>
+                                <button
+                                className='info-button'
+                                onClick={handleShowInfo}
+                                >i</button>
+                                </div>
+
+{showInfo && (
+  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+)}
+
                                 {ride.messages.map(message => (
                                   <>
 
