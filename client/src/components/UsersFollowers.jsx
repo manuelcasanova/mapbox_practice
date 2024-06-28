@@ -67,6 +67,10 @@ const Followers = () => {
       (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) &&
       mutedUser.mute
     )
+    &&
+  users.some(user =>
+    user.id === follower.follower_id && user.isActive
+  )
   );
   
 

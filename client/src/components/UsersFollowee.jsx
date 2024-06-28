@@ -32,7 +32,8 @@ const Followee = () => {
 
   const userLoggedin = auth.userId
 
-  console.log("mutedUsers in UsersFollowee", mutedUsers)
+  // console.log("mutedUsers in UsersFollowee", mutedUsers)
+  console.log("users in UsersFollowee", users)
     console.log("followers in UsersFollowee", followers)
 
   useEffect(() => {
@@ -70,6 +71,10 @@ const Followee = () => {
       (mutedUser.muter === followee.follower_id || mutedUser.mutee === followee.follower_id) &&
       mutedUser.mute
     )
+    &&
+  users.some(user =>
+    user.id === followee.followee_id && user.isActive
+  )
   );
   
 
