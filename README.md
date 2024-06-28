@@ -2,13 +2,6 @@
 
 Functionalities
 
-
-All users - do not include isactive false
-
-FOllowing - do not include isactive false
-
-FOllowers - do not include isactive false
-
 See my maps even if not public on All maps
 
 Organize backend like in casinosteps.ca
@@ -43,6 +36,12 @@ sign up. Receive an email so not anyone can sign up for you
 
 
 DONE
+
+All users - do not include isactive false
+
+FOllowing - do not include isactive false
+
+FOllowers - do not include isactive false
 
 see my rides even if not private in public rides / runs
 

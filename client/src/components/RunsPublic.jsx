@@ -58,6 +58,9 @@ const RunsPublic = () => {
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
+  const [reloadMessages, setReloadMessages] = useState(false)
+  const [showInfo, setShowInfo] = useState(false)
+
   const formattedMessageDate = (createdAt) => {
     const date = new Date(createdAt);
 
@@ -168,7 +171,7 @@ const RunsPublic = () => {
     };
   }, [
     auth,
-    filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged]);
+    filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, reloadMessages]);
 
   useEffect(() => {
     const fetchUserRuns = async () => {
@@ -201,6 +204,15 @@ const RunsPublic = () => {
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)
   }
+
+  const handleReloadMessages = () => {
+    setReloadMessages(prev => !prev)
+  }
+
+  const handleShowInfo = () => {
+    setShowInfo(prev => !prev)
+  }
+
 
   const toggleAddToMyRuns = (index) => {
     // console.log("add to my runs before", addToMyRuns);
@@ -441,6 +453,24 @@ const RunsPublic = () => {
 
                             <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
                           }
+
+
+<div className='refresh-messages-and-info'>
+                                <button 
+                                className='orange-button button-small'
+                                onClick={handleReloadMessages}
+                                >Update messages</button>
+                                <button
+                                className='info-button'
+                                onClick={handleShowInfo}
+                                >i</button>
+                                </div>
+
+{showInfo && (
+  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+)}
+
+
                           {run.messages && (isUserInRun || isUserRun) && (
                             <div>
                               {run.messages.map(message => (
