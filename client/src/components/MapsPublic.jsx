@@ -219,7 +219,7 @@ const MapsPublic = () => {
 
 
 
-                  <div className="maps-public-container" key={`${map.createdat}-${map.createdby}`}>
+                  <div className="maps-public-container" key={map.id}>
 
                     <div className='maps-public-information'>
                     <div className='show-maps-button'>

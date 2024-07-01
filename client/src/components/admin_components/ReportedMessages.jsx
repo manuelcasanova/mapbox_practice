@@ -88,7 +88,7 @@ export default function ReportedMessages() {
               </thead>
               <tbody>
                 {reportedMessages.map((message) => (
-                  <tr key={message.id}>
+                  <tr key={`${message.createdat}-${message.createdby}`}>
                     <td>{message.message}</td>
                     <td>{
                       users.find(user => user.id === message.createdby)?.username || "Unknown User"

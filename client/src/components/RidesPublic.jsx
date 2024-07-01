@@ -332,7 +332,7 @@ const RidesPublic = () => {
 
                       <div
                         className='rides-public-ride'
-                        key={`${ride.createdat}-${ride.createdby}-${ride.distance}`}>
+                        key={ride.id}>
 
 
                         <div className='rides-public-ride-top-buttons'>
@@ -501,7 +501,7 @@ const RidesPublic = () => {
                                       {
                                         message.status === 'deleted' &&
                                           <div
-                                            key={message.id}
+                                          key={`${message.createdat}-${message.createdby}-${index}`}
                                             className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
                                               ? 'my-comment'
                                               : 'their-comment'

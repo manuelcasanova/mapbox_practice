@@ -253,7 +253,7 @@ const RunsAll = () => {
                                     {
                                       message.status === 'deleted' &&
                                       <div
-                                        key={message.id}
+                                      key={`${message.createdat}-${message.createdby}`}
                                         className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
                                           ? 'my-comment'
                                           : 'their-comment'

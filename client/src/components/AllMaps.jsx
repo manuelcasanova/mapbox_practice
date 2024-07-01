@@ -96,8 +96,9 @@ const [mutedUsers, setMutedUsers] = useState([])
           setIsLoading(false);
         }
       } catch (error) {
-        if (error.name !== 'AbortError') {
-          console.error(error);
+        if (!controller.signal.aborted) { // Check if the request was aborted
+          console.error('Fetch error:', error);
+          setIsLoading(false); // Set loading state appropriately
         }
       }
     };
@@ -108,7 +109,7 @@ const [mutedUsers, setMutedUsers] = useState([])
       isMounted = false;
       controller.abort();
     };
-  }, [userId, fake, mutedUsers]); // Ensure mutedUsers is included in dependencies
+  }, [userId, fake, mutedUsers]); 
   
 
 
@@ -131,7 +132,7 @@ const [mutedUsers, setMutedUsers] = useState([])
               onChange={(e) => setMapId(e.target.value)}
             >
               {maps.map((map) => (
-                <option key={`${map.createdat}-${map.createdby}`} value={map.id}>
+                <option key={map.id} value={map.id}>
                   {map.title},         {`by: ${
                         users.find(user => user.id === map.createdby)?.username || "Unknown User"
                       } `}

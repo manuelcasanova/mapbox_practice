@@ -288,7 +288,7 @@ const RidesUser = () => {
                 return (
                   <div
                     className='rides-public-ride'
-                    key={`${ride.createdat}-${ride.name}-${ride.distance}`}>
+                    key={ride.id}>
 
 
 
@@ -442,13 +442,16 @@ const RidesUser = () => {
 )}
 
                         {ride.messages && (
+                          
                           <div>
                             {ride.messages.map(message =>
+                           
                             (
                               <>
+                              
                                 {message.status === 'deleted' &&
                                   <div
-                                    key={message.id}
+                                    key={`${message.createdat}-${message.createdby}`}
                                     className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
                                       ? 'my-comment'
                                       : 'their-comment'

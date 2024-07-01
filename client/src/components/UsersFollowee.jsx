@@ -33,8 +33,8 @@ const Followee = () => {
   const userLoggedin = auth.userId
 
   // console.log("mutedUsers in UsersFollowee", mutedUsers)
-  console.log("users in UsersFollowee", users)
-  console.log("followers in UsersFollowee", followers)
+  // console.log("users in UsersFollowee", users)
+  // console.log("followers in UsersFollowee", followers)
 
   useEffect(() => {
     // console.log("followers in UsersFollowee", followers)

@@ -74,7 +74,7 @@ const RidesAll = () => {
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
- 
+
 
   const [rideStatusUpdated, setRideStatusUpdated] = useState(false)
 
@@ -201,13 +201,13 @@ const RidesAll = () => {
                   const originalDate = ride.starting_date;
                   const formattedDate = formatDate(originalDate);
 
-
+                  // console.log("ride", ride)
 
                   // Render the JSX elements, including the formatted date
                   return (
-                    <>
+                    <React.Fragment key={ride.id}>
 
-                      <div className='rides-public-ride' key={`${ride.id}-${ride.name}-${ride.distance}`} >
+                      <div className='rides-public-ride' key={ride.id} >
 
 
 
@@ -257,20 +257,20 @@ const RidesAll = () => {
 
                             {showConversation === ride.id && ride.messages && (
                               <div>
-                        <div className='refresh-messages-and-info'>
-                                <button 
-                                className='orange-button button-small'
-                                onClick={handleReloadMessages}
-                                >Update messages</button>
-                                <button
-                                className='info-button'
-                                onClick={handleShowInfo}
-                                >i</button>
+                                <div className='refresh-messages-and-info'>
+                                  <button
+                                    className='orange-button button-small'
+                                    onClick={handleReloadMessages}
+                                  >Update messages</button>
+                                  <button
+                                    className='info-button'
+                                    onClick={handleShowInfo}
+                                  >i</button>
                                 </div>
 
-{showInfo && (
-  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
-)}
+                                {showInfo && (
+                                  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+                                )}
 
                                 {ride.messages.map(message => (
                                   <>
@@ -278,7 +278,7 @@ const RidesAll = () => {
                                     {
                                       message.status === 'deleted' &&
                                       <div
-                                        key={message.id}
+                                        key={`${message.createdat}-${message.createdby}`}
                                         className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
                                           ? 'my-comment'
                                           : 'their-comment'
@@ -342,7 +342,7 @@ const RidesAll = () => {
                         </>
                         }
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })}
 

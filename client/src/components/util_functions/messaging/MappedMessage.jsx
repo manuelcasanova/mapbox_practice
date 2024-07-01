@@ -66,7 +66,7 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
 
   return (
     <div
-    key={message.id}
+    key={`${message.createdat}-${message.createdby}`}
     className={`mapped-messages-container ${
       users.find(user => userId === message.createdby)
       ? 'my-comment' 
