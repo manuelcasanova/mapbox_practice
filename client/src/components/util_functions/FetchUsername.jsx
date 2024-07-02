@@ -1,9 +1,6 @@
 import axios from "axios";
 
 const fetchUsernameAndId = async (auth, setUsers, setIsLoading, setError, isMounted, filteredUsers) => {
-  //  console.log("auth in FetchUsername", auth)
-  //  console.log("auth in FetchUsername", auth.username)
-// console.log("filteredUsers in FetchUsername", filteredUsers)
 
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
@@ -12,12 +9,9 @@ const fetchUsernameAndId = async (auth, setUsers, setIsLoading, setError, isMoun
         user: auth,
         filteredUsers
       }
-
     });
     if (isMounted) {
-      // console.log("response.data", response.data)
       setUsers(response.data);
-      //  console.log("users in fetch nameid", response.data)
       setIsLoading(false);
     }
   } catch (error) {

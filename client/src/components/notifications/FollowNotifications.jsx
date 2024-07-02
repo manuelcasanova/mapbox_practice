@@ -1,6 +1,7 @@
 //Libraries, dependencies
 
 import axios from "axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 //Hooks
 
@@ -14,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 export default function FollowNotifications () {
+  const axiosPrivate = useAxiosPrivate()
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ export default function FollowNotifications () {
     if (Object.keys(auth).length !== 0)  {
 
     try {
-      const response = await axios.get(`${BACKEND}/users/follownotifications`, {
+      const response = await axiosPrivate.get(`${BACKEND}/users/follownotifications`, {
         params: {
           user: auth.userId 
         }

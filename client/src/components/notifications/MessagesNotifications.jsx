@@ -1,6 +1,7 @@
 //Libraries, dependencies
 
 import axios from "axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 //Hooks
 
@@ -18,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 export default function MessagesNotifications() {
+  const axiosPrivate = useAxiosPrivate()
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true)
@@ -41,7 +43,7 @@ export default function MessagesNotifications() {
 
 
     try {
-      const response = await axios.get(`${BACKEND}/messages/notifications`, {
+      const response = await axiosPrivate.get(`${BACKEND}/messages/notifications`, {
         params: {
           user: auth
         }
