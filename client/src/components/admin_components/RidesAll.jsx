@@ -244,7 +244,7 @@ const RidesAll = () => {
 
 
                         {showDetails === ride.id &&
-                          <>
+                          <React.Fragment key={ride.id}>
                             <div>Details: {ride.details}</div>
                             <div>Meeting Point: {ride.meeting_point}</div>
                             <div>Created By: {
@@ -273,7 +273,7 @@ const RidesAll = () => {
                                 )}
 
                                 {ride.messages.map(message => (
-                                  <>
+                                   <React.Fragment key={message.id}>
 
                                     {
                                       message.status === 'deleted' &&
@@ -306,10 +306,10 @@ const RidesAll = () => {
 
 
                                           {message.status === 'flagged' && (
-                                            <div>
+                                            <React.Fragment key={message.id}>
                                               {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
                                               <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                            </div>
+                                              </React.Fragment>
                                           )}
 
 
@@ -317,7 +317,7 @@ const RidesAll = () => {
                                         </div>
                                       )
                                     }
-                                  </>
+                                  </React.Fragment>
                                 )
 
 
@@ -331,15 +331,16 @@ const RidesAll = () => {
 
 
 
-                          </>}
+                          </React.Fragment>}
 
 
 
 
 
-                        {showMap === ride.id && <>
+                        {showMap === ride.id && 
+                         <React.Fragment key={ride.id}>
                           {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
-                        </>
+                          </React.Fragment>
                         }
                       </div>
                     </React.Fragment>

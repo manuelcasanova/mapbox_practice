@@ -447,7 +447,7 @@ const RidesUser = () => {
                             {ride.messages.map(message =>
                            
                             (
-                              <>
+                              <React.Fragment key={message.id}>
                               
                                 {message.status === 'deleted' &&
                                   <div
@@ -485,7 +485,7 @@ const RidesUser = () => {
 
 
                                 )}
-                              </>
+                               </React.Fragment >
                             )
                             )}
                           </div>

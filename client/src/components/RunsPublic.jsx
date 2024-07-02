@@ -475,7 +475,7 @@ const RunsPublic = () => {
                             <div>
                               {run.messages.map(message => (
 
-<>
+<React.Fragment key={message.id}>
 
 
 {
@@ -530,7 +530,7 @@ const RunsPublic = () => {
 
 
 
-</>
+</React.Fragment>
 
 
 

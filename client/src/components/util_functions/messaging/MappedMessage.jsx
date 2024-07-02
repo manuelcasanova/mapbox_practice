@@ -66,13 +66,12 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
 
   return (
     <div
-    key={`${message.createdat}-${message.createdby}`}
-    className={`mapped-messages-container ${
-      users.find(user => userId === message.createdby)
-      ? 'my-comment' 
-      : 'their-comment'
-    }`}
-  >
+      key={message.id}
+      className={`mapped-messages-container ${users.find(user => userId === message.createdby)
+          ? 'my-comment'
+          : 'their-comment'
+        }`}
+    >
 
       <div className="mapped-messages-name-and-message">
         <div className="mapped-messages-username">{createdByUsername}</div>
@@ -105,33 +104,33 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
 
       <div className="mapped-messages-date">{formattedDate}</div>
 
-<div className="mapped-messages-users-buttons">
+      <div className="mapped-messages-users-buttons">
 
-      {message.createdby === user.userId && (
-        <DeleteRideMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
-      )}
+        {message.createdby === user.userId && (
+          <DeleteRideMessage messageId={message.id} setMessageDeleted={setMessageDeleted} />
+        )}
 
-      {(message.status !== "reported") && (message.status !== "flagged") && (message.createdby !== user.id) && <ReportInappropiateMessage messageId={message.id} setMessageReported={setMessageReported} user={user} />}
+        {(message.status !== "reported") && (message.status !== "flagged") && (message.createdby !== user.id) && <ReportInappropiateMessage messageId={message.id} setMessageReported={setMessageReported} user={user} />}
 
       </div>
 
 
       <div className="mapped-messages-admin-buttons">
 
-      {message.status === "reported" && <div className="mapped-messages-reported">Message reported as inappropiate. Pending review.</div>}
+        {message.status === "reported" && <div className="mapped-messages-reported">Message reported as inappropiate. Pending review.</div>}
 
-        {(message.status === "flagged" && user.isAdmin) && 
-        <>
-         <div className="mapped-messages-reported">&nbsp;Approve message&nbsp;</div>
-        <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />
-        </>
+        {(message.status === "flagged" && user.isAdmin) &&
+          <>
+            <div className="mapped-messages-reported">&nbsp;Approve message&nbsp;</div>
+            <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />
+          </>
         }
 
-        {(message.status === "reported") && user.isAdmin && 
-        <>
-          <div className="mapped-messages-reported">&nbsp;Approve/conceal message&nbsp;</div>
-        <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />
-        </>
+        {(message.status === "reported") && user.isAdmin &&
+          <>
+            <div className="mapped-messages-reported">&nbsp;Approve/conceal message&nbsp;</div>
+            <AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />
+          </>
         }
 
         {(message.status === "reported") && user.isAdmin && <FlagInapropiateMessage messageId={message.id} setMessageFlagged={setMessageFlagged} />}

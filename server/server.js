@@ -1657,8 +1657,8 @@ app.get("/runs", async (req, res) => {
           dateEnd,
           distanceMin,
           distanceMax,
-          paceMin,
-          paceMax,
+          speedMin,
+          speedMax,
           runName,
           rId
         } = req.query.filteredRuns;
@@ -1666,7 +1666,7 @@ app.get("/runs", async (req, res) => {
         // console.log("runs rId", rId)
 
         // Check for missing parameters
-        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !paceMin || !paceMax || !rId) {
+        if (!dateStart || !dateEnd || !distanceMin || !distanceMax || !speedMin || !speedMax || !rId) {
           console.log("One or more parameters are missing or invalid");
           return res.status(400).json({ error: "Missing or invalid parameters" });
         }
@@ -1685,7 +1685,7 @@ app.get("/runs", async (req, res) => {
 
         let queryParams = [
           dateStart, dateEnd,
-          distanceMin, distanceMax, paceMin, paceMax
+          distanceMin, distanceMax, speedMin, speedMax
         ];
 
         if (rId !== '0') {

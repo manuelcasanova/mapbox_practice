@@ -436,7 +436,7 @@ const RunsUser = () => {
                           <div>
                             {run.messages.map(message => (
 
-                              <>
+<React.Fragment key={message.id}>
                                 {message.status === 'deleted' &&
                                   <div
                                   key={`${message.createdat}-${message.createdby}`}
@@ -471,7 +471,7 @@ const RunsUser = () => {
                                     {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
                                   </div>
                                 )}
-                              </>
+                               </React.Fragment >
 
 
 

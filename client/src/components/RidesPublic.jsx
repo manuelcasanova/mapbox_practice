@@ -323,7 +323,7 @@ const RidesPublic = () => {
 
                   return (
 
-                    <>
+                    <React.Fragment key={ride.id} >
                       {/* 
                       {showModal && <div className='modal-container'>
                         <button onClick={handleShowModal}>x</button>
@@ -391,15 +391,15 @@ const RidesPublic = () => {
 
                             {isUserRide ? (
                               <>
-                                     <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
-                                     {showUsers && showUsers === ride.id ? (
-                                       'Hide users'
-                                     ) : (
-                                       'Show users'
-                                     )}
-                                   </button>
-                             <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
-                             </>
+                                <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
+                                  {showUsers && showUsers === ride.id ? (
+                                    'Hide users'
+                                  ) : (
+                                    'Show users'
+                                  )}
+                                </button>
+                                <button className='orange-button small-button' onClick={() => setShowConversation(prev => prev === ride.id ? null : ride.id)}>{showConversation === ride.id ? 'Hide conversation' : 'Show conversation'}</button>
+                              </>
                             ) : isUserInRide ? (
 
 
@@ -477,19 +477,19 @@ const RidesPublic = () => {
                                   <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
                                 }
                                 <div className='refresh-messages-and-info'>
-                                <button 
-                                className='orange-button button-small'
-                                onClick={handleReloadMessages}
-                                >Update messages</button>
-                                <button
-                                className='info-button'
-                                onClick={handleShowInfo}
-                                >i</button>
+                                  <button
+                                    className='orange-button button-small'
+                                    onClick={handleReloadMessages}
+                                  >Update messages</button>
+                                  <button
+                                    className='info-button'
+                                    onClick={handleShowInfo}
+                                  >i</button>
                                 </div>
 
-{showInfo && (
-  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
-)}
+                                {showInfo && (
+                                  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+                                )}
 
 
 
@@ -497,11 +497,11 @@ const RidesPublic = () => {
                                   <div>
                                     {ride.messages.map(message => (
 
-<>
-                                      {
-                                        message.status === 'deleted' &&
+                                      <React.Fragment key={message.id}>
+                                        {
+                                          message.status === 'deleted' &&
                                           <div
-                                          key={`${message.createdat}-${message.createdby}-${index}`}
+                                            key={`${message.createdat}-${message.createdby}-${index}`}
                                             className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
                                               ? 'my-comment'
                                               : 'their-comment'
@@ -519,32 +519,32 @@ const RidesPublic = () => {
                                             <div className="mapped-messages-date deleted-message">{formattedMessageDate(message.createdat)}</div>
 
                                           </div>
-                                      }
+                                        }
 
 
-                                     { message.status !== 'deleted' && (
-                                        <div>
-                                          {message.status === 'flagged' && message.createdby === userId && (
-                                            <div>
-                                              {/* <div className='flagged-inappropiate-message'>Flagged as inappropiate. Not visible for other users</div> */}
-                                              <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                            </div>
-                                          )}
-                                          {message.status === 'flagged' && message.createdby !== userId && (
-                                            <div>
-                                              <div className='flagged-inappropiate-message'>
-                                                {/* Message concealed due to inappropiate content. */}
-
+                                        {message.status !== 'deleted' && (
+                                          <div>
+                                            {message.status === 'flagged' && message.createdby === userId && (
+                                              <div>
+                                                {/* <div className='flagged-inappropiate-message'>Flagged as inappropiate. Not visible for other users</div> */}
                                                 <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                               </div>
+                                            )}
+                                            {message.status === 'flagged' && message.createdby !== userId && (
+                                              <div>
+                                                <div className='flagged-inappropiate-message'>
+                                                  {/* Message concealed due to inappropiate content. */}
 
-                                            </div>
-                                          )}
-                                          {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
-                                        </div>
-                                      )}
+                                                  <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                                </div>
 
-</>
+                                              </div>
+                                            )}
+                                            {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                                          </div>
+                                        )}
+
+                                      </React.Fragment>
 
 
                                     )
@@ -568,7 +568,7 @@ const RidesPublic = () => {
                         }
 
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })}
 

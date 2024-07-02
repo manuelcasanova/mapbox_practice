@@ -195,7 +195,7 @@ const RunsAll = () => {
                   // Render the JSX elements, including the formatted date
                   return (
 
-                    <>
+                    <React.Fragment key={run.id}>
                       <div className='rides-public-ride' key={`${run.id}-${run.name}-${run.distance}`} >
 
                         <div className='rides-public-ride-top-buttons'>
@@ -248,7 +248,7 @@ const RunsAll = () => {
                               <div>
                                 {run.messages.map(message => (
 
-                                  <>
+<React.Fragment key={message.id}>
 
                                     {
                                       message.status === 'deleted' &&
@@ -289,7 +289,7 @@ const RunsAll = () => {
                                     }
 
 
-                                  </>
+</React.Fragment>
 
 
 
@@ -310,7 +310,7 @@ const RunsAll = () => {
                           </>
                         }
                       </div>
-                    </>
+                      </React.Fragment >
                   );
                 })}
 
