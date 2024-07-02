@@ -67,10 +67,12 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   const isSuperAdmin = auth.isSuperAdmin;
   const { browCoords } = useCoords();
 
-  const foundMap = maps.find(obj => obj.id === parseInt(mapId));
-  if (foundMap) {
-    setMapId(foundMap.id);
-  }
+  useEffect(() => {
+    const foundMap = maps.find(obj => obj.id === parseInt(mapId));
+    if (foundMap) {
+      setMapId(foundMap.id);
+    }
+  }, [maps, mapId, setMapId]);
 
 
   const [points, setPoints] = useState();
