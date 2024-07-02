@@ -29,7 +29,7 @@ const RidesPublic = () => {
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
   const [showUsers, setShowUsers] = useState(null)
-  const [showModal, setShowModal] = useState(null)
+  // const [showModal, setShowModal] = useState(null)
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRides, setAddToMyRides] = useState([])
@@ -169,7 +169,7 @@ const RidesPublic = () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
   }, [
-    // auth, 
+    auth, BACKEND,
     filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, reloadMessages]);
 
   useEffect(() => {
@@ -198,15 +198,15 @@ const RidesPublic = () => {
     };
 
     fetchUserRides();
-  }, [userId, addToMyRides]);
+  }, [userId, addToMyRides, auth, BACKEND]);
 
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)
   }
 
-  const handleShowModal = () => {
-    setShowModal(prev => !prev)
-  }
+  // const handleShowModal = () => {
+  //   setShowModal(prev => !prev)
+  // }
 
   const handleReloadMessages = () => {
     setReloadMessages(prev => !prev)

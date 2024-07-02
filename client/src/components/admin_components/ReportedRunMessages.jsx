@@ -55,7 +55,7 @@ export default function ReportedRunMessages() {
     return () => {
       isMounted = false; 
     };
-  }, [messageFlagged, messageReported]); 
+  }, [messageFlagged, messageReported, auth]); 
 
   if (!auth.isAdmin) {
     return <p>Admin only: Access denied.</p>;

@@ -58,7 +58,7 @@ export default function ReportedMessages() {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [messageFlagged, messageReported]);
+  }, [messageFlagged, messageReported, auth]);
 
   if (!auth.isAdmin) {
     return <p>Admin only: Access denied.</p>;

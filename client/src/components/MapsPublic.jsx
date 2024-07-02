@@ -48,9 +48,9 @@ const MapsPublic = () => {
       setFilteredMaps(filters)
     };
 
-  const handleShowMaps = () => {
-    setShowAllMaps(prev => !prev)
-  }
+  // const handleShowMaps = () => {
+  //   setShowAllMaps(prev => !prev)
+  // }
 
   const handleShowThisMap = (mapId) => {
     if (selectedMapId === mapId) {
@@ -64,8 +64,8 @@ const MapsPublic = () => {
   // console.log("user in MapsPublic", user)
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
-  const isLoggedIn = userIsLoggedIn;
-  const userLoggedin = auth.userId
+  // const isLoggedIn = userIsLoggedIn;
+  // const userLoggedin = auth.userId
 
   useEffect(() => {
     let isMounted = true;
@@ -105,7 +105,7 @@ const MapsPublic = () => {
     };
 
     fetchUserMaps();
-  }, [userId, addToMyMaps]);
+  }, [userId, addToMyMaps, BACKEND]);
 
 
   const toggleAddToMyMaps = (index) => {

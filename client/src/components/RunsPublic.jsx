@@ -171,7 +171,7 @@ const RunsPublic = () => {
     };
   }, [
     auth,
-    filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, reloadMessages]);
+    filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, reloadMessages, BACKEND]);
 
   useEffect(() => {
     const fetchUserRuns = async () => {
@@ -199,7 +199,7 @@ const RunsPublic = () => {
     };
 
     fetchUserRuns();
-  }, [userId, addToMyRuns]);
+  }, [userId, addToMyRuns, auth, BACKEND]);
 
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)

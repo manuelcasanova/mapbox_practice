@@ -18,7 +18,7 @@ import { useCoords } from '../components/util_functions/GetBrowserLocation';
 //Util functions
 
 import { removeUsersFromMap } from "./util_functions/map_functions/map_functions.jsx";
-import { deleteMap } from "./util_functions/map_functions/map_functions.jsx";
+// import { deleteMap } from "./util_functions/map_functions/map_functions.jsx";
 import { deactivateMap } from "./util_functions/map_functions/map_functions.jsx";
 
 L.Marker.prototype.options.icon = L.icon({
@@ -64,7 +64,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
 
   const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
-  const isSuperAdmin = auth.isSuperAdmin;
+  // const isSuperAdmin = auth.isSuperAdmin;
   const { browCoords } = useCoords();
 
   useEffect(() => {
@@ -116,13 +116,13 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
       }
     };
     fetchData();
-  }, [mapId]);
+  }, [mapId, BACKEND]);
 
   //Avoid ESLINT error by using these variables
 
   useEffect(() => {
 
-  }, [points, loading, coordinatesForPolyline]);
+  }, [points, loading, coordinatesForPolyline, BACKEND]);
 
 
   //Object with two key/value pairs (array). Markers holds the default position, data will include eventually the new markers added
@@ -157,7 +157,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
       }
     };
     fetchData();
-  }, [mapId, defaultPosition]);
+  }, [mapId, defaultPosition, BACKEND]);
 
   //Fetches points from map. Transforms them (Array of objects with value/key pair) to array with two strings (format for bounds), sets coordinatesForPolyline with these arrays.
   useEffect(() => {
@@ -179,7 +179,8 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   }, [mapId,
     removePoint,
     coord,
-    markersState.data
+    markersState.data,
+    BACKEND
   ]);
 
 

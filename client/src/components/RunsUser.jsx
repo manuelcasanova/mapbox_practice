@@ -56,7 +56,6 @@ const RunsUser = () => {
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
-
   const [reloadMessages, setReloadMessages] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
 
@@ -144,7 +143,7 @@ const RunsUser = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [id, filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, runStatusUpdated, reloadMessages]);
+  }, [id, filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, runStatusUpdated, reloadMessages, auth, BACKEND]);
 
 
   useEffect(() => {
@@ -168,7 +167,8 @@ const RunsUser = () => {
     };
 
     fetchUserRuns();
-  }, [userId
+  }, [userId,
+    BACKEND
     // , addToMyRuns
   ]);
 
@@ -208,13 +208,13 @@ const RunsUser = () => {
     setShowFilter(prev => !prev)
   }
 
-  const handleShowDetails = () => {
-    setShowDetails(prev => !prev)
-  }
+  // const handleShowDetails = () => {
+  //   setShowDetails(prev => !prev)
+  // }
 
-  const handleShowMap = () => {
-    setShowMap(prev => !prev)
-  }
+  // const handleShowMap = () => {
+  //   setShowMap(prev => !prev)
+  // }
 
   const handleReloadMessages = () => {
     setReloadMessages(prev => !prev)

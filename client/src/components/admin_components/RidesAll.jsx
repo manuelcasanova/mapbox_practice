@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDate } from "../util_functions/FormatDate";
 import fetchUsernameAndId from '../util_functions/FetchUsername'
 import fetchRideMessages from '../util_functions/messaging/FetchRideMessages';
-import AddRideMessage from '../util_functions/messaging/AddRideMessage';
 import MappedMessage from '../util_functions/messaging/MappedMessage';
 import { deactivateRide } from '../util_functions/ride_functions/DeleteRide';
 import { deleteRide } from '../util_functions/ride_functions/DeleteRide';
@@ -37,10 +36,10 @@ const RidesAll = () => {
   const [showMap, setShowMap] = useState(null)
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
-  const [showUsers, setShowUsers] = useState(null)
+  // const [showUsers, setShowUsers] = useState(null)
   const [ridesAllComponentMount, setRidesAllComponentMount] = useState(false)
   const userId = auth.userId
-  const userIsLoggedIn = auth.loggedIn;
+  // const userIsLoggedIn = auth.loggedIn;
   const [reloadMessages, setReloadMessages] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
 
@@ -152,7 +151,7 @@ const RidesAll = () => {
     };
   }, [
     // auth, 
-    filteredRides, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages]);
+    filteredRides, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages, BACKEND, auth]);
 
 
   const handleShowFilter = () => {

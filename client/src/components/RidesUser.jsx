@@ -17,7 +17,7 @@ import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import MappedMessage from './util_functions/messaging/MappedMessage';
 import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
-import { removeFromMyRides } from './util_functions/ride_functions/DeleteRide';
+// import { removeFromMyRides } from './util_functions/ride_functions/DeleteRide';
 
 
 const RidesUser = () => {
@@ -138,7 +138,7 @@ const RidesUser = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages]);
+  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages, auth, BACKEND]);
 
 
   useEffect(() => {
@@ -161,7 +161,8 @@ const RidesUser = () => {
     };
 
     fetchUserRides();
-  }, [userId
+  }, [userId,
+    BACKEND
     // , addToMyRides
   ]);
 
@@ -201,13 +202,13 @@ const RidesUser = () => {
     setShowFilter(prev => !prev)
   }
 
-  const handleShowDetails = () => {
-    setShowDetails(prev => !prev)
-  }
+  // const handleShowDetails = () => {
+  //   setShowDetails(prev => !prev)
+  // }
 
-  const handleShowMap = () => {
-    setShowMap(prev => !prev)
-  }
+  // const handleShowMap = () => {
+  //   setShowMap(prev => !prev)
+  // }
 
   const handleReloadMessages = () => {
     setReloadMessages(prev => !prev)

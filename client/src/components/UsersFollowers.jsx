@@ -31,10 +31,6 @@ const Followers = () => {
 
   const userLoggedin = auth.userId
 
-  useEffect(() => {
-    //  console.log("followers", followers)
-  })
-
 
   useEffect(() => {
     let isMounted = true;
@@ -44,8 +40,9 @@ const Followers = () => {
     fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
+      controller.abort()
     };
-  }, [auth, hasMutedChanges]);
+  }, [auth, hasMutedChanges, isLoggedIn, userLoggedin]);
 
   const handleMutedChanges = () => {
     setHasMutedChanges(prevState => !prevState);
@@ -102,9 +99,9 @@ const amFollowingThem = followers.some(follower =>
 );
 
 
-                const pendingAcceptMe = followers.some(follower =>
-                  follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
-                );
+                // const pendingAcceptMe = followers.some(follower =>
+                //   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
+                // );
 
                 const areFollowingMe = followers.some(follower =>
                   follower.followee_id === userLoggedin &&
@@ -142,7 +139,7 @@ const amFollowingThem = followers.some(follower =>
 <div className='users-all-picture-container'
                        
                         >
-                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`} 
+                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`} alt={user.username}
                               onError={(e) => {
                                 e.target.onerror = null; // Prevent infinite loop in case of repeated error
                                 e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
@@ -159,6 +156,7 @@ const amFollowingThem = followers.some(follower =>
                          className='users-all-picture-large'
                          onClick={() => setShowLargePicture(null)}
                          src={` ${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
+                         alt={user.username}
                          onError={(e) => {
                           e.target.onerror = null; // Prevent infinite loop in case of repeated error
                           e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL

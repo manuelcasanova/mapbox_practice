@@ -48,7 +48,7 @@ const [mutedUsers, setMutedUsers] = useState([])
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [auth]);
+  }, [auth, isLoggedIn, userLoggedin]);
 
 
   const parseIntMapId = parseInt(mapId)
@@ -109,10 +109,16 @@ const [mutedUsers, setMutedUsers] = useState([])
       isMounted = false;
       controller.abort();
     };
-  }, [userId, fake, mutedUsers]); 
+  }, [userId, fake, mutedUsers, BACKEND]); 
   
 
+  if (isLoading) {
+    return <div className="loading"></div>;
+  }
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   if (!auth.accessToken || auth.accessToken === undefined) {
     return <p>Please log in to view maps</p>;

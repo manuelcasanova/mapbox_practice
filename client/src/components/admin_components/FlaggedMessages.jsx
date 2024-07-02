@@ -15,7 +15,7 @@ export default function FlaggedMessages() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [flaggedMessages, setFlaggedMessages] = useState([]);
-  const [messageFlagged, setMessageFlagged] = useState(false)
+  // const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
   const [users, setUsers] = useState([]); 
 
@@ -54,7 +54,10 @@ export default function FlaggedMessages() {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [messageFlagged, messageReported]); 
+  }, [
+    // messageFlagged, 
+    auth,
+    messageReported]); 
 
   if (!auth.isAdmin) {
     return <p>Admin only: Access denied.</p>;

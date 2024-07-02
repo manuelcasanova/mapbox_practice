@@ -11,12 +11,12 @@ import fetchUsernameAndId from "../util_functions/FetchUsername";
 
 export default function FlaggedMessages() {
   // Variables
-  const BACKEND = process.env.REACT_APP_API_URL;
+  // const BACKEND = process.env.REACT_APP_API_URL;
   const { auth } = useAuth();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [flaggedMessages, setFlaggedMessages] = useState([]);
-  const [messageFlagged, setMessageFlagged] = useState(false)
+  // const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
   const [users, setUsers] = useState([]); 
 
@@ -55,7 +55,9 @@ export default function FlaggedMessages() {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [messageFlagged, messageReported]); 
+  }, [
+    // messageFlagged, 
+    messageReported, auth]); 
 
   if (!auth.isAdmin) {
     return <p>Admin only: Access denied.</p>;
