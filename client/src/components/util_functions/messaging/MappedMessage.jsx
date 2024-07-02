@@ -33,7 +33,7 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
       setIsLoading(true);
       setError('');
       try {
-        const userData = await fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted);
+        await fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted);
       } catch (error) {
         if (isMounted) {
           setError('Failed to fetch username');
@@ -45,7 +45,7 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
     return () => {
       isMounted = false;
     };
-  }, [message.createdby]);
+  }, [message.createdby, auth]);
 
   // console.log("users", users)
 

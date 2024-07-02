@@ -33,7 +33,7 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
       setIsLoading(true);
       setError('');
       try {
-        const userData = await fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted);
+        await fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted);
       } catch (error) {
         if (isMounted) {
           setError('Failed to fetch username');
@@ -45,14 +45,24 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
     return () => {
       isMounted = false;
     };
-  }, [message.createdby]);
+  }, [message.createdby, auth]);
 
   // Find the username corresponding to the message.createdby ID
   const createdByUsername = users.find(user => user.id === message.createdby)?.username || 'Unknown User';
 
+  if (isLoading) {
+    return <div className="loading"></div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
+ 
+
     <div
-    key={`${message.createdat}-${message.createdby}`}
+    key={message.id}
     className={`mapped-messages-container ${
       users.find(user => userId === message.createdby)
       ? 'my-comment' 
@@ -125,5 +135,6 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
       </div>
 
     </div>
+ 
   )
 }

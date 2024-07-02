@@ -38,7 +38,7 @@ import ReportedRunNotifications from './components/notifications/ReportedRunNoti
 import FlaggedMessages from './components/admin_components/FlaggedMessages';
 import FlaggedRunMessages from './components/admin_components/FlaggedRunMessages'
 import ResetPassword from './components/authentication/ResetPassword';
-import TestWebSocket from './components/util_functions/TestWebSocket';
+// import TestWebSocket from './components/util_functions/TestWebSocket';
 
 
 //Context
@@ -47,8 +47,8 @@ import useAuth from './hooks/useAuth';
 
 //Hooks
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { setOptions } from 'leaflet';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import { setOptions } from 'leaflet';
 
 
 // Define a layout component to wrap the routes
@@ -144,7 +144,7 @@ function App() {
     } else {
       setProfilePicture(`${BACKEND}/profile_pictures/user.jpg`);
     }
-  }, [auth.profilePicture]);
+  }, [auth.profilePicture, BACKEND]);
 
   useEffect(() => {
     // console.log("ride app in app.js", rideApp)

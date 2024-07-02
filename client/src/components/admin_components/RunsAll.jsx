@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDate } from "../util_functions/FormatDate";
 import fetchUsernameAndId from '../util_functions/FetchUsername'
 import fetchRunMessages from '../util_functions/messaging/FetchRunMessages';
-import AddRunMessage from '../util_functions/messaging/AddRunMessage';
 import MappedRunMessage from '../util_functions/messaging/MappedRunMessage';
 import { deactivateRun } from '../util_functions/run_functions/DeleteRun';
 import { deleteRun } from '../util_functions/run_functions/DeleteRun';
@@ -37,10 +36,10 @@ const RunsAll = () => {
   const [showMap, setShowMap] = useState(null)
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
-  const [showUsers, setShowUsers] = useState(null)
+  // const [showUsers, setShowUsers] = useState(null)
   const [runsAllComponentMount, setRunsAllComponentMount] = useState(false)
   const userId = auth.userId
-  const userIsLoggedIn = auth.loggedIn;
+
 
   const formattedMessageDate = (createdAt) => {
     const date = new Date(createdAt);
@@ -146,7 +145,7 @@ const RunsAll = () => {
     };
   }, [
     // auth, 
-    filteredRuns, messageDeleted, messageReported, messageFlagged, runStatusUpdated]);
+    filteredRuns, messageDeleted, messageReported, messageFlagged, runStatusUpdated, BACKEND, auth]);
 
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)
@@ -218,7 +217,9 @@ const RunsAll = () => {
                         </div>
                         <div className='inactive-buttons'>
                           {!run.isactive && <div className='inactive-r'>Inactive run</div>}
+
                           {!run.isactive && <button className='red-button small-button' onClick={() => { deleteRun(run.id, auth, setRuns) }}>Definitively delete</button>}
+
                           {run.isactive && <button className="red-button small-button" onClick={() => { deactivateRun(run.id, auth, runs, setRuns, setConfirmDelete, isRunCreatedByUser, setRunStatusUpdated) }}>Inactivate</button>}
                         </div>
 
