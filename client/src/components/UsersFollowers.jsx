@@ -37,7 +37,7 @@ const Followers = () => {
     const controller = new AbortController();
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     fetchFollowers(auth, setFollowers, setIsLoading, setError, isMounted)
-    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(auth, userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
       controller.abort()

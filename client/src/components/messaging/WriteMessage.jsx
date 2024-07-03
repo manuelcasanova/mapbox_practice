@@ -1,6 +1,7 @@
 // Hooks
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 // Context
 import useAuth from "../../hooks/useAuth";
@@ -8,6 +9,7 @@ import useAuth from "../../hooks/useAuth";
 export default function WriteMessage({ userForMessages, setUpdateMessages }) {
   // Variables
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const { auth } = useAuth();
   const sender = auth.userId
   const receiver = userForMessages;
@@ -34,7 +36,7 @@ export default function WriteMessage({ userForMessages, setUpdateMessages }) {
     try {
       setIsLoading(true)
       // console.log("Sending message...");
-      await axios.post(`${BACKEND}/users/messages/send`, {
+      await axiosPrivate.post(`${BACKEND}/users/messages/send`, {
         newMessage, receiver, sender, userLoggedIn
       });
       setUpdateMessages(prev => !prev)

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import fetchReportedMessages from "../util_functions/messaging/FetchReportedMessages";
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 
 //Fontawesome
@@ -21,6 +22,7 @@ export default function ReportedNotifications() {
   const [reportedMessages, setReportedMessages] = useState([]);
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
+const axiosPrivate = useAxiosPrivate()
 
   // console.log("reportedMessages", reportedMessages)
   // console.log("reportedNotifications", reportedNotifications)
@@ -85,9 +87,10 @@ export default function ReportedNotifications() {
       }
 
 
-      const response = await axios.get(`${BACKEND}/messages/reportednotifications`, {
+      const response = await axiosPrivate.get(`${BACKEND}/messages/reportednotifications`, {
         params: { user: auth }
       });
+
       if (isMounted) {
         setReportedNotifications(response.data);
         setIsLoading(false);

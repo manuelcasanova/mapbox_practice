@@ -5,7 +5,15 @@ const fetchFlaggedMessages = async ({auth}) => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const isAdmin = auth.isAdmin
   try {
-    const response = await axios.get(`${BACKEND}/rides/messages/flagged`, {
+
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
+    const response = await axiosPrivate.get(`${BACKEND}/rides/messages/flagged`, {
     params: {
       isAdmin: isAdmin
     }

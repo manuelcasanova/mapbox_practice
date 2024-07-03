@@ -1,9 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 
 const ApproveFollowerButton = ({ userLoggedInObject, userLoggedin, user, followers, setFollowers, followeeId, followerId }) => {
 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
 
     const pendingAcceptMe = followers.some(follower =>
         follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
@@ -24,7 +26,7 @@ const ApproveFollowerButton = ({ userLoggedInObject, userLoggedin, user, followe
 
         // console.log("data before axios", data)
 
-        axios.post(`${BACKEND}/users/approvefollower`, data)
+        axiosPrivate.post(`${BACKEND}/users/approvefollower`, data)
           .then(response => {
             const newFollower = response.data;
     

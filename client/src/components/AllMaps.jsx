@@ -1,4 +1,5 @@
 import axios from "axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth"
@@ -14,6 +15,7 @@ import fetchMutedUsers from "./util_functions/FetchMutedUsers";
 
 export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const { auth } = useAuth();
+  const axiosPrivate = useAxiosPrivate()
   const userLoggedin = auth.userId
   const isLoggedIn = auth.loggedIn
 
@@ -44,7 +46,7 @@ const [mutedUsers, setMutedUsers] = useState([])
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
-    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(auth, userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
@@ -63,9 +65,12 @@ const [mutedUsers, setMutedUsers] = useState([])
     let isMounted = true;
     const controller = new AbortController();
   
+  
     const fetchData = async () => {
+
+      
       try {
-        const response = await axios.get(`${BACKEND}/maps`, {
+        const response = await axiosPrivate.get(`${BACKEND}/maps`, {
           params: { userId },
           signal: controller.signal
         });

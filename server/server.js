@@ -82,9 +82,11 @@ app.use('/logout', require('./routes/logout'));
 app.use('/forgot-password', require('./routes/forgot-password'));
 
 
+
+
 ///ROUTES AFTER JWT TOKEN----
 
-// app.use(verifyJWT);
+app.use(verifyJWT);
 
 // Multer setup for file upload
 const storage = multer.diskStorage({
@@ -582,49 +584,7 @@ app.post("/users/dismissmessagefollowrequest", async (req, res) => {
   }
 });
 
-//Get all followees
-app.get("/users/followee", async (req, res) => {
-  try {
-    // console.log("req.query users/followee", req.query)
-    if (req.query.user) {
-      // console.log("user id", req.query.user.id)
-      const fetchFollowee = await pool.query(
-        `SELECT * FROM followers 
-        WHERE follower_id = $1 OR followee_id = $1 ORDER BY lastmodification DESC`,
-        [req.query.user.userId]
-      );
-      res.json(fetchFollowee.rows)
-    } else {
-      //  Return an error message indicating unauthorized access
-      res.status(403).json({ error: "Unauthorized access" });
-    }
 
-  } catch (err) {
-    console.error(err.message)
-  }
-});
-
-//Get all followers
-app.get("/users/followers", async (req, res) => {
-  try {
-    // console.log("req.query users/followers", req.query)
-    if (req.query.user) {
-      //  console.log("req query", req.query)
-      const fetchFollowers = await pool.query(
-        `SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC`,
-        [req.query.user.userId]
-      );
-      // console.log(fetchFollowers.rows)
-      res.json(fetchFollowers.rows)
-    } else {
-      //  Return an error message indicating unauthorized access
-      res.status(403).json({ error: "Unauthorized access" });
-    }
-
-  } catch (err) {
-    console.error(err.message)
-  }
-});
 
 //Change user permissions
 
@@ -2682,7 +2642,7 @@ app.get('/messages/notifications', async (req, res) => {
 //New reported ride message notification
 app.get('/messages/reportednotifications', async (req, res) => {
 
-  // console.log("req.query in messages/reportednotifications", req.query)
+  //  console.log("req.query in messages/reportednotifications", req.query)
   if (req.query && req.query.user) {
     const userId = req.query.user.userId;
     // console.log("userId in /mes/not", userId);
@@ -2754,6 +2714,54 @@ app.get('/messages/reportedrunnotifications', async (req, res) => {
   }
 
 });
+
+
+
+//Get all followers
+app.get("/users/followers", async (req, res) => {
+  try {
+    // console.log("req.query users/followers", req.query)
+    if (req.query.user) {
+      //  console.log("req query", req.query)
+      const fetchFollowers = await pool.query(
+        `SELECT * FROM followers WHERE followee_id = $1 OR follower_id = $1 ORDER BY lastmodification DESC`,
+        [req.query.user.userId]
+      );
+      // console.log(fetchFollowers.rows)
+      res.json(fetchFollowers.rows)
+    } else {
+      //  Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+
+//Get all followees
+app.get("/users/followee", async (req, res) => {
+  try {
+    // console.log("req.query users/followee", req.query)
+    if (req.query.user) {
+      // console.log("user id", req.query.user.id)
+      const fetchFollowee = await pool.query(
+        `SELECT * FROM followers 
+        WHERE follower_id = $1 OR followee_id = $1 ORDER BY lastmodification DESC`,
+        [req.query.user.userId]
+      );
+      res.json(fetchFollowee.rows)
+    } else {
+      //  Return an error message indicating unauthorized access
+      res.status(403).json({ error: "Unauthorized access" });
+    }
+
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
 
 // -------- END ROUTES --------
 

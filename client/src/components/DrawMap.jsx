@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import LocationMarker from './util_functions/LocationMarker.jsx'
 import greencircle from '../components/img/greencircle.png'
 import recyclingBin from '../components/img/delete.png'
@@ -63,6 +64,7 @@ function Bounds({ coordinadasPara, defaultBounds }) {
 export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, setFake, fromButton, users }) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const { auth } = useAuth();
   // const isSuperAdmin = auth.isSuperAdmin;
   const { browCoords } = useCoords();
@@ -107,7 +109,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/points/${mapId}`);
+        const response = await axiosPrivate.get(`${BACKEND}/points/${mapId}`);
         // console.log("API Response:", response.data); // Log API response
         setPoints(response.data);
         setLoading(true);
@@ -136,7 +138,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/points/${mapId}`);
+        const response = await axiosPrivate.get(`${BACKEND}/points/${mapId}`);
 
         if (response.data.length === 0) {
           // If coordinates are empty, set coordinadasPara to defaultPosition.
@@ -163,7 +165,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/points/${mapId}`);
+        const response = await axiosPrivate.get(`${BACKEND}/points/${mapId}`);
 
         const coordinates = response.data.map(coordinadas => [
           String(coordinadas.lat),
@@ -198,7 +200,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
       mapId
     }
 
-    axios.post(`${BACKEND}/points`, body)
+    axiosPrivate.post(`${BACKEND}/points`, body)
       .then((response) => {
         // console.log(response.data)
       })
@@ -208,13 +210,13 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   // Remove one marker
   const removeMarker = async () => {
     const updatedCoord = coord.slice(0, -1);
-    await axios.post(`${BACKEND}/points/delete/`, coord.slice(-1)[0]);
+    await axiosPrivate.post(`${BACKEND}/points/delete/`, coord.slice(-1)[0]);
     setCoord(updatedCoord);
   };
 
   // Remove all markers
   const removeAll = async () => {
-    await axios.post(`${BACKEND}/points/delete/all/${mapId}`);
+    await axiosPrivate.post(`${BACKEND}/points/delete/all/${mapId}`);
     setCoord([]);
   };
 

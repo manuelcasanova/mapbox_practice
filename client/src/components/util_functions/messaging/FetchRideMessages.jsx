@@ -1,10 +1,19 @@
 import axios from 'axios';
 
-const fetchRideMessages = async (rideId) => {
+const fetchRideMessages = async (rideId, auth) => {
     // console.log("rideId fetchRideMessage", rideId)
+  
     const BACKEND = process.env.REACT_APP_API_URL;
   try {
-    const response = await axios.get(`${BACKEND}/rides/messages`, {
+
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
+    const response = await axiosPrivate.get(`${BACKEND}/rides/messages`, {
       params: {
         ride_id: rideId
       }

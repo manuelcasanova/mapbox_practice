@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PreviewMapChild from "./PreviewMapChild";
 import axios from "axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
@@ -11,6 +12,7 @@ import GetBrowserLocation from "./util_functions/GetBrowserLocation";
 export default function PreviewMap({ mapId }) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
 // console.log("mapId in PreviewMap", mapId)
   const { auth } = useAuth();
 
@@ -29,7 +31,7 @@ export default function PreviewMap({ mapId }) {
   const getMap = async () => {
 
     try {
-      const response = await axios.get(`${BACKEND}/maps/${id}`);
+      const response = await axiosPrivate.get(`${BACKEND}/maps/${id}`);
 
       const responseData = Object.values(response.data)[0]
 
@@ -52,7 +54,7 @@ export default function PreviewMap({ mapId }) {
   useEffect(() => {
     const getMapPoints = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/points/${id}`);
+        const response = await axiosPrivate.get(`${BACKEND}/points/${id}`);
         setPoints(response.data);
         setLoading(true);
       } catch (err) {

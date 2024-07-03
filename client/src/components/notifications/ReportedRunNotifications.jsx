@@ -1,4 +1,5 @@
 import axios from "axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function ReportedRunNotifications() {
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -84,7 +86,7 @@ export default function ReportedRunNotifications() {
       }
 
 
-      const response = await axios.get(`${BACKEND}/messages/reportedrunnotifications`, {
+      const response = await axiosPrivate.get(`${BACKEND}/messages/reportedrunnotifications`, {
         params: { user: auth }
       });
       if (isMounted) {

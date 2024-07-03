@@ -1,9 +1,17 @@
 import axios from "axios";
 
-const fetchMutedUsers = async (userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted) => {
+const fetchMutedUsers = async (auth, userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted) => {
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
-    const response = await axios.get(`${BACKEND}/users/muted`, { params: { userId: userLoggedin, isLoggedIn: isLoggedIn } });
+
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
+    const response = await axiosPrivate.get(`${BACKEND}/users/muted`, { params: { userId: userLoggedin, isLoggedIn: isLoggedIn } });
     // console.log("muted users in FetchMutedUsers", response.data.mutedUsers)
     setMutedUsers(response.data.mutedUsers);
   } catch (error) {

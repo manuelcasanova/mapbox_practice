@@ -1,12 +1,14 @@
 import axios from 'axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 
 import { faBellSlash, faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers, onMutedChange, handleRefresh }) => {
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const muteUser = () => {
-    axios.post(`${BACKEND}/users/mute`, { userLoggedin, userId })
+    axiosPrivate.post(`${BACKEND}/users/mute`, { userLoggedin, userId })
       .then(response => {
         setMutedUsers(prevMutedUsers => [...prevMutedUsers, userId]);
         onMutedChange();
@@ -17,7 +19,7 @@ const MuteUserButton = ({ userId, userLoggedin, isMuted, setMutedUsers, onMutedC
   };
 
   const unmuteUser = () => {
-    axios.post(`${BACKEND}/users/unmute`, { userLoggedin, userId })
+    axiosPrivate.post(`${BACKEND}/users/unmute`, { userLoggedin, userId })
       .then(response => {
         setMutedUsers(prevMutedUsers => prevMutedUsers.filter(id => id !== userId));
         onMutedChange();

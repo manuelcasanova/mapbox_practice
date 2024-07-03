@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 
 const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerId, userLoggedInObject }) => {
 
 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
 
 // console.log(
 //   `FollowUserButton.jsx --> ${userLoggedInObject}, ${followers}, ${followerId}, ${userLoggedInObject}`
@@ -53,7 +55,7 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
       date: new Date()
     };
 
-    axios.post(`${BACKEND}/users/follow`, data)
+    axiosPrivate.post(`${BACKEND}/users/follow`, data)
       .then(response => {
 
         // console.log('Follow request sent successfully:', response.data);
@@ -96,7 +98,7 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
       user: userLoggedInObject
     };
 
-    axios.post(`${BACKEND}/users/unfollow`, data)
+    axiosPrivate.post(`${BACKEND}/users/unfollow`, data)
       .then(response => {
         // console.log('Unfollow request sent successfully');
 
@@ -124,7 +126,7 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
       date: new Date()
     };
 
-    axios.post(`${BACKEND}/users/approvefollower`, data)
+    axiosPrivate.post(`${BACKEND}/users/approvefollower`, data)
       .then(response => {
         const newFollower = response.data;
 
@@ -153,7 +155,7 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
       user: userLoggedInObject
     };
   
-    axios.delete(`${BACKEND}/users/cancel-follow`, { data: data })
+    axiosPrivate.delete(`${BACKEND}/users/cancel-follow`, { data: data })
       .then(response => {
         const canceledFollower = response.data;
   

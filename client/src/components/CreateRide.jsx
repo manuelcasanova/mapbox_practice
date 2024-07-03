@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
 import TimePickerComponent from "./TimePickerComponent";
@@ -15,6 +16,7 @@ export default function CreateRide() {
   const userId = auth.userId;
   // console.log("userId in Create Ride", auth)
   const [rideType, setRideType] = useState("public");
+  const axiosPrivate = useAxiosPrivate()
 
   // console.log(rideType)
 
@@ -52,7 +54,7 @@ export default function CreateRide() {
 
     const getMaps = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/maps/shared`, {
+        const response = await axiosPrivate.get(`${BACKEND}/maps/shared`, {
           params: { userId },
           signal: controller.signal
 
@@ -113,7 +115,7 @@ export default function CreateRide() {
     };
 
     try {
-      await axios.post(`${BACKEND}/createride`, body);
+      await axiosPrivate.post(`${BACKEND}/createride`, body);
       setTitle('');
       setDistance('');
       setSpeed('');

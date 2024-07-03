@@ -1,14 +1,16 @@
 import { useEffect, useCallback } from "react";
 import { Marker, useMapEvents, Polyline } from "react-leaflet";
 import axios from "axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { icon_black, icon_green, icon_flag } from "./img/Icons";
 
 export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, editAllowed}) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
-
+const axiosPrivate = useAxiosPrivate()
+  
   const fetchData = useCallback(() => {
-    axios.get(`${BACKEND}/points/${mapId}`)
+    axiosPrivate.get(`${BACKEND}/points/${mapId}`)
       .then(function (res) {
         setCoord([...res.data])
       })

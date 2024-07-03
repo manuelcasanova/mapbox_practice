@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 
@@ -22,6 +23,7 @@ import MappedMessage from './util_functions/messaging/MappedMessage';
 
 const RidesPublic = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const [rides, setRides] = useState([]);
 
   const [showFilter, setShowFilter] = useState(false)
@@ -58,6 +60,7 @@ const RidesPublic = () => {
   };
 
   const { auth } = useAuth();
+
   const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
 
 
@@ -123,7 +126,7 @@ const RidesPublic = () => {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
         }
-        const response = await axios.get(`${BACKEND}/rides/public`, {
+        const response = await axiosPrivate.get(`${BACKEND}/rides/public`, {
           params: {
             user: auth,
             filteredRides
@@ -140,7 +143,7 @@ const RidesPublic = () => {
 
 
           // Fetch messages for each ride
-          const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id));
+          const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id, auth));
           const rideMessages = await Promise.all(rideMessagesPromises);
           setRides(prevRides => {
             return prevRides.map((ride, index) => {
@@ -178,7 +181,7 @@ const RidesPublic = () => {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
         }
-        const response = await axios.get(`${BACKEND}/rides/otherusers`, {
+        const response = await axiosPrivate.get(`${BACKEND}/rides/otherusers`, {
           params: {
             userId
           }
@@ -234,7 +237,7 @@ const RidesPublic = () => {
         throw new Error("Login to access this area.");
       }
       // console.log("Adding to ride...");
-      await axios.post(`${BACKEND}/rides/adduser`, {
+      await axiosPrivate.post(`${BACKEND}/rides/adduser`, {
         userId, userIsLoggedIn, rideId, isPrivate
       });
       // console.log("Successfully added to ride.");
@@ -257,7 +260,7 @@ const RidesPublic = () => {
         throw new Error("Login to access this area.");
       }
       // console.log("Adding to map...");
-      await axios.delete(`${BACKEND}/rides/removeuser`, {
+      await axiosPrivate.delete(`${BACKEND}/rides/removeuser`, {
         data: { userId, userIsLoggedIn, rideId }
       });
       // console.log("Successfully added to map.");

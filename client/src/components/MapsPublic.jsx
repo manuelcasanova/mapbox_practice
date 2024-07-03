@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 import PreviewMap from './PreviewMap';
 
@@ -21,6 +22,7 @@ import '../styles/Navbar.css'
 
 
 const MapsPublic = () => {
+  const axiosPrivate = useAxiosPrivate()
   const [maps, setMaps] = useState([]);
   const [selectedMapId, setSelectedMapId] = useState(null)
   const [error, setError] = useState(null);
@@ -88,7 +90,7 @@ const MapsPublic = () => {
   useEffect(() => {
     const fetchUserMaps = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/maps/otherusers`, {
+        const response = await axiosPrivate.get(`${BACKEND}/maps/otherusers`, {
           params: {
             userId
           }
@@ -124,7 +126,7 @@ const MapsPublic = () => {
     e.preventDefault();
     try {
       // console.log("Adding to map...");
-      await axios.post(`${BACKEND}/maps/adduser`, {
+      await axiosPrivate.post(`${BACKEND}/maps/adduser`, {
         userId, userIsLoggedIn, mapId
       });
       // console.log("Successfully added to map.");
@@ -142,7 +144,7 @@ const MapsPublic = () => {
     e.preventDefault();
     try {
       // console.log("Adding to map...");
-      await axios.delete(`${BACKEND}/maps/removeuser`, {
+      await axiosPrivate.delete(`${BACKEND}/maps/removeuser`, {
         data: { userId, userIsLoggedIn, mapId }
       });
       // console.log("Successfully added to map.");

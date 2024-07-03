@@ -5,7 +5,15 @@ const fetchMaps = async (auth, setMaps, setAddToMyMaps, setIsLoading, setError, 
 
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
-    const response = await axios.get(`${BACKEND}/maps/public`, {
+
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
+    const response = await axiosPrivate.get(`${BACKEND}/maps/public`, {
       params: {
         user: auth,
         filteredMaps

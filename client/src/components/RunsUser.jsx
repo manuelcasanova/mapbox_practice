@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 // import { useAuth } from "./Context/AuthContext";
@@ -22,6 +23,7 @@ import { deactivateRun } from './util_functions/run_functions/DeleteRun';
 
 const RunsUser = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const [runs, setRuns] = useState([]);
   const [showFilter, setShowFilter] = useState(false)
   const [showMap, setShowMap] = useState(false)
@@ -98,7 +100,7 @@ const RunsUser = () => {
     const fetchData = async () => {
       try {
         if (id !== null && id !== undefined) {
-          const response = await axios.get(`${BACKEND}/runs/user/${id}`, {
+          const response = await axiosPrivate.get(`${BACKEND}/runs/user/${id}`, {
             params: {
               user: auth,
               filteredRuns: filteredRuns || ''
@@ -112,7 +114,7 @@ const RunsUser = () => {
 
 
             // Fetch messages for each run
-            const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id));
+            const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id, auth));
             const runMessages = await Promise.all(runMessagesPromises);
             setRuns(prevRuns => {
               return prevRuns.map((run, index) => {
@@ -149,7 +151,7 @@ const RunsUser = () => {
   useEffect(() => {
     const fetchUserRuns = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/runs/otherusers`, {
+        const response = await axiosPrivate.get(`${BACKEND}/runs/otherusers`, {
           params: {
             userId
           }
@@ -178,7 +180,7 @@ const RunsUser = () => {
       const userId = auth.userId;
       // const runId = id;
       // console.log("remove from my runs", userId, runId)
-      await axios.delete(`${BACKEND}/runs/delete/users/${id}`, {
+      await axiosPrivate.delete(`${BACKEND}/runs/delete/users/${id}`, {
         data: { userId }
       });
       setRuns(runs.filter(run => run.id !== id));

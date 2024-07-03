@@ -8,7 +8,14 @@ const fetchPendingUsers = async (auth, userLoggedin, isLoggedIn, setPendingUsers
       throw new Error("Login to access this area.");
     }
 
-    const response = await axios.get(`${BACKEND}/users/pending`, { params: { userId: userLoggedin, isLoggedIn: isLoggedIn } });
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
+    const response = await axiosPrivate.get(`${BACKEND}/users/pending`, { params: { userId: userLoggedin, isLoggedIn: isLoggedIn } });
     setPendingUsers(response.data.pendingUsers);
     // console.log("pendingusers in function", response.data.pendingUsers)
   } catch (error) {

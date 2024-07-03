@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth"
 import axios from 'axios';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 import '../styles/Create.css'
 
 export default function CreateMap({ setFromButton }) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const { auth, setMapId } = useAuth();
   const [mapType, setMapType] = useState("public");
 
@@ -42,7 +44,7 @@ export default function CreateMap({ setFromButton }) {
     try {
 
 
-      const response = await axios.post(`${BACKEND}/createmap`, {
+      const response = await axiosPrivate.post(`${BACKEND}/createmap`, {
         title,
         auth,
         createdAt,

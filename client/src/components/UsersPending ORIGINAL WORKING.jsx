@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 // import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 import axios from 'axios';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 //Util functions
 
@@ -13,7 +14,7 @@ import fetchLoginHistory from "./util_functions/FetchLoginHistory";
 const PendingUsers = () => {
 
   const { auth } = useAuth();
-
+  const axiosPrivate = useAxiosPrivate()
   const userLoggedin = auth.userId
   const userLoggedInObject = auth;
   const isLoggedIn = auth.loggedIn;
@@ -60,7 +61,7 @@ const PendingUsers = () => {
       user: userLoggedInObject
     };
 
-    axios.post(`${BACKEND}/users/approvefollower`, data)
+    axiosPrivate.post(`${BACKEND}/users/approvefollower`, data)
       .then(response => {
         const newFollower = response.data;
 
@@ -90,7 +91,7 @@ const PendingUsers = () => {
       user: userLoggedInObject //para saber si esta loggedin
     };
 
-    axios.post(`${BACKEND}/users/dismissfollower`, data)
+    axiosPrivate.post(`${BACKEND}/users/dismissfollower`, data)
       .then(response => {
         const newFollower = response.data;
 
@@ -120,7 +121,7 @@ const PendingUsers = () => {
       user: userLoggedInObject //para saber si esta loggedin
     };
 
-    axios.post(`${BACKEND}/users/dismissmessagefollowrequest`, data)
+    axiosPrivate.post(`${BACKEND}/users/dismissmessagefollowrequest`, data)
       .then(response => {
         const newFollower = response.data;
 

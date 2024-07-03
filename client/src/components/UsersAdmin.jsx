@@ -1,5 +1,6 @@
 //Hooks
 import React, { useState, useEffect } from 'react';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 //Libraries
 import axios from 'axios';
@@ -21,7 +22,7 @@ const UsersAdmin = () => {
   const { auth } = useAuth();
   const [showLargePicture, setShowLargePicture] = useState(null)
   const [refresh, setRefresh] = useState(false)
-
+  const axiosPrivate = useAxiosPrivate()
   //  console.log("users", users)
 
   const loggedInUser = auth;
@@ -38,7 +39,7 @@ const UsersAdmin = () => {
           throw new Error("Login to access this area.");
         }
 
-        const response = await axios.get(`${BACKEND}/users/`, {
+        const response = await axiosPrivate.get(`${BACKEND}/users/`, {
           params: {
             user: auth
           }
@@ -86,7 +87,7 @@ const UsersAdmin = () => {
   const handleAdminToggle = async (user) => {
     const updatedUser = { ...user, isadmin: !user.isadmin };
     try {
-      await axios.patch(`${BACKEND}/users/${user.id}`, updatedUser, {
+      await axiosPrivate.patch(`${BACKEND}/users/${user.id}`, updatedUser, {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
         },

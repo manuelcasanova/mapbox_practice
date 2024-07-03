@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
 import TimePickerComponent from "./TimePickerComponent";
@@ -11,6 +12,7 @@ import '../styles/Create.css'
 export default function CreateRun() {
 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const { auth, mapId, setMapId } = useAuth();
   const userId = auth.userId;
   // console.log("userId in Create Run", auth)
@@ -52,7 +54,7 @@ export default function CreateRun() {
 
     const getMaps = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/maps/shared`, {
+        const response = await axiosPrivate.get(`${BACKEND}/maps/shared`, {
           params: { userId },
           signal: controller.signal
 
@@ -115,7 +117,7 @@ export default function CreateRun() {
     };
 
     try {
-      await axios.post(`${BACKEND}/createrun`, body);
+      await axiosPrivate.post(`${BACKEND}/createrun`, body);
       setTitle('');
       setDistance('');
       setPace('');

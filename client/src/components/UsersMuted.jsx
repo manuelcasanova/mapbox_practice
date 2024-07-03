@@ -30,7 +30,7 @@ const MutedUsers = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(auth, userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
       isMounted = false; // Cleanup function to handle unmounting

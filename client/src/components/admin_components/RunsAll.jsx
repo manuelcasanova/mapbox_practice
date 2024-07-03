@@ -1,5 +1,6 @@
 //Libraries
 import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 //Hooks
 import React, { useState, useEffect } from 'react';
@@ -26,6 +27,7 @@ import RunsFilter from '../../components/RunsFilter'
 
 const RunsAll = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const [runs, setRuns] = useState([]);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
@@ -105,7 +107,7 @@ const RunsAll = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/runs/`, {
+        const response = await axiosPrivate.get(`${BACKEND}/runs/`, {
           params: {
             user: auth,
             filteredRuns
@@ -116,7 +118,7 @@ const RunsAll = () => {
           setIsLoading(false);
           setRunsAllComponentMount(true)
           // Fetch messages for each run
-          const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id));
+          const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id, auth));
           const runMessages = await Promise.all(runMessagesPromises);
           setRuns(prevRuns => {
             return prevRuns.map((run, index) => {

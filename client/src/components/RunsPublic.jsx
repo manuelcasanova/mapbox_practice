@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 
@@ -22,6 +23,7 @@ import MappedRunMessage from './util_functions/messaging/MappedRunMessage';
 
 const RunsPublic = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const [runs, setRuns] = useState([]);
 
   const [showFilter, setShowFilter] = useState(false)
@@ -36,6 +38,8 @@ const RunsPublic = () => {
   const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
 
   const { auth } = useAuth();
+
+  console.log("auth in Runs Public", auth)
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
@@ -124,7 +128,7 @@ const RunsPublic = () => {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
         }
-        const response = await axios.get(`${BACKEND}/runs/public`, {
+        const response = await axiosPrivate.get(`${BACKEND}/runs/public`, {
           params: {
             user: auth,
             filteredRuns
@@ -141,7 +145,7 @@ const RunsPublic = () => {
 
 
           // Fetch messages for each run
-          const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id));
+          const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id, auth));
           const runMessages = await Promise.all(runMessagesPromises);
           setRuns(prevRuns => {
             return prevRuns.map((run, index) => {
@@ -179,7 +183,7 @@ const RunsPublic = () => {
         if (!auth || Object.keys(auth).length === 0) {
           throw new Error("Login to access this area.");
         }
-        const response = await axios.get(`${BACKEND}/runs/otherusers`, {
+        const response = await axiosPrivate.get(`${BACKEND}/runs/otherusers`, {
           params: {
             userId
           }
@@ -232,7 +236,7 @@ const RunsPublic = () => {
         throw new Error("Login to access this area.");
       }
       // console.log("Adding to run...");
-      await axios.post(`${BACKEND}/runs/adduser`, {
+      await axiosPrivate.post(`${BACKEND}/runs/adduser`, {
         userId, userIsLoggedIn, runId, isPrivate
       });
       // console.log("Successfully added to run.");
@@ -255,7 +259,7 @@ const RunsPublic = () => {
         throw new Error("Login to access this area.");
       }
       // console.log("Adding to map...");
-      await axios.delete(`${BACKEND}/runs/removeuser`, {
+      await axiosPrivate.delete(`${BACKEND}/runs/removeuser`, {
         data: { userId, userIsLoggedIn, runId }
       });
       // console.log("Successfully added to map.");

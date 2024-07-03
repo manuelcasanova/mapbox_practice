@@ -1,5 +1,6 @@
 //Libraries
 import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 //Hooks
 import React, { useState, useEffect } from 'react';
@@ -26,6 +27,7 @@ import RidesFilter from '../../components/RidesFilter'
 
 const RidesAll = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const [rides, setRides] = useState([]);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
@@ -110,7 +112,7 @@ const RidesAll = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/rides/`, {
+        const response = await axiosPrivate.get(`${BACKEND}/rides/`, {
           params: {
             user: auth,
             filteredRides
@@ -122,7 +124,7 @@ const RidesAll = () => {
           setRidesAllComponentMount(true)
 
           // Fetch messages for each ride
-          const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id));
+          const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id, auth));
           const rideMessages = await Promise.all(rideMessagesPromises);
           setRides(prevRides => {
             return prevRides.map((ride, index) => {

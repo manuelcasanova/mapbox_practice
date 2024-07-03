@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
 import useAuth from "../hooks/useAuth"
@@ -22,6 +22,7 @@ import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
 
 const RidesUser = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate()
   const [rides, setRides] = useState([]);
   const [showFilter, setShowFilter] = useState(null)
   const [showMap, setShowMap] = useState(null)
@@ -93,7 +94,7 @@ const RidesUser = () => {
     const fetchData = async () => {
       try {
         if (id !== null && id !== undefined) {
-          const response = await axios.get(`${BACKEND}/rides/user/${id}`, {
+          const response = await axiosPrivate.get(`${BACKEND}/rides/user/${id}`, {
             params: {
               user: auth,
               filteredRides: filteredRides || ''
@@ -107,7 +108,7 @@ const RidesUser = () => {
 
 
             // Fetch messages for each ride
-            const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id));
+            const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id, auth));
             const rideMessages = await Promise.all(rideMessagesPromises);
             setRides(prevRides => {
               return prevRides.map((ride, index) => {
@@ -144,7 +145,7 @@ const RidesUser = () => {
   useEffect(() => {
     const fetchUserRides = async () => {
       try {
-        const response = await axios.get(`${BACKEND}/rides/otherusers`, {
+        const response = await axiosPrivate.get(`${BACKEND}/rides/otherusers`, {
           params: {
             userId
           }
@@ -172,7 +173,7 @@ const RidesUser = () => {
       const userId = auth.userId;
       // const rideId = id;
       // console.log("remove from my rides", userId, rideId)
-      await axios.delete(`${BACKEND}/rides/delete/users/${id}`, {
+      await axiosPrivate.delete(`${BACKEND}/rides/delete/users/${id}`, {
         data: { userId }
       });
       setRides(rides.filter(ride => ride.id !== id));

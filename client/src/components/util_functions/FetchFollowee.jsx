@@ -12,7 +12,14 @@ const fetchFollowee = async (auth, setFollowers, setIsLoading, setError, isMount
       throw new Error("Login to access this area.");
     }
 
-    const response = await axios.get(`${BACKEND}/users/followee`, { 
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
+    const response = await axiosPrivate.get(`${BACKEND}/users/followee`, { 
       params: {
         user: auth 
       }

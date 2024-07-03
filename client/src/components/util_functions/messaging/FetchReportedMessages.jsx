@@ -6,7 +6,14 @@ const fetchReportedMessages = async ({auth}) => {
   // console.log("auth", auth)
   const isAdmin = auth.isAdmin
   try {
-    const response = await axios.get(`${BACKEND}/rides/messages/reported`, {
+
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+    const response = await axiosPrivate.get(`${BACKEND}/rides/messages/reported`, {
     params: {
       isAdmin: isAdmin
     }

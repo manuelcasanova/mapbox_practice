@@ -1,13 +1,22 @@
 import axios from "axios";
+
   
 const BACKEND = process.env.REACT_APP_API_URL;
-
   //Function to remove user from map
-  export const removeUsersFromMap = async (userId, mapId, setFake, setMaps) => {
+  export const removeUsersFromMap = async (userId, mapId, setFake, setMaps, auth) => {
+
+
+
     try {
       
+      const axiosPrivate = axios.create({
+        baseURL: BACKEND,
+        headers: {
+          Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        }
+      });
       // Send request to remove users from map
-      await axios.delete(`${BACKEND}/maps/delete/users/${userId}`, {
+      await axiosPrivate.delete(`${BACKEND}/maps/delete/users/${userId}`, {
         data: { mapId, userId } // Sending mapId in the request body
       });
 
@@ -26,10 +35,17 @@ const BACKEND = process.env.REACT_APP_API_URL;
   };
 
   //Function to delete map
-  export const deleteMap = async (mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete ) => {
+  export const deleteMap = async (mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete, auth ) => {
     try {
+
+      const axiosPrivate = axios.create({
+        baseURL: BACKEND,
+        headers: {
+          Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        }
+      });
       // Send request to remove users from map
-      await axios.delete(`${BACKEND}/delete/${mapId}`, {
+      await axiosPrivate.delete(`${BACKEND}/delete/${mapId}`, {
         data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
       });
       // console.log(response.data);
@@ -54,10 +70,17 @@ const BACKEND = process.env.REACT_APP_API_URL;
   };
 
     //Function to deactivate map
-    export const deactivateMap = async (mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete) => {
+    export const deactivateMap = async (mapId, userId, isMapCreatedByUser, maps, setMaps, setFake, setConfirmDelete, auth) => {
       try {
+
+        const axiosPrivate = axios.create({
+          baseURL: BACKEND,
+          headers: {
+            Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+          }
+        });
         // Send request to remove users from map
-        await axios.post(`${BACKEND}/deactivate/${mapId}`, {
+        await axiosPrivate.post(`${BACKEND}/deactivate/${mapId}`, {
           data: { mapId, userId, isMapCreatedByUser } // Sending mapId in the request body
         });
         // console.log(response.data);

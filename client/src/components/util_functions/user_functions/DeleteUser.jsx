@@ -3,9 +3,11 @@
 //Libraries
 import axios from 'axios';
 
+
 const BACKEND = process.env.REACT_APP_API_URL;
 
-export const activateUser = async (user, loggedInUser) => {
+
+export const activateUser = async (user, loggedInUser, auth) => {
 // console.log("loggedInUser in activateuser in DeleteUser.jsx", loggedInUser)
 // console.log("user in activate user in jsx", user)
   try {
@@ -15,7 +17,14 @@ export const activateUser = async (user, loggedInUser) => {
     const isUserLoggedIn = loggedInUser.accessToken !== null;
   //  console.log("deleteuser.jsx isUserLoggedIn", isUserLoggedIn)
  
-    await axios.post(`${BACKEND}/user/activate/${userId}`, {
+  const axiosPrivate = axios.create({
+    baseURL: BACKEND,
+    headers: {
+      Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+    }
+  });
+
+    await axiosPrivate.post(`${BACKEND}/user/activate/${userId}`, {
       data: { userId, isUserLoggedIn }
     });
 
@@ -26,7 +35,7 @@ export const activateUser = async (user, loggedInUser) => {
   }
 };
 
-export const deactivateUser = async (user, loggedInUser) => {
+export const deactivateUser = async (user, loggedInUser, auth) => {
   // console.log("user in deactivate user in jsx", user)
   // console.log("loggedInUser in jsx, ", loggedInUser)
   try {
@@ -37,7 +46,14 @@ export const deactivateUser = async (user, loggedInUser) => {
    
     // console.log("userId deactivateUser", userId, "isUserLoggedIn", isUserLoggedIn)
  
-    await axios.post(`${BACKEND}/user/deactivate/${userId}`, {
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
+    await axiosPrivate.post(`${BACKEND}/user/deactivate/${userId}`, {
       data: { userId, isUserLoggedIn }
     });
 
@@ -49,10 +65,18 @@ export const deactivateUser = async (user, loggedInUser) => {
 };
 
 
-export const deleteUser = async (userObject, user, setUsers, loggedInUser) => {
+export const deleteUser = async (userObject, user, setUsers, loggedInUser, auth) => {
   try {
     const userId = user.id;
-    await axios.delete(`${BACKEND}/user/delete/${userId}`, {
+
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
+    await axiosPrivate.delete(`${BACKEND}/user/delete/${userId}`, {
       data: { userId, user, loggedInUser, userObject }
     });
 

@@ -64,7 +64,7 @@ const UsersAll = () => {
     const controller = new AbortController();
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted, filteredUsers)
     fetchFollowee(auth, setFollowers, setIsLoading, setError, isMounted)
-    fetchMutedUsers(userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
+    fetchMutedUsers(auth, userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     // console.log("usersAll render")
     return () => {
       isMounted = false; // Cleanup function to handle unmounting

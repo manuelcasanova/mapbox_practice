@@ -7,8 +7,16 @@ const fetchLoginHistory = async (auth, setLoginHistory, setIsLoading, setError, 
     if (!auth || Object.keys(auth).length === 0) {
       throw new Error("Login to access this area.");
     }
+
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
+
     // console.log("fetching loging history")
-    const response = await axios.get(`${BACKEND}/users/loginhistory`, { 
+    const response = await axiosPrivate.get(`${BACKEND}/users/loginhistory`, { 
       params: {
         user: auth 
       }

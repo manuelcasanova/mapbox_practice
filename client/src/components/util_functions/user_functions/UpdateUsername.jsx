@@ -5,6 +5,9 @@ export const updateUsername = async (auth, newUsername) => {
   const url = `${BACKEND}/users/modifyusername`;
 
   const BACKEND = process.env.REACT_APP_API_URL;
+
+
+
   // Prepare the data to be sent in the request body
   const data = {
     userId: auth.userId, 
@@ -12,9 +15,16 @@ export const updateUsername = async (auth, newUsername) => {
   };
 
   try {
-    console.log("here ")
+
+
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      }
+    });
     // Make a POST request to the backend API
-    const response = await axios.post(url, data);
+    const response = await axiosPrivate.post(url, data);
     // console.log("Username updated successfully:", response.data);
 
     // Assuming the backend returns the updated user object, return it
