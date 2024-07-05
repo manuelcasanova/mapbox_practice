@@ -86,7 +86,7 @@ app.use('/forgot-password', require('./routes/forgot-password'));
 
 ///ROUTES AFTER JWT TOKEN----
 
-app.use(verifyJWT);
+// app.use(verifyJWT);
 
 // Multer setup for file upload
 const storage = multer.diskStorage({
@@ -2401,10 +2401,12 @@ app.post("/runs/message/flag/:messageId", async (req, res) => {
   }
 });
 
+app.use(verifyJWT);
+
 app.post("/rides/message/ok/:messageId", async (req, res) => {
   try {
 
-    // console.log("req.params", req.params)
+    //  console.log("req.params", req.params)
 
     const messageId = req.params.messageId
 
@@ -2427,10 +2429,12 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
   }
 });
 
+
+
 app.post("/runs/message/ok/:messageId", async (req, res) => {
   try {
 
-    // console.log("req.params", req.params)
+      // console.log("req.params", req.params)
 
     const messageId = req.params.messageId
 
@@ -2445,6 +2449,7 @@ app.post("/runs/message/ok/:messageId", async (req, res) => {
       `,
       [messageId]
     );
+    // console.log("backend modifyStatusrows0", modifyStatus.rows[0])
     res.json(modifyStatus.rows[0])
 
   } catch (error) {
@@ -2452,6 +2457,7 @@ app.post("/runs/message/ok/:messageId", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 
 app.get('/users/messages/read', async (req, res) => {
@@ -2497,6 +2503,7 @@ app.get('/users/messages/read', async (req, res) => {
 });
 
 
+
 app.post("/users/messages/send", async (req, res) => {
 
   const now = new Date();
@@ -2531,6 +2538,8 @@ app.post("/users/messages/send", async (req, res) => {
   }
 });
 
+
+
 //Get pending request users
 app.get('/users/loginhistory', async (req, res) => {
 
@@ -2558,8 +2567,9 @@ app.get('/users/loginhistory', async (req, res) => {
   // }
 });
 
-//New follow request notification
 
+
+//New follow request notification
 app.get('/users/follownotifications', async (req, res) => {
 
   // console.log("req.query in follow not", req.query.user)
@@ -2600,6 +2610,8 @@ app.get('/users/follownotifications', async (req, res) => {
   }
 })
 
+
+
 //New message notification
 app.get('/messages/notifications', async (req, res) => {
 
@@ -2639,6 +2651,8 @@ app.get('/messages/notifications', async (req, res) => {
 
 });
 
+
+
 //New reported ride message notification
 app.get('/messages/reportednotifications', async (req, res) => {
 
@@ -2676,6 +2690,8 @@ app.get('/messages/reportednotifications', async (req, res) => {
   }
 
 });
+
+
 
 //New reported run message notification
 app.get('/messages/reportedrunnotifications', async (req, res) => {
@@ -2738,6 +2754,8 @@ app.get("/users/followers", async (req, res) => {
     console.error(err.message)
   }
 });
+
+
 
 
 //Get all followees

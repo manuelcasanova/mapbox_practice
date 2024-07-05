@@ -1,26 +1,30 @@
 import { useState } from "react";
-
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function AdminOkReportedMessage({ messageId, setMessageReported }) {
 
 // console.log("messageId in util func delete ride", messageId)
 const BACKEND = process.env.REACT_APP_API_URL;
+const axiosPrivate = useAxiosPrivate();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInappropiate = async () => {
     try {
       setIsLoading(true); 
-      const response = await fetch(`${BACKEND}/rides/message/ok/${messageId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosPrivate.post(
+        `${BACKEND}/rides/message/ok/${messageId}`,
+        {}, 
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
 
-      if (!response.ok) {
+      if (!response.data) {
         throw new Error("Failed to ok message");
       }
 
