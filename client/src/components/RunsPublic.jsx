@@ -39,7 +39,7 @@ const RunsPublic = () => {
 
   const { auth } = useAuth();
 
-  console.log("auth in Runs Public", auth)
+  // console.log("auth in Runs Public", auth)
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday

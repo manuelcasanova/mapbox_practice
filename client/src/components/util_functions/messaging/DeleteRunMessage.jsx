@@ -1,21 +1,27 @@
 import { useState } from "react";
 
+
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate"; 
+
 export default function DeleteRunMessage({ messageId, setMessageDeleted }) {
 
 // console.log("messageId in util func delete run", messageId)
 const BACKEND = process.env.REACT_APP_API_URL;
+const axiosPrivate = useAxiosPrivate();
+
   const [error, setError] = useState("");
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${BACKEND}/runs/message/delete/${messageId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosPrivate.post(`${BACKEND}/runs/message/delete/${messageId}`, {},
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
 
-      if (!response.ok) {
+      if (!response.data) {
         throw new Error("Failed to delete message");
       }
 

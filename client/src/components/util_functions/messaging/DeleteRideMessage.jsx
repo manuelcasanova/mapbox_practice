@@ -1,23 +1,25 @@
 import { useState } from "react";
-
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import '../../../styles/RidesMessaging.css'
 
 export default function DeleteRideMessage({ messageId, setMessageDeleted }) {
 
 // console.log("messageId in util func delete ride", messageId)
 const BACKEND = process.env.REACT_APP_API_URL;
+const axiosPrivate = useAxiosPrivate()
   const [error, setError] = useState("");
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${BACKEND}/rides/message/delete/${messageId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosPrivate.post(`${BACKEND}/rides/message/delete/${messageId}`, {},
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
 
-      if (!response.ok) {
+      if (!response.data) {
         throw new Error("Failed to delete message");
       }
 
@@ -28,7 +30,7 @@ const BACKEND = process.env.REACT_APP_API_URL;
       console.error('Error:', error.message);
       setError('An error occurred while deleting the message.');
     }
-    // here??
+    
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import useAuth from "../../../hooks/useAuth";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 import '../../../styles/RidesMessaging.css'
 
@@ -12,26 +12,24 @@ export default function ReportInappropiateMessage({ messageId, setMessageReporte
   const [isLoading, setIsLoading] = useState(false);
 
   const BACKEND = process.env.REACT_APP_API_URL;
-
+  const axiosPrivate = useAxiosPrivate();
 
   const handleInappropiate = async () => {
     try {
       setIsLoading(true);   
 
-      const body = JSON.stringify({
+      const response = await axiosPrivate.post(`${BACKEND}/rides/message/report/`, {
         messageId,
         userLoggedInId: user.userId 
-      });
-
-      const response = await fetch(`${BACKEND}/rides/message/report/`, {
-        method: "POST",
+      },
+      {
         headers: {
-          "Content-Type": "application/json",
-        },
-        body: body
-      });
+          "Content-Type": "application/json"
+        }
+      }
+    );
 
-      if (!response.ok) {
+      if (!response.data) {
         throw new Error("Failed to report message");
       }
 

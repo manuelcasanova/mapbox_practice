@@ -16,12 +16,11 @@ export default function AdminOkReportedRunMessage({ messageId, setMessageReporte
 
       const response = await axiosPrivate.post(
         `${BACKEND}/runs/message/ok/${messageId}`,
-        {}, // empty object for request body if not needed
+        {}, 
         {
           headers: {
             "Content-Type": "application/json"
-          },
-          // Optionally, you can pass axiosPrivate as a config for authentication or other purposes
+          }
         }
       );
 

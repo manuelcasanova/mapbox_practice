@@ -2059,6 +2059,8 @@ app.get("/runs/user/:id", async (req, res) => {
   }
 });
 
+app.use(verifyJWT);
+
 app.get('/rides/messages', async (req, res) => {
   // console.log("req.query in rides/messages", req.query)
   const { ride_id } = req.query;
@@ -2140,7 +2142,6 @@ app.get("/runs/messages/reported", async (req, res) => {
     }
   }
 });
-
 
 app.get("/runs/messages/flagged", async (req, res) => {
   const isAdmin = req.query.isAdmin;
@@ -2230,8 +2231,6 @@ app.post("/runs/addmessage", async (req, res) => {
   }
 });
 
-
-
 app.post("/rides/message/delete/:messageId", async (req, res) => {
 
   try {
@@ -2316,9 +2315,10 @@ app.post("/rides/message/report/", async (req, res) => {
   }
 });
 
+
+
 app.post("/runs/message/report/", async (req, res) => {
   try {
-
 
     const messageId = req.body.messageId
     const now = new Date();
@@ -2375,6 +2375,8 @@ app.post("/rides/message/flag/:messageId", async (req, res) => {
   }
 });
 
+
+
 app.post("/runs/message/flag/:messageId", async (req, res) => {
   try {
 
@@ -2401,7 +2403,7 @@ app.post("/runs/message/flag/:messageId", async (req, res) => {
   }
 });
 
-app.use(verifyJWT);
+
 
 app.post("/rides/message/ok/:messageId", async (req, res) => {
   try {

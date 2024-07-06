@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function AddRunMessage({ userId, userIsLoggedIn, runId, setMessageSent }) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,21 +25,21 @@ export default function AddRunMessage({ userId, userIsLoggedIn, runId, setMessag
     }
 
     try {
-      const response = await fetch(`${BACKEND}/runs/addmessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axiosPrivate.post(`${BACKEND}/runs/addmessage`, {
           message,
           userId,
           userIsLoggedIn,
           runId
-        }),
-      });
+      },
+    
+    {      headers: {
+      "Content-Type": "application/json",
+    }
+  }
+    );
 
 
-      if (!response.ok) {
+      if (!response.data) {
         throw new Error("Failed to add message");
       }
       else {

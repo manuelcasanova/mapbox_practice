@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 //Styles
 import '../../../styles/RidesMessaging.css'
@@ -6,6 +7,7 @@ import '../../../styles/RidesMessaging.css'
 export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMessageSent }) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -26,21 +28,20 @@ export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMess
     }
 
     try {
-      const response = await fetch(`${BACKEND}/rides/addmessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axiosPrivate.post(`${BACKEND}/rides/addmessage`, {
           message,
           userId,
           userIsLoggedIn,
           rideId
-        }),
-      });
+      },
+    
+    {      headers: {
+      "Content-Type": "application/json",
+    },}
+    );
 
 
-      if (!response.ok) {
+      if (!response.data) {
         throw new Error("Failed to add message");
       }
       else {

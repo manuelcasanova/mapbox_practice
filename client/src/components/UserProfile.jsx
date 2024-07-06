@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useContext, useRef, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 //Context
 // import { useAuth } from "./Context/AuthContext";
@@ -51,6 +52,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const [showErrorFileSize, setShowErrorFileSize] = useState(false);
   const [reload, setReload] = useState(false)
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate();
 
 
   // useEffect(() => {
@@ -142,9 +144,12 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
     formData.append('profilePicture', file);
 
     try {
-      const response = await fetch(`${BACKEND}/profile_pictures/${auth.userId}/`, {
-        method: 'POST',
-        body: formData,
+      const response = await axiosPrivate.post(`${BACKEND}/profile_pictures/${auth.userId}/`, {
+  formData
+      },     
+      {      headers: {
+        "Content-Type": "application/json",
+      }
       });
 
       if (response.ok) {

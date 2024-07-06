@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function FlagInapropiateMessage({ messageId, setMessageFlagged }) {
 
@@ -10,18 +11,20 @@ export default function FlagInapropiateMessage({ messageId, setMessageFlagged })
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false); 
   const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate();
 
   const handleInappropiate = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${BACKEND}/rides/message/flag/${messageId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosPrivate.post(`${BACKEND}/rides/message/flag/${messageId}`, {},
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
 
-      if (!response.ok) {
+      if (!response.data) {
         throw new Error("Failed to flag message");
       }
 
