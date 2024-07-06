@@ -42,7 +42,6 @@ const RunsAll = () => {
   const [runsAllComponentMount, setRunsAllComponentMount] = useState(false)
   const userId = auth.userId
 
-
   const formattedMessageDate = (createdAt) => {
     const date = new Date(createdAt);
 

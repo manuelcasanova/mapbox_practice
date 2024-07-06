@@ -4,11 +4,7 @@ import axios from "axios";
 const BACKEND = process.env.REACT_APP_API_URL;
   //Function to remove user from map
   export const removeUsersFromMap = async (userId, mapId, setFake, setMaps, auth) => {
-
-
-
     try {
-      
       const axiosPrivate = axios.create({
         baseURL: BACKEND,
         headers: {
@@ -17,7 +13,10 @@ const BACKEND = process.env.REACT_APP_API_URL;
       });
       // Send request to remove users from map
       await axiosPrivate.delete(`${BACKEND}/maps/delete/users/${userId}`, {
-        data: { mapId, userId } // Sending mapId in the request body
+        data: {
+          mapId: mapId,
+          userId: userId
+        }
       });
 
       setMaps(prevMaps => {

@@ -61,14 +61,14 @@ export const removeFromMyRides = async (id, user, rides, setRides, auth) => {
   }
 };
 
-export const deleteRide = async (id, user, setRides, auth) => {
+export const deleteRide = async (id, user, setRides) => {
   try {
     const userId = user.id;
 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${user?.accessToken}` // Assuming auth.token is the JWT token
       }
     });
 

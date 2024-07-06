@@ -254,6 +254,8 @@ app.get("/users/names", async (req, res) => {
   }
 });
 
+app.use(verifyJWT);
+
 //Modify username
 app.post("/users/modifyusername", async (req, res) => {
   const { userId, newUsername } = req.body;
@@ -269,7 +271,6 @@ app.post("/users/modifyusername", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 //Get muted users
 app.get('/users/muted', async (req, res) => {
@@ -295,7 +296,6 @@ app.get('/users/muted', async (req, res) => {
   //   res.status(403).json({ error: "Unauthorized access" });
   // }
 });
-
 
 // Mute user route
 app.post('/users/mute', async (req, res) => {
@@ -337,8 +337,6 @@ app.post('/users/unmute', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
-
 
 //Follow a user
 app.post("/users/follow", async (req, res) => {
@@ -410,10 +408,7 @@ app.delete("/users/cancel-follow", async (req, res) => {
   }
 });
 
-
 //Unfollow a user
-
-
 app.post("/users/unfollow", async (req, res) => {
   try {
     const followeeId = req.body.followeeId;
@@ -445,7 +440,6 @@ app.post("/users/unfollow", async (req, res) => {
   }
 });
 
-
 //Get pending request users
 app.get('/users/pending', async (req, res) => {
   const userId = req.query.userId;
@@ -475,9 +469,7 @@ app.get('/users/pending', async (req, res) => {
   }
 });
 
-
 //Approve followee
-
 app.post("/users/approvefollower", async (req, res) => {
   try {
 
@@ -516,7 +508,6 @@ app.post("/users/approvefollower", async (req, res) => {
 });
 
 //Dismiss follow request
-
 app.post("/users/dismissfollower", async (req, res) => {
   try {
 
@@ -551,7 +542,6 @@ app.post("/users/dismissfollower", async (req, res) => {
 });
 
 //Dismiss new message follow request
-
 app.post("/users/dismissmessagefollowrequest", async (req, res) => {
   try {
     //  console.log("req.body dismiss m f r", req.body)
@@ -583,8 +573,6 @@ app.post("/users/dismissmessagefollowrequest", async (req, res) => {
     console.error(err.message)
   }
 });
-
-
 
 //Change user permissions
 
@@ -640,8 +628,6 @@ app.get("/points/:id", async (req, res) => {
 });
 
 
-
-
 //Create a point
 app.post("/points", async (req, res) => {
   // console.log("req body", req.body)
@@ -678,7 +664,6 @@ app.post("/points/delete/", async (req, res) => {
     console.error(err.message)
   }
 })
-
 
 //Delete all points
 app.post("/points/delete/all/:id", async (req, res) => {
@@ -738,7 +723,6 @@ app.post("/maps/adduser", async (req, res) => {
   }
 });
 
-
 //Remove user from map
 app.delete("/maps/removeuser", async (req, res) => {
   try {
@@ -764,7 +748,6 @@ app.delete("/maps/removeuser", async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 //Remove user from ride
 app.delete("/rides/removeuser", async (req, res) => {
@@ -859,8 +842,6 @@ app.post("/runs/adduser", async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-
 
 //Create a ride
 app.post("/createride", async (req, res) => {
@@ -1018,7 +999,6 @@ app.post("/deactivate/:id", async (req, res) => {
   }
 })
 
-
 //Delete a ride
 app.delete("/rides/delete/:id", async (req, res) => {
   try {
@@ -1106,6 +1086,8 @@ app.post("/ride/deactivate/:id", async (req, res) => {
   }
 })
 
+
+
 //Deactivate a run
 app.post("/run/deactivate/:id", async (req, res) => {
   // console.log("req.body", req.body)
@@ -1145,7 +1127,7 @@ app.post("/run/deactivate/:id", async (req, res) => {
 
 app.delete(`/maps/delete/users/:id`, async (req, res) => {
   try {
-
+console.log("rb", req.body)
     const userId = parseInt(req.body.userId);
     const mapId = parseInt(req.body.mapId);
     //     console.log("req. body", req.body)
@@ -1171,8 +1153,10 @@ app.delete(`/maps/delete/users/:id`, async (req, res) => {
   }
 });
 
-//Remove users from ride
 
+
+
+//Remove users from ride
 app.delete(`/rides/delete/users/:id`, async (req, res) => {
   try {
     const userId = req.body.userId;
@@ -1196,9 +1180,12 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
   }
 });
 
+
+
 //Remove users from run
 app.delete(`/runs/delete/users/:id`, async (req, res) => {
   try {
+  
     const userId = req.body.userId;
     const runId = req.params.id;
 
@@ -1219,7 +1206,6 @@ app.delete(`/runs/delete/users/:id`, async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 //Delete a user
 app.delete("/user/delete/:id", async (req, res) => {
@@ -1267,12 +1253,14 @@ app.delete("/user/delete/:id", async (req, res) => {
     }
   })
 
+ 
+
 //Activate a user
 app.post("/user/activate/:id", async (req, res) => {
   try {
-    // console.log(req.body)
-    const isLoggedIn = req.body.data.isUserLoggedIn
-    const userId = req.body.data.userId
+     console.log(req.body)
+    const isLoggedIn = req.body.isUserLoggedIn
+    const userId = req.body.userId
 
 
 
@@ -1299,14 +1287,16 @@ app.post("/user/activate/:id", async (req, res) => {
   }
 })
 
-//Deactivate a user
 
+
+
+
+//Deactivate a user
 app.post("/user/deactivate/:id", async (req, res) => {
   try {
-    //  console.log("req body user deactivate id", req.body)
 //  console.log("req.params user deactivate id", typeof req.params.id)
-    const isLoggedIn = req.body.data.isUserLoggedIn
-    const userId = req.body.data.userId
+    const isLoggedIn = req.body.isUserLoggedIn
+    const userId = req.body.userId
     // const userId = req.body.params
 
     if (isLoggedIn) {
@@ -1329,8 +1319,8 @@ app.post("/user/deactivate/:id", async (req, res) => {
   }
 })
 
-//Get all public maps 
 
+//Get all public maps 
 app.get("/maps/public", async (req, res) => {
   try {
 
@@ -1481,8 +1471,6 @@ app.get("/runs/otherusers", async (req, res) => {
   }
 });
 
-
-
 //Get maps from other users, if they are public and we added them to "our maps"
 
 app.get("/maps/shared", async (req, res) => {
@@ -1513,7 +1501,6 @@ app.get("/maps/shared", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 //Get one map
 app.get("/maps/:id", async (req, res) => {
@@ -1603,7 +1590,6 @@ app.get("/rides", async (req, res) => {
   }
 });
 
-
 //Get all runs (admin)
 app.get("/runs", async (req, res) => {
   try {
@@ -1681,8 +1667,6 @@ app.get("/runs", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
 
 //Get all public rides (user)
 app.get("/rides/public", async (req, res) => {
@@ -2058,8 +2042,6 @@ app.get("/runs/user/:id", async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-app.use(verifyJWT);
 
 app.get('/rides/messages', async (req, res) => {
   // console.log("req.query in rides/messages", req.query)

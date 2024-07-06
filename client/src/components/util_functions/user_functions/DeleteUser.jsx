@@ -11,21 +11,21 @@ export const activateUser = async (user, loggedInUser, auth) => {
 // console.log("loggedInUser in activateuser in DeleteUser.jsx", loggedInUser)
 // console.log("user in activate user in jsx", user)
   try {
-   
-
     const userId = user.id;
     const isUserLoggedIn = loggedInUser.accessToken !== null;
   //  console.log("deleteuser.jsx isUserLoggedIn", isUserLoggedIn)
  
+// console.log("activateuser", userId, isUserLoggedIn)
+
   const axiosPrivate = axios.create({
     baseURL: BACKEND,
     headers: {
-      Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+      Authorization: `Bearer ${auth?.accessToken}` 
     }
   });
 
     await axiosPrivate.post(`${BACKEND}/user/activate/${userId}`, {
-      data: { userId, isUserLoggedIn }
+      userId, isUserLoggedIn
     });
 
     
@@ -36,25 +36,21 @@ export const activateUser = async (user, loggedInUser, auth) => {
 };
 
 export const deactivateUser = async (user, loggedInUser, auth) => {
-  // console.log("user in deactivate user in jsx", user)
-  // console.log("loggedInUser in jsx, ", loggedInUser)
-  try {
-   
 
+  try {
     const userId = user.id || user.userId;
     const isUserLoggedIn = loggedInUser.accessToken !== null;
-   
     // console.log("userId deactivateUser", userId, "isUserLoggedIn", isUserLoggedIn)
- 
+
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
     await axiosPrivate.post(`${BACKEND}/user/deactivate/${userId}`, {
-      data: { userId, isUserLoggedIn }
+      userId, isUserLoggedIn
     });
 
     

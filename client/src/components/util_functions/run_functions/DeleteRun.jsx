@@ -57,14 +57,15 @@ export const removeFromMyRuns = async (id, user, runs, setRuns, auth) => {
   }
 };
 
-export const deleteRun = async (id, user, setRuns, auth) => {
+export const deleteRun = async (id, user, setRuns) => {
+ 
   try {
-    const userId = user.id;
+    const userId = user.userId;
 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${user?.accessToken}` 
       }
     });
 

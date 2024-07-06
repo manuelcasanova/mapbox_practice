@@ -68,19 +68,19 @@ const UsersAdmin = () => {
   }, [auth, refresh]);
 
   const handleDeactivate = async (user) => {
-    await deactivateUser(user, loggedInUser);
+    await deactivateUser(user, loggedInUser, auth);
     setUsers(users.map(u => u.id === user.id ? { ...u, isactive: false } : u));
     setRefresh(prev => !prev)
   };
 
   const handleActivate = async (user) => {
-    await activateUser(user, loggedInUser);
+    await activateUser(user, loggedInUser, auth);
     setUsers(users.map(u => u.id === user.id ? { ...u, isactive: true } : u));
     setRefresh(prev => !prev)
   };
 
   const handleDelete = async (user) => {
-    await deleteUser(user, user.id, setUsers, loggedInUser);
+    await deleteUser(user, user.id, setUsers, loggedInUser, auth);
     setUsers(users.filter(u => u.id !== user.id));
   };
 

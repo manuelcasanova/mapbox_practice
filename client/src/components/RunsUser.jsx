@@ -178,8 +178,8 @@ const RunsUser = () => {
   const removeFromMyRuns = async (id) => {
     try {
       const userId = auth.userId;
-      // const runId = id;
-      // console.log("remove from my runs", userId, runId)
+      const runId = id;
+
       await axiosPrivate.delete(`${BACKEND}/runs/delete/users/${id}`, {
         data: { userId }
       });

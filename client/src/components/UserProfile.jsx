@@ -87,7 +87,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
 
   const handleDeactivateUser = async () => {
     try {
-      await deactivateUser(user, loggedInUser); // Wait for deactivateUser to complete
+      await deactivateUser(user, loggedInUser, auth); // Wait for deactivateUser to complete
       logOut(); // Proceed with logging out the user
       handleShowConfirmDelete(); // Proceed with showing confirmation for user deletion
       navigate('/'); // Navigate to the homepage

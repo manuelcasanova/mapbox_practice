@@ -258,11 +258,11 @@ const RunsPublic = () => {
       if (!auth || Object.keys(auth).length === 0) {
         throw new Error("Login to access this area.");
       }
-      // console.log("Adding to map...");
+  
       await axiosPrivate.delete(`${BACKEND}/runs/removeuser`, {
         data: { userId, userIsLoggedIn, runId }
       });
-      // console.log("Successfully added to map.");
+
       toggleAddToMyRuns(index); // Toggle state for the clicked map
       setError(null)
     } catch (err) {
