@@ -28,8 +28,8 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const { auth, setAuth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
-  // console.log("auth", auth)
-  console.log("profile picture", profilePicture)
+  console.log("auth", auth)
+  console.log("profile picture in UserProfile", profilePicture)
 
 
   const loggedInUser = auth.userId;
@@ -143,8 +143,10 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
     setSelectedFile(file);
 
     const formData = new FormData();
+    console.log("file before append", file)
+    console.log("formData before append", formData)
     formData.append('profilePicture', file);
-
+    console.log("formData after append", formData)
     try {
       const response = await axiosPrivate.post(`${BACKEND}/profile_pictures/${auth.userId}/`, {
   formData
