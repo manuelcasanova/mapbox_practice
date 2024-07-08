@@ -20,21 +20,21 @@ const path = require('path'); // To serve static files.
 const fs = require('fs');
 
 // WebSocket connection handling
-io.on('connection', (socket) => {
-  console.log('A user connected');
+// io.on('connection', (socket) => {
+//   console.log('A user connected');
 
-  // Handle incoming messages from clients
-  socket.on('message', (message) => {
-    console.log('Received message:', message);
-    // Broadcast message to all connected clients
-    io.emit('message', message); // Broadcast to all connected clients
-  });
+//   // Handle incoming messages from clients
+//   socket.on('message', (message) => {
+//     console.log('Received message:', message);
+//     // Broadcast message to all connected clients
+//     io.emit('message', message); // Broadcast to all connected clients
+//   });
 
-  // Handle disconnections
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
+//   // Handle disconnections
+//   socket.on('disconnect', () => {
+//     console.log('User disconnected');
+//   });
+// });
 
 app.set("view engine", 'ejs');
 
@@ -86,14 +86,16 @@ app.use('/forgot-password', require('./routes/forgot-password'));
 
 ///ROUTES AFTER JWT TOKEN----
 
-// app.use(verifyJWT);
+
 
 // Multer setup for file upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+   
     const userId = req.params.userId;
+    console.log("reqpar", req.params)
     const uploadPath = path.join(__dirname, `profile_pictures/${userId}`);
-
+console.log("uploadPath", uploadPath)
     // Ensure the directory exists
     fs.mkdir(uploadPath, { recursive: true }, (err) => {
       if (err) {
@@ -107,11 +109,18 @@ const storage = multer.diskStorage({
   }
 });
 
+console.log("storage", storage)
+console.log("storage.destination", storage.destination)
+console.log("storage.filename", storage.filename)
+
 const upload = multer({ storage });
+
+app.use(verifyJWT);
 
 // Endpoint to handle profile picture upload
 app.post('/profile_pictures/:userId', upload.single('profilePicture'), async (req, res) => {
-  // console.log("req.params", req.params)
+
+  console.log("req.params", req.params)
   const userId = req.params.userId;
   const profilePicturePath = `profile_pictures/${userId}/profile_picture.jpg`;
 
@@ -126,6 +135,7 @@ app.post('/profile_pictures/:userId', upload.single('profilePicture'), async (re
 
     const updateResult = await pool.query(updateProfilePictureQuery, [profilePicturePath, userId]);
 
+    console.log("uR.rc", updateResult.rowCount)
     // Handle successful update
     if (updateResult.rowCount > 0) {
 
@@ -142,6 +152,7 @@ app.post('/profile_pictures/:userId', upload.single('profilePicture'), async (re
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 app.put('/users/edit/password', async (req, res) => {
@@ -182,7 +193,6 @@ app.put('/users/edit/password', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 // PUT route to update user's last login
 app.post('/users/lastlogin/', async (req, res) => {
@@ -225,7 +235,6 @@ app.get("/users", async (req, res) => {
   }
 });
 
-
 //Get all users (name only)
 app.get("/users/names", async (req, res) => {
   try {
@@ -253,8 +262,6 @@ app.get("/users/names", async (req, res) => {
     console.error(err.message)
   }
 });
-
-app.use(verifyJWT);
 
 //Modify username
 app.post("/users/modifyusername", async (req, res) => {

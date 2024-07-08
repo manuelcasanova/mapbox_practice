@@ -1,5 +1,7 @@
 import { createContext, useState } from "react";
 import axios from 'axios';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
 
 const AuthContext = createContext({});
 
@@ -7,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({});
     const [mapId, setMapId ] = useState()
     const BACKEND = process.env.REACT_APP_API_URL;
+    const axiosPrivate = useAxiosPrivate()
 
 
     // console.log("auth in authProvider", auth)
@@ -24,7 +27,7 @@ export const AuthProvider = ({ children }) => {
           };
     
           // Make a POST request to the backend API
-          const response = await axios.post(url, data);
+          const response = await axiosPrivate.post(url, data);
     
           // Update the auth object with the new username
           setAuth((prevAuth) => ({

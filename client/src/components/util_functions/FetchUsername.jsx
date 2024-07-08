@@ -1,22 +1,24 @@
 import axios from "axios";
 
 const fetchUsernameAndId = async (auth, setUsers, setIsLoading, setError, isMounted, filteredUsers) => {
-// console.log("auth", auth)
+//  console.log("auth", auth)
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.auth?.accessToken || auth.accessToken}`
+
       }
     });
 
     const response = await axiosPrivate.get(`${BACKEND}/users/names`, {
       params: {
-        user: auth,
+        user: auth.auth ? auth.auth : auth,
         filteredUsers
       }
+      
     });
     if (isMounted) {
       setUsers(response.data);

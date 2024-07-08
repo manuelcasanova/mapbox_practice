@@ -29,7 +29,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const [users, setUsers] = useState();
 
   // console.log("auth", auth)
-  // console.log("profile picture", profilePicture)
+  console.log("profile picture", profilePicture)
 
 
   const loggedInUser = auth.userId;
@@ -131,6 +131,8 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
 
     const file = e.target.files[0];
 
+    console.log("file", file)
+
     const maxSize = 1 * 1024 * 1024; // 1MB in bytes
     if (file && file.size > maxSize) {
       console.error('File size exceeds the limit of 1MB');
@@ -151,10 +153,13 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
         "Content-Type": "application/json",
       }
       });
+      console.log("response", response)
 
-      if (response.ok) {
+      if (response.data) {
         // Update profile picture URL and toggle upload file section visibility
         const newProfilePictureUrlForAuth = `${BACKEND}/profile_pictures/${auth.userId}/profile_picture.jpg`
+console.log("newProfilePictureUrlForAuth", newProfilePictureUrlForAuth)
+
         setAuth(prevAuth => ({
           ...prevAuth,
           profilePicture: newProfilePictureUrlForAuth
