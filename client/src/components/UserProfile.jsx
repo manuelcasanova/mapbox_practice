@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useContext, useRef, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import axios from 'axios';
 
 //Context
 // import { useAuth } from "./Context/AuthContext";
@@ -28,8 +28,8 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const { auth, setAuth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
 
-  console.log("auth", auth)
-  console.log("profile picture in UserProfile", profilePicture)
+  // console.log("auth", auth)
+  // console.log("profile picture in UserProfile", profilePicture)
 
 
   const loggedInUser = auth.userId;
@@ -52,7 +52,6 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const [showErrorFileSize, setShowErrorFileSize] = useState(false);
   const [reload, setReload] = useState(false)
   const BACKEND = process.env.REACT_APP_API_URL;
-  const axiosPrivate = useAxiosPrivate();
 
 
   // useEffect(() => {
@@ -68,10 +67,6 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
       usernameInputRef.current.focus();
     }
   }, [isEditingUsername]);
-
-  useEffect(() => {
-
-  }, [profilePicture])
 
   const handleShowEditPassword = () => {
     setShowEditPassword(prev => !prev)
@@ -131,7 +126,12 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
 
     const file = e.target.files[0];
 
-    console.log("file", file)
+    if (file) {
+      // console.log('File selected:', file);
+    }
+  
+
+    // console.log("file", file)
 
     const maxSize = 1 * 1024 * 1024; // 1MB in bytes
     if (file && file.size > maxSize) {
@@ -143,24 +143,32 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
     setSelectedFile(file);
 
     const formData = new FormData();
-    console.log("file before append", file)
-    console.log("formData before append", formData)
     formData.append('profilePicture', file);
-    console.log("formData after append", formData)
-    try {
-      const response = await axiosPrivate.post(`${BACKEND}/profile_pictures/${auth.userId}/`, {
-  formData
-      },     
-      {      headers: {
-        "Content-Type": "application/json",
-      }
-      });
-      console.log("response", response)
 
+    try {
+
+
+      const axiosPrivate = axios.create({
+        baseURL: BACKEND,
+        headers: {
+          Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        }
+      });
+
+      const response = await axiosPrivate.post(`${BACKEND}/profile_pictures/${auth.userId}/`, formData);
       if (response.data) {
+
+
+  // const response = await fetch(`${BACKEND}/profile_pictures/${auth.userId}/`, {
+  //   method: 'POST',
+  //   body: formData,
+  // });
+  // if (response.ok) {
+
+
         // Update profile picture URL and toggle upload file section visibility
         const newProfilePictureUrlForAuth = `${BACKEND}/profile_pictures/${auth.userId}/profile_picture.jpg`
-console.log("newProfilePictureUrlForAuth", newProfilePictureUrlForAuth)
+// console.log("newProfilePictureUrlForAuth", newProfilePictureUrlForAuth)
 
         setAuth(prevAuth => ({
           ...prevAuth,
@@ -172,9 +180,9 @@ console.log("newProfilePictureUrlForAuth", newProfilePictureUrlForAuth)
         }?${Date.now()}`);
         setShowUploadFile(false); // Assuming setShowUploadFile is used to toggle visibility
 
-        console.log('File uploaded successfully');
+        // console.log('File uploaded successfully');
       } else {
-        console.error('Failed to upload file');
+        // console.error('Failed to upload file');
       }
     } catch (error) {
       console.error('Error uploading file:', error);

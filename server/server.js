@@ -19,6 +19,29 @@ const multer = require('multer');
 const path = require('path'); // To serve static files.
 const fs = require('fs');
 
+// Multer setup for file upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const userId = req.params.userId;
+    const uploadPath = path.join(__dirname, `profile_pictures/${userId}`);
+
+    // Ensure the directory exists
+    fs.mkdir(uploadPath, { recursive: true }, (err) => {
+      if (err) {
+        console.error('Error creating directory:', err);
+        return cb(err);
+      }
+      cb(null, uploadPath);
+    });
+  },
+  filename: (req, file, cb) => {
+    cb(null, 'profile_picture.jpg'); // Always save as profile_picture.jpg
+  }
+});
+
+
+const upload = multer({ storage });
+
 // WebSocket connection handling
 // io.on('connection', (socket) => {
 //   console.log('A user connected');
@@ -62,16 +85,12 @@ app.use(express.json());
 app.use(cookieParser())
 
 
-
-
 // -------- START ROUTES --------
 
 // Test route
 app.get('/', (req, res) => {
   res.json("Test")
 })
-
-
 
 ///---ROUTES BEFORE JWT TOKEN----
 
@@ -82,50 +101,17 @@ app.use('/logout', require('./routes/logout'));
 app.use('/forgot-password', require('./routes/forgot-password'));
 
 
-
-
 ///ROUTES AFTER JWT TOKEN----
-
-
-
-// Multer setup for file upload
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-   
-    const userId = req.params.userId;
-    console.log("reqpar", req.params)
-    const uploadPath = path.join(__dirname, `profile_pictures/${userId}`);
-console.log("uploadPath", uploadPath)
-    // Ensure the directory exists
-    fs.mkdir(uploadPath, { recursive: true }, (err) => {
-      if (err) {
-        return cb(err);
-      }
-      cb(null, uploadPath);
-    });
-  },
-  filename: (req, file, cb) => {
-    cb(null, 'profile_picture.jpg'); // Always save as profile_picture.jpg
-  }
-});
-
-console.log("storage", storage)
-console.log("storage.destination", storage.destination)
-console.log("storage.filename", storage.filename)
-
-const upload = multer({ storage });
 
 app.use(verifyJWT);
 
 // Endpoint to handle profile picture upload
 app.post('/profile_pictures/:userId', upload.single('profilePicture'), async (req, res) => {
 
-  console.log("req.params", req.params)
   const userId = req.params.userId;
   const profilePicturePath = `profile_pictures/${userId}/profile_picture.jpg`;
 
   try {
-    // Update user's profile_picture in the database
     const updateProfilePictureQuery = `
       UPDATE users
       SET profile_picture = $1
@@ -135,7 +121,6 @@ app.post('/profile_pictures/:userId', upload.single('profilePicture'), async (re
 
     const updateResult = await pool.query(updateProfilePictureQuery, [profilePicturePath, userId]);
 
-    console.log("uR.rc", updateResult.rowCount)
     // Handle successful update
     if (updateResult.rowCount > 0) {
 
@@ -1134,7 +1119,7 @@ app.post("/run/deactivate/:id", async (req, res) => {
 
 app.delete(`/maps/delete/users/:id`, async (req, res) => {
   try {
-console.log("rb", req.body)
+    console.log("rb", req.body)
     const userId = parseInt(req.body.userId);
     const mapId = parseInt(req.body.mapId);
     //     console.log("req. body", req.body)
@@ -1192,7 +1177,7 @@ app.delete(`/rides/delete/users/:id`, async (req, res) => {
 //Remove users from run
 app.delete(`/runs/delete/users/:id`, async (req, res) => {
   try {
-  
+
     const userId = req.body.userId;
     const runId = req.params.id;
 
@@ -1217,55 +1202,55 @@ app.delete(`/runs/delete/users/:id`, async (req, res) => {
 //Delete a user
 app.delete("/user/delete/:id", async (req, res) => {
   try {
-    //  console.log("req bod", req.body)
+     console.log("req bod", req.body)
     // console.log("delete user")
-  
+
     const userToDeleteIsSuperAdmin = req.body.userObject.issuperadmin;
     // console.log(userToDeleteIsSuperAdmin)
 
     if (req.body.loggedInUser.isSuperAdmin && !userToDeleteIsSuperAdmin) {
 
-  // Construct the path to the profile picture folder
-  const uploadPath = path.join(__dirname, `profile_pictures/${req.body.user}`);
+      // Construct the path to the profile picture folder
+      const uploadPath = path.join(__dirname, `profile_pictures/${req.body.user}`);
 
-    // Check if the directory exists
-    if (fs.existsSync(uploadPath)) {
-      // Delete directory recursively
-      fs.rmSync(uploadPath, { recursive: true });
-    }
+      // Check if the directory exists
+      if (fs.existsSync(uploadPath)) {
+        // Delete directory recursively
+        fs.rmSync(uploadPath, { recursive: true });
+      }
 
-   // Delete user from the database
-   const deleteQuery = `
+      // Delete user from the database
+      const deleteQuery = `
    DELETE FROM users
    WHERE id = $1
    RETURNING *
  `;
- const deleteResult = await pool.query(deleteQuery, [req.body.user]);
+      const deleteResult = await pool.query(deleteQuery, [req.body.user]);
 
-        // res.json(deleteFollowRequest.rows[0])
-        if (deleteResult.rowCount > 0) {
-          res.json({ message: 'User and associated profile picture deleted successfully' });
-        } else {
-          res.status(404).json({ error: 'User not found' });
-        }
-
-
+      // res.json(deleteFollowRequest.rows[0])
+      if (deleteResult.rowCount > 0) {
+        res.json({ message: 'User and associated profile picture deleted successfully' });
       } else {
-        res.json("Users can only be deleted by Super Admins")
+        res.status(404).json({ error: 'User not found' });
       }
 
-    } catch (err) {
-      console.error('Error deleting user and profile picture:', err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  })
 
- 
+    } else {
+      res.json("Users can only be deleted by Super Admins")
+    }
+
+  } catch (err) {
+    console.error('Error deleting user and profile picture:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
+
 
 //Activate a user
 app.post("/user/activate/:id", async (req, res) => {
   try {
-     console.log(req.body)
+    console.log(req.body)
     const isLoggedIn = req.body.isUserLoggedIn
     const userId = req.body.userId
 
@@ -1279,7 +1264,7 @@ app.post("/user/activate/:id", async (req, res) => {
         "UPDATE users SET isactive = true, email = REPLACE(email, CONCAT(SUBSTRING(email FROM '^[0-9]+'), '-'), '') WHERE id = $1 RETURNING *",
         [userId]
       );
-      
+
       res.json(activateUser.rows[0])
       // console.log("res.json", activateUser.rows[0])
 
@@ -1301,19 +1286,28 @@ app.post("/user/activate/:id", async (req, res) => {
 //Deactivate a user
 app.post("/user/deactivate/:id", async (req, res) => {
   try {
-//  console.log("req.params user deactivate id", typeof req.params.id)
+    //  console.log("req.params user deactivate id", typeof req.params.id)
     const isLoggedIn = req.body.isUserLoggedIn
     const userId = req.body.userId
     // const userId = req.body.params
 
     if (isLoggedIn) {
 
+          // Construct the path to the profile picture folder
+          const uploadPath = path.join(__dirname, `profile_pictures/${req.body.userId}`);
+
+          // Check if the directory exists
+          if (fs.existsSync(uploadPath)) {
+            // Delete directory recursively
+            fs.rmSync(uploadPath, { recursive: true });
+          }
+
 
       const deactivateUser = await pool.query(
         "UPDATE users SET isactive = false, email = CONCAT(TO_CHAR(CURRENT_TIMESTAMP, 'YYYYMMDDHH24MISSMS'), '-', email) WHERE id = $1 RETURNING *",
         [userId]
       );
-      
+
       res.json(deactivateUser.rows[0])
       // console.log("res.json", deactivateUser.rows[0])
 
@@ -1412,9 +1406,9 @@ app.get("/maps/", async (req, res) => {
       WHERE map_users.user_id = $1 
       AND maps.isactive = true 
       ORDER BY id DESC`
-      
 
-    
+
+
       ,
 
 
@@ -2170,8 +2164,8 @@ app.post("/rides/addmessage", async (req, res) => {
 
       const insertedMessage = await pool.query(insertMessageQuery);
 
-  // Emit the new message to all connected clients via websocket
-  io.emit('message', insertedMessage.rows[0]);
+      // Emit the new message to all connected clients via websocket
+      io.emit('message', insertedMessage.rows[0]);
 
       // console.log(insertedMessage.rows); // Logging the inserted message
 
@@ -2425,7 +2419,7 @@ app.post("/rides/message/ok/:messageId", async (req, res) => {
 app.post("/runs/message/ok/:messageId", async (req, res) => {
   try {
 
-      // console.log("req.params", req.params)
+    // console.log("req.params", req.params)
 
     const messageId = req.params.messageId
 
