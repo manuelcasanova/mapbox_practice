@@ -1,6 +1,6 @@
 //Styles
 import '../styles/UserProfile.css'
-import { faUser, faImage, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //Hooks
@@ -11,12 +11,12 @@ import axios from 'axios';
 
 //Context
 // import { useAuth } from "./Context/AuthContext";
-import useAuth from '../hooks/useAuth';
+// import useAuth from '../hooks/useAuth';
 import useLogout from "../hooks/useLogout";
 
 //Util functions
 import { deactivateUser } from "./util_functions/user_functions/DeleteUser";
-import { updateUsername } from "./util_functions/user_functions/UpdateUsername";
+// import { updateUsername } from "./util_functions/user_functions/UpdateUsername";
 
 //Components
 import UserEditPassword from "./authentication/UserEditPassword";
@@ -225,7 +225,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
                   </div>
                 ) : (
                   <div className="user-profile-default-icon" onClick={() => navigate('/user/profile')}>
-                    {/* <FontAwesomeIcon icon={faUser} /> */}
+           
                     <FontAwesomeIcon icon={faImage} onClick={() => setShowUploadFile(prev => !prev)} />
                     <FontAwesomeIcon icon={faPlus} onClick={() => setShowUploadFile(prev => !prev)} />
                   </div>

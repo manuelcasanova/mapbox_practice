@@ -139,7 +139,7 @@ const RidesUser = () => {
     return () => {
       isMounted = false; // Cleanup function to handle unmounting
     };
-  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages, auth, BACKEND]);
+  }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages, auth, BACKEND, axiosPrivate]);
 
 
   useEffect(() => {
@@ -163,7 +163,8 @@ const RidesUser = () => {
 
     fetchUserRides();
   }, [userId,
-    BACKEND
+    BACKEND,
+    axiosPrivate
     // , addToMyRides
   ]);
 

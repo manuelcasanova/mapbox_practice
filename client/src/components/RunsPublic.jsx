@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
@@ -175,7 +174,7 @@ const RunsPublic = () => {
     };
   }, [
     auth,
-    filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, reloadMessages, BACKEND]);
+    filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, reloadMessages, BACKEND, axiosPrivate]);
 
   useEffect(() => {
     const fetchUserRuns = async () => {
@@ -203,7 +202,7 @@ const RunsPublic = () => {
     };
 
     fetchUserRuns();
-  }, [userId, addToMyRuns, auth, BACKEND]);
+  }, [userId, addToMyRuns, auth, BACKEND, axiosPrivate]);
 
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)

@@ -1250,7 +1250,7 @@ app.delete("/user/delete/:id", async (req, res) => {
 //Activate a user
 app.post("/user/activate/:id", async (req, res) => {
   try {
-    console.log(req.body)
+    // console.log(req.body)
     const isLoggedIn = req.body.isUserLoggedIn
     const userId = req.body.userId
 
