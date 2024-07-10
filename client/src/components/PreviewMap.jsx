@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import PreviewMapChild from "./PreviewMapChild";
-import axios from "axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
 // import { useAuth } from "./Context/AuthContext";
@@ -10,9 +9,11 @@ import GetBrowserLocation from "./util_functions/GetBrowserLocation";
 
 
 export default function PreviewMap({ mapId }) {
-
+// console.log("mapid", mapId)
   const BACKEND = process.env.REACT_APP_API_URL;
   const axiosPrivate = useAxiosPrivate()
+  const [error, setError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 // console.log("mapId in PreviewMap", mapId)
   const { auth } = useAuth();
 
@@ -28,22 +29,36 @@ export default function PreviewMap({ mapId }) {
   const [mapCreatedBy, setMapCreatedBy] = useState(null)
   let id = mapId;
 
-  const getMap = async () => {
+useEffect(() => {
 
+  const getMap = async () => {
+    setIsLoading(true);
     try {
       const response = await axiosPrivate.get(`${BACKEND}/maps/${id}`);
-
+// console.log("response.data", response.data)
       const responseData = Object.values(response.data)[0]
+      // console.log("responseData", responseData)
 
       setMapTitle(responseData?.title)
       setMapCreatedBy(responseData?.createdby)
 
     } catch (err) {
-      console.error(err)
+      setError(err.message); // Set error state if request fails
+    } finally {
+      setIsLoading(false); // Whether success or failure, loading is done
     }
   }
 
-  getMap()
+  if (mapId) {
+    getMap();
+  }
+
+  return () => {
+    // Clean up if needed
+  };
+
+}, [mapId, id, axiosPrivate, BACKEND])
+
 
   /////GET COORDINATES
 
@@ -63,7 +78,7 @@ export default function PreviewMap({ mapId }) {
     };
   
     getMapPoints();
-  }, [mapId, id]);
+  }, [mapId, id, axiosPrivate, BACKEND]);
 
   useEffect(() => {
     //  console.log("coords", coords)
@@ -83,6 +98,14 @@ return null
 
   /////GET COORDIANTES - END
 
+
+  if (isLoading) {
+    return <div className="loading"></div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     //Ride is shown centered in map

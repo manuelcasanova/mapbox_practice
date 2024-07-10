@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
@@ -79,7 +78,7 @@ export default function CreateRide() {
     return () => {
       controller.abort();
     };
-  }, [userId, setMapId]);
+  }, [userId, setMapId, BACKEND, axiosPrivate]);
 
   useEffect(() => {
     // console.log("isLoading:", isLoading);
