@@ -12,7 +12,6 @@ const BACKEND = process.env.REACT_APP_API_URL;
 const REGISTER_URL = `${BACKEND}/register`;
 
 const Register = () => {
-    const BACKEND = process.env.REACT_APP_API_URL;
     const userRef = useRef();
     const errRef = useRef();
 
@@ -21,7 +20,7 @@ const Register = () => {
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
-// console.log("validname", validName)
+
     const [email, setEmail] = useState('@example.com');
     const [validEmail, setValidEmail] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
@@ -77,11 +76,7 @@ const Register = () => {
                     withCredentials: true
                 }
             );
-            // TODO: remove console.logs before deployment
-            // console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response))
             setSuccess(true);
-            //clear state and controlled inputs
             setUser('');
             setEmail('');
             setPwd('');
@@ -104,7 +99,6 @@ const Register = () => {
                 <section>
                     <div className="level-title">Success!</div>
                     <p>
-                        {/* <a href="https://www.salsasteps.ca/login">Sign In</a> */}
                         <Link className="sign-link" to="/login">Sign In</Link>
                     </p>
                 </section>
@@ -119,7 +113,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
                         </label>
                         <input
-                        className="register-input"
+                            className="register-input"
                             type="text"
                             id={user}
                             ref={userRef}
@@ -127,9 +121,9 @@ const Register = () => {
                             onChange={(e) => {
                                 const userInput = e.target.value;
                                 if (userInput.length <= 255) {
-                                  setUser(userInput);
+                                    setUser(userInput);
                                 }
-                              }}
+                            }}
                             value={user}
                             required
                             aria-invalid={validName ? "false" : "true"}
@@ -151,11 +145,10 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
                         </label>
                         <input
-                           className="register-input"
+                            className="register-input"
                             type="text"
                             id={email}
                             autoComplete="off"
-                            // onChange={(e) => setEmail(e.target.value)}
 
 
                             onChange={(e) => {
@@ -163,7 +156,7 @@ const Register = () => {
                                 if (userInput.length <= 100) {
                                     setEmail(e.target.value.toLowerCase())
                                 }
-                              }}
+                            }}
 
                             value={email}
                             required
@@ -183,12 +176,12 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
                         </label>
                         <input
-                           className="register-input"
+                            className="register-input"
                             type="password"
                             id={pwd}
                             onChange={(e) => {
                                 setPwd(e.target.value)
-                                setShowPwdNote(!!e.target.value); 
+                                setShowPwdNote(!!e.target.value);
                             }
                             }
                             value={pwd}
@@ -212,7 +205,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
                         </label>
                         <input
-                           className="register-input"
+                            className="register-input"
                             type="password"
                             id="confirm_pwd"
                             onChange={(e) => setMatchPwd(e.target.value)}
@@ -232,9 +225,9 @@ const Register = () => {
                     </form>
                     <div className='login-questions'>
                         Already registered?<br />
-                       
-                            <Link className="sign-link"  to="/login">Sign In</Link>
-                   
+
+                        <Link className="sign-link" to="/login">Sign In</Link>
+
                     </div>
                 </section>
             )}

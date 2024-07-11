@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const fetchFlaggedRunMessages = async ({auth}) => {
-  //  console.log("auth", auth)
+const fetchFlaggedRunMessages = async ({ auth }) => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const isAdmin = auth.isAdmin
   try {
@@ -9,15 +8,14 @@ const fetchFlaggedRunMessages = async ({auth}) => {
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
     const response = await axiosPrivate.get(`${BACKEND}/runs/messages/flagged`, {
-    params: {
-      isAdmin: isAdmin
-    }
-  });
-    //  console.log("response.data", response.data)
+      params: {
+        isAdmin: isAdmin
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching flagged messages:', error);

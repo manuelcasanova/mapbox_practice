@@ -9,7 +9,7 @@ const fetchMaps = async (auth, setMaps, setAddToMyMaps, setIsLoading, setError, 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 

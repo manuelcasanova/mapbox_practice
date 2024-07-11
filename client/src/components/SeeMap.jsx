@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import SeeMapChild from "./SeeMapChild";
-import axios from "axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
-// import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 
 export default function SeeMap() {
@@ -17,7 +15,7 @@ export default function SeeMap() {
   const { id } = useParams();
   const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate()
-  
+
   const [coords, setCoords] = useState([
     [49.283255, -123.119930]
   ]);
@@ -31,10 +29,9 @@ export default function SeeMap() {
         setLoading(true);
       } catch (err) {
         console.error(err);
-        // Handle error (e.g., show error message)
       }
     };
-  
+
     const getMap = async () => {
       try {
         const response = await axiosPrivate.get(`${BACKEND}/maps/${id}`);
@@ -44,15 +41,14 @@ export default function SeeMap() {
         setMapCreatedBy(responseData.createdby);
       } catch (err) {
         console.error(err);
-        // Handle error (e.g., show error message)
       }
     };
-  
+
     getMapPoints();
     getMap();
-  
-  }, [id]); // Assuming id is the only external dependency
-  
+
+  }, [id]);
+
 
   let rideCoords = [BrowserCoords];
 
@@ -64,27 +60,27 @@ export default function SeeMap() {
   }
 
   return (
-    
-<>
-  {auth.accessToken !== undefined ? (
-    mapId !== null && mapId !== undefined ? (
-      <SeeMapChild
-        coords={coords}
-        setCoords={setCoords}
-        rideCoords={rideCoords}
-        mapId={mapId}
-        mapTitle={mapTitle}
-        mapCreatedBy={mapCreatedBy}
-      />
-    ) : (
-      <div>Map with id {id} does not exist or cannot be rendered.</div>
-    )
-  ) : (
-    <>Log in to see the map</>
-  )}
-</>
 
-  
+    <>
+      {auth.accessToken !== undefined ? (
+        mapId !== null && mapId !== undefined ? (
+          <SeeMapChild
+            coords={coords}
+            setCoords={setCoords}
+            rideCoords={rideCoords}
+            mapId={mapId}
+            mapTitle={mapTitle}
+            mapCreatedBy={mapCreatedBy}
+          />
+        ) : (
+          <div>Map with id {id} does not exist or cannot be rendered.</div>
+        )
+      ) : (
+        <>Log in to see the map</>
+      )}
+    </>
+
+
   );
-   
+
 }

@@ -11,21 +11,18 @@ const fetchLoginHistory = async (auth, setLoginHistory, setIsLoading, setError, 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
-    // console.log("fetching loging history")
     const response = await axiosPrivate.get(`${BACKEND}/users/loginhistory`, { 
       params: {
         user: auth 
       }
     });
     if (isMounted) {
-      // console.log("rd", response.data)
     setLoginHistory(response.data)
     setIsLoading(false)
-    // console.log("Login History fetched")
       setIsLoading(false);
     }
   } catch (error) {

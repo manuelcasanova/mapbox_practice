@@ -1,4 +1,3 @@
-import axios from "axios";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
@@ -23,14 +22,6 @@ export default function ReportedRunNotifications() {
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
 
-  // console.log("reportedMessages", reportedMessages)
-  // console.log("reportedRunNotifications", reportedRunNotifications)
-
-
-  // useEffect(() => {
-  //   console.log("reportedMessages", reportedMessages)
-  // }, [reportedMessages])
-
   useEffect(() => {
     let isMounted = true;
 
@@ -42,11 +33,9 @@ export default function ReportedRunNotifications() {
           setIsLoading(false);
           return;
         }
-
         
         setIsLoading(true);
         const reportedMessages = await fetchReportedRunMessages({ auth });
-        //  console.log("reportedMessages", reportedMessages);
         if (isMounted) {
           setReportedRunMessages(reportedMessages);
           setIsLoading(false);
@@ -60,11 +49,9 @@ export default function ReportedRunNotifications() {
     fetchMessages();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false; 
     };
   }, [messageFlagged, messageReported]);
-
-  // console.log("auth", auth)
 
   useEffect(() => {
     let isMounted = true;
@@ -72,7 +59,7 @@ export default function ReportedRunNotifications() {
     fetchReportedRunNotifications(auth, setReportedRunNotifications, setIsLoading, setError, isMounted);
 
     return () => {
-      setIsMounted(false); // Cleanup function to handle unmounting
+      setIsMounted(false); 
     };
   }, [auth]);
 
@@ -80,7 +67,6 @@ export default function ReportedRunNotifications() {
     try {
 
       if (!auth.isAdmin) {
-       
         setIsLoading(false);
         return;
       }
@@ -139,19 +125,6 @@ export default function ReportedRunNotifications() {
           )}
         </>
       )}
-
-{/* {auth.isAdmin && reportedRunNotifications.length === 0 && reportedMessages.length > 0 && (
-  <div>
-    {console.log("2nd")}
-    <button onClick={() => navigate(`/rides/messages/reported`)}>Pending Reported Messages</button>
-  </div>
-)} */}
-
-
-
-
-
-
     </>
   );
 }

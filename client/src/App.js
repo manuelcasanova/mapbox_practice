@@ -55,9 +55,6 @@ const Layout = ({ children, rideApp, setRideApp, fromButton, setFromButton, setR
 
   const { auth } = useAuth()
 
-
-
-
   const isAdmin = auth.isAdmin
 
   return (
@@ -118,16 +115,12 @@ function App() {
 
   const { auth } = useAuth()
 
-  // console.log("auth in app", auth)
-
   const [fromButton, setFromButton] = useState(false)
   const [rideApp, setRideApp] = useState(true)
-  //before (). It worked well until PersistLogin on reload page
-
   const [showNavsidebar, setShowNavsidebar] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
   const BACKEND = process.env.REACT_APP_API_URL;
-  // console.log("prof pic in ap", profilePicture)
+
 
 
   useEffect(() => {
@@ -146,7 +139,6 @@ function App() {
   }, [auth.profilePicture, BACKEND]);
 
   useEffect(() => {
-    // console.log("ride app in app.js", rideApp)
   }, [rideApp, profilePicture])
 
 
@@ -159,12 +151,10 @@ function App() {
   };
 
   const handleSetRideApp = () => {
-    // Function to update the state in the parent component
     setRideApp(true)
   };
 
   const handleSetRunApp = () => {
-    // Function to update the state in the parent component
     setRideApp(false)
   };
 
@@ -178,7 +168,6 @@ function App() {
         {/* {showNavsidebar && <Navsidebar setFromButton={setFromButton}/>} */}
 
         <Routes>
-          {/* Route for the Welcome component */}
           <Route exact path="/" element={<Welcome rideApp={rideApp} handleSetRideApp={handleSetRideApp} handleSetRunApp={handleSetRunApp} />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login rideApp={rideApp} setFromButton={setFromButton} setRideAppUndefined={setRideAppUndefined} />} />

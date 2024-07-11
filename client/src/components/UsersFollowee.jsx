@@ -1,6 +1,5 @@
 //Hooks
 import React, { useState, useEffect } from 'react';
-// import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 import { useNavigate } from "react-router-dom";
 
@@ -27,18 +26,9 @@ const Followee = () => {
   const { auth } = useAuth();
   const userLoggedInObject = auth
   const isLoggedIn = auth.loggedIn
-  // console.log("user in Users Followee", user.id)
   const BACKEND = process.env.REACT_APP_API_URL;
 
   const userLoggedin = auth.userId
-
-  // console.log("mutedUsers in UsersFollowee", mutedUsers)
-  // console.log("users in UsersFollowee", users)
-  // console.log("followers in UsersFollowee", followers)
-
-  useEffect(() => {
-    // console.log("followers in UsersFollowee", followers)
-  })
 
 
   useEffect(() => {
@@ -48,7 +38,7 @@ const Followee = () => {
     fetchFollowee(auth, setFollowers, setIsLoading, setError, isMounted)
     fetchMutedUsers(auth, userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
       controller.abort()
     };
   }, [auth, hasMutedChanges, isLoggedIn, userLoggedin]);
@@ -104,11 +94,6 @@ const Followee = () => {
                   )
                 );
 
-
-                // const pendingAcceptMe = followers.some(follower =>
-                //   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
-                // );
-
                 const areFollowingMe = followers.some(follower =>
                   follower.followee_id === userLoggedin &&
                   follower.follower_id === user.id &&
@@ -146,7 +131,7 @@ const Followee = () => {
                         <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`} alt={user.username}
                           onError={(e) => {
                             e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`;
                           }}
                         />
                       </div>
@@ -163,7 +148,7 @@ const Followee = () => {
                           alt={user.username}
                           onError={(e) => {
                             e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                            e.target.src = `${BACKEND}/profile_pictures/user.jpg`;
                           }}
                         />
                       </div>}

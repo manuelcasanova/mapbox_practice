@@ -2,11 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
-//Libraries
-import axios from 'axios';
-
-//Context
-// import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 
 //Util functions
@@ -23,11 +18,8 @@ const UsersAdmin = () => {
   const [showLargePicture, setShowLargePicture] = useState(null)
   const [refresh, setRefresh] = useState(false)
   const axiosPrivate = useAxiosPrivate()
-  //  console.log("users", users)
 
   const loggedInUser = auth;
-  //  console.log("loggedInUser in Users Admin", loggedInUser)
-
 
   useEffect(() => {
     let isMounted = true;
@@ -63,7 +55,7 @@ const UsersAdmin = () => {
     fetchData();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [auth, refresh]);
 
@@ -122,9 +114,7 @@ const UsersAdmin = () => {
               {users.map(user => {
 
                 const isAdmin = user.isadmin
-                // console.log("isadmin,", isAdmin)
 
-                // Render the JSX elements, including the formatted date
                 return (
 
 

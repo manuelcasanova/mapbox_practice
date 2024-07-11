@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 
 //Util functions
@@ -23,17 +22,13 @@ const MutedUsers = () => {
   const [hasMutedChanges, setHasMutedChanges] = useState(false);
   const [showInfo, setShowInfo] = useState(false)
 
-  // console.log("users in UsersMuted", users)
-  // console.log("mutedUsers in UsersMuted", mutedUsers)
-  // console.log("has muted changes", hasMutedChanges)
-
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
     fetchMutedUsers(auth, userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [userLoggedin, hasMutedChanges]);
 
@@ -49,10 +44,6 @@ const MutedUsers = () => {
     .filter(mutedUser => mutedUser.muter === userLoggedin)
     .map(mutedUser => users.find(user => user.id === mutedUser.mutee));
 
-  // console.log("mutedUserObjects in UsersMuted.jsx", mutedUserObjects)
-
-
-
   if (isLoading) {
     return <div className="loading"></div>;
   }
@@ -60,7 +51,6 @@ const MutedUsers = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-
 
   return (
     <div className='users-all-container'>
@@ -77,14 +67,14 @@ const MutedUsers = () => {
             <div className="users-title">Muted Users</div>
             <button
               className='info-button'
-            onClick={handleShowInfo}
+              onClick={handleShowInfo}
             >i</button>
 
           </div>
 
           {showInfo && (
-  <div className='info-message'>Users you've muted won't have access to view your maps, rides, or runs. They also won't be able to locate you in user lists, followers, or following lists. Similarly, you won't be able to find them or view their maps or rides.</div>
-)} 
+            <div className='info-message'>Users you've muted won't have access to view your maps, rides, or runs. They also won't be able to locate you in user lists, followers, or following lists. Similarly, you won't be able to find them or view their maps or rides.</div>
+          )}
 
           {mutedUserObjects.map(user => (
             <div
@@ -96,7 +86,7 @@ const MutedUsers = () => {
                 <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
                   onError={(e) => {
                     e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                    e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                    e.target.src = `${BACKEND}/profile_pictures/user.jpg`;
                   }}
                 />
               </div>
@@ -112,7 +102,7 @@ const MutedUsers = () => {
                   src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
                   onError={(e) => {
                     e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                    e.target.src = `${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
+                    e.target.src = `${BACKEND}/profile_pictures/user.jpg`;
                   }}
                 />
               </div>}

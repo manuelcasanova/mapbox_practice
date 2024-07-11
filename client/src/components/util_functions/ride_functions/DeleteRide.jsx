@@ -7,17 +7,13 @@ const BACKEND = process.env.REACT_APP_API_URL;
 export const deactivateRide = async (id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated) => {
 
   try {
-    // console.log("setRidestatusupdated", setRideStatusUpdated)
-    // console.log("auth in deactivateRide", auth)
     const userId = auth.userId;
     const rideCreatedBy = rides.find(ride => ride.id === id).createdby;
-
-    
 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
@@ -25,14 +21,13 @@ export const deactivateRide = async (id, auth, rides, setRides, setConfirmDelete
       data: { userId, rideCreatedBy, isRideCreatedByUser, auth }
     });
 
-   if (!auth.isAdmin) {
-    setRides(prevRides => {
-      // Filter out the ride that has been removed
-      return prevRides.filter(ride => ride.id !== id);
-    });
-   } else {
-    setRideStatusUpdated(prev => !prev)
-   }
+    if (!auth.isAdmin) {
+      setRides(prevRides => {
+        return prevRides.filter(ride => ride.id !== id);
+      });
+    } else {
+      setRideStatusUpdated(prev => !prev)
+    }
 
 
     setConfirmDelete(false);
@@ -48,7 +43,7 @@ export const removeFromMyRides = async (id, user, rides, setRides, auth) => {
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
@@ -68,7 +63,7 @@ export const deleteRide = async (id, user, setRides) => {
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${user?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${user?.accessToken}`
       }
     });
 

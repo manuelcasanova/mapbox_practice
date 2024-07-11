@@ -1,4 +1,3 @@
-import axios from 'axios';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 
 import { faBellSlash, faBell } from "@fortawesome/free-solid-svg-icons";

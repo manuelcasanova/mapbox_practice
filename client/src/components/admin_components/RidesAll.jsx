@@ -1,16 +1,12 @@
 //Libraries
-import axios from 'axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 //Hooks
 import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 
-
 import { faSliders, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-
 
 //Util functions
 import { formatDate } from "../util_functions/FormatDate";
@@ -19,7 +15,6 @@ import fetchRideMessages from '../util_functions/messaging/FetchRideMessages';
 import MappedMessage from '../util_functions/messaging/MappedMessage';
 import { deactivateRide } from '../util_functions/ride_functions/DeleteRide';
 import { deleteRide } from '../util_functions/ride_functions/DeleteRide';
-
 
 //Components
 import PreviewMap from '../PreviewMap';
@@ -38,10 +33,8 @@ const RidesAll = () => {
   const [showMap, setShowMap] = useState(null)
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
-  // const [showUsers, setShowUsers] = useState(null)
   const [ridesAllComponentMount, setRidesAllComponentMount] = useState(false)
   const userId = auth.userId
-  // const userIsLoggedIn = auth.loggedIn;
   const [reloadMessages, setReloadMessages] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
 
@@ -67,7 +60,6 @@ const RidesAll = () => {
     const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
     const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
 
-    // Return the desired output format
     return `${formattedDate} at ${formattedTime}`;
   };
 
@@ -97,13 +89,9 @@ const RidesAll = () => {
 
   const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
 
-  // console.log("filtered Rides in Rides All", filteredRides)
-
   const onFilter = (filters) => {
-    // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
     setFilteredRides(filters)
   };
-  // console.log("ridesl all", rides)
 
   useEffect(() => {
     let isMounted = true;
@@ -149,11 +137,9 @@ const RidesAll = () => {
     fetchData();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
-  }, [
-    // auth, 
-    filteredRides, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages, BACKEND, auth]);
+  }, [filteredRides, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages, BACKEND, auth]);
 
 
   const handleShowFilter = () => {
@@ -198,20 +184,13 @@ const RidesAll = () => {
             {auth.accessToken !== undefined && auth.isAdmin ? (
               <div className='rides-public-mapped'>
                 {rides.map(ride => {
-                  // Extract the date formatting logic here
                   const originalDate = ride.starting_date;
                   const formattedDate = formatDate(originalDate);
 
-                  // console.log("ride", ride)
-
-                  // Render the JSX elements, including the formatted date
                   return (
                     <React.Fragment key={ride.id}>
 
                       <div className='rides-public-ride' key={ride.id} >
-
-
-
                         <div className='rides-public-ride-top-buttons'>
 
                           <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
@@ -237,7 +216,6 @@ const RidesAll = () => {
                           {ride.isactive && <button className="red-button small-button" onClick={() => { deactivateRide(ride.id, auth, rides, setRides, setConfirmDelete, isRideCreatedByUser, setRideStatusUpdated) }}>Inactivate</button>}
                         </div>
                         <div >Name: {ride.name}</div>
-
                         <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
                         <div>Time: {ride.starting_time}</div>
                         <div>Distance: {ride.distance} km</div>
@@ -274,7 +252,7 @@ const RidesAll = () => {
                                 )}
 
                                 {ride.messages.map(message => (
-                                   <React.Fragment key={message.id}>
+                                  <React.Fragment key={message.id}>
 
                                     {
                                       message.status === 'deleted' &&
@@ -308,11 +286,9 @@ const RidesAll = () => {
 
                                           {message.status === 'flagged' && (
                                             <React.Fragment key={message.id}>
-                                              {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
                                               <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
-                                              </React.Fragment>
+                                            </React.Fragment>
                                           )}
-
 
                                           {message.status !== 'flagged' && <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
                                         </div>
@@ -320,35 +296,20 @@ const RidesAll = () => {
                                     }
                                   </React.Fragment>
                                 )
-
-
-
-
-
                                 )}
                               </div>
                             )}
 
-
-
-
                           </React.Fragment>}
-
-
-
-
-
-                        {showMap === ride.id && 
-                         <React.Fragment key={ride.id}>
-                          {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
+                        {showMap === ride.id &&
+                          <React.Fragment key={ride.id}>
+                            {ride.map && ride.map !== null ? <PreviewMap mapId={ride.map} /> : <div>This ride has no map. The map might have been deleted by the owner.</div>}
                           </React.Fragment>
                         }
                       </div>
                     </React.Fragment>
                   );
                 })}
-
-
               </div>
             ) : (
               <p>Please log in as an administrator to see rides.</p>

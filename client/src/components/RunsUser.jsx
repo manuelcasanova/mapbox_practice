@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { formatDate } from "./util_functions/FormatDate";
 import PreviewMap from './PreviewMap';
-// import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 import RunsFilter from './RunsFilter'
 
@@ -49,9 +46,6 @@ const RunsUser = () => {
 
   const [filteredRuns, setFilteredRuns] = useState(defaultFilteredRuns);
 
-
-
-  // const [filteredRuns, setFilteredRuns] = useState();
   const [addToMyRuns, setAddToMyRuns] = useState([])
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
@@ -63,25 +57,14 @@ const RunsUser = () => {
 
   const [runStatusUpdated, setRunStatusUpdated] = useState(false)
 
-  // console.log("runs", runs)
-  // console.log("filtered runs", filteredRuns)
-
-  // const [addToMyRuns, setAddToMyRuns] = useState([])
   const { auth } = useAuth();
   const userIsLoggedIn = auth.loggedIn;
   const id = auth ? auth.userId : null;
   const userId = id
-  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Run followed by
+  const [users, setUsers] = useState([]);
   const [confirmDelete, setConfirmDelete] = useState(false)
-  // const navigate = useNavigate();
 
-
-  // console.log("runs", runs)
-
-  // const isRunCreatedByUser = runs.find(run => run.createdby === auth.userId) !== undefined;
-  // console.log("isrcbyser", isRunCreatedByUser)
   const onFilter = (filters) => {
-    // Here you can apply the filters to your data (e.g., runs) and update the state accordingly
     setFilteredRuns(filters)
   };
 
@@ -90,7 +73,7 @@ const RunsUser = () => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [auth]);
 
@@ -113,7 +96,6 @@ const RunsUser = () => {
             setIsLoading(false);
 
 
-            // Fetch messages for each run
             const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id, auth));
             const runMessages = await Promise.all(runMessagesPromises);
             setRuns(prevRuns => {
@@ -139,11 +121,11 @@ const RunsUser = () => {
     if (id !== null && id !== undefined) {
       fetchData();
     } else {
-      setIsLoading(false); // If user is not logged in, set isLoading to false immediately
+      setIsLoading(false);
     }
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [id, filteredRuns, messageSent, messageDeleted, messageReported, messageFlagged, runStatusUpdated, reloadMessages, auth, BACKEND]);
 
@@ -156,9 +138,7 @@ const RunsUser = () => {
             userId
           }
         });
-        // Check if the response data is not an empty array before updating the state
         if (Array.isArray(response.data) && response.data.length > 0) {
-          // console.log(response.data)
           setUserRuns(response.data);
         } else {
           setUserRuns([])
@@ -171,7 +151,6 @@ const RunsUser = () => {
     fetchUserRuns();
   }, [userId,
     BACKEND
-    // , addToMyRuns
   ]);
 
 
@@ -184,14 +163,11 @@ const RunsUser = () => {
         data: { userId }
       });
       setRuns(runs.filter(run => run.id !== id));
-      // console.log(`Run with ${id} id deleted`);
-      // navigate("/");
     } catch (error) {
       console.error(error);
     }
   };
 
-  // Function to format the current date as 'yyyy-mm-dd'
   function getCurrentDateFormatted() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -209,14 +185,6 @@ const RunsUser = () => {
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)
   }
-
-  // const handleShowDetails = () => {
-  //   setShowDetails(prev => !prev)
-  // }
-
-  // const handleShowMap = () => {
-  //   setShowMap(prev => !prev)
-  // }
 
   const handleReloadMessages = () => {
     setReloadMessages(prev => !prev)
@@ -330,24 +298,6 @@ const RunsUser = () => {
                     <div>Distance: {run.distance} km</div>
                     <div>Speed: {run.speed} km/h</div>
 
-                    {/* {!showDetails && (
-                      <div className='rides-public-ride-top-buttons'>
-                        <button className='orange-button' onClick={handleShowMap}>{showMap ?
-                          <div className='map-crossed-out'>
-                            <FontAwesomeIcon icon={faMapLocation} />
-                            <div className='cross-map'></div>
-                          </div>
-
-                          :
-                          <FontAwesomeIcon icon={faMapLocation} />
-                        }</button>
-
-                        <button className='orange-button' onClick={handleShowDetails}>{showDetails ?
-                          <FontAwesomeIcon icon={faCaretUp} />
-                          :
-                          <FontAwesomeIcon icon={faCaretDown} />
-                        }</button>
-                      </div>)} */}
 
                     {showDetails === run.id && <>
                       <div>Details: {run.details}</div>
@@ -399,7 +349,7 @@ const RunsUser = () => {
                                   .filter(userRun => userRun.ride_id === run.id) // Filter userRuns for the specific ride
                                   .map(userRun => {
                                     const user = users.find(user => user.id === userRun.user_id);
-                                    return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                    return user ? user.username : "";
                                   })
                                   .join(', ')
                                 }
@@ -420,28 +370,28 @@ const RunsUser = () => {
                         <AddRunMessage userId={userId} userIsLoggedIn={userIsLoggedIn} runId={run.id} setMessageSent={setMessageSent} />
 
                         <div className='refresh-messages-and-info'>
-                                <button 
-                                className='orange-button button-small'
-                                onClick={handleReloadMessages}
-                                >Update messages</button>
-                                <button
-                                className='info-button'
-                                onClick={handleShowInfo}
-                                >i</button>
-                                </div>
+                          <button
+                            className='orange-button button-small'
+                            onClick={handleReloadMessages}
+                          >Update messages</button>
+                          <button
+                            className='info-button'
+                            onClick={handleShowInfo}
+                          >i</button>
+                        </div>
 
-{showInfo && (
-  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
-)}
+                        {showInfo && (
+                          <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+                        )}
 
                         {run.messages && (
                           <div>
                             {run.messages.map(message => (
 
-<React.Fragment key={message.id}>
+                              <React.Fragment key={message.id}>
                                 {message.status === 'deleted' &&
                                   <div
-                                  key={`${message.createdat}-${message.createdby}`}
+                                    key={`${message.createdat}-${message.createdby}`}
                                     className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
                                       ? 'my-comment'
                                       : 'their-comment'
@@ -473,7 +423,7 @@ const RunsUser = () => {
                                     {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
                                   </div>
                                 )}
-                               </React.Fragment >
+                              </React.Fragment >
 
 
 

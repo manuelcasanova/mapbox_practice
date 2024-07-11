@@ -14,7 +14,6 @@ export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMess
   const inputRef = useRef(null);
 
   useEffect(() => {
-    // Focus on the input field when the component mounts
     inputRef.current.focus();
   }, []);
 
@@ -22,35 +21,33 @@ export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMess
     e.preventDefault();
 
     if (message.trim() === '') {
-      // Display an error message or take appropriate action
       setError('Please enter a message before sending.');
-      return; // Exit the function early
+      return;
     }
 
     try {
       const response = await axiosPrivate.post(`${BACKEND}/rides/addmessage`, {
-          message,
-          userId,
-          userIsLoggedIn,
-          rideId
+        message,
+        userId,
+        userIsLoggedIn,
+        rideId
       },
-    
-    {      headers: {
-      "Content-Type": "application/json",
-    },}
-    );
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
 
       if (!response.data) {
         throw new Error("Failed to add message");
       }
       else {
-        // Reset message input field and display success message
         setMessage("");
         setError("");
         setMessageSent(prev => !prev)
-        // console.log("Message sent successfully!");
-        // You might want to show a success message to the user here
       }
     }
     catch (error) {
@@ -63,33 +60,33 @@ export default function AddRideMessage({ userId, userIsLoggedIn, rideId, setMess
     } finally {
       setIsLoading(false); // Set loading to false regardless of success or failure
     }
-};
+  };
 
-const handleMessageChange = (e) => {
-  const inputValue = e.target.value;
-  if (inputValue.length < 255) {
-    setMessage(inputValue);
-  }
-};
-const handleKeyDown = (e) => {
-  if (e.key === 'Enter') {
-    handleSubmit(e);
-  }
-};
+  const handleMessageChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue.length < 255) {
+      setMessage(inputValue);
+    }
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
 
-return (
-  <div className="add-ride-message-container">
-    <textarea 
-      placeholder="Aa"
-    wrap="soft"
-    className="add-ride-message-input"
-    ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
-      handleKeyDown} />
-    <button 
-    className="orange-button small-button"
-    onClick={handleSubmit}
-    >Send</button>
-     {error && <div>{error}</div>}
-  </div>
-);
+  return (
+    <div className="add-ride-message-container">
+      <textarea
+        placeholder="Aa"
+        wrap="soft"
+        className="add-ride-message-input"
+        ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
+          handleKeyDown} />
+      <button
+        className="orange-button small-button"
+        onClick={handleSubmit}
+      >Send</button>
+      {error && <div>{error}</div>}
+    </div>
+  );
 }

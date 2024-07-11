@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 import PreviewMap from './PreviewMap';
@@ -29,7 +28,7 @@ const MapsPublic = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyMaps, setAddToMyMaps] = useState([])
   const [userMaps, setUserMaps] = useState([]);
-  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in createdby
+  const [users, setUsers] = useState([]);
   const [showAllMaps, setShowAllMaps] = useState(false)
   const { auth } = useAuth();
   const BACKEND = process.env.REACT_APP_API_URL;
@@ -41,47 +40,37 @@ const MapsPublic = () => {
     userName: 'all',
     title: 'all'
   }
-  
-    const [filteredMaps, setFilteredMaps] = useState(defaultFilteredMaps);
 
-// console.log("filtered maps", filteredMaps)
+  const [filteredMaps, setFilteredMaps] = useState(defaultFilteredMaps);
 
-    const onFilter = (filters) => {
-      setFilteredMaps(filters)
-    };
 
-  // const handleShowMaps = () => {
-  //   setShowAllMaps(prev => !prev)
-  // }
+  const onFilter = (filters) => {
+    setFilteredMaps(filters)
+  };
 
   const handleShowThisMap = (mapId) => {
     if (selectedMapId === mapId) {
-      setSelectedMapId(null); // Hide the map if already shown
+      setSelectedMapId(null);
     } else {
-      setSelectedMapId(mapId); // Show the map
+      setSelectedMapId(mapId);
     }
   };
 
-  // console.log("maps", maps)
-  // console.log("user in MapsPublic", user)
   const userId = auth.userId
   const userIsLoggedIn = auth.loggedIn;
-  // const isLoggedIn = userIsLoggedIn;
-  // const userLoggedin = auth.userId
 
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [auth]);
 
-  // console.log("users in Maps Public", users)
 
   useEffect(() => {
     let isMounted = true;
-    fetchMaps(auth, setMaps, setAddToMyMaps, setIsLoading, setError, isMounted, filteredMaps); // Call fetchMaps function
+    fetchMaps(auth, setMaps, setAddToMyMaps, setIsLoading, setError, isMounted, filteredMaps);
     return () => {
       isMounted = false;
     };
@@ -111,11 +100,9 @@ const MapsPublic = () => {
 
 
   const toggleAddToMyMaps = (index) => {
-    //  console.log("add to my maps before", addToMyMaps);
     setAddToMyMaps(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
-      //  console.log("add to my maps after", newState); // Log the updated state
       return newState;
     });
   };
@@ -125,12 +112,10 @@ const MapsPublic = () => {
   const addToMap = async (e, index, mapId) => {
     e.preventDefault();
     try {
-      // console.log("Adding to map...");
       await axiosPrivate.post(`${BACKEND}/maps/adduser`, {
         userId, userIsLoggedIn, mapId
       });
-      // console.log("Successfully added to map.");
-      toggleAddToMyMaps(index); // Toggle state for the clicked map
+      toggleAddToMyMaps(index);
       setError(null)
     } catch (err) {
       console.log("error", err);
@@ -143,12 +128,10 @@ const MapsPublic = () => {
   const removeFromMap = async (e, index, mapId) => {
     e.preventDefault();
     try {
-      // console.log("Adding to map...");
       await axiosPrivate.delete(`${BACKEND}/maps/removeuser`, {
         data: { userId, userIsLoggedIn, mapId }
       });
-      // console.log("Successfully added to map.");
-      toggleAddToMyMaps(index); // Toggle state for the clicked map
+      toggleAddToMyMaps(index);
       setError(null)
     } catch (err) {
       console.log("error", err);
@@ -170,28 +153,23 @@ const MapsPublic = () => {
 
   return (
     <>
-{!showFilter &&
+      {!showFilter &&
         <button title="Filter" className='rides-public-filter-ride'
           onClick={() => handleShowFilter()}
         > <FontAwesomeIcon icon={faSliders} /></button>}
 
-{showFilter &&
-          <MapFilter onFilter={onFilter} handleShowFilter={handleShowFilter}  />
-        }
+      {showFilter &&
+        <MapFilter onFilter={onFilter} handleShowFilter={handleShowFilter} />
+      }
 
       {maps.length === 0 ? (
         <>
-        <div className='users-title'>Maps</div>
-        <div>No maps available.</div>
+          <div className='users-title'>Maps</div>
+          <div>No maps available.</div>
         </>
       ) : (
         <div className='maps-container'>
           <div className='users-title'>Maps</div>
-          {/* <button 
-          className='orange-button'
-          onClick={handleShowMaps}>{showAllMaps ? 'Hide all maps' : 'Show all maps'}</button> */}
-
-
 
           {auth.accessToken !== undefined ? (
 
@@ -199,24 +177,10 @@ const MapsPublic = () => {
 
               {maps.map((map, index) => {
 
-
-                // Extract the date formatting logic here
-                // const originalDate = map.starting_date;
-                // const formattedDate = formatDate(originalDate);
-
-
-
-                // Determine if the logged-in user is the creator of this map
                 const isUserMap = map.createdby === userId;
 
-                // Determine if the logged-in user is already in this map
-                // console.log("userMaps", userMaps)
-
-                // const isUserInMap = userMaps.some(userMap => userMap.user_id === userId);
                 const isUserInMap = userMaps.some(userMap => userMap.user_id === auth.userId && userMap.map_id === map.id);
 
-                // console.log("is user in map", isUserInMap)
-                // Render the JSX elements, including the formatted date
                 return (
 
 
@@ -224,13 +188,13 @@ const MapsPublic = () => {
                   <div className="maps-public-container" key={map.id}>
 
                     <div className='maps-public-information'>
-                    <div className='show-maps-button'>
-                    <button 
-                    className='orange-button'
-                    onClick={() => handleShowThisMap(map.id)}>
-  {selectedMapId === map.id ? '-' : '+'}
-</button>
-</div>
+                      <div className='show-maps-button'>
+                        <button
+                          className='orange-button'
+                          onClick={() => handleShowThisMap(map.id)}>
+                          {selectedMapId === map.id ? '-' : '+'}
+                        </button>
+                      </div>
                       <div className='maps-public-map-name'>{map.title}</div>
                       {!isUserMap ? (
                         <div className='maps-public-createdby'>
@@ -241,11 +205,6 @@ const MapsPublic = () => {
                         </div>) :
                         <div className='maps-public-createdby'>(creator: me)</div>
                       }
-
-
-                      {/* {console.log(`The logged in user is ${userId}, the map id is ${map.id}, the owner of the map is ${map.createdby}, is ${userId} inside the map ${map.id}? According to the variable isUserInMap ${isUserInMap}`)} */}
-
-
                       {isUserMap ? (
                         <div></div>
                       ) : isUserInMap ? (

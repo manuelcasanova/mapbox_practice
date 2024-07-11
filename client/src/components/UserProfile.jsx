@@ -8,15 +8,10 @@ import { useState, useContext, useRef, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import axios from 'axios';
-
-//Context
-// import { useAuth } from "./Context/AuthContext";
-// import useAuth from '../hooks/useAuth';
 import useLogout from "../hooks/useLogout";
 
 //Util functions
 import { deactivateUser } from "./util_functions/user_functions/DeleteUser";
-// import { updateUsername } from "./util_functions/user_functions/UpdateUsername";
 
 //Components
 import UserEditPassword from "./authentication/UserEditPassword";
@@ -27,21 +22,9 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const navigate = useNavigate()
   const { auth, setAuth, updateUsername } = useContext(AuthContext);
   const [users, setUsers] = useState();
-
-  // console.log("auth", auth)
-  // console.log("profile picture in UserProfile", profilePicture)
-
-
   const loggedInUser = auth.userId;
   const user = auth
-  // console.log("loggedInUser in UserProfile", loggedInUser)
-
-  // console.log("User profile loggedInUser", loggedInUser)
-
-  // console.log("User profile user", user)
-
   const logOut = useLogout(setRideAppUndefined)
-
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const [newUsername, setNewUsername] = useState("");
   const [isEditingUsername, setIsEditingUsername] = useState(false);
@@ -53,13 +36,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const [reload, setReload] = useState(false)
   const BACKEND = process.env.REACT_APP_API_URL;
 
-
-  // useEffect(() => {
-  //   setProfilePicture(`${BACKEND}/${auth.profilePicture}`);
-  // }, [auth.profilePicture]);
-
   useEffect(() => {
-    // console.log("profile picture in userprofile", profilePicture)
   }, [profilePicture])
 
   useEffect(() => {
@@ -83,12 +60,11 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
   const handleDeactivateUser = async () => {
     try {
       await deactivateUser(user, loggedInUser, auth); // Wait for deactivateUser to complete
-      logOut(); // Proceed with logging out the user
-      handleShowConfirmDelete(); // Proceed with showing confirmation for user deletion
-      navigate('/'); // Navigate to the homepage
+      logOut();
+      handleShowConfirmDelete();
+      navigate('/');
     } catch (error) {
       console.error('Error deactivating user:', error);
-      // Handle errors as needed, e.g., display an error message to the user
     }
   };
 
@@ -109,8 +85,6 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
       updateUsername(newUsername.trim());
       setIsEditingUsername(false);
       setNewUsername("");
-      // logOut()
-      // navigate('/login')
     }
   };
 
@@ -127,11 +101,9 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
     const file = e.target.files[0];
 
     if (file) {
-      // console.log('File selected:', file);
-    }
-  
 
-    // console.log("file", file)
+    }
+
 
     const maxSize = 1 * 1024 * 1024; // 1MB in bytes
     if (file && file.size > maxSize) {
@@ -159,16 +131,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
       if (response.data) {
 
 
-  // const response = await fetch(`${BACKEND}/profile_pictures/${auth.userId}/`, {
-  //   method: 'POST',
-  //   body: formData,
-  // });
-  // if (response.ok) {
-
-
-        // Update profile picture URL and toggle upload file section visibility
         const newProfilePictureUrlForAuth = `${BACKEND}/profile_pictures/${auth.userId}/profile_picture.jpg`
-// console.log("newProfilePictureUrlForAuth", newProfilePictureUrlForAuth)
 
         setAuth(prevAuth => ({
           ...prevAuth,
@@ -177,12 +140,12 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
         setProfilePicture(`${
           // auth.profilePicture
           newProfilePictureUrlForAuth
-        }?${Date.now()}`);
-        setShowUploadFile(false); // Assuming setShowUploadFile is used to toggle visibility
+          }?${Date.now()}`);
+        setShowUploadFile(false);
 
-        // console.log('File uploaded successfully');
+
       } else {
-        // console.error('Failed to upload file');
+
       }
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -205,16 +168,12 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
                   <div className="user-profile-image-container" onMouseEnter={() => setShowEditImageIcons(true)} onMouseLeave={() => setShowEditImageIcons(false)} onClick={() => setShowUploadFile(prev => !prev)}>
 
 
-<img
-  className="user-profile-image"
-  src={profilePicture.includes(`${BACKEND}`) ? profilePicture : `${BACKEND}/${profilePicture}`}
-  alt=""
-/>
+                    <img
+                      className="user-profile-image"
+                      src={profilePicture.includes(`${BACKEND}`) ? profilePicture : `${BACKEND}/${profilePicture}`}
+                      alt=""
+                    />
 
-
-
-
-                    {/* <FontAwesomeIcon icon={faEdit} onClick={() => setShowUploadFile(prev => !prev)} /> */}
                     {showEditImageIcons && (
                       <div className='hover-edit-image-buttons'>
                         <FontAwesomeIcon icon={faImage} />
@@ -225,7 +184,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
                   </div>
                 ) : (
                   <div className="user-profile-default-icon" onClick={() => navigate('/user/profile')}>
-           
+
                     <FontAwesomeIcon icon={faImage} onClick={() => setShowUploadFile(prev => !prev)} />
                     <FontAwesomeIcon icon={faPlus} onClick={() => setShowUploadFile(prev => !prev)} />
                   </div>
@@ -240,7 +199,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
                 <div className="file-upload-section">
                   <input type="file" accept=".jpg" onChange={handleFileChange} />
                   {showErrorFileSize && <div>File size exceeds the limit of 1MB</div>}
-                  {/* <button className="orange-button small-button" onClick={handleFileUpload}>Upload Profile Picture</button>*/
+                  {
                     <button className='red-button button-close small-button' style={{ width: '50px' }} onClick={() => setShowUploadFile(prev => !prev)}>x</button>}
                 </div>
 
@@ -271,7 +230,7 @@ export default function UserProfile({ setRideAppUndefined, profilePicture, setPr
               </div>
 
             }
-            {/* <div className="user-profile-permissions">Permissions: {auth.isSuperAdmin ? 'Super Admin' : auth.isAdmin ? 'Admin' : 'User'}</div> */}
+
 
             {!showEditPassword &&
               <button className='user-profile-edit-button' onClick={() => handleShowEditPassword()}>Modify password</button>

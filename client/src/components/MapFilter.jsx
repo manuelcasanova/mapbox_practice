@@ -16,7 +16,6 @@ const MapFilter = ({ handleShowFilter, onFilter }) => {
   const { auth } = useAuth()
 
   const handleFilter = () => {
-    // Prepare filter criteria
     const filters = {};
 
     if (userName !== '') {
@@ -27,7 +26,6 @@ const MapFilter = ({ handleShowFilter, onFilter }) => {
       filters.title = title
     }
 
-    // Pass filters to parent component
     onFilter(filters);
   };
 
@@ -43,9 +41,8 @@ const MapFilter = ({ handleShowFilter, onFilter }) => {
 
 
   useEffect(() => {
-    // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [userName, title]); // Dependency array includes modified states
+  }, [userName, title]);
 
 
   const clearFilter = () => {
@@ -75,9 +72,9 @@ const MapFilter = ({ handleShowFilter, onFilter }) => {
           onChange={handleNameChange}
           placeholder='Aa'
         />
-</div>
+      </div>
 
-<div className='filter-range'>
+      <div className='filter-range'>
         <label className='filter-label'>Map name:</label>
         <input
           className='filter-input'

@@ -3,8 +3,7 @@ import axios from "axios";
 const fetchFollowee = async (auth, setFollowers, setIsLoading, setError, isMounted) => {
 
   const BACKEND = process.env.REACT_APP_API_URL;
-  
-  // console.log("auth in FetchFollowee", auth)
+
   
   try {
 
@@ -15,7 +14,7 @@ const fetchFollowee = async (auth, setFollowers, setIsLoading, setError, isMount
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
@@ -25,7 +24,6 @@ const fetchFollowee = async (auth, setFollowers, setIsLoading, setError, isMount
       }
     });
     if (isMounted) {
-      // console.log("response data FetchFollowee", response.data)
       setFollowers(response.data); 
       setIsLoading(false);
     }

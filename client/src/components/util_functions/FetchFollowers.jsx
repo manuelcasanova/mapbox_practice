@@ -12,7 +12,7 @@ const fetchFollowers = async (auth, setFollowers, setIsLoading, setError, isMoun
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 

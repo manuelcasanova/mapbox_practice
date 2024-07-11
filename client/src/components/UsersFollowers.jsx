@@ -26,8 +26,7 @@ const Followers = () => {
   const isLoggedIn = auth.loggedIn
   const [showLargePicture, setShowLargePicture] = useState(null)
   const BACKEND = process.env.REACT_APP_API_URL;
- 
-  // console.log("user in Users FOllowers", user.id)
+
 
   const userLoggedin = auth.userId
 
@@ -39,7 +38,7 @@ const Followers = () => {
     fetchFollowers(auth, setFollowers, setIsLoading, setError, isMounted)
     fetchMutedUsers(auth, userLoggedin, isLoggedIn, setMutedUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
       controller.abort()
     };
   }, [auth, hasMutedChanges, isLoggedIn, userLoggedin]);
@@ -65,43 +64,37 @@ const Followers = () => {
       mutedUser.mute
     )
     &&
-  users.some(user =>
-    user.id === follower.follower_id && user.isactive
-  )
+    users.some(user =>
+      user.id === follower.follower_id && user.isactive
+    )
   );
-  
 
-// console.log("areanyfm", areAnyFollowingMe)
 
   return (
     <div className='users-all-container'>
       {!areAnyFollowingMe ? (
         <>
-        <div className="users-title">Followers</div>
-        <div>You don't have followers.</div>
+          <div className="users-title">Followers</div>
+          <div>You don't have followers.</div>
         </>
-   
+
       ) : (
         <>
-  <div className="users-title">Followers</div>
+          <div className="users-title">Followers</div>
           {auth.accessToken !== undefined ? (
             <div>
               {users.map(user => {
 
-const amFollowingThem = followers.some(follower =>
-  follower.follower_id === userLoggedin &&
-  follower.followee_id === user.id &&
-  follower.status === 'accepted' &&
-  !mutedUsers.some(mutedUser =>
-    (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) &&
-    mutedUser.mute
-  )
-);
+                const amFollowingThem = followers.some(follower =>
+                  follower.follower_id === userLoggedin &&
+                  follower.followee_id === user.id &&
+                  follower.status === 'accepted' &&
+                  !mutedUsers.some(mutedUser =>
+                    (mutedUser.muter === follower.follower_id || mutedUser.mutee === follower.follower_id) &&
+                    mutedUser.mute
+                  )
+                );
 
-
-                // const pendingAcceptMe = followers.some(follower =>
-                //   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
-                // );
 
                 const areFollowingMe = followers.some(follower =>
                   follower.followee_id === userLoggedin &&
@@ -112,7 +105,7 @@ const amFollowingThem = followers.some(follower =>
                     mutedUser.mute
                   )
                 );
-                
+
 
                 const pendingAcceptThem = followers.some(follower =>
                   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
@@ -124,63 +117,63 @@ const amFollowingThem = followers.some(follower =>
 
 
                 // Check if both users are following each other and they are not muted
-            const canMessage = amFollowingThem && areFollowingMe && !isMuted;
+                const canMessage = amFollowingThem && areFollowingMe && !isMuted;
 
                 if (areFollowingMe) {
 
                   return (
 
-                    <div 
-                    className='users-all-user'
-                    key={user.id} >
+                    <div
+                      className='users-all-user'
+                      key={user.id} >
 
 
 
-<div className='users-all-picture-container'
-                       
-                        >
-                          <img   onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`} alt={user.username}
-                              onError={(e) => {
-                                e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                                e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
-                              }}
-                          />
-                        </div>
+                      <div className='users-all-picture-container'
+
+                      >
+                        <img onClick={() => setShowLargePicture(user.id)} className='users-all-picture' src={`${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`} alt={user.username}
+                          onError={(e) => {
+                            e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                            e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`;
+                          }}
+                        />
+                      </div>
 
 
-                        {showLargePicture === user.id && <div
+                      {showLargePicture === user.id && <div
                         className='large-picture'
                         onClick={() => setShowLargePicture(null)}
-                        >
-                         <img 
-                         className='users-all-picture-large'
-                         onClick={() => setShowLargePicture(null)}
-                         src={` ${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}  
-                         alt={user.username}
-                         onError={(e) => {
-                          e.target.onerror = null; // Prevent infinite loop in case of repeated error
-                          e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`; // Default fallback image URL
-                        }}
-                         />
-                          </div>}
-<div className='user-details'>
+                      >
+                        <img
+                          className='users-all-picture-large'
+                          onClick={() => setShowLargePicture(null)}
+                          src={` ${BACKEND}/profile_pictures/${user.id}/profile_picture.jpg`}
+                          alt={user.username}
+                          onError={(e) => {
+                            e.target.onerror = null; // Prevent infinite loop in case of repeated error
+                            e.target.src = ` ${BACKEND}/profile_pictures/user.jpg`;
+                          }}
+                        />
+                      </div>}
+                      <div className='user-details'>
 
-                    <div className='users-all-name'>{user.username}</div>
-                    </div>
+                        <div className='users-all-name'>{user.username}</div>
+                      </div>
 
 
-                    <div className='user-actions'>
-                      {pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
+                      <div className='user-actions'>
+                        {pendingAcceptThem && <ApproveFollowerButton userLoggedInObject={userLoggedInObject} followers={followers} setFollowers={setFollowers} followeeId={user.id} followerId={userLoggedin} user={user} userLoggedin={userLoggedin} />}
 
-                      {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}><FontAwesomeIcon icon={faEnvelope} /></button>}
+                        {canMessage && <button onClick={() => { navigate(`/users/messaging/${user.id}`, { state: { userForMessages: user.id } }) }}><FontAwesomeIcon icon={faEnvelope} /></button>}
 
-                     <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
-                   
-                      <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
+                        <FollowUserButton followeeId={user.id} followerId={userLoggedin} user={user} followers={followers} setFollowers={setFollowers} userLoggedInObject={userLoggedInObject} />
 
-             
+                        <MuteUserButton userId={user.id} userLoggedin={userLoggedin} isMuted={mutedUsers.includes(user.id)} setMutedUsers={setMutedUsers} onMutedChange={handleMutedChanges} />
 
-                    </div>
+
+
+                      </div>
                     </div>
                   );
                 } else {

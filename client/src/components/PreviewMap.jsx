@@ -2,22 +2,18 @@ import { useState, useEffect } from "react";
 import PreviewMapChild from "./PreviewMapChild";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import BrowserCoords from "./util_functions/GetBrowserLocation";
-// import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 import GetBrowserLocation from "./util_functions/GetBrowserLocation";
 
 
 
 export default function PreviewMap({ mapId }) {
-// console.log("mapid", mapId)
   const BACKEND = process.env.REACT_APP_API_URL;
   const axiosPrivate = useAxiosPrivate()
   const [error, setError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-// console.log("mapId in PreviewMap", mapId)
   const { auth } = useAuth();
 
-  //  console.log("auth.accessToken", auth.accessToken)
 
   const [coords, setCoords] = useState([
     [49.283255, -123.119930]
@@ -29,35 +25,32 @@ export default function PreviewMap({ mapId }) {
   const [mapCreatedBy, setMapCreatedBy] = useState(null)
   let id = mapId;
 
-useEffect(() => {
+  useEffect(() => {
 
-  const getMap = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axiosPrivate.get(`${BACKEND}/maps/${id}`);
-// console.log("response.data", response.data)
-      const responseData = Object.values(response.data)[0]
-      // console.log("responseData", responseData)
+    const getMap = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axiosPrivate.get(`${BACKEND}/maps/${id}`);
+        const responseData = Object.values(response.data)[0]
 
-      setMapTitle(responseData?.title)
-      setMapCreatedBy(responseData?.createdby)
+        setMapTitle(responseData?.title)
+        setMapCreatedBy(responseData?.createdby)
 
-    } catch (err) {
-      setError(err.message); // Set error state if request fails
-    } finally {
-      setIsLoading(false); // Whether success or failure, loading is done
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }
 
-  if (mapId) {
-    getMap();
-  }
+    if (mapId) {
+      getMap();
+    }
 
-  return () => {
-    // Clean up if needed
-  };
+    return () => {
+    };
 
-}, [mapId, id, axiosPrivate, BACKEND])
+  }, [mapId, id, axiosPrivate, BACKEND])
 
 
   /////GET COORDINATES
@@ -76,12 +69,12 @@ useEffect(() => {
         console.error(err);
       }
     };
-  
+
     getMapPoints();
   }, [mapId, id, axiosPrivate, BACKEND]);
 
   useEffect(() => {
-    //  console.log("coords", coords)
+
 
   }, [coords, mapId])
 
@@ -89,12 +82,11 @@ useEffect(() => {
 
   let rideCoords = [BrowserCoords]
 
-    loading && points.map((point) => {
-      rideCoords.push(Object.values(point))
-return null
-    })
-  
-// console.log("rideCOords in PM", rideCoords)
+  loading && points.map((point) => {
+    rideCoords.push(Object.values(point))
+    return null
+  })
+
 
   /////GET COORDIANTES - END
 
@@ -110,19 +102,19 @@ return null
   return (
     //Ride is shown centered in map
     <GetBrowserLocation>
-    <>
-      {auth.accessToken !== undefined && mapId && mapId !== null && mapId !== undefined && (
-        <PreviewMapChild
-          coords={coords}
-          setCoords={setCoords}
-          rideCoords={rideCoords}
-          mapId={mapId}
-          mapTitle={mapTitle}
-          mapCreatedBy={mapCreatedBy}
-        />
- 
-      )}
-    </>
+      <>
+        {auth.accessToken !== undefined && mapId && mapId !== null && mapId !== undefined && (
+          <PreviewMapChild
+            coords={coords}
+            setCoords={setCoords}
+            rideCoords={rideCoords}
+            mapId={mapId}
+            mapTitle={mapTitle}
+            mapCreatedBy={mapCreatedBy}
+          />
+
+        )}
+      </>
     </GetBrowserLocation>
   )
 }

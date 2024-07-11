@@ -19,8 +19,6 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-
-
   const originalDate = new Date(message.createdat);
 
   const monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -47,12 +45,6 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
     };
   }, [message.createdby, auth]);
 
-  // console.log("users", users)
-
-  // console.log("message createdby", message.createdby)
-  // console.log("user.id", user.id)
-
-  // Find the username corresponding to the message.createdby ID
   const createdByUsername = users.find(user => user.id === message.createdby)?.username || 'Unknown User';
 
   if (isLoading) {
@@ -68,8 +60,8 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
     <div
       key={message.id}
       className={`mapped-messages-container ${users.find(user => userId === message.createdby)
-          ? 'my-comment'
-          : 'their-comment'
+        ? 'my-comment'
+        : 'their-comment'
         }`}
     >
 
@@ -78,8 +70,6 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
 
 
         {message.status !== "flagged" && <div>{message.message}</div>}
-
-        {/* {message.status === "deleted" && <div>Message deleted by user</div>} */}
 
         {message.status === 'flagged' && message.createdby !== userId && (
           <div>
@@ -94,10 +84,6 @@ export default function MappedMessage({ message, user, setMessageDeleted, setMes
             </div>
           </div>
         )}
-
-
-        {/* {console.log("message in mapped mesage.jsx", message)} */}
-
 
         {message.status === "flagged" && user.isAdmin && <div>{message.message}</div>}
       </div>

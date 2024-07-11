@@ -16,16 +16,11 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // console.log(message.createdat)
-
   const originalDate = new Date(message.createdat);
 
   const monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   const formattedDate = `${originalDate.getDate()}-${monthAbbreviations[originalDate.getMonth()]}-${originalDate.getFullYear()} at ${originalDate.getHours().toString().padStart(2, '0')}:${originalDate.getMinutes().toString().padStart(2, '0')}:${originalDate.getSeconds().toString().padStart(2, '0')}`;
-
-  // console.log(formattedDate);
-
 
   useEffect(() => {
     let isMounted = true;
@@ -47,7 +42,6 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
     };
   }, [message.createdby, auth]);
 
-  // Find the username corresponding to the message.createdby ID
   const createdByUsername = users.find(user => user.id === message.createdby)?.username || 'Unknown User';
 
   if (isLoading) {
@@ -59,16 +53,15 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
   }
 
   return (
- 
+
 
     <div
-    key={message.id}
-    className={`mapped-messages-container ${
-      users.find(user => userId === message.createdby)
-      ? 'my-comment' 
-      : 'their-comment'
-    }`}
-  >
+      key={message.id}
+      className={`mapped-messages-container ${users.find(user => userId === message.createdby)
+          ? 'my-comment'
+          : 'their-comment'
+        }`}
+    >
 
       <div className="mapped-messages-name-and-message">
         <div className="mapped-messages-username">{createdByUsername}</div>
@@ -90,10 +83,6 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
             </div>
           </div>
         )}
-
-
-        {/* {console.log("message in mapped mesage.jsx", message)} */}
-
 
         {message.status === "flagged" && user.isAdmin && <div>{message.message}</div>}
       </div>
@@ -135,6 +124,6 @@ export default function MappedRunMessage({ message, user, setMessageDeleted, set
       </div>
 
     </div>
- 
+
   )
 }

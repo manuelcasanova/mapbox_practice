@@ -25,27 +25,21 @@ export default function UsersMessaging() {
   const [showLargePicture, setShowLargePicture] = useState(null)
   const BACKEND = process.env.REACT_APP_API_URL;
 
-  // console.log("user", user)
-  //  console.log("userForMessages", userForMessages);
-  // console.log("user.id", user.id)
-
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false; 
     };
   }, [auth]);
 
   useEffect(() => {
-    // console.log("users in user messaging", users)
   }, [updateMessages, users])
 
    // Extracting username based on userForMessages
    const selectedUser = users.find(u => u.id === userForMessages);
    const selectedUsername = selectedUser ? selectedUser.username : '';
 
-// console.log("selecter user", selectedUser)
   return (
     <>
       {auth ? (
@@ -56,6 +50,7 @@ export default function UsersMessaging() {
                         
                         >
                           <img 
+                          alt=""
                           onClick={() => setShowLargePicture(selectedUser.id)}
                           className='users-messaging-picture' src={`${BACKEND}/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  
                           onError={(e) => {
@@ -71,6 +66,7 @@ export default function UsersMessaging() {
                         onClick={() => setShowLargePicture(null)}
                         >
                          <img 
+                         alt=""
                          className='users-all-picture-large'
                          onClick={() => setShowLargePicture(null)}
                          src={`${BACKEND}/profile_pictures/${selectedUser.id}/profile_picture.jpg`}  

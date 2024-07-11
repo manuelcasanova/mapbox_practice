@@ -7,29 +7,26 @@ const BACKEND = process.env.REACT_APP_API_URL;
 export const deactivateRun = async (id, auth, runs, setRuns, setConfirmDelete, isRunCreatedByUser, setRunStatusUpdated) => {
 
   try {
-    // console.log("setRunsStatusUpdated", setRunsStatusUpdated)
-    // console.log("auth in deactivateRun", auth)
     const userId = auth.userId;
     const runCreatedBy = runs.find(run => run.id === id).createdby;
 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
     await axiosPrivate.post(`${BACKEND}/run/deactivate/${id}`, {
       data: { userId, runCreatedBy, isRunCreatedByUser, auth }
     });
 
-   if (!auth.isAdmin) {
-    setRuns(prevRuns => {
-      // Filter out the ride that has been removed
-      return prevRuns.filter(run => run.id !== id);
-    });
-   } else {
-    setRunStatusUpdated(prev => !prev)
-   }
+    if (!auth.isAdmin) {
+      setRuns(prevRuns => {
+        return prevRuns.filter(run => run.id !== id);
+      });
+    } else {
+      setRunStatusUpdated(prev => !prev)
+    }
 
 
     setConfirmDelete(false);
@@ -45,7 +42,7 @@ export const removeFromMyRuns = async (id, user, runs, setRuns, auth) => {
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
     await axiosPrivate.delete(`${BACKEND}/runs/delete/users/${id}`, {
@@ -58,14 +55,14 @@ export const removeFromMyRuns = async (id, user, runs, setRuns, auth) => {
 };
 
 export const deleteRun = async (id, user, setRuns) => {
- 
+
   try {
     const userId = user.userId;
 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${user?.accessToken}` 
+        Authorization: `Bearer ${user?.accessToken}`
       }
     });
 

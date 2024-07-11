@@ -1,16 +1,12 @@
 //Libraries
-import axios from 'axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 //Hooks
 import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 
-
 import { faSliders, faMapLocation, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-
 
 //Util functions
 import { formatDate } from "../util_functions/FormatDate";
@@ -33,12 +29,10 @@ const RunsAll = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useAuth();
-
   const [showFilter, setShowFilter] = useState(false)
   const [showMap, setShowMap] = useState(null)
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
-  // const [showUsers, setShowUsers] = useState(null)
   const [runsAllComponentMount, setRunsAllComponentMount] = useState(false)
   const userId = auth.userId
 
@@ -94,10 +88,8 @@ const RunsAll = () => {
   const [filteredRuns, setFilteredRuns] = useState(defaultFilteredRuns);
 
   const onFilter = (filters) => {
-    // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
     setFilteredRuns(filters)
   };
-  // console.log("ridesl all", rides)
 
   useEffect(() => {
     let isMounted = true;
@@ -116,7 +108,6 @@ const RunsAll = () => {
           setRuns(response.data);
           setIsLoading(false);
           setRunsAllComponentMount(true)
-          // Fetch messages for each run
           const runMessagesPromises = response.data.map(run => fetchRunMessages(run.id, auth));
           const runMessages = await Promise.all(runMessagesPromises);
           setRuns(prevRuns => {
@@ -142,11 +133,9 @@ const RunsAll = () => {
     fetchData();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
-  }, [
-    // auth, 
-    filteredRuns, messageDeleted, messageReported, messageFlagged, runStatusUpdated, BACKEND, auth]);
+  }, [filteredRuns, messageDeleted, messageReported, messageFlagged, runStatusUpdated, BACKEND, auth]);
 
   const handleShowFilter = () => {
     setShowFilter(prev => !prev)
@@ -186,13 +175,9 @@ const RunsAll = () => {
             {auth.accessToken !== undefined && auth.isAdmin ? (
               <div className='rides-public-mapped'>
                 {runs.map(run => {
-                  // Extract the date formatting logic here
                   const originalDate = run.starting_date;
                   const formattedDate = formatDate(originalDate);
 
-
-
-                  // Render the JSX elements, including the formatted date
                   return (
 
                     <React.Fragment key={run.id}>
@@ -225,7 +210,7 @@ const RunsAll = () => {
                         </div>
 
                         <div>Name: {run.name}</div>
-                        <div>Date: {formattedDate}</div> {/* Use formattedDate here */}
+                        <div>Date: {formattedDate}</div>
                         <div>Time: {run.starting_time}</div>
                         <div>Distance: {run.distance} km</div>
                         <div>Pace: {run.pace} km/h</div>
@@ -250,12 +235,12 @@ const RunsAll = () => {
                               <div>
                                 {run.messages.map(message => (
 
-<React.Fragment key={message.id}>
+                                  <React.Fragment key={message.id}>
 
                                     {
                                       message.status === 'deleted' &&
                                       <div
-                                      key={`${message.createdat}-${message.createdby}`}
+                                        key={`${message.createdat}-${message.createdby}`}
                                         className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
                                           ? 'my-comment'
                                           : 'their-comment'
@@ -281,7 +266,6 @@ const RunsAll = () => {
                                         <div>
                                           {message.status === 'flagged' && (
                                             <div>
-                                              {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
                                               <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                             </div>
                                           )}
@@ -291,7 +275,7 @@ const RunsAll = () => {
                                     }
 
 
-</React.Fragment>
+                                  </React.Fragment>
 
 
 
@@ -312,7 +296,7 @@ const RunsAll = () => {
                           </>
                         }
                       </div>
-                      </React.Fragment >
+                    </React.Fragment >
                   );
                 })}
 

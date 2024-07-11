@@ -2,14 +2,13 @@ import axios from 'axios';
 
 const fetchReportedRunMessages = async ({auth}) => {
   const BACKEND = process.env.REACT_APP_API_URL;
-  // console.log("auth", auth)
   const isAdmin = auth.isAdmin
   try {
 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
@@ -18,7 +17,6 @@ const fetchReportedRunMessages = async ({auth}) => {
       isAdmin: isAdmin
     }
   });
-    //  console.log("response.data", response.data)
     return response.data;
   } catch (error) {
     console.error('Error fetching reported messages:', error);

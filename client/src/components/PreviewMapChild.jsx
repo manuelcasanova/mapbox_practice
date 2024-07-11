@@ -24,24 +24,18 @@ function Bounds({ coords }) {
 
 export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy }) {
 
-// console.log (`PreviewMapChild --> mapId ${mapId} mapTitle ${mapTitle} mapCreatedBy ${mapCreatedBy}`)
 
   if (!rideCoords || rideCoords.length === 0) {
-    return <div className="loading"></div>; 
+    return <div className="loading"></div>;
   }
 
   const coords = rideCoords.slice(1);
-// console.log("coords in PMC", coords)
+
   return (
     <>
-      {/* Viewing map */}
       <div
         className="map-outer-container"
       >
-
-        {/* Map id: {mapId}
-        Map title: {mapTitle}
-        Map created by: {mapCreatedBy} */}
 
         <MapContainer
           // className="map-outer-container"
@@ -79,8 +73,8 @@ export default function PreviewMapChild({ rideCoords, mapId, mapTitle, mapCreate
 
 
 
-          <Polyline positions={coords} 
-          pathOptions={{color: 'black'}}  
+          <Polyline positions={coords}
+            pathOptions={{ color: 'darkblue' }}
           />
 
           <LocationMarker />

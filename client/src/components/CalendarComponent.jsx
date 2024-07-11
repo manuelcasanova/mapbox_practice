@@ -3,8 +3,6 @@ import 'react-calendar/dist/Calendar.css';
 
 export default function CalendarComponent ({date, setDate}) {
 
-// const dateString = date.toLocaleDateString("en-GB")
-
   return (
     <>
     <div>
@@ -12,9 +10,7 @@ export default function CalendarComponent ({date, setDate}) {
       onChange={setDate} 
       value={date} 
       className='react-calendar'/>
-      
     </div>
-    {/* <div>Selected date {dateString}</div> */}
     </>
   )
 }

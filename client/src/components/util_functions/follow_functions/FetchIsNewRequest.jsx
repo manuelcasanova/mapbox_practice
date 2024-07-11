@@ -1,5 +1,3 @@
-// util_functions/FetchIsNewRequest.js
-
 const fetchIsNewRequest = (pendingUsersObject, loginhistory) => {
   // Sort the login history array by login time in descending order
   loginhistory.sort((a, b) => new Date(b.login_time) - new Date(a.login_time));
@@ -13,7 +11,7 @@ const fetchIsNewRequest = (pendingUsersObject, loginhistory) => {
 
     // Compare the lastmodification timestamp with the second-to-last login time
     isNewRequest = pendingUsersObject.some(user => user.lastmodification > secondToLastLoginTime);
-    
+
   } else if (loginhistory.length === 1) {
     // If there is only one login entry
     const onlyLoginTime = new Date(loginhistory[0].login_time);

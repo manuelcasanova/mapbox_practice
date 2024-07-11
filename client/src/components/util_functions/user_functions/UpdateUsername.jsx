@@ -1,37 +1,26 @@
 import axios from "axios";
 
 export const updateUsername = async (auth, newUsername) => {
-  // Define the URL of your backend endpoint
+  const BACKEND = process.env.REACT_APP_API_URL;
   const url = `${BACKEND}/users/modifyusername`;
 
-  const BACKEND = process.env.REACT_APP_API_URL;
-
-
-
-  // Prepare the data to be sent in the request body
   const data = {
-    userId: auth.userId, 
+    userId: auth.userId,
     newUsername: newUsername
   };
 
   try {
-
-
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}` 
       }
     });
-    // Make a POST request to the backend API
     const response = await axiosPrivate.post(url, data);
-    // console.log("Username updated successfully:", response.data);
 
-    // Assuming the backend returns the updated user object, return it
-    return response.data.user; // Adjust the property name based on the actual response structure
+    return response.data.user;
   } catch (error) {
     console.error("Error updating username:", error);
-    // Handle errors, such as displaying error messages to the user
     throw error; // Re-throw the error to propagate it to the caller
   }
 };

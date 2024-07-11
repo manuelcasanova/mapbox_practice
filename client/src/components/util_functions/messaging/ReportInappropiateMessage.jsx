@@ -1,12 +1,9 @@
 import { useState } from "react";
-
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 import '../../../styles/RidesMessaging.css'
 
 export default function ReportInappropiateMessage({ messageId, setMessageReported, user }) {
-
-// console.log("messageId in util func delete ride", messageId)
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +37,7 @@ export default function ReportInappropiateMessage({ messageId, setMessageReporte
       console.error('Error:', error.message);
       setError('An error occurred while reporting the message.');
     } finally {
-      setIsLoading(false); // Set loading to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 

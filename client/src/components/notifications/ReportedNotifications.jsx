@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -22,15 +21,7 @@ export default function ReportedNotifications() {
   const [reportedMessages, setReportedMessages] = useState([]);
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
-const axiosPrivate = useAxiosPrivate()
-
-  // console.log("reportedMessages", reportedMessages)
-  // console.log("reportedNotifications", reportedNotifications)
-
-
-  // useEffect(() => {
-  //   console.log("reportedMessages", reportedMessages)
-  // }, [reportedMessages])
+  const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {
     let isMounted = true;
@@ -39,15 +30,14 @@ const axiosPrivate = useAxiosPrivate()
       try {
 
         if (!auth.isAdmin) {
-       
+
           setIsLoading(false);
           return;
         }
 
-        
+
         setIsLoading(true);
         const reportedMessages = await fetchReportedMessages({ auth });
-        // console.log("reportedMessages", reportedMessages);
         if (isMounted) {
           setReportedMessages(reportedMessages);
           setIsLoading(false);
@@ -61,7 +51,7 @@ const axiosPrivate = useAxiosPrivate()
     fetchMessages();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [messageFlagged, messageReported]);
 
@@ -73,7 +63,7 @@ const axiosPrivate = useAxiosPrivate()
     fetchReportedNotifications(auth, setReportedNotifications, setIsLoading, setError, isMounted);
 
     return () => {
-      setIsMounted(false); // Cleanup function to handle unmounting
+      setIsMounted(false);
     };
   }, [auth]);
 
@@ -81,7 +71,7 @@ const axiosPrivate = useAxiosPrivate()
     try {
 
       if (!auth.isAdmin) {
-       
+
         setIsLoading(false);
         return;
       }
@@ -122,40 +112,25 @@ const axiosPrivate = useAxiosPrivate()
         <div className="notifications-container">
           {(
             showNotificationMessages && (
-              <div 
-              className="notifications-buttons"
-              key={reportedNotifications[0].id}>
-                <button 
-                className="orange-button"
-                onClick={() => { handleClick(reportedNotifications[0].sender); dismissNotification(reportedNotifications[0].id) }}>
+              <div
+                className="notifications-buttons"
+                key={reportedNotifications[0].id}>
+                <button
+                  className="orange-button"
+                  onClick={() => { handleClick(reportedNotifications[0].sender); dismissNotification(reportedNotifications[0].id) }}>
                   New reported messages
                 </button>
 
-
-                
-                <button 
-                className="red-button"
-                onClick={() => dismissNotification(reportedNotifications[0].id)}>
+                <button
+                  className="red-button"
+                  onClick={() => dismissNotification(reportedNotifications[0].id)}>
                   <FontAwesomeIcon icon={faCircleXmark} />
-                  </button>
+                </button>
               </div>
             )
           )}
         </div>
       )}
-
-{/* {auth.isAdmin && reportedNotifications.length === 0 && reportedMessages.length > 0 && (
-  <div>
-    {console.log("2nd")}
-    <button onClick={() => navigate(`/rides/messages/reported`)}>Pending Reported Messages</button>
-  </div>
-)} */}
-
-
-
-
-
-
     </>
   );
 }

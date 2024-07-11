@@ -18,17 +18,13 @@ export default function ReportedRunMessages() {
   const [reportedRunMessages, setReportedRunMessages] = useState([]);
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
-  const [users, setUsers] = useState([]); 
-
-  // useEffect(() => {
-  //   console.log("users", users)
-  // }, [users])
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
   }, [auth]);
 
@@ -38,8 +34,7 @@ export default function ReportedRunMessages() {
     const fetchMessages = async () => {
       try {
         setIsLoading(true);
-        const reportedRunMessages = await fetchReportedRunMessages({auth}); 
-        // console.log("reportedRunMessages", reportedRunMessages);
+        const reportedRunMessages = await fetchReportedRunMessages({ auth });
         if (isMounted) {
           setReportedRunMessages(reportedRunMessages);
           setIsLoading(false);
@@ -53,9 +48,9 @@ export default function ReportedRunMessages() {
     fetchMessages();
 
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
-  }, [messageFlagged, messageReported, auth]); 
+  }, [messageFlagged, messageReported, auth]);
 
   if (!auth.isAdmin) {
     return <p>Admin only: Access denied.</p>;
@@ -68,43 +63,43 @@ export default function ReportedRunMessages() {
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (
-        
-<div className="reported-messages-container">
+
+        <div className="reported-messages-container">
           <div className="users-title">Reported messages</div>
           {reportedRunMessages.length > 0 ? (
             <table className="reported-messages-table">
-  <thead>
-  <tr>
-    <th>Message</th>
-    <th>Message by</th>
-    <th>Run</th>
-    <th>Reported by</th>
-    <th></th>
-    <th></th>
-  </tr>
-</thead>
-  <tbody>
+              <thead>
+                <tr>
+                  <th>Message</th>
+                  <th>Message by</th>
+                  <th>Run</th>
+                  <th>Reported by</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
 
-  {reportedRunMessages.map((message) => (
-                <tr key={`${message.createdat}-${message.createdby}`}>
-                  <td>{message.message}</td>
-                  <td>{
+                {reportedRunMessages.map((message) => (
+                  <tr key={`${message.createdat}-${message.createdby}`}>
+                    <td>{message.message}</td>
+                    <td>{
                       users.find(user => user.id === message.createdby)?.username || "Unknown User"
                     }</td>
-                  <td>{message.run_id}</td> 
-                  <td>{
+                    <td>{message.run_id}</td>
+                    <td>{
                       users.find(user => user.id === message.reportedby)?.username || "Unknown User"
                     }</td>
-                 <td> <FlagInapropiateRunMessage messageId={message.id} setMessageFlagged={setMessageFlagged}/></td>
-                  <td><AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported}/>        </td>
+                    <td> <FlagInapropiateRunMessage messageId={message.id} setMessageFlagged={setMessageFlagged} /></td>
+                    <td><AdminOkReportedRunMessage messageId={message.id} setMessageReported={setMessageReported} />        </td>
                   </tr>
-              ))}
+                ))}
 
-  </tbody>
+              </tbody>
 
-          
 
-           </table>
+
+            </table>
           ) : (
             <p>No reported messages.</p>
           )}

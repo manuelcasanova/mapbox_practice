@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth"
-import axios from 'axios';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 import '../styles/Create.css'
@@ -13,11 +12,7 @@ export default function CreateMap({ setFromButton }) {
   const { auth, setMapId } = useAuth();
   const [mapType, setMapType] = useState("public");
 
-  // console.log("user", user)
-
   const navigate = useNavigate();
-
-  //Pending use: useRef, focus, regex, error message, etc.
 
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
@@ -25,33 +20,27 @@ export default function CreateMap({ setFromButton }) {
 
   const handleChange = (e) => {
     const { value } = e.target;
-
     setMapType(value);
   };
 
-
   useEffect(() => {
-    setFromButton(false); // This will only run once after component mount
+    setFromButton(false);
   }, [setFromButton]);
 
   useEffect(() => {
-    // console.log(title)
   }, [title])
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
-
       const response = await axiosPrivate.post(`${BACKEND}/createmap`, {
         title,
         auth,
         createdAt,
         mapType
       });
-      //  console.log("response.data", response.data)
-      setMapId(response.data.id) //Draw Map updates with the new maps's ID
+      setMapId(response.data.id)
       setTitle('');
       navigate('/maps');
     } catch (err) {
@@ -59,10 +48,6 @@ export default function CreateMap({ setFromButton }) {
       setError(err.response.data.message || "An error occurred");
     }
   };
-
-  useEffect(() => {
-    // console.log("map id after", mapId)
-  })
 
 
   return (
@@ -87,23 +72,22 @@ export default function CreateMap({ setFromButton }) {
             <div className="create-map-label-input">
               <label className="create-map-label">
                 Visibility
-                </label>
-                <select
-                  value={mapType}
-                  onChange={handleChange}
-                  name="mapType"
-                >
-                  <option value="public">Everyone</option>
-                  <option value="followers">Followers</option>
-                  <option value="private">Only me</option>
-                </select>
-            
+              </label>
+              <select
+                value={mapType}
+                onChange={handleChange}
+                name="mapType"
+              >
+                <option value="public">Everyone</option>
+                <option value="followers">Followers</option>
+                <option value="private">Only me</option>
+              </select>
+
             </div>
 
             <button
               disabled={!title}
               className="create-map-button"
-            // onClick={navigate('/')}
             >Create</button>
           </form>
 

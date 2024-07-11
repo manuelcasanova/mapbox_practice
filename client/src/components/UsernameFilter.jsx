@@ -15,7 +15,6 @@ const UsernameFilter = ({ handleShowFilter, onFilter }) => {
   const { auth } = useAuth()
 
   const handleFilter = () => {
-    // Prepare filter criteria
     const filters = {};
 
 
@@ -23,7 +22,6 @@ const UsernameFilter = ({ handleShowFilter, onFilter }) => {
       filters.userName = userName
     }
 
-    // Pass filters to parent component
     onFilter(filters);
   };
 
@@ -33,9 +31,8 @@ const UsernameFilter = ({ handleShowFilter, onFilter }) => {
   };
 
   useEffect(() => {
-    // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [userName]); // Dependency array includes modified states
+  }, [userName]);
 
 
   const clearFilter = () => {

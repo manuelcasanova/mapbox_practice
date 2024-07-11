@@ -34,14 +34,12 @@ const RunsPublic = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRuns, setAddToMyRuns] = useState([])
   const [userRuns, setUserRuns] = useState([]);
-  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
+  const [users, setUsers] = useState([]);
 
   const { auth } = useAuth();
 
-  // console.log("auth in Runs Public", auth)
-
   const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
+  yesterday.setDate(yesterday.getDate() - 1);
 
   const defaultFilteredRuns = {
     dateStart: yesterday.toISOString(),
@@ -51,7 +49,7 @@ const RunsPublic = () => {
     paceMin: 0,
     paceMax: 100000,
     runName: 'all'
-    
+
   };
 
   const [filteredRuns, setFilteredRuns] = useState(defaultFilteredRuns);
@@ -82,40 +80,26 @@ const RunsPublic = () => {
       hour12: false,
     };
 
-    // Format date and time separately
     const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
     const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
-
-    // Return the desired output format
     return `${formattedDate} at ${formattedTime}`;
   };
 
-  //  console.log("filteredRuns", filteredRuns)
   const userId = auth.userId;
-  // console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
 
-
-  //Function to get the filters from the child component RunsFilter.
-  // FORMAT: {dateRange: {end: "Mar 27 2024, 17:00:00 GMT-0700 (Pacific Daylight Time", start: "Mar 28 2024, 17:00:00 GMT-0700 (Pacific Daylight Time"}, distanceRange: {min: 1, max: 100}, speedRange: {min: 10, max: 30}}
-
-
   const onFilter = (filters) => {
-    // Here you can apply the filters to your data (e.g., runs) and update the state accordingly
     setFilteredRuns(filters)
   };
 
   useEffect(() => {
-    // console.log("filtered Runs", filteredRuns)
-    //   console.log("Runs", runs)
-    //   console.log("users", users)
   }, [runs])
 
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [auth]);
 
@@ -170,7 +154,7 @@ const RunsPublic = () => {
     fetchData();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [
     auth,
@@ -196,7 +180,7 @@ const RunsPublic = () => {
       } catch (error) {
         console.error('Error fetching user runs:', error);
       } finally {
-        setIsLoading(false); // Set loading to false regardless of success or failure
+        setIsLoading(false);
       }
 
     };
@@ -218,34 +202,29 @@ const RunsPublic = () => {
 
 
   const toggleAddToMyRuns = (index) => {
-    // console.log("add to my runs before", addToMyRuns);
     setAddToMyRuns(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
-      // console.log("add to my runs after", newState); // Log the updated state
       return newState;
     });
   };
 
-  //Function to add user to run
   const addToRun = async (e, index, runId, isPrivate) => {
     e.preventDefault();
     try {
       if (!auth || Object.keys(auth).length === 0) {
         throw new Error("Login to access this area.");
       }
-      // console.log("Adding to run...");
       await axiosPrivate.post(`${BACKEND}/runs/adduser`, {
         userId, userIsLoggedIn, runId, isPrivate
       });
-      // console.log("Successfully added to run.");
-      toggleAddToMyRuns(index); // Toggle state for the clicked run
+      toggleAddToMyRuns(index);
       setError(null)
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
     } finally {
-      setIsLoading(false); // Set loading to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 
@@ -257,22 +236,21 @@ const RunsPublic = () => {
       if (!auth || Object.keys(auth).length === 0) {
         throw new Error("Login to access this area.");
       }
-  
+
       await axiosPrivate.delete(`${BACKEND}/runs/removeuser`, {
         data: { userId, userIsLoggedIn, runId }
       });
 
-      toggleAddToMyRuns(index); // Toggle state for the clicked map
+      toggleAddToMyRuns(index);
       setError(null)
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
     } finally {
-      setIsLoading(false); // Set loading to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 
-  // Function to format the current date as 'yyyy-mm-dd'
   function getCurrentDateFormatted() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -308,10 +286,9 @@ const RunsPublic = () => {
             <div className='rides-public-mapped'>
 
               {runs.map((run, index) => {
-                // console.log("Ride ID:", run.id);
-                // Extract the date formatting logic here
+
                 const originalDate = run.starting_date;
-                // console.log("original date", originalDate)
+
 
                 const formattedDate = formatDate(originalDate);
 
@@ -322,8 +299,6 @@ const RunsPublic = () => {
                 const usersInThisRun = userRuns.filter(userRun => userRun.run_id === run.id);
 
 
-                // console.log("is use in run?", isUserInRun)
-                // Render the JSX elements, including the formatted date
                 return (
 
 
@@ -331,8 +306,6 @@ const RunsPublic = () => {
                   <div
                     className='rides-public-ride'
                     key={run.id}>
-                    {/* {console.log("key", run)} */}
-                    {/* {console.log("run.id", run.id)} */}
 
 
                     <div className='rides-public-ride-top-buttons'>
@@ -458,82 +431,81 @@ const RunsPublic = () => {
                           }
 
 
-<div className='refresh-messages-and-info'>
-                                <button 
-                                className='orange-button button-small'
-                                onClick={handleReloadMessages}
-                                >Update messages</button>
-                                <button
-                                className='info-button'
-                                onClick={handleShowInfo}
-                                >i</button>
-                                </div>
+                          <div className='refresh-messages-and-info'>
+                            <button
+                              className='orange-button button-small'
+                              onClick={handleReloadMessages}
+                            >Update messages</button>
+                            <button
+                              className='info-button'
+                              onClick={handleShowInfo}
+                            >i</button>
+                          </div>
 
-{showInfo && (
-  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
-)}
+                          {showInfo && (
+                            <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+                          )}
 
 
                           {run.messages && (isUserInRun || isUserRun) && (
                             <div>
                               {run.messages.map(message => (
 
-<React.Fragment key={message.id}>
+                                <React.Fragment key={message.id}>
 
 
-{
-                                        message.status === 'deleted' &&
-                                          <div
-                                          key={`${message.createdat}-${message.createdby}`}
-                                            className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
-                                              ? 'my-comment'
-                                              : 'their-comment'
-                                              }`}
-                                          >
-                                            <div className="mapped-messages-name-and-message">
+                                  {
+                                    message.status === 'deleted' &&
+                                    <div
+                                      key={`${message.createdat}-${message.createdby}`}
+                                      className={`mapped-messages-container deleted-message-margin ${users.find(user => userId === message.createdby)
+                                        ? 'my-comment'
+                                        : 'their-comment'
+                                        }`}
+                                    >
+                                      <div className="mapped-messages-name-and-message">
 
-                                              <div className="mapped-messages-username deleted-message">
+                                        <div className="mapped-messages-username deleted-message">
 
-                                                {users.find(user => user.id === message.createdby)?.username || "Unknown User"}
-                                              </div>
-                                              <div className='deleted-message'>Deleted message</div>
+                                          {users.find(user => user.id === message.createdby)?.username || "Unknown User"}
+                                        </div>
+                                        <div className='deleted-message'>Deleted message</div>
 
-                                            </div>
-                                            <div className="mapped-messages-date deleted-message">{formattedMessageDate(message.createdat)}</div>
-
-                                          </div>
-                                      }
-
-
-                               { message.status !== 'deleted' && (
-                                  <div>
-
-
-                                    {message.status === 'flagged' && message.createdby === userId && (
-                                      <div>
-                                        {/* <div>Flagged as inappropiate. Not visible for other users</div> */}
-                                        <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                       </div>
-                                    )}
+                                      <div className="mapped-messages-date deleted-message">{formattedMessageDate(message.createdat)}</div>
+
+                                    </div>
+                                  }
 
 
+                                  {message.status !== 'deleted' && (
+                                    <div>
 
-                                    {message.status === 'flagged' && message.createdby !== userId && (
-                                      <div>
-                                        <div>Message concealed due to inappropiate content.
 
+                                      {message.status === 'flagged' && message.createdby === userId && (
+                                        <div>
                                           <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                         </div>
-
-                                      </div>
-                                    )}
-                                    {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
-                                  </div>
-                                )}
+                                      )}
 
 
 
-</React.Fragment>
+                                      {message.status === 'flagged' && message.createdby !== userId && (
+                                        <div>
+                                          <div>Message concealed due to inappropiate content.
+
+                                            <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
+                                          </div>
+
+                                        </div>
+                                      )}
+                                      {message.status !== 'flagged' && <MappedRunMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />}
+                                    </div>
+                                  )}
+
+
+
+                                </React.Fragment>
 
 
 

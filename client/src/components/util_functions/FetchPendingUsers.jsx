@@ -11,15 +11,13 @@ const fetchPendingUsers = async (auth, userLoggedin, isLoggedIn, setPendingUsers
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
     const response = await axiosPrivate.get(`${BACKEND}/users/pending`, { params: { userId: userLoggedin, isLoggedIn: isLoggedIn } });
     setPendingUsers(response.data.pendingUsers);
-    // console.log("pendingusers in function", response.data.pendingUsers)
   } catch (error) {
-    // console.error('Error fetching pending users:', error);
     if (isMounted) {
       if (error.response && error.response.data && error.response.data.error) {
         setError(error.response.data.error);

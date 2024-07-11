@@ -11,15 +11,10 @@ import '../styles/Navbar.css'
 
 export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, profilePicture, setProfilePicture }) {
 
-    // console.log("profile picture in navbar", profilePicture)
-
-  // console.log("rideApp in Navbar", rideApp)
   const logout = useLogout();
   const navigate = useNavigate();
   const { auth } = useAuth();
   const downArrow = "⌄"
-
-  //  console.log("auth in Navbar", auth)
 
   const signOut = async () => {
     await logout();
@@ -83,7 +78,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, pr
         </div>
 
 
-        {rideApp && showOptions.ride && ( 
+        {rideApp && showOptions.ride && (
           <div className="dropdown">
             <button onClick={() => handleSelectOption("/rides/public", "ride")}>See all rides</button>
             <button onClick={() => handleSelectOption("/rides/mine", "ride")}>Manage my rides</button>
@@ -138,7 +133,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, pr
               setFromButton(true)
               handleSelectOption("/maps", "map")
             }
-              }>Manage my maps</button>
+            }>Manage my maps</button>
             <button onClick={() => handleSelectOption("/maps/create", "map")}>Create a new map</button>
           </div>
         )}
@@ -217,7 +212,7 @@ export default function Navbar({ setFromButton, rideApp, setRideAppUndefined, pr
         >
           <div onClick={() => handleMouseEnter("myprofile")}>
             {auth.profilePicture !== null && auth.profilePicture && auth.profilePicture.endsWith('.jpg') ? (
-              <img className="profile-picture" src={profilePicture} alt=""/>
+              <img className="profile-picture" src={profilePicture} alt="" />
             ) : (
               <div className="profile-default-icon" onClick={() => navigate('/user/profile')}>
                 <FontAwesomeIcon icon={faUser} />

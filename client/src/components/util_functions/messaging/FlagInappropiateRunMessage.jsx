@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
@@ -7,10 +6,8 @@ import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function FlagInapropiateRunMessage({ messageId, setMessageFlagged }) {
 
-// console.log("messageId in util func delete ride", messageId)
-
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const BACKEND = process.env.REACT_APP_API_URL;
   const axiosPrivate = useAxiosPrivate();
 
@@ -35,9 +32,9 @@ export default function FlagInapropiateRunMessage({ messageId, setMessageFlagged
     catch (error) {
       console.error('Error:', error.message);
       setError('An error occurred while flagging the message.');
-    }  finally {
-        setIsLoading(false); // Set loading to false regardless of success or failure
-      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

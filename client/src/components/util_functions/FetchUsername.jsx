@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const fetchUsernameAndId = async (auth, setUsers, setIsLoading, setError, isMounted, filteredUsers) => {
-//  console.log("auth", auth)
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
 
@@ -18,7 +17,7 @@ const fetchUsernameAndId = async (auth, setUsers, setIsLoading, setError, isMoun
         user: auth.auth ? auth.auth : auth,
         filteredUsers
       }
-      
+
     });
     if (isMounted) {
       setUsers(response.data);

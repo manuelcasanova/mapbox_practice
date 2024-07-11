@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 
 const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerId, userLoggedInObject }) => {
@@ -7,13 +6,6 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
 
   const BACKEND = process.env.REACT_APP_API_URL;
   const axiosPrivate = useAxiosPrivate()
-
-// console.log(
-//   `FollowUserButton.jsx --> ${userLoggedInObject}, ${followers}, ${followerId}, ${userLoggedInObject}`
-// )
-
-  const userLoggedin = userLoggedInObject.id
-
 
   const amFollowingThem = followers.some(follower =>
     follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'accepted'
@@ -27,26 +19,11 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
     follower.follower_id === followerId && follower.followee_id === followeeId && follower.status === 'pending'
   );
 
-  // const pendingAcceptMe2 = followers.some(follower =>
-  //   follower.follower_id === userLoggedin && follower.followee_id === user.id && follower.status === 'pending'
-  // );
-
   const pendingAcceptThem = followers.some(follower =>
     follower.followee_id === followerId && follower.follower_id === followeeId && follower.status === 'pending'
   );
 
-
-  // const pendingAcceptThem2 = followers.some(follower =>
-  //   follower.followee_id === userLoggedin && follower.follower_id === user.id && follower.status === 'pending'
-  // );
-
-
-  // console.log("pendingAcceptme1", pendingAcceptMe, "pendinAcceptme2", pendingAcceptMe2, "pendingAccempthem1", pendingAcceptThem, "pendingacceptthem2", pendingAcceptThem2)
-
-  // Function to follow a user
   const followUser = (followeeId, followerId) => {
-
-    // console.log(`Following user with ID ${followeeId} from user with ID ${followerId}`);
 
     const data = {
       followeeId: followeeId,
@@ -57,8 +34,6 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
 
     axiosPrivate.post(`${BACKEND}/users/follow`, data)
       .then(response => {
-
-        // console.log('Follow request sent successfully:', response.data);
 
         const newFollower = response.data;
 
@@ -77,7 +52,6 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
         } else {
           // If no existing follower found, add the new follower to the state
           setFollowers(prevFollowers => [...prevFollowers, newFollower]);
-          // console.log('New follower added to state:', newFollower);
         }
 
       })
@@ -90,7 +64,6 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
 
   // Function to unfollow a user
   const unfollowUser = (followeeId, followerId) => {
-    // console.log(`Unfollowing user with ID ${followeeId} from user with ID ${followerId}`);
 
     const data = {
       followeeId: followeeId,
@@ -100,7 +73,7 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
 
     axiosPrivate.post(`${BACKEND}/users/unfollow`, data)
       .then(response => {
-        // console.log('Unfollow request sent successfully');
+
 
         const removedFollower = response.data;
 
@@ -111,7 +84,6 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
         );
 
         setFollowers(updatedFollowers);
-        // console.log('Follower removed from state:', removedFollower);
       })
       .catch(error => {
         console.error('Error sending unfollow request:', error);
@@ -154,24 +126,23 @@ const FollowUserButton = ({ user, followers, setFollowers, followeeId, followerI
       followerId: followerId,
       user: userLoggedInObject
     };
-  
+
     axiosPrivate.delete(`${BACKEND}/users/cancel-follow`, { data: data })
       .then(response => {
         const canceledFollower = response.data;
-  
+
         // Remove the canceled follower from the state
         const updatedFollowers = followers.filter(follower =>
           !(follower.follower_id === canceledFollower.follower_id &&
             follower.followee_id === canceledFollower.followee_id)
         );
         setFollowers(updatedFollowers);
-        // console.log('Follow request canceled successfully:', canceledFollower);
       })
       .catch(error => {
         console.error('Error canceling follow request:', error);
       });
   };
-  
+
 
   const handleFollow = () => {
     followUser(followeeId, followerId);

@@ -11,36 +11,27 @@ export const AuthProvider = ({ children }) => {
     const BACKEND = process.env.REACT_APP_API_URL;
     const axiosPrivate = useAxiosPrivate()
 
-
-    // console.log("auth in authProvider", auth)
-
-      // Function to update username (User Profile component)
       const updateUsername = async (newUsername) => {
         try {
-          // Define the URL of your backend endpoint
+  
           const url = `${BACKEND}/users/modifyusername`;
-    
-          // Prepare the data to be sent in the request body
+  
           const data = {
             userId: auth.userId,
             newUsername: newUsername
           };
     
-          // Make a POST request to the backend API
           const response = await axiosPrivate.post(url, data);
     
-          // Update the auth object with the new username
           setAuth((prevAuth) => ({
             ...prevAuth,
             username: newUsername
           }));
     
-          // Assuming the backend returns the updated user object, return it
-          return response.data.user; // Adjust the property name based on the actual response structure
+          return response.data.user;
         } catch (error) {
           console.error("Error updating username:", error);
-          // Handle errors, such as displaying error messages to the user
-          throw error; // Re-throw the error to propagate it to the caller
+          throw error; 
         }
       };
 

@@ -1,14 +1,14 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { jwtDecode } from 'jwt-decode'; // Correct import statement
+// import { jwtDecode } from 'jwt-decode'; 
 
 const RequireAuth = () => {
     const { auth } = useAuth();
     const location = useLocation();
 
-    let decoded = null;
+    // let decoded = null;
     try {
-        decoded = auth?.accessToken ? jwtDecode(auth.accessToken) : undefined;
+        // decoded = auth?.accessToken ? jwtDecode(auth.accessToken) : undefined;
     } catch (error) {
         console.error('Error decoding JWT token:', error);
     }

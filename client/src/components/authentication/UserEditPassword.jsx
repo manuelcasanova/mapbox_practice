@@ -88,20 +88,20 @@ export default function UserEditPassword(props) {
           type="password"
           id={user.userId}
           value={pwd}
-          ref={passwordRef} 
+          ref={passwordRef}
           aria-invalid={validPwd ? "false" : "true"}
           aria-describedby="pwdnote"
           onChange={(e) => {
             setPwd(e.target.value)
-            setShowPwdNote(!!e.target.value); 
+            setShowPwdNote(!!e.target.value);
           }}
 
-          
+
           onFocus={() => setPwdFocus(true)}
           onBlur={() => setPwdFocus(false)}
         />
         <p id="pwdnote" className={pwdFocus && !validPwd && showPwdNote ? "instructions" : "offscreen"}>
-          <FontAwesomeIcon icon={faInfoCircle} className="fa-info"/>
+          <FontAwesomeIcon icon={faInfoCircle} className="fa-info" />
           8 to 24 characters.
           Must include uppercase and lowercase letters, a number and a special character.<br />
           Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
@@ -115,7 +115,7 @@ export default function UserEditPassword(props) {
           <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
         </label>
         <input
-        className="edit-password-input"
+          className="edit-password-input"
           type="password"
           id={`uniqueid${user.userId}`}
           onChange={(e) => setMatchPwd(e.target.value)}
@@ -127,7 +127,7 @@ export default function UserEditPassword(props) {
           onBlur={() => setMatchFocus(false)}
         />
         <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
-          <FontAwesomeIcon icon={faInfoCircle} className="fa-info"/>
+          <FontAwesomeIcon icon={faInfoCircle} className="fa-info" />
           Must match the first password input field.
         </p>
       </div>

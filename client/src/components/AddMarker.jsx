@@ -1,14 +1,13 @@
 import { useEffect, useCallback } from "react";
 import { Marker, useMapEvents, Polyline } from "react-leaflet";
-import axios from "axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { icon_black, icon_green, icon_flag } from "./img/Icons";
 
-export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, editAllowed}) {
+export default function AddMarker({ saveMarkers, setRemovePoint, coord, setCoord, mapId, editAllowed }) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
-const axiosPrivate = useAxiosPrivate()
-  
+  const axiosPrivate = useAxiosPrivate()
+
   const fetchData = useCallback(() => {
     axiosPrivate.get(`${BACKEND}/points/${mapId}`)
       .then(function (res) {
@@ -26,11 +25,11 @@ const axiosPrivate = useAxiosPrivate()
   useMapEvents({
     click: (e) => {
       if (editAllowed) {
-      const { lat, lng } = e.latlng;
-      const newCoordinate = { lat, lng, timestamp: Date.now() };
-      setCoord([...coord, newCoordinate]);
-      saveMarkers([lat, lng]);
-      setRemovePoint(prevState => prevState + 1);
+        const { lat, lng } = e.latlng;
+        const newCoordinate = { lat, lng, timestamp: Date.now() };
+        setCoord([...coord, newCoordinate]);
+        saveMarkers([lat, lng]);
+        setRemovePoint(prevState => prevState + 1);
       } else {
         console.log("You are not authorized to add markers to this map.");
       }
@@ -46,7 +45,7 @@ const axiosPrivate = useAxiosPrivate()
           key={`marker-${index}`}
           position={pos}
           icon={
-            index === 0 ? icon_green : index === coord.length - 1 ? icon_flag : icon_black 
+            index === 0 ? icon_green : index === coord.length - 1 ? icon_flag : icon_black
           }
           eventHandlers={{
             click: (e) => {
@@ -55,8 +54,8 @@ const axiosPrivate = useAxiosPrivate()
           }}
         />
       ))}
-      
-      <Polyline positions={sortedCoordinates.map(pos => [pos.lat, pos.lng])} pathOptions={{ color: "black" }}/>
+
+      <Polyline positions={sortedCoordinates.map(pos => [pos.lat, pos.lng])} pathOptions={{ color: "darkblue" }} />
     </>
   );
 }

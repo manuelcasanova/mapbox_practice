@@ -20,10 +20,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
 
   const { auth } = useAuth()
 
-  // console.log (dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax)
-
   const handleFilter = () => {
-    // Prepare filter criteria
     const filters = {};
 
     if (dateStart !== '') {
@@ -60,7 +57,6 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
       filters.rId = rId
     }
 
-    // Pass filters to parent component
     onFilter(filters);
   };
 
@@ -105,9 +101,8 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
   };
 
   useEffect(() => {
-    // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax, runName, rId]); // Dependency array includes modified states
+  }, [dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax, runName, rId]);
 
 
   const clearFilter = () => {
@@ -128,7 +123,6 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
         <button
           className='red-button hide-big'
           onClick={() => handleShowFilter()}>x</button>
-        {/* <button onClick={handleFilter}>Apply Filters</button> */}
         <button title="Clear filter" className='orange-button' onClick={() => { clearFilter(); handleFilter(); }}><FontAwesomeIcon icon={faUndo}></FontAwesomeIcon></button>
         <button
           className='red-button hide-small'
@@ -160,7 +154,6 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
           onChange={handleDistanceMinChange}
           placeholder='Min (Km)'
         />
-        {/* <span>km -</span> */}
         <input
           className='filter-input'
           type="number"
@@ -168,7 +161,6 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
           onChange={handleDistanceMaxChange}
           placeholder='Max (Km)'
         />
-        {/* <span>km</span> */}
       </div>
       <div className='filter-range'>
         <label className='filter-label'>Pace:</label>
@@ -179,7 +171,6 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
           onChange={handlePaceMinChange}
           placeholder='Min (min/km)'
         />
-        {/* <span>min/km -</span> */}
         <input
           className='filter-input'
           type="number"
@@ -187,7 +178,6 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
           onChange={handlePaceMaxChange}
           placeholder='Max (min/km)'
         />
-        {/* <span>min/km</span> */}
       </div>
 
       <div className='filter-range'>
@@ -203,7 +193,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
       </div>
 
 
-      {auth.isAdmin && runsAllComponentMount && 
+      {auth.isAdmin && runsAllComponentMount &&
         <div className='filter-range'>
           <label className='filter-label'>Id:</label>
           <input

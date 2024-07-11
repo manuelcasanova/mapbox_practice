@@ -7,12 +7,11 @@ const fetchMutedUsers = async (auth, userLoggedin, isLoggedIn, setMutedUsers, se
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
     const response = await axiosPrivate.get(`${BACKEND}/users/muted`, { params: { userId: userLoggedin, isLoggedIn: isLoggedIn } });
-    // console.log("muted users in FetchMutedUsers", response.data.mutedUsers)
     setMutedUsers(response.data.mutedUsers);
   } catch (error) {
     console.error('Error fetching muted users:', error);

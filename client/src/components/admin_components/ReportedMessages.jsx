@@ -23,10 +23,6 @@ export default function ReportedMessages() {
   const [messageReported, setMessageReported] = useState(false)
   const [users, setUsers] = useState([]);
 
-  // useEffect(() => {
-  //   console.log("reportedMessages", reportedMessages)
-  // }, [reportedMessages])
-
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
@@ -42,7 +38,6 @@ export default function ReportedMessages() {
       try {
         setIsLoading(true);
         const reportedMessages = await fetchReportedMessages({ auth });
-        // console.log("reportedMessages", reportedMessages);
         if (isMounted) {
           setReportedMessages(reportedMessages);
           setIsLoading(false);
@@ -56,7 +51,7 @@ export default function ReportedMessages() {
     fetchMessages();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [messageFlagged, messageReported, auth]);
 
@@ -67,7 +62,7 @@ export default function ReportedMessages() {
   return (
     <>
       {isLoading ? (
-       <div className="loading"></div>
+        <div className="loading"></div>
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (

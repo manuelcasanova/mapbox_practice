@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import PreviewMap from "./PreviewMap";
 import CalendarComponent from "./CalendarComponent"
@@ -15,14 +14,9 @@ export default function CreateRun() {
   const axiosPrivate = useAxiosPrivate()
   const { auth, mapId, setMapId } = useAuth();
   const userId = auth.userId;
-  // console.log("userId in Create Run", auth)
   const [runType, setRunType] = useState("public");
 
-  // console.log(runType)
-
   const navigate = useNavigate();
-
-  //Pending use: useRef, focus, regex, error message, etc.
 
   const [title, setTitle] = useState('');
   const [distance, setDistance] = useState('');
@@ -82,22 +76,19 @@ export default function CreateRun() {
   }, [userId, setMapId]);
 
   useEffect(() => {
-    // console.log("isLoading:", isLoading);
   }, [isLoading]);
 
 
   const handleDateInputClick = () => {
-    if (!showCalendar) { // Toggle showCalendar only if it's not already shown
+    if (!showCalendar) {
       setShowCalendar(true);
     }
   };
 
   const handleDateSelect = (selectedDate) => {
     setDate(selectedDate);
-    setShowCalendar(false); // Hide the calendar once a date is selected
+    setShowCalendar(false);
   };
-
-  // console.log("dateStrin", dateString, "date", date, "time", time)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -127,186 +118,169 @@ export default function CreateRun() {
       setMapId(undefined);
       navigate('/runs/mine');
     } catch (error) {
-      // If there is an error in the response
       if (error.response && error.response.data && error.response.data.error) {
-        // Set the error message to state
         setError(error.response.data.error);
       } else {
-        // Handle other types of errors
         console.error('Error:', error.message);
         setError('An error occurred while creating the run.');
       }
     }
   };
 
-  // console.log(title, distance, pace, date, time, details, mapId)
-
   return (
     <>
       {auth.accessToken !== undefined ? (
-  
+
         <div className="create-container">
-        <label className="create-title">Create a new run</label>
+          <label className="create-title">Create a new run</label>
           <div className="container-list">
             <form
               className="container-form"
               onSubmit={handleSubmit}
             >
               <div className="create-label-input">
-              <label>Run title</label>
-              <input
-                onChange={(e) => {
-                  const userInput = e.target.value;
-                  if (userInput.length <= 255) {
-                    setTitle(userInput);
-                  }
-                }}
-                value={title}
-                required></input>
+                <label>Run title</label>
+                <input
+                  onChange={(e) => {
+                    const userInput = e.target.value;
+                    if (userInput.length <= 255) {
+                      setTitle(userInput);
+                    }
+                  }}
+                  value={title}
+                  required></input>
 
-</div>
-   <div className="create-label-input">
-              <label>
+              </div>
+              <div className="create-label-input">
+                <label>
                   Visibility
-              </label>
-              <select
-                value={runType}
-                onChange={handleChange}
-                name="runType"
-              >
-                <option value="public">Everyone</option>
-                <option value="followers">Followers</option>
-                <option value="private">Only me</option>
-              </select>
-
-          </div>
-
-          <div className="create-label-input">
-            <label>Date</label>
-
-            <input
-              onClick={handleDateInputClick}
-              onChange={(e) => setDate(e.target.value)}
-              value={dateString}
-              required></input>
-          </div>
-
-          {showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
-
-          <div className="create-label-input">
-            <label>Distance (Km)</label>
-            <input
-              type="text"
-              // Positive number or pattern 22-24
-              // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
-              pattern="\d+(\.\d+)?"
-              title="Distance must be a positive number"
-              onChange={(e) => setDistance(e.target.value)}
-              value={distance}
-              required
-            />
-          </div>
-
-          <div className="create-label-input">
-            <label>Pace (Min/Km)</label>
-            <input
-              type="text"
-              // pattern="(\d+(\.\d+)?|(\d+(\.\d+)?)?-\d+(\.\d+)?)"
-              pattern="\d+(\.\d+)?"
-              title="Pace must be a positive number"
-              onChange={(e) => setPace(e.target.value)}
-              value={pace}
-              required
-            />
-          </div>
-          <div className="create-time-label-input">
-            <label>Starting Time</label>
-            {/* <input
-              type="text"
-              pattern="^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$"
-              title="Format HH:MM:SS - 00:00:00 - 23:59:59"
-                onChange={(e) => setTime(e.target.value)}
-                value={time}
-                required></input> */}
-
-            <TimePickerComponent time={time} setTime={setTime} />
-          </div>
-          <div className="create-label-input">
-            <label>Meeting Point</label>
-            <input
-              onChange={(e) => {
-                const userInput = e.target.value;
-                if (userInput.length <= 255) {
-                  setMeetingPoint(userInput);
-                }
-              }}
-              value={meetingPoint}
-              required></input>
-          </div>
-          <div className="create-label-input">
-            <label>Details</label>
-            <input
-              onChange={(e) => {
-                const userInput = e.target.value;
-                if (userInput.length <= 255) {
-                  setDetails(userInput);
-                }
-              }}
-              value={details}
-              required></input>
-          </div>
-
-          <div className="create-label-input">
-          <label>Map</label>
-          {maps?.length
-            ?
-            <select
-              // className="allmaps"
-              value={mapId}
-              onChange={(e) =>
-                setMapId(e.target.value)
-              }
-              disabled={!maps || maps.length === 0} // Disable the dropdown if maps are not available
-            >
-              {maps.map((map, index) =>
-                <option
-                  key={index}
-                  value={map.id}
+                </label>
+                <select
+                  value={runType}
+                  onChange={handleChange}
+                  name="runType"
                 >
-                  Title: {map.title}
-                </option>
-              )}
-            </select>
-            :
-            <p>No maps to select. Create or add a map.</p>
-          }
+                  <option value="public">Everyone</option>
+                  <option value="followers">Followers</option>
+                  <option value="private">Only me</option>
+                </select>
+
+              </div>
+
+              <div className="create-label-input">
+                <label>Date</label>
+
+                <input
+                  onClick={handleDateInputClick}
+                  onChange={(e) => setDate(e.target.value)}
+                  value={dateString}
+                  required></input>
+              </div>
+
+              {showCalendar && <CalendarComponent date={date} setDate={handleDateSelect} />}
+
+              <div className="create-label-input">
+                <label>Distance (Km)</label>
+                <input
+                  type="text"
+                  pattern="\d+(\.\d+)?"
+                  title="Distance must be a positive number"
+                  onChange={(e) => setDistance(e.target.value)}
+                  value={distance}
+                  required
+                />
+              </div>
+
+              <div className="create-label-input">
+                <label>Pace (Min/Km)</label>
+                <input
+                  type="text"
+                  pattern="\d+(\.\d+)?"
+                  title="Pace must be a positive number"
+                  onChange={(e) => setPace(e.target.value)}
+                  value={pace}
+                  required
+                />
+              </div>
+              <div className="create-time-label-input">
+                <label>Starting Time</label>
+                <TimePickerComponent time={time} setTime={setTime} />
+              </div>
+              <div className="create-label-input">
+                <label>Meeting Point</label>
+                <input
+                  onChange={(e) => {
+                    const userInput = e.target.value;
+                    if (userInput.length <= 255) {
+                      setMeetingPoint(userInput);
+                    }
+                  }}
+                  value={meetingPoint}
+                  required></input>
+              </div>
+              <div className="create-label-input">
+                <label>Details</label>
+                <input
+                  onChange={(e) => {
+                    const userInput = e.target.value;
+                    if (userInput.length <= 255) {
+                      setDetails(userInput);
+                    }
+                  }}
+                  value={details}
+                  required></input>
+              </div>
+
+              <div className="create-label-input">
+                <label>Map</label>
+                {maps?.length
+                  ?
+                  <select
+                    value={mapId}
+                    onChange={(e) =>
+                      setMapId(e.target.value)
+                    }
+                    disabled={!maps || maps.length === 0}
+                  >
+                    {maps.map((map, index) =>
+                      <option
+                        key={index}
+                        value={map.id}
+                      >
+                        Title: {map.title}
+                      </option>
+                    )}
+                  </select>
+                  :
+                  <p>No maps to select. Create or add a map.</p>
+                }
+              </div>
+              <button
+                type="submit"
+                className="create-button"
+                disabled={!mapId || !title || !distance || !pace || !meetingPoint || !details}
+              >Create
+              </button>
+
+              {error && <p>Error: {error}</p>}
+            </form>
+
+
+
           </div>
-          <button
-            type="submit"
-            className="create-button"
-            disabled={!mapId || !title || !distance || !pace || !meetingPoint || !details}
-          >Create
-          </button>
-
-          {error && <p>Error: {error}</p>}
-        </form>
-
-
-
-    </div>
 
         </div>
 
 
       ) : (
-    <p>Please log in to create a ride.</p>
-  )
-}
+        <p>Please log in to create a ride.</p>
+      )
+      }
 
-{
-    mapId && mapId !== null && mapId !== undefined &&
-    <PreviewMap mapId={mapId} setMapId={setMapId} />
-  }
+      {
+        mapId && mapId !== null && mapId !== undefined &&
+        <PreviewMap mapId={mapId} setMapId={setMapId} />
+      }
 
     </ >
 

@@ -5,18 +5,18 @@ import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function AdminOkReportedMessage({ messageId, setMessageReported }) {
 
-// console.log("messageId in util func delete ride", messageId)
-const BACKEND = process.env.REACT_APP_API_URL;
-const axiosPrivate = useAxiosPrivate();
+  // console.log("messageId in util func delete ride", messageId)
+  const BACKEND = process.env.REACT_APP_API_URL;
+  const axiosPrivate = useAxiosPrivate();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInappropiate = async () => {
     try {
-      setIsLoading(true); 
+      setIsLoading(true);
       const response = await axiosPrivate.post(
         `${BACKEND}/rides/message/ok/${messageId}`,
-        {}, 
+        {},
         {
           headers: {
             "Content-Type": "application/json"
@@ -35,7 +35,7 @@ const axiosPrivate = useAxiosPrivate();
       console.error('Error:', error.message);
       setError('An error occurred while okying the message.');
     } finally {
-      setIsLoading(false); // Set loading to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 

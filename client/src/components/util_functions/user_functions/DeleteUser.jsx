@@ -1,34 +1,24 @@
-
-
 //Libraries
 import axios from 'axios';
 
-
 const BACKEND = process.env.REACT_APP_API_URL;
 
-
 export const activateUser = async (user, loggedInUser, auth) => {
-// console.log("loggedInUser in activateuser in DeleteUser.jsx", loggedInUser)
-// console.log("user in activate user in jsx", user)
   try {
     const userId = user.id;
     const isUserLoggedIn = loggedInUser.accessToken !== null;
-  //  console.log("deleteuser.jsx isUserLoggedIn", isUserLoggedIn)
- 
-// console.log("activateuser", userId, isUserLoggedIn)
 
-  const axiosPrivate = axios.create({
-    baseURL: BACKEND,
-    headers: {
-      Authorization: `Bearer ${auth?.accessToken}` 
-    }
-  });
+    const axiosPrivate = axios.create({
+      baseURL: BACKEND,
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`
+      }
+    });
 
     await axiosPrivate.post(`${BACKEND}/user/activate/${userId}`, {
       userId, isUserLoggedIn
     });
 
-    
 
   } catch (error) {
     console.error(error);
@@ -40,7 +30,6 @@ export const deactivateUser = async (user, loggedInUser, auth) => {
   try {
     const userId = user.id || user.userId;
     const isUserLoggedIn = loggedInUser.accessToken !== null;
-    // console.log("userId deactivateUser", userId, "isUserLoggedIn", isUserLoggedIn)
 
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
@@ -53,7 +42,7 @@ export const deactivateUser = async (user, loggedInUser, auth) => {
       userId, isUserLoggedIn
     });
 
-    
+
 
   } catch (error) {
     console.error(error);
@@ -68,7 +57,7 @@ export const deleteUser = async (userObject, user, setUsers, loggedInUser, auth)
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
 
@@ -78,12 +67,7 @@ export const deleteUser = async (userObject, user, setUsers, loggedInUser, auth)
 
 
     setUsers(prevUsers => {
-      // Filter out the user that has been removed
-
-
       return prevUsers.filter(user => user.id !== userId);
-
-
     });
 
   } catch (error) {

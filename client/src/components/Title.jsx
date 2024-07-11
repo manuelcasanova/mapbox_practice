@@ -6,9 +6,8 @@ import '../styles/Title.css'
 function TitleNonTouch({ showUn, toggleShowUn }) {
   const [hover, setHover] = useState(false);
 
-useEffect(() => {
-  // console.log("hover", hover)
-}, [hover])
+  useEffect(() => {
+  }, [hover])
 
   const handleHover = () => {
     setHover(true);
@@ -41,9 +40,7 @@ function TitleTouch({ showUn, toggleShowUn }) {
 
 export default function Title({ rideApp, setRideApp }) {
   const navigate = useNavigate();
-  const [showUn, setShowUn] = useState(rideApp); //Before "true"
-
-// console.log("rideApp in Title", rideApp)
+  const [showUn, setShowUn] = useState(rideApp);
 
   const toggleShowUn = () => {
     setShowUn(!showUn);

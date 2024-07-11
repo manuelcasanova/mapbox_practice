@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function AdminOkReportedRunMessage({ messageId, setMessageReported }) {
@@ -16,7 +15,7 @@ export default function AdminOkReportedRunMessage({ messageId, setMessageReporte
 
       const response = await axiosPrivate.post(
         `${BACKEND}/runs/message/ok/${messageId}`,
-        {}, 
+        {},
         {
           headers: {
             "Content-Type": "application/json"
@@ -34,7 +33,7 @@ export default function AdminOkReportedRunMessage({ messageId, setMessageReporte
       console.error("Error:", error.message);
       setError("An error occurred while okying the message.");
     } finally {
-      setIsLoading(false); // Set loading to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 

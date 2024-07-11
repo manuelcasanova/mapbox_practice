@@ -15,19 +15,14 @@ export default function FlaggedMessages() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [flaggedMessages, setFlaggedMessages] = useState([]);
-  // const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
-  const [users, setUsers] = useState([]); 
-
-  // useEffect(() => {
-  //   console.log("flaggedMessages", flaggedMessages)
-  // }, [flaggedMessages])
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
   }, [auth]);
 
@@ -37,8 +32,7 @@ export default function FlaggedMessages() {
     const fetchMessages = async () => {
       try {
         setIsLoading(true);
-        const flaggedMessages = await fetchFlaggedMessages({auth}); 
-        // console.log("flaggedMessages", flaggedMessages);
+        const flaggedMessages = await fetchFlaggedMessages({ auth });
         if (isMounted) {
           setFlaggedMessages(flaggedMessages);
           setIsLoading(false);
@@ -52,12 +46,9 @@ export default function FlaggedMessages() {
     fetchMessages();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
-  }, [
-    // messageFlagged, 
-    auth,
-    messageReported]); 
+  }, [auth, messageReported]);
 
   if (!auth.isAdmin) {
     return <p>Admin only: Access denied.</p>;
@@ -70,13 +61,13 @@ export default function FlaggedMessages() {
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (
-        
+
         <div className="reported-messages-container">
           <div className="users-title">Flagged messages</div>
           {flaggedMessages.length > 0 ? (
-                  <table className="reported-messages-table">
+            <table className="reported-messages-table">
 
-<thead>
+              <thead>
                 <tr>
                   <th>Message</th>
                   <th>Message by</th>
@@ -87,19 +78,19 @@ export default function FlaggedMessages() {
                 </tr>
               </thead>
               <tbody>
-              {flaggedMessages.map((message) => (
-                <tr key={`${message.createdat}-${message.createdby}`}>
-                  <td>{message.message}</td>
-                  <td>{
+                {flaggedMessages.map((message) => (
+                  <tr key={`${message.createdat}-${message.createdby}`}>
+                    <td>{message.message}</td>
+                    <td>{
                       users.find(user => user.id === message.createdby)?.username || "Unknown User"
                     }</td>
-                  <td>{message.ride_id}</td>  
-                  <td>{
+                    <td>{message.ride_id}</td>
+                    <td>{
                       users.find(user => user.id === message.reportedby)?.username || "Unknown User"
                     }</td>
-                  <td><AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported}/>       </td> 
+                    <td><AdminOkReportedMessage messageId={message.id} setMessageReported={setMessageReported} />       </td>
                   </tr>
-              ))}
+                ))}
               </tbody>
             </table>
           ) : (

@@ -17,7 +17,6 @@ import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import MappedMessage from './util_functions/messaging/MappedMessage';
 import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
-// import { removeFromMyRides } from './util_functions/ride_functions/DeleteRide';
 
 
 const RidesUser = () => {
@@ -53,30 +52,17 @@ const RidesUser = () => {
   const [messageDeleted, setMessageDeleted] = useState(false)
   const [messageFlagged, setMessageFlagged] = useState(false)
   const [messageReported, setMessageReported] = useState(false)
-
   const [rideStatusUpdated, setRideStatusUpdated] = useState(false)
-
   const [reloadMessages, setReloadMessages] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
-
-  // console.log("rides", rides)
-  // console.log("filtered rides", filteredRides)
-
-  // const [addToMyRides, setAddToMyRides] = useState([])
   const { auth } = useAuth();
   const userIsLoggedIn = auth.loggedIn;
   const id = auth ? auth.userId : null;
   const userId = id
-  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
+  const [users, setUsers] = useState([]);
   const [confirmDelete, setConfirmDelete] = useState(false)
-  // const navigate = useNavigate();
 
-  // console.log("rides", rides)
-
-
-  // console.log("isrcbyser", isRideCreatedByUser)
   const onFilter = (filters) => {
-    // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
     setFilteredRides(filters)
   };
 
@@ -84,7 +70,7 @@ const RidesUser = () => {
     let isMounted = true;
     fetchUsernameAndId(auth, setUsers, setIsLoading, setError, isMounted)
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [auth]);
 
@@ -133,11 +119,11 @@ const RidesUser = () => {
     if (id !== null && id !== undefined) {
       fetchData();
     } else {
-      setIsLoading(false); // If user is not logged in, set isLoading to false immediately
+      setIsLoading(false);
     }
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [id, filteredRides, messageSent, messageDeleted, messageReported, messageFlagged, rideStatusUpdated, reloadMessages, auth, BACKEND, axiosPrivate]);
 
@@ -150,7 +136,6 @@ const RidesUser = () => {
             userId
           }
         });
-        // Check if the response data is not an empty array before updating the state
         if (Array.isArray(response.data) && response.data.length > 0) {
           setUserRides(response.data);
         } else {
@@ -172,20 +157,17 @@ const RidesUser = () => {
   const removeFromMyRides = async (id) => {
     try {
       const userId = auth.userId;
-      // const rideId = id;
-      // console.log("remove from my rides", userId, rideId)
+
       await axiosPrivate.delete(`${BACKEND}/rides/delete/users/${id}`, {
         data: { userId }
       });
       setRides(rides.filter(ride => ride.id !== id));
-      // console.log(`Ride with ${id} id deleted`);
-      // navigate("/");
+
     } catch (error) {
       console.error(error);
     }
   };
 
-  // Function to format the current date as 'yyyy-mm-dd'
   function getCurrentDateFormatted() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -204,14 +186,6 @@ const RidesUser = () => {
     setShowFilter(prev => !prev)
   }
 
-  // const handleShowDetails = () => {
-  //   setShowDetails(prev => !prev)
-  // }
-
-  // const handleShowMap = () => {
-  //   setShowMap(prev => !prev)
-  // }
-
   const handleReloadMessages = () => {
     setReloadMessages(prev => !prev)
   }
@@ -219,8 +193,6 @@ const RidesUser = () => {
   const handleShowInfo = () => {
     setShowInfo(prev => !prev)
   }
-
-
 
   if (isLoading) {
     return <div className="loading"></div>;
@@ -249,7 +221,6 @@ const RidesUser = () => {
 
             <div>
               {rides.map(ride => {
-                // Extract the date formatting logic here
                 const originalDate = ride.starting_date;
                 const formattedDate = formatDate(originalDate);
                 const isRideCreatedByUser = ride.createdby === userId;
@@ -274,11 +245,9 @@ const RidesUser = () => {
                     hour12: false,
                   };
 
-                  // Format date and time separately
                   const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
                   const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
 
-                  // Return the desired output format
                   return `${formattedDate} at ${formattedTime}`;
                 };
 
@@ -287,7 +256,6 @@ const RidesUser = () => {
 
                 const usersInThisRide = userRides.filter(userRide => userRide.ride_id === ride.id);
 
-                // Render the JSX elements, including the formatted date
                 return (
                   <div
                     className='rides-public-ride'
@@ -317,10 +285,6 @@ const RidesUser = () => {
                     </div>
 
 
-
-
-
-
                     <div className="rides-public-ride-name">Name: {ride.name}</div>
 
                     <div>Date: {formattedDate}</div>
@@ -331,21 +295,6 @@ const RidesUser = () => {
                     <div>Distance: {ride.distance} km</div>
                     <div>Speed: {ride.speed} km/h</div>
 
-
-                    {/* {!showDetails && (
-                      <div className='rides-public-ride-top-buttons'>
-                        <button className='orange-button' onClick={handleShowMap}>{showMap ?
-                          <div className='map-crossed-out'>
-                            <FontAwesomeIcon icon={faMapLocation} />
-                            <div className='cross-map'></div>
-                          </div>
-
-                          :
-                          <FontAwesomeIcon icon={faMapLocation} />
-                        }</button>
-
-
-                      </div>)} */}
 
                     {showDetails === ride.id && <>
 
@@ -396,11 +345,11 @@ const RidesUser = () => {
 
 
                                 {userRides
-                                  .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
-                                  .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+                                  .filter(userRide => !userRide.isprivate)
+                                  .filter(userRide => userRide.ride_id === ride.id)
                                   .map(userRide => {
                                     const user = users.find(user => user.id === userRide.user_id);
-                                    return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                    return user ? user.username : "";
                                   })
                                   .join(', ')
                                 }
@@ -430,28 +379,28 @@ const RidesUser = () => {
                         <AddRideMessage userId={userId} userIsLoggedIn={userIsLoggedIn} rideId={ride.id} setMessageSent={setMessageSent} />
 
                         <div className='refresh-messages-and-info'>
-                                <button 
-                                className='orange-button button-small'
-                                onClick={handleReloadMessages}
-                                >Update messages</button>
-                                <button
-                                className='info-button'
-                                onClick={handleShowInfo}
-                                >i</button>
-                                </div>
+                          <button
+                            className='orange-button button-small'
+                            onClick={handleReloadMessages}
+                          >Update messages</button>
+                          <button
+                            className='info-button'
+                            onClick={handleShowInfo}
+                          >i</button>
+                        </div>
 
-{showInfo && (
-  <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
-)}
+                        {showInfo && (
+                          <div className='info-message'>Our team of developers is working on a feature to update messages automatically when any user writes them. In the mean time, please use this button.</div>
+                        )}
 
                         {ride.messages && (
-                          
+
                           <div>
                             {ride.messages.map(message =>
-                           
+
                             (
                               <React.Fragment key={message.id}>
-                              
+
                                 {message.status === 'deleted' &&
                                   <div
                                     key={`${message.createdat}-${message.createdby}`}
@@ -488,7 +437,7 @@ const RidesUser = () => {
 
 
                                 )}
-                               </React.Fragment >
+                              </React.Fragment >
                             )
                             )}
                           </div>

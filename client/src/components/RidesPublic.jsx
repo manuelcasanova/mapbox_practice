@@ -30,12 +30,11 @@ const RidesPublic = () => {
   const [showDetails, setShowDetails] = useState(null)
   const [showConversation, setShowConversation] = useState(null)
   const [showUsers, setShowUsers] = useState(null)
-  // const [showModal, setShowModal] = useState(null)
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [addToMyRides, setAddToMyRides] = useState([])
   const [userRides, setUserRides] = useState([]);
-  const [users, setUsers] = useState([]); //Fetch usernames and ids to use in Ride followed by
+  const [users, setUsers] = useState([]);
 
   const [messageSent, setMessageSent] = useState(false)
   const [messageDeleted, setMessageDeleted] = useState(false)
@@ -82,31 +81,22 @@ const RidesPublic = () => {
       hour12: false,
     };
 
-    // Format date and time separately
     const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
     const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
 
-    // Return the desired output format
     return `${formattedDate} at ${formattedTime}`;
   };
 
-
-  // console.log("filteredRides", filteredRides)
   const userId = auth.userId;
-  //  console.log("auth in Rides Public", auth)
   const userIsLoggedIn = auth.accessToken !== null;
 
 
 
   const onFilter = (filters) => {
-    // Here you can apply the filters to your data (e.g., rides) and update the state accordingly
     setFilteredRides(filters)
   };
 
   useEffect(() => {
-    // console.log("filtered Rides", filteredRides)
-    //   console.log("Rides", rides)
-    //   console.log("users", users)
   }, [rides])
 
   useEffect(() => {
@@ -141,7 +131,6 @@ const RidesPublic = () => {
           setIsLoading(false);
 
 
-          // Fetch messages for each ride
           const rideMessagesPromises = response.data.map(ride => fetchRideMessages(ride.id, auth));
           const rideMessages = await Promise.all(rideMessagesPromises);
           setRides(prevRides => {
@@ -168,7 +157,7 @@ const RidesPublic = () => {
     fetchData();
 
     return () => {
-      isMounted = false; // Cleanup function to handle unmounting
+      isMounted = false;
     };
   }, [
     auth, BACKEND,
@@ -194,7 +183,7 @@ const RidesPublic = () => {
       } catch (error) {
         console.error('Error fetching user rides:', error);
       } finally {
-        setIsLoading(false); // Set loading to false regardless of success or failure
+        setIsLoading(false);
       }
 
     };
@@ -206,10 +195,6 @@ const RidesPublic = () => {
     setShowFilter(prev => !prev)
   }
 
-  // const handleShowModal = () => {
-  //   setShowModal(prev => !prev)
-  // }
-
   const handleReloadMessages = () => {
     setReloadMessages(prev => !prev)
   }
@@ -219,11 +204,9 @@ const RidesPublic = () => {
   }
 
   const toggleAddToMyRides = (index) => {
-    // console.log("add to my rides before", addToMyRides);
     setAddToMyRides(prevState => {
       const newState = [...prevState];
       newState[index] = !newState[index];
-      // console.log("add to my rides after", newState); // Log the updated state
       return newState;
     });
   };
@@ -235,18 +218,16 @@ const RidesPublic = () => {
       if (!auth || Object.keys(auth).length === 0) {
         throw new Error("Login to access this area.");
       }
-      // console.log("Adding to ride...");
       await axiosPrivate.post(`${BACKEND}/rides/adduser`, {
         userId, userIsLoggedIn, rideId, isPrivate
       });
-      // console.log("Successfully added to ride.");
-      toggleAddToMyRides(index); // Toggle state for the clicked ride
+      toggleAddToMyRides(index);
       setError(null)
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
     } finally {
-      setIsLoading(false); // Set loading to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 
@@ -258,22 +239,19 @@ const RidesPublic = () => {
       if (!auth || Object.keys(auth).length === 0) {
         throw new Error("Login to access this area.");
       }
-      // console.log("Adding to map...");
       await axiosPrivate.delete(`${BACKEND}/rides/removeuser`, {
         data: { userId, userIsLoggedIn, rideId }
       });
-      // console.log("Successfully added to map.");
-      toggleAddToMyRides(index); // Toggle state for the clicked map
+      toggleAddToMyRides(index);
       setError(null)
     } catch (err) {
       console.log("error", err);
       setError(err.response.data.message || "An error occurred. Try again later or contact the administrator.");
     } finally {
-      setIsLoading(false); // Set loading to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 
-  // Function to format the current date as 'yyyy-mm-dd'
   function getCurrentDateFormatted() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -326,11 +304,7 @@ const RidesPublic = () => {
                   return (
 
                     <React.Fragment key={ride.id} >
-                      {/* 
-                      {showModal && <div className='modal-container'>
-                        <button onClick={handleShowModal}>x</button>
-                        <div className='modal-content'>Modal content</div>
-                      </div>} */}
+
 
                       <div
                         className='rides-public-ride'
@@ -370,14 +344,6 @@ const RidesPublic = () => {
                           <div className='rides-public-ride-top-buttons'>
 
 
-
-
-                            {/* <button className='orange-button' onClick={() => setShowDetails(prev => prev === ride.id ? null : ride.id)}>{showDetails === ride.id ?
-                              <FontAwesomeIcon icon={faCaretUp} /> :
-                              <FontAwesomeIcon icon={faCaretDown} />}</button> */}
-
-                            {/* <button onClick={handleShowModal} className='orange-button'>+</button> */}
-
                           </div>)}
 
 
@@ -408,7 +374,6 @@ const RidesPublic = () => {
                               <div className='rides-public-remove-button'>
                                 <button className="red-button small-button" onClick={(e) => removeFromRide(e, index, ride.id)}>Remove from my rides</button>
 
-                                {/* <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>{showUsers === ride.id ? 'Hide users' : 'Show users'}</button> */}
                                 <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
                                   {showUsers && showUsers === ride.id ? (
                                     'Hide users'
@@ -426,7 +391,7 @@ const RidesPublic = () => {
                               <div className='rides-public-join-buttons'>
                                 <button className='orange-button small-button' onClick={(e) => addToRide(e, index, ride.id, true)}>Join privately</button>
                                 <button className='orange-button small-button' onClick={(e) => addToRide(e, index, ride.id, false)}>Join publicly</button>
-                                {/* <button className='orange-button small-button' onClick={() => setShowUsers(!showUsers)}>{showUsers ? 'Hide users' : 'Show users'}</button> */}
+
                                 <button className='orange-button small-button' onClick={() => setShowUsers(prev => prev === ride.id ? null : ride.id)}>
                                   {showUsers && showUsers === ride.id ? (
                                     'Hide users'
@@ -451,11 +416,11 @@ const RidesPublic = () => {
                                       {usersInThisRide.filter(obj => !obj.isprivate && obj.ride_id === ride.id).length} of them publicly:
                                       <span> </span>
                                       {userRides
-                                        .filter(userRide => !userRide.isprivate) // Filter out rides where isPrivate is false
-                                        .filter(userRide => userRide.ride_id === ride.id) // Filter userRides for the specific ride
+                                        .filter(userRide => !userRide.isprivate)
+                                        .filter(userRide => userRide.ride_id === ride.id)
                                         .map(userRide => {
                                           const user = users.find(user => user.id === userRide.user_id);
-                                          return user ? user.username : ""; // Return username if user found, otherwise an empty string
+                                          return user ? user.username : "";
                                         })
                                         .join(', ')
                                       }
@@ -528,14 +493,12 @@ const RidesPublic = () => {
                                           <div>
                                             {message.status === 'flagged' && message.createdby === userId && (
                                               <div>
-                                                {/* <div className='flagged-inappropiate-message'>Flagged as inappropiate. Not visible for other users</div> */}
                                                 <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                               </div>
                                             )}
                                             {message.status === 'flagged' && message.createdby !== userId && (
                                               <div>
                                                 <div className='flagged-inappropiate-message'>
-                                                  {/* Message concealed due to inappropiate content. */}
 
                                                   <MappedMessage message={message} user={auth} setMessageDeleted={setMessageDeleted} setMessageReported={setMessageReported} setMessageFlagged={setMessageFlagged} />
                                                 </div>

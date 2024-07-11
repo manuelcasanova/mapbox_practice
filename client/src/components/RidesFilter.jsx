@@ -22,7 +22,7 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
   const { auth } = useAuth()
 
   const handleFilter = () => {
-    // Prepare filter criteria
+
     const filters = {};
 
     if (dateStart !== '') {
@@ -59,7 +59,6 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
       filters.rId = rId
     }
 
-    // Pass filters to parent component
     onFilter(filters);
   };
 
@@ -105,9 +104,8 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
 
 
   useEffect(() => {
-    // This useEffect will trigger after states modified by clearFilter are updated
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, rideName, rId]); // Dependency array includes modified states
+  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, rideName, rId]);
 
 
   const clearFilter = () => {
@@ -159,7 +157,6 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
           onChange={handleDistanceMinChange}
           placeholder='Min (Km)'
         />
-        {/* <span className='filter-span'>km -</span> */}
         <input
           className='filter-input'
           type="number"
@@ -167,7 +164,6 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
           onChange={handleDistanceMaxChange}
           placeholder='Max (Km)'
         />
-        {/* <span className='filter-span'>km</span> */}
       </div>
       <div className='filter-range'>
         <label className='filter-label'>Speed:</label>
@@ -178,7 +174,6 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
           onChange={handleSpeedMinChange}
           placeholder='Min (Km/h)'
         />
-        {/* <span className='filter-span'>km/h -</span> */}
         <input
           className='filter-input'
           type="number"
@@ -186,7 +181,6 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
           onChange={handleSpeedMaxChange}
           placeholder='Max (Km/h)'
         />
-        {/* <span className='filter-span'>km/h</span> */}
       </div>
 
       <div className='filter-range'>
@@ -202,26 +196,21 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
       </div>
 
 
-{auth.isAdmin && ridesAllComponentMount && 
-      <div className='filter-range'>
-      <label className='filter-label'>Id:</label>
-      <input
-        className='filter-input'
-        type="number"
-        value={rId === 0 ? "" : rId}
-        onChange={handleRIdChange}
-        placeholder='Number'
-      />
+      {auth.isAdmin && ridesAllComponentMount &&
+        <div className='filter-range'>
+          <label className='filter-label'>Id:</label>
+          <input
+            className='filter-input'
+            type="number"
+            value={rId === 0 ? "" : rId}
+            onChange={handleRIdChange}
+            placeholder='Number'
+          />
 
-    </div>
+        </div>
 
-}
+      }
 
-
-
-
-
-      {/* <button onClick={handleFilter}>Apply Filters</button> */}
 
     </div>
   );

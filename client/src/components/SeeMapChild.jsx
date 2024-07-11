@@ -34,11 +34,7 @@ export default function SeeMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy 
 
   return (
     <>
-      {/* Viewing map */}
       <div className="map-outer-container">
-        {/* Map id: {mapId}
-        Map title: {mapTitle}
-        Map created by: {mapCreatedBy} */}
 
         <MapContainer zoom={13} style={{ height: "400px" }}>
           <TileLayer
@@ -46,7 +42,6 @@ export default function SeeMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy 
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* Show or do not show markers */}
           {coords.map((coord, index) => (
             <Marker
               key={index}
@@ -58,9 +53,9 @@ export default function SeeMapChild({ rideCoords, mapId, mapTitle, mapCreatedBy 
           ))}
 
           {coords.length > 1 && <Bounds coords={coords} />}
-          <Polyline positions={coords} pathOptions={{color: 'red'}} />
-              {/* LocationMarker disabled to avoid flying to my coords */}
-          <LocationMarker /> 
+          <Polyline positions={coords} pathOptions={{ color: 'red' }} />
+          {/* LocationMarker disabled to avoid flying to my coords */}
+          <LocationMarker />
         </MapContainer>
       </div>
     </>

@@ -1,15 +1,13 @@
 import axios from 'axios';
 
 const fetchUserMessages = async (auth, userForMessages, messages, setMessages) => {
-  //  console.log("rideId fetchRideMessage", rideId)
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
 
-    
     const axiosPrivate = axios.create({
       baseURL: BACKEND,
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}` // Assuming auth.token is the JWT token
+        Authorization: `Bearer ${auth?.accessToken}`
       }
     });
     const response = await axiosPrivate.get(`${BACKEND}/users/messages/read`, {
@@ -19,7 +17,6 @@ const fetchUserMessages = async (auth, userForMessages, messages, setMessages) =
       }
     });
     setMessages(response.data)
-      // console.log("response.data in fetchUserMessages", response.data)
     return response.data;
   } catch (error) {
     console.error('Error fetching user messages:', error);

@@ -26,29 +26,27 @@ export default function AddRunMessage({ userId, userIsLoggedIn, runId, setMessag
 
     try {
       const response = await axiosPrivate.post(`${BACKEND}/runs/addmessage`, {
-          message,
-          userId,
-          userIsLoggedIn,
-          runId
+        message,
+        userId,
+        userIsLoggedIn,
+        runId
       },
-    
-    {      headers: {
-      "Content-Type": "application/json",
-    }
-  }
-    );
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }
+      );
 
 
       if (!response.data) {
         throw new Error("Failed to add message");
       }
       else {
-        // Reset message input field and display success message
         setMessage("");
         setError("");
         setMessageSent(prev => !prev)
-        // console.log("Message sent successfully!");
-        // You might want to show a success message to the user here
       }
     }
     catch (error) {
@@ -59,35 +57,35 @@ export default function AddRunMessage({ userId, userIsLoggedIn, runId, setMessag
         setError('An error occurred while sending the message.');
       }
     } finally {
-      setIsLoading(false); // Set loading to false regardless of success or failure
+      setIsLoading(false);
     }
-};
+  };
 
-const handleMessageChange = (e) => {
-  const inputValue = e.target.value;
-  if (inputValue.length < 255) {
-    setMessage(inputValue);
-  }
-};
+  const handleMessageChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue.length < 255) {
+      setMessage(inputValue);
+    }
+  };
 
-const handleKeyDown = (e) => {
-  if (e.key === 'Enter') {
-    handleSubmit(e);
-  }
-};
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
 
-return (
-  <div className="add-ride-message-container">
-    <textarea 
-    placeholder="Aa"
-    wrap="soft"
-    className="add-ride-message-input" ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
-      handleKeyDown} />
-    <button 
-    className="orange-button small-button"
-    onClick={handleSubmit}
-    >Send</button>
-     {error && <div>{error}</div>}
-  </div>
-);
+  return (
+    <div className="add-ride-message-container">
+      <textarea
+        placeholder="Aa"
+        wrap="soft"
+        className="add-ride-message-input" ref={inputRef} type="text" value={message} onChange={handleMessageChange} onKeyDown={
+          handleKeyDown} />
+      <button
+        className="orange-button small-button"
+        onClick={handleSubmit}
+      >Send</button>
+      {error && <div>{error}</div>}
+    </div>
+  );
 }

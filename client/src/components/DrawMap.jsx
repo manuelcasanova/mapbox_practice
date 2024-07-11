@@ -9,7 +9,6 @@ import greencircle from '../components/img/greencircle.png'
 import recyclingBin from '../components/img/delete.png'
 import undo from '../components/img/undo.png'
 import AddMarker from "./AddMarker";
-// import { useAuth } from "./Context/AuthContext";
 import useAuth from "../hooks/useAuth"
 
 import '../styles/DrawMap.css'
@@ -19,7 +18,6 @@ import { useCoords } from '../components/util_functions/GetBrowserLocation';
 //Util functions
 
 import { removeUsersFromMap } from "./util_functions/map_functions/map_functions.jsx";
-// import { deleteMap } from "./util_functions/map_functions/map_functions.jsx";
 import { deactivateMap } from "./util_functions/map_functions/map_functions.jsx";
 
 L.Marker.prototype.options.icon = L.icon({
@@ -58,9 +56,6 @@ function Bounds({ coordinadasPara, defaultBounds }) {
   return null;
 }
 
-
-
-
 export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, setFake, fromButton, users }) {
 
   const BACKEND = process.env.REACT_APP_API_URL;
@@ -83,34 +78,25 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   const [coord, setCoord] = useState([]);
   //State used to refresh when a point is added or removed, so the connecting line adjusts to the new route.
   const [removePoint, setRemovePoint] = useState(0)
-  // const defaultPosition = ; // Downtown Vancouver, BC coordinates
 
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   const defaultPosition = useMemo(() => {
     // Initialize your default position here
     return browCoords || [59.2827, -123.1207]
-  }, [browCoords]); // Add dependencies if needed
+  }, [browCoords]);
 
-  // Initialize state variable to hold positions for the polyline
   const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
-  //Get data from maps to allow editing only those maps createdby the user, not those public maps created by another user, that can be user by the user, but not edited:
   const userId = auth.userId;
 
   const isMapCreatedByUser = maps.find(map => map.id === mapId && map.createdby === auth.userId) !== undefined;
-
-  // console.log("imcby", isMapCreatedByUser)
-
-
-  //Modifies the frontend message if user can edit the map (created by them) or not. 
 
   // Sets the points of the map when a map is loaded
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosPrivate.get(`${BACKEND}/points/${mapId}`);
-        // console.log("API Response:", response.data); // Log API response
         setPoints(response.data);
         setLoading(true);
       } catch (err) {
@@ -120,12 +106,9 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
     fetchData();
   }, [mapId, BACKEND]);
 
-  //Avoid ESLINT error by using these variables
-
   useEffect(() => {
 
   }, [points, loading, coordinatesForPolyline, BACKEND]);
-
 
   //Object with two key/value pairs (array). Markers holds the default position, data will include eventually the new markers added
   const [markersState, setMarkersState] = useState({
@@ -185,8 +168,6 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
     BACKEND
   ]);
 
-
-
   //Add new markers to the local state, update the state with the new data, prepare to send the data to the server (body), send the post request (axios). 
 
   const saveMarkers = (newMarkerCoords) => {
@@ -202,7 +183,6 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
 
     axiosPrivate.post(`${BACKEND}/points`, body)
       .then((response) => {
-        // console.log(response.data)
       })
 
   };
@@ -243,49 +223,41 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
 
     <div className="map-outer-container">
       <>
-        {/* <div>Map name and created</div> */}
-        {/* <div>
-      <p>Latitude: {browCoords[0]}</p>
-      <p>Longitude: {browCoords[1]}</p>
-    </div> */}
-        {/* {console.log("maps", maps)} */}
 
-<div className="manage-map-buttons">
-        {
-          !editAllowed ? (
-            <div className="all-maps-text">
-              {/* Cannot modify a map created by other user. */}
+        <div className="manage-map-buttons">
+          {
+            !editAllowed ? (
+              <div className="all-maps-text">
+              </div>
+            ) : (
+              fromButton ?
+                <div className="all-maps-text">Add, edit or remove markers</div> :
+                <div className="all-maps-text">STEP 2: Add, edit or remove markers</div>
+            )
+          }
+
+          {
+            editAllowed &&
+            <div className="deletebuttons">
+
+              <img
+                className="recbin"
+                src={undo}
+                alt={"Undo"}
+                onClick={deleteLast}
+              />
+
+              <img
+                className="recbin"
+                src={recyclingBin}
+                alt={"Recycling bin"}
+                onClick={deleteAll}
+              />
+
             </div>
-          ) : (
-            fromButton ?
-              <div className="all-maps-text">Add, edit or remove markers</div> :
-              <div className="all-maps-text">STEP 2: Add, edit or remove markers</div>
-          )
-        }
+          }
 
-        {
-          // maps && user.id === maps[0].createdby &&
-          editAllowed &&
-          <div className="deletebuttons">
-
-            <img
-              className="recbin"
-              src={undo}
-              alt={"Undo"}
-              onClick={deleteLast}
-            />
-
-            <img
-              className="recbin"
-              src={recyclingBin}
-              alt={"Recycling bin"}
-              onClick={deleteAll}
-            />
-
-          </div>
-        }
-
-</div>
+        </div>
 
         <MapContainer zoom={12}>
           <TileLayer
@@ -310,10 +282,6 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
               <Bounds coordinadasPara={coordinadasPara} />
             )
           )}
-
-          {/* {defaultBounds.length > 1 && <Bounds defaultBounds={defaultBounds} />} */}
-
-          {/* <Polyline positions={coordinatesForPolyline} color="black" /> */}
 
           <LocationMarker />
 
