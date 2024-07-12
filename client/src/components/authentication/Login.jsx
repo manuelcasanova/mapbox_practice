@@ -18,7 +18,7 @@ const Login = ({ rideApp }) => {
     const errRef = useRef();
 
     const [user, resetUser, /*userAttribs*/] = useInput('user', '')
-    const [email, setEmail] = useState('manucasanova@example.com');
+    const [email, setEmail] = useState('manucasanova@hotmail.com');
     let trimmedEmail = email.trim().toLowerCase();
     const [pwd, setPwd] = useState('Password1!');
 

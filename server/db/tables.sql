@@ -85,7 +85,6 @@ CREATE TABLE rides (
   meeting_point TEXT,
   details TEXT,
    map INTEGER REFERENCES maps(id) ON DELETE SET NULL,
-  comments JSONB,
   difficulty VARCHAR(50)
 );
 
@@ -106,7 +105,6 @@ CREATE TABLE runs (
   meeting_point TEXT,
   details TEXT,
    map INTEGER REFERENCES maps(id) ON DELETE SET NULL,
-  comments JSONB,
   difficulty VARCHAR(50)
 );
 

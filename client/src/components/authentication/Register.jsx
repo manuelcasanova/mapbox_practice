@@ -21,7 +21,7 @@ const Register = () => {
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 
-    const [email, setEmail] = useState('@example.com');
+    const [email, setEmail] = useState('@hotmail.com');
     const [validEmail, setValidEmail] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
 
