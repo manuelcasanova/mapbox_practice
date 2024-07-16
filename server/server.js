@@ -303,35 +303,85 @@ app.post('/users/unmute', async (req, res) => {
   }
 });
 
-//Follow a user
+// Follow a user
 app.post("/users/follow", async (req, res) => {
   try {
-
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
-    const user = req.body.user;
-    const now = new Date();
+    const now = req.body.date || new Date(); // Use provided date or current date/time
 
     if (req.body.user) {
+      // Attempt to update existing record
+      const updateQuery = `
+        UPDATE followers
+        SET status = 'pending', lastmodification = $1, newrequest = true
+        WHERE follower_id = $2 AND followee_id = $3
+        RETURNING *
+      `;
+      const updateValues = [now, followerId, followeeId];
 
-      const insertFollowee = await pool.query(
-        `
-        INSERT INTO followers (follower_id, followee_id, status, lastmodification, newrequest)
-        VALUES ($1, $2, 'pending', $3, true)
-        ON CONFLICT (follower_id, followee_id)
-        DO UPDATE SET status = 'pending' RETURNING *`,
-        [followerId, followeeId, now]
-      );
-      res.json(insertFollowee.rows[0])
+      // Execute update query
+      const updateResult = await pool.query(updateQuery, updateValues);
 
+      // Check if any rows were updated
+      if (updateResult.rowCount > 0) {
+        res.json(updateResult.rows[0]); // Return updated row
+      } else {
+        // If no rows were updated, insert new record
+        const insertQuery = `
+          INSERT INTO followers (follower_id, followee_id, status, lastmodification, newrequest)
+          VALUES ($1, $2, 'pending', $3, true)
+          RETURNING *
+        `;
+        const insertValues = [followerId, followeeId, now];
+
+        // Execute insert query
+        const insertResult = await pool.query(insertQuery, insertValues);
+        res.json(insertResult.rows[0]); // Return inserted row
+      }
     } else {
       res.status(403).json({ error: "Unauthorized access" });
     }
-
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
+//Follow a user (psql 9.5 or higher)
+// app.post("/users/follow", async (req, res) => {
+//   try {
+
+//     const followeeId = req.body.followeeId;
+//     const followerId = req.body.followerId;
+//     const user = req.body.user;
+//     const now = new Date();
+
+//     if (req.body.user) {
+
+//       const insertFollowee = await pool.query(
+
+//         // ON CONFLICT DO UPDATE is supported from PSQL verion 9.5
+//         `
+//         INSERT INTO followers (follower_id, followee_id, status, lastmodification, newrequest)
+//         VALUES ($1, $2, 'pending', $3, true)
+//         ON CONFLICT (follower_id, followee_id)
+//         DO UPDATE SET status = 'pending' RETURNING *`
+      
+//         ,
+//         [followerId, followeeId, now]
+//       );
+//       res.json(insertFollowee.rows[0])
+
+//     } else {
+//       res.status(403).json({ error: "Unauthorized access" });
+//     }
+
+//   } catch (err) {
+//     console.error(err.message)
+//   }
+// });
+
 
 //Cancel request to follow a user
 app.delete("/users/cancel-follow", async (req, res) => {
@@ -424,104 +474,244 @@ app.get('/users/pending', async (req, res) => {
   }
 });
 
-//Approve followee
+// Approve a follower
 app.post("/users/approvefollower", async (req, res) => {
   try {
-
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
-    const user = req.body.user;
-    const date = req.body.date || new Date()
+    const date = req.body.date || new Date();
 
     if (req.body.user) {
-      const insertFollower = await pool.query(
-        `
-        INSERT INTO followers (follower_id, followee_id, status, lastmodification)
-        VALUES ($1, $2, 'accepted', $3)
-        ON CONFLICT (follower_id, followee_id)
-        DO UPDATE SET status = 'accepted', lastmodification = $3
+      // Attempt to update existing record
+      const updateQuery = `
+        UPDATE followers
+        SET status = 'accepted', lastmodification = $1
+        WHERE follower_id = $2 AND followee_id = $3
         RETURNING *
-        `,
-        [followeeId, followerId, date]
-      );
-      res.json(insertFollower.rows[0])
+      `;
+      const updateValues = [date, followeeId, followerId];
 
+      // Execute update query
+      const updateResult = await pool.query(updateQuery, updateValues);
 
+      // Check if any rows were updated
+      if (updateResult.rowCount > 0) {
+        res.json(updateResult.rows[0]); // Return updated row
+      } else {
+        // If no rows were updated, insert new record
+        const insertQuery = `
+          INSERT INTO followers (follower_id, followee_id, status, lastmodification)
+          VALUES ($1, $2, 'accepted', $3)
+          RETURNING *
+        `;
+        const insertValues = [followerId, followeeId, date];
 
+        // Execute insert query
+        const insertResult = await pool.query(insertQuery, insertValues);
+        res.json(insertResult.rows[0]); // Return inserted row
+      }
     } else {
       res.status(403).json({ error: "Unauthorized access" });
     }
-
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+
+//PSQL 9.5
+// app.post("/users/approvefollower", async (req, res) => {
+//   try {
+
+//     const followeeId = req.body.followeeId;
+//     const followerId = req.body.followerId;
+//     const user = req.body.user;
+//     const date = req.body.date || new Date()
+
+//     if (req.body.user) {
+//       const insertFollower = await pool.query(
+//         `
+//         INSERT INTO followers (follower_id, followee_id, status, lastmodification)
+//         VALUES ($1, $2, 'accepted', $3)
+//         ON CONFLICT (follower_id, followee_id)
+//         DO UPDATE SET status = 'accepted', lastmodification = $3
+//         RETURNING *
+//         `,
+//         [followeeId, followerId, date]
+//       );
+//       res.json(insertFollower.rows[0])
+
+
+
+//     } else {
+//       res.status(403).json({ error: "Unauthorized access" });
+//     }
+
+//   } catch (err) {
+//     console.error(err.message)
+//   }
+// });
 
 //Dismiss follow request
+// Dismiss a follower
 app.post("/users/dismissfollower", async (req, res) => {
   try {
-
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
-    const user = req.body.user;
-    const date = req.body.date || new Date()
+    const date = req.body.date || new Date();
 
     if (req.body.user) {
-      const insertFollower = await pool.query(
-        `
-        INSERT INTO followers (follower_id, followee_id, status, lastmodification)
-        VALUES ($1, $2, 'rejected', $3)
-        ON CONFLICT (follower_id, followee_id)
-        DO UPDATE SET status = 'rejected', lastmodification = $3
+      // Attempt to update existing record
+      const updateQuery = `
+        UPDATE followers
+        SET status = 'rejected', lastmodification = $1
+        WHERE follower_id = $2 AND followee_id = $3
         RETURNING *
-        `,
-        [followeeId, followerId, date]
-      );
-      res.json(insertFollower.rows[0])
+      `;
+      const updateValues = [date, followeeId, followerId];
 
+      // Execute update query
+      const updateResult = await pool.query(updateQuery, updateValues);
 
+      // Check if any rows were updated
+      if (updateResult.rowCount > 0) {
+        res.json(updateResult.rows[0]); // Return updated row
+      } else {
+        // If no rows were updated, insert new record
+        const insertQuery = `
+          INSERT INTO followers (follower_id, followee_id, status, lastmodification)
+          VALUES ($1, $2, 'rejected', $3)
+          RETURNING *
+        `;
+        const insertValues = [followerId, followeeId, date];
 
+        // Execute insert query
+        const insertResult = await pool.query(insertQuery, insertValues);
+        res.json(insertResult.rows[0]); // Return inserted row
+      }
     } else {
-
       res.status(403).json({ error: "Unauthorized access" });
     }
-
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
+
+//PSQL 9.5
+// app.post("/users/dismissfollower", async (req, res) => {
+//   try {
+
+//     const followeeId = req.body.followeeId;
+//     const followerId = req.body.followerId;
+//     const user = req.body.user;
+//     const date = req.body.date || new Date()
+
+//     if (req.body.user) {
+//       const insertFollower = await pool.query(
+//         `
+//         INSERT INTO followers (follower_id, followee_id, status, lastmodification)
+//         VALUES ($1, $2, 'rejected', $3)
+//         ON CONFLICT (follower_id, followee_id)
+//         DO UPDATE SET status = 'rejected', lastmodification = $3
+//         RETURNING *
+//         `,
+//         [followeeId, followerId, date]
+//       );
+//       res.json(insertFollower.rows[0])
+
+
+
+//     } else {
+
+//       res.status(403).json({ error: "Unauthorized access" });
+//     }
+
+//   } catch (err) {
+//     console.error(err.message)
+//   }
+// });
+
 //Dismiss new message follow request
+// Dismiss a message follow request
 app.post("/users/dismissmessagefollowrequest", async (req, res) => {
   try {
     const followeeId = req.body.followeeId;
     const followerId = req.body.followerId;
 
-
     if (req.body.user) {
-      const insertFollower = await pool.query(
-        `
-        INSERT INTO followers (follower_id, followee_id, newrequest)
-        VALUES ($1, $2, false)
-        ON CONFLICT (follower_id, followee_id)
-        DO UPDATE SET newrequest = false
+      // Attempt to update existing record
+      const updateQuery = `
+        UPDATE followers
+        SET newrequest = false
+        WHERE follower_id = $1 AND followee_id = $2
         RETURNING *
-        `,
-        [followeeId, followerId]
-      );
-      res.json(insertFollower.rows[0])
+      `;
+      const updateValues = [followerId, followeeId];
 
+      // Execute update query
+      const updateResult = await pool.query(updateQuery, updateValues);
 
+      // Check if any rows were updated
+      if (updateResult.rowCount > 0) {
+        res.json(updateResult.rows[0]); // Return updated row
+      } else {
+        // If no rows were updated, insert new record
+        const insertQuery = `
+          INSERT INTO followers (follower_id, followee_id, newrequest)
+          VALUES ($1, $2, false)
+          RETURNING *
+        `;
+        const insertValues = [followerId, followeeId];
 
+        // Execute insert query
+        const insertResult = await pool.query(insertQuery, insertValues);
+        res.json(insertResult.rows[0]); // Return inserted row
+      }
     } else {
-
       res.status(403).json({ error: "Unauthorized access" });
     }
-
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+//PSQL9.5
+// app.post("/users/dismissmessagefollowrequest", async (req, res) => {
+//   try {
+//     const followeeId = req.body.followeeId;
+//     const followerId = req.body.followerId;
+
+
+//     if (req.body.user) {
+//       const insertFollower = await pool.query(
+//         `
+//         INSERT INTO followers (follower_id, followee_id, newrequest)
+//         VALUES ($1, $2, false)
+//         ON CONFLICT (follower_id, followee_id)
+//         DO UPDATE SET newrequest = false
+//         RETURNING *
+//         `,
+//         [followeeId, followerId]
+//       );
+//       res.json(insertFollower.rows[0])
+
+
+
+//     } else {
+
+//       res.status(403).json({ error: "Unauthorized access" });
+//     }
+
+//   } catch (err) {
+//     console.error(err.message)
+//   }
+// });
 
 //Change user permissions
 
@@ -2012,22 +2202,39 @@ app.post("/runs/addmessage", async (req, res) => {
   }
 });
 
+// Delete a message from ride messages
 app.post("/rides/message/delete/:messageId", async (req, res) => {
-
   try {
-    const messageId = req.params.messageId
+    const messageId = req.params.messageId;
 
-    const modifyStatus = await pool.query(
-      `
-      INSERT INTO ride_message (id)
-      VALUES ($1)
-      ON CONFLICT (id)
-      DO UPDATE SET status = 'deleted'
+    // Attempt to update existing record
+    const updateQuery = `
+      UPDATE ride_message
+      SET status = 'deleted'
+      WHERE id = $1
       RETURNING *
-      `,
-      [messageId]
-    );
-    res.json(modifyStatus.rows[0])
+    `;
+    const updateValues = [messageId];
+
+    // Execute update query
+    const updateResult = await pool.query(updateQuery, updateValues);
+
+    // Check if any rows were updated
+    if (updateResult.rowCount > 0) {
+      res.json(updateResult.rows[0]); // Return updated row
+    } else {
+      // If no rows were updated, insert new record
+      const insertQuery = `
+        INSERT INTO ride_message (id, status)
+        VALUES ($1, 'deleted')
+        RETURNING *
+      `;
+      const insertValues = [messageId];
+
+      // Execute insert query
+      const insertResult = await pool.query(insertQuery, insertValues);
+      res.json(insertResult.rows[0]); // Return inserted row
+    }
 
   } catch (error) {
     console.error("Error deleting message", error);
@@ -2035,23 +2242,65 @@ app.post("/rides/message/delete/:messageId", async (req, res) => {
   }
 });
 
+
+//PSQL 9.5
+// app.post("/rides/message/delete/:messageId", async (req, res) => {
+
+//   try {
+//     const messageId = req.params.messageId
+
+//     const modifyStatus = await pool.query(
+//       `
+//       INSERT INTO ride_message (id)
+//       VALUES ($1)
+//       ON CONFLICT (id)
+//       DO UPDATE SET status = 'deleted'
+//       RETURNING *
+//       `,
+//       [messageId]
+//     );
+//     res.json(modifyStatus.rows[0])
+
+//   } catch (error) {
+//     console.error("Error deleting message", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+
+// Delete a message in run messages
 app.post("/runs/message/delete/:messageId", async (req, res) => {
-
   try {
+    const messageId = req.params.messageId;
 
-    const messageId = req.params.messageId
-
-    const modifyStatus = await pool.query(
-      `
-      INSERT INTO run_message (id)
-      VALUES ($1)
-      ON CONFLICT (id)
-      DO UPDATE SET status = 'deleted'
+    // Attempt to update existing record
+    const updateQuery = `
+      UPDATE run_message
+      SET status = 'deleted'
+      WHERE id = $1
       RETURNING *
-      `,
-      [messageId]
-    );
-    res.json(modifyStatus.rows[0])
+    `;
+    const updateValues = [messageId];
+
+    // Execute update query
+    const updateResult = await pool.query(updateQuery, updateValues);
+
+    // Check if any rows were updated
+    if (updateResult.rowCount > 0) {
+      res.json(updateResult.rows[0]); // Return updated row
+    } else {
+      // If no rows were updated, insert new record
+      const insertQuery = `
+        INSERT INTO run_message (id, status)
+        VALUES ($1, 'deleted')
+        RETURNING *
+      `;
+      const insertValues = [messageId];
+
+      // Execute insert query
+      const insertResult = await pool.query(insertQuery, insertValues);
+      res.json(insertResult.rows[0]); // Return inserted row
+    }
 
   } catch (error) {
     console.error("Error deleting message", error);
@@ -2059,28 +2308,67 @@ app.post("/runs/message/delete/:messageId", async (req, res) => {
   }
 });
 
+
+//PSQL 9.5
+// app.post("/runs/message/delete/:messageId", async (req, res) => {
+
+//   try {
+
+//     const messageId = req.params.messageId
+
+//     const modifyStatus = await pool.query(
+//       `
+//       INSERT INTO run_message (id)
+//       VALUES ($1)
+//       ON CONFLICT (id)
+//       DO UPDATE SET status = 'deleted'
+//       RETURNING *
+//       `,
+//       [messageId]
+//     );
+//     res.json(modifyStatus.rows[0])
+
+//   } catch (error) {
+//     console.error("Error deleting message", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+// Report a message in ride messages
 app.post("/rides/message/report/", async (req, res) => {
   try {
-
-
-    const messageId = req.body.messageId
+    const messageId = req.body.messageId;
     const now = new Date();
-    const userLoggedInId = req.body.userLoggedInId
+    const userLoggedInId = req.body.userLoggedInId;
 
-    const modifyStatus = await pool.query(
-      `
-      INSERT INTO ride_message (id, reportedat, reportedby)
-      VALUES ($1, $2, $3)
-      ON CONFLICT (id)
-      DO UPDATE SET 
-      status = 'reported',
-      reportedat = $2,
-      reportedby = $3
+    // Attempt to update existing record
+    const updateQuery = `
+      UPDATE ride_message
+      SET status = 'reported', reportedat = $1, reportedby = $2
+      WHERE id = $3
       RETURNING *
-      `,
-      [messageId, now, userLoggedInId]
-    );
-    res.json(modifyStatus.rows[0])
+    `;
+    const updateValues = [now, userLoggedInId, messageId];
+
+    // Execute update query
+    const updateResult = await pool.query(updateQuery, updateValues);
+
+    // Check if any rows were updated
+    if (updateResult.rowCount > 0) {
+      res.json(updateResult.rows[0]); // Return updated row
+    } else {
+      // If no rows were updated, insert new record
+      const insertQuery = `
+        INSERT INTO ride_message (id, reportedat, reportedby, status)
+        VALUES ($1, $2, $3, 'reported')
+        RETURNING *
+      `;
+      const insertValues = [messageId, now, userLoggedInId];
+
+      // Execute insert query
+      const insertResult = await pool.query(insertQuery, insertValues);
+      res.json(insertResult.rows[0]); // Return inserted row
+    }
 
   } catch (error) {
     console.error("Error reporting message", error);
@@ -2089,28 +2377,72 @@ app.post("/rides/message/report/", async (req, res) => {
 });
 
 
+//PSQL 9.5
+// app.post("/rides/message/report/", async (req, res) => {
+//   try {
 
+
+//     const messageId = req.body.messageId
+//     const now = new Date();
+//     const userLoggedInId = req.body.userLoggedInId
+
+//     const modifyStatus = await pool.query(
+//       `
+//       INSERT INTO ride_message (id, reportedat, reportedby)
+//       VALUES ($1, $2, $3)
+//       ON CONFLICT (id)
+//       DO UPDATE SET 
+//       status = 'reported',
+//       reportedat = $2,
+//       reportedby = $3
+//       RETURNING *
+//       `,
+//       [messageId, now, userLoggedInId]
+//     );
+//     res.json(modifyStatus.rows[0])
+
+//   } catch (error) {
+//     console.error("Error reporting message", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+
+// Report a message in run messages
 app.post("/runs/message/report/", async (req, res) => {
   try {
-
-    const messageId = req.body.messageId
+    const messageId = req.body.messageId;
     const now = new Date();
-    const userLoggedInId = req.body.userLoggedInId
+    const userLoggedInId = req.body.userLoggedInId;
 
-    const modifyStatus = await pool.query(
-      `
-      INSERT INTO run_message (id, reportedat, reportedby)
-      VALUES ($1, $2, $3)
-      ON CONFLICT (id)
-      DO UPDATE SET 
-      status = 'reported',
-      reportedat = $2,
-      reportedby = $3
+    // Attempt to update existing record
+    const updateQuery = `
+      UPDATE run_message
+      SET status = 'reported', reportedat = $2, reportedby = $3
+      WHERE id = $1
       RETURNING *
-      `,
-      [messageId, now, userLoggedInId]
-    );
-    res.json(modifyStatus.rows[0])
+    `;
+    const updateValues = [messageId, now, userLoggedInId];
+
+    // Execute update query
+    const updateResult = await pool.query(updateQuery, updateValues);
+
+    // Check if any rows were updated
+    if (updateResult.rowCount > 0) {
+      res.json(updateResult.rows[0]); // Return updated row
+    } else {
+      // If no rows were updated, insert new record
+      const insertQuery = `
+        INSERT INTO run_message (id, reportedat, reportedby, status)
+        VALUES ($1, $2, $3, 'reported')
+        RETURNING *
+      `;
+      const insertValues = [messageId, now, userLoggedInId];
+
+      // Execute insert query
+      const insertResult = await pool.query(insertQuery, insertValues);
+      res.json(insertResult.rows[0]); // Return inserted row
+    }
 
   } catch (error) {
     console.error("Error reporting message", error);
@@ -2119,23 +2451,68 @@ app.post("/runs/message/report/", async (req, res) => {
 });
 
 
+//PSQL 9.5
+// app.post("/runs/message/report/", async (req, res) => {
+//   try {
+
+//     const messageId = req.body.messageId
+//     const now = new Date();
+//     const userLoggedInId = req.body.userLoggedInId
+
+//     const modifyStatus = await pool.query(
+//       `
+//       INSERT INTO run_message (id, reportedat, reportedby)
+//       VALUES ($1, $2, $3)
+//       ON CONFLICT (id)
+//       DO UPDATE SET 
+//       status = 'reported',
+//       reportedat = $2,
+//       reportedby = $3
+//       RETURNING *
+//       `,
+//       [messageId, now, userLoggedInId]
+//     );
+//     res.json(modifyStatus.rows[0])
+
+//   } catch (error) {
+//     console.error("Error reporting message", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+// Flag a message in ride messages
 app.post("/rides/message/flag/:messageId", async (req, res) => {
   try {
+    const messageId = req.params.messageId;
 
-    const messageId = req.params.messageId
-
-    const modifyStatus = await pool.query(
-      `
-      INSERT INTO ride_message (id)
-      VALUES ($1)
-      ON CONFLICT (id)
-      DO UPDATE SET status = 'flagged',
-      reportedat = null
+    // Attempt to update existing record
+    const updateQuery = `
+      UPDATE ride_message
+      SET status = 'flagged', reportedat = null
+      WHERE id = $1
       RETURNING *
-      `,
-      [messageId]
-    );
-    res.json(modifyStatus.rows[0])
+    `;
+    const updateValues = [messageId];
+
+    // Execute update query
+    const updateResult = await pool.query(updateQuery, updateValues);
+
+    // Check if any rows were updated
+    if (updateResult.rowCount > 0) {
+      res.json(updateResult.rows[0]); // Return updated row
+    } else {
+      // If no rows were updated, insert new record
+      const insertQuery = `
+        INSERT INTO ride_message (id, status)
+        VALUES ($1, 'flagged')
+        RETURNING *
+      `;
+      const insertValues = [messageId];
+
+      // Execute insert query
+      const insertResult = await pool.query(insertQuery, insertValues);
+      res.json(insertResult.rows[0]); // Return inserted row
+    }
 
   } catch (error) {
     console.error("Error flagging message", error);
@@ -2144,24 +2521,65 @@ app.post("/rides/message/flag/:messageId", async (req, res) => {
 });
 
 
+//PSQL 9.5
+// app.post("/rides/message/flag/:messageId", async (req, res) => {
+//   try {
 
+//     const messageId = req.params.messageId
+
+//     const modifyStatus = await pool.query(
+//       `
+//       INSERT INTO ride_message (id)
+//       VALUES ($1)
+//       ON CONFLICT (id)
+//       DO UPDATE SET status = 'flagged',
+//       reportedat = null
+//       RETURNING *
+//       `,
+//       [messageId]
+//     );
+//     res.json(modifyStatus.rows[0])
+
+//   } catch (error) {
+//     console.error("Error flagging message", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+
+// Flag a message in run messages
 app.post("/runs/message/flag/:messageId", async (req, res) => {
   try {
+    const messageId = req.params.messageId;
 
-    const messageId = req.params.messageId
-
-    const modifyStatus = await pool.query(
-      `
-      INSERT INTO run_message (id)
-      VALUES ($1)
-      ON CONFLICT (id)
-      DO UPDATE SET status = 'flagged',
-      reportedat = null
+    // Attempt to update existing record
+    const updateQuery = `
+      UPDATE run_message
+      SET status = 'flagged', reportedat = null
+      WHERE id = $1
       RETURNING *
-      `,
-      [messageId]
-    );
-    res.json(modifyStatus.rows[0])
+    `;
+    const updateValues = [messageId];
+
+    // Execute update query
+    const updateResult = await pool.query(updateQuery, updateValues);
+
+    // Check if any rows were updated
+    if (updateResult.rowCount > 0) {
+      res.json(updateResult.rows[0]); // Return updated row
+    } else {
+      // If no rows were updated, insert new record
+      const insertQuery = `
+        INSERT INTO run_message (id, status, reportedat)
+        VALUES ($1, 'flagged', null)
+        RETURNING *
+      `;
+      const insertValues = [messageId];
+
+      // Execute insert query
+      const insertResult = await pool.query(insertQuery, insertValues);
+      res.json(insertResult.rows[0]); // Return inserted row
+    }
 
   } catch (error) {
     console.error("Error flagging message", error);
@@ -2170,57 +2588,163 @@ app.post("/runs/message/flag/:messageId", async (req, res) => {
 });
 
 
+//PSQL 9.5
+// app.post("/runs/message/flag/:messageId", async (req, res) => {
+//   try {
 
+//     const messageId = req.params.messageId
+
+//     const modifyStatus = await pool.query(
+//       `
+//       INSERT INTO run_message (id)
+//       VALUES ($1)
+//       ON CONFLICT (id)
+//       DO UPDATE SET status = 'flagged',
+//       reportedat = null
+//       RETURNING *
+//       `,
+//       [messageId]
+//     );
+//     res.json(modifyStatus.rows[0])
+
+//   } catch (error) {
+//     console.error("Error flagging message", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+
+// Mark a message as OK in ride messages
 app.post("/rides/message/ok/:messageId", async (req, res) => {
   try {
+    const messageId = req.params.messageId;
 
-    const messageId = req.params.messageId
-
-    const modifyStatus = await pool.query(
-      `
-      INSERT INTO ride_message (id)
-      VALUES ($1)
-      ON CONFLICT (id)
-      DO UPDATE SET status = null,
-      reportedat = null
+    // Attempt to update existing record
+    const updateQuery = `
+      UPDATE ride_message
+      SET status = null, reportedat = null
+      WHERE id = $1
       RETURNING *
-      `,
-      [messageId]
-    );
-    res.json(modifyStatus.rows[0])
+    `;
+    const updateValues = [messageId];
+
+    // Execute update query
+    const updateResult = await pool.query(updateQuery, updateValues);
+
+    // Check if any rows were updated
+    if (updateResult.rowCount > 0) {
+      res.json(updateResult.rows[0]); // Return updated row
+    } else {
+      // If no rows were updated, insert new record
+      const insertQuery = `
+        INSERT INTO ride_message (id, status, reportedat)
+        VALUES ($1, null, null)
+        RETURNING *
+      `;
+      const insertValues = [messageId];
+
+      // Execute insert query
+      const insertResult = await pool.query(insertQuery, insertValues);
+      res.json(insertResult.rows[0]); // Return inserted row
+    }
 
   } catch (error) {
-    console.error("Error okying message", error);
+    console.error("Error marking message as OK", error);
     res.status(500).send("Internal Server Error");
   }
 });
 
 
+//PSQL 9.5
+// app.post("/rides/message/ok/:messageId", async (req, res) => {
+//   try {
 
+//     const messageId = req.params.messageId
+
+//     const modifyStatus = await pool.query(
+//       `
+//       INSERT INTO ride_message (id)
+//       VALUES ($1)
+//       ON CONFLICT (id)
+//       DO UPDATE SET status = null,
+//       reportedat = null
+//       RETURNING *
+//       `,
+//       [messageId]
+//     );
+//     res.json(modifyStatus.rows[0])
+
+//   } catch (error) {
+//     console.error("Error okying message", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+// Mark a message as 'ok' in run messages
 app.post("/runs/message/ok/:messageId", async (req, res) => {
   try {
+    const messageId = req.params.messageId;
 
-    const messageId = req.params.messageId
-
-    const modifyStatus = await pool.query(
-      `
-      INSERT INTO run_message (id)
-      VALUES ($1)
-      ON CONFLICT (id)
-      DO UPDATE SET status = null,
-      reportedat = null
+    // Attempt to update existing record
+    const updateQuery = `
+      UPDATE run_message
+      SET status = null, reportedat = null
+      WHERE id = $1
       RETURNING *
-      `,
-      [messageId]
-    );
+    `;
+    const updateValues = [messageId];
 
-    res.json(modifyStatus.rows[0])
+    // Execute update query
+    const updateResult = await pool.query(updateQuery, updateValues);
+
+    // Check if any rows were updated
+    if (updateResult.rowCount > 0) {
+      res.json(updateResult.rows[0]); // Return updated row
+    } else {
+      // If no rows were updated, insert new record
+      const insertQuery = `
+        INSERT INTO run_message (id, status, reportedat)
+        VALUES ($1, null, null)
+        RETURNING *
+      `;
+      const insertValues = [messageId];
+
+      // Execute insert query
+      const insertResult = await pool.query(insertQuery, insertValues);
+      res.json(insertResult.rows[0]); // Return inserted row
+    }
 
   } catch (error) {
-    console.error("Error okying message", error);
+    console.error("Error marking message as 'ok'", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
+//PSQL 9.5
+// app.post("/runs/message/ok/:messageId", async (req, res) => {
+//   try {
+
+//     const messageId = req.params.messageId
+
+//     const modifyStatus = await pool.query(
+//       `
+//       INSERT INTO run_message (id)
+//       VALUES ($1)
+//       ON CONFLICT (id)
+//       DO UPDATE SET status = null,
+//       reportedat = null
+//       RETURNING *
+//       `,
+//       [messageId]
+//     );
+
+//     res.json(modifyStatus.rows[0])
+
+//   } catch (error) {
+//     console.error("Error okying message", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 
 

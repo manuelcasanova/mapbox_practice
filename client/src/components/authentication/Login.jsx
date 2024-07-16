@@ -18,9 +18,9 @@ const Login = ({ rideApp }) => {
     const errRef = useRef();
 
     const [user, resetUser, /*userAttribs*/] = useInput('user', '')
-    const [email, setEmail] = useState('manucasanova@hotmail.com');
+    const [email, setEmail] = useState('');
     let trimmedEmail = email.trim().toLowerCase();
-    const [pwd, setPwd] = useState('Password1!');
+    const [pwd, setPwd] = useState('');
 
     const [errMsg, setErrMsg] = useState('');
     const [check, toggleCheck] = useToggle('persist', false);
