@@ -132,7 +132,7 @@ const handleGet = async (req, res) => {
     const secret = process.env.ACCESS_TOKEN_SECRET + oldUser[0].password;
     try {
       const verifyJWT = jwt.verify(token, secret)
-      res.render("index", { email: verifyJWT.email, status: "Not verified" })
+      res.render("index", { email: verifyJWT.email, status: '"Not verified"' })
     } catch (err) {
       console.log(err)
       // res.send("Not verified")
