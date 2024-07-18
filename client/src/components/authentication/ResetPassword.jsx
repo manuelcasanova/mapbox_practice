@@ -1,4 +1,4 @@
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useState, useEffect, useRef } from 'react';
 
 export default function ResetPassword() {
@@ -53,7 +53,7 @@ useEffect(() => {
           } else if (err.response?.status === 403) {
               setErrMsg('This email was not found in our database');
           } else if (err.response?.status === 401) {
-              setErrMsg('Unauthorized');
+              setErrMsg('This email was not found in our database');
           } else {
               setErrMsg('Attempt Failed');
           }
