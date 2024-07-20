@@ -14,6 +14,7 @@
     "fortawesome": "^0.0.1-security",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.3",
+    "nodeenv": "^3.0.75",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",
     "react-dom": "^18.2.0",
