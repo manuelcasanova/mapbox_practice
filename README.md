@@ -2,18 +2,15 @@
 
 Functionalities
 
+Fix timestamps - tolocatimestamps
+
+Fix dates in general
+
 Organize backend like in casinosteps.ca
 
-MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
-
-Remove logs and unused dependencies
-
-Fix eslint errors
-
-
-PRODUCTION
-
 Future:
+
+MOVE ALL FUNCTIONS TO UTIL/FUNCTIONS
 
 Web socket for rides/runs conversation
 

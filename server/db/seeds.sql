@@ -1,6 +1,6 @@
 -- -- Insert users
 INSERT INTO users (username, isadmin, issuperadmin, email, password, isselected, isactive)
-VALUES  ('manucasanova', true, true, 'manucasanova@hotmail.com', '$2b$10$eqYeA7Y6LEJkcwmyk4Ub8.gpE80iXJG.N6BxEtE3IGMNuZj6rJ/mu', false, true);
+VALUES  ('manucasanova', true, true, 'manucasanova@hotmail.com', '$2b$10$HCp4nS.i99ZePxyM3o2uYuF7RtKwu.pFHWodkH5S1l/IGuE0C5fxm', false, true);
 
 
 -- INSERT INTO maps (title, createdBy, mapType) VALUES 
