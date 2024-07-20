@@ -1,13 +1,8 @@
 export const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
+  const parts = dateString.split('T')[0].split('-');
+  const year = parts[0];
+  const month = parts[1];
+  const day = parts[2];
 
-  // Pad single digits with leading zero
-  const formattedDay = day < 10 ? '0' + day : day;
-  const formattedMonth = month < 10 ? '0' + month : month;
-
-  return year + '-' + formattedMonth + '-' + formattedDay;
+  return `${year}-${month}-${day}`;
 };
-
