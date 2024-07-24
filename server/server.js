@@ -739,7 +739,7 @@ app.patch("/users/:id", async (req, res) => {
 app.get("/points", async (req, res) => {
   try {
     const points = await pool.query(
-      'SELECT lat, lng FROM points'
+      'SELECT lat, lng, createdat FROM points ORDER BY createdat ASC'
     );
     res.json(points.rows)
   } catch (err) {
@@ -755,7 +755,7 @@ app.get("/points/:id", async (req, res) => {
 
   try {
     const points = await pool.query(
-      'SELECT lat, lng FROM points WHERE map = $1', [id]
+      'SELECT lat, lng, createdat FROM points WHERE map = $1 ORDER BY createdat ASC', [id]
     );
     res.json(points.rows)
   } catch (err) {
