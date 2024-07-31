@@ -1384,56 +1384,65 @@ app.post("/user/deactivate/:id", async (req, res) => {
 })
 
 
-//Get all public maps 
+// Get all public maps 
 app.get("/maps/public", async (req, res) => {
   try {
-
     const userId = req.query.user.userId;
     const username = req.query?.filteredMaps?.userName;
     const title = req.query?.filteredMaps?.title;
 
     let query =
       `
-SELECT DISTINCT m.* 
+SELECT DISTINCT m.*, fp.lat AS first_point_lat, fp.lng AS first_point_lng
 FROM maps m
 LEFT JOIN followers f ON m.createdby = f.followee_id
 LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = m.createdby
 LEFT JOIN muted mute2 ON mute2.muter = m.createdBy AND mute2.mutee = $1
 INNER JOIN users u1 ON m.createdby = u1.id
 INNER JOIN users u2 ON $1 = u2.id
-WHERE (m.maptype = 'public' OR (m.maptype = 'followers' AND f.follower_id = $1) OR (m.createdby = $1))
+LEFT JOIN (
+    SELECT p.map, p.lat, p.lng
+    FROM points p
+    INNER JOIN (
+        SELECT map, MIN(id) AS first_point_id
+        FROM points
+        GROUP BY map
+    ) first_points ON p.id = first_points.first_point_id
+) fp ON m.id = fp.map
+WHERE (m.maptype = 'public' 
+       OR (m.maptype = 'followers' AND f.follower_id = $1) 
+       OR (m.createdby = $1))
 AND (mute1.mute IS NULL OR mute1.mute = false)
 AND (mute2.mute IS NULL OR mute2.mute = false)
 AND m.isactive = true
 AND u1.isactive = true
 AND u2.isactive = true
+`;
 
-`
-
-    let queryParams = [userId]
-
+    let queryParams = [userId];
 
     if (title && title.toLowerCase() !== 'all') {
       query += ` AND m.title ILIKE $${queryParams.length + 1}`;
-      queryParams.push(`%${title}%`)
+      queryParams.push(`%${title}%`);
     }
 
     if (username && username.toLowerCase() !== 'all') {
       query += ` AND u1.username ILIKE $${queryParams.length + 1}`;
-      queryParams.push(`%${username}%`)
+      queryParams.push(`%${username}%`);
     }
 
-    query += ` ORDER BY m.id DESC`
+    // Add the ORDER BY clause after all dynamic conditions
+    query += ` ORDER BY m.id DESC`;
 
-
-    const maps = await pool.query(query, queryParams
-    );
-
-    res.json(maps.rows)
+    const maps = await pool.query(query, queryParams);
+    console.log("maps rows", maps.rows);
+    res.json(maps.rows);
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 });
+
 
 //Get maps from user
 app.get("/maps/", async (req, res) => {
