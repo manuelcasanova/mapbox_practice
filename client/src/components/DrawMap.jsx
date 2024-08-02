@@ -266,9 +266,9 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
         </div>
 
         {isParis && 
-        <>
-        <div className="all-maps-text">Oh, la tour Eiffel! </div>
-        <div className="all-maps-text">Allow your browser to access your location, or scroll manually to find it.</div></>}
+        <div className="tour-eiffel-container">
+        <div className="tour-eiffel">Ouh là là, la tour Eiffel! </div>
+        <div className="tour-eiffel">Allow your browser to access your location, or scroll manually to find it.</div></div>}
 
         <MapContainer zoom={12}>
           <TileLayer

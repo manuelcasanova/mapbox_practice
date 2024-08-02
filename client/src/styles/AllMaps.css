@@ -27,6 +27,20 @@
   /* justify-content: space-evenly; */
 }
 
+.tour-eiffel-container {
+  margin: 1em 0em 1em 0em;
+}
+
+.tour-eiffel {
+  /* padding: 5px; */
+  color: var(--color0);
+  /* font-weight: 900; */
+  display: flex;
+  justify-content: center;
+  font-style: italic;
+  font-size: smaller;
+}
+
 .-step3 {
   display: flex;
   flex-direction: column;
