@@ -82,9 +82,15 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   const defaultPosition = useMemo(() => {
-    // Initialize your default position here
-    return browCoords || [59.2827, -123.1207]
+    // This is where the map initializes in Draw Map. If undefined, the map will not show properly
+    return browCoords 
+    || [48.858093, 2.294694]
   }, [browCoords]);
+
+  const isParis = useMemo(() => {
+    return defaultPosition[0] === 48.858093 && defaultPosition[1] === 2.294694;
+  }, [defaultPosition]);
+
 
   const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
@@ -258,6 +264,11 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
           }
 
         </div>
+
+        {isParis && 
+        <>
+        <div className="all-maps-text">Oh, la tour Eiffel! </div>
+        <div className="all-maps-text">Allow your browser to access your location, or scroll manually to find it.</div></>}
 
         <MapContainer zoom={12}>
           <TileLayer

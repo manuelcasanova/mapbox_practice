@@ -17,7 +17,7 @@ export default function SeeMap() {
   const axiosPrivate = useAxiosPrivate()
 
   const [coords, setCoords] = useState([
-    [49.283255, -123.119930]
+    [48.858093, 2.294694]
   ]);
 
 

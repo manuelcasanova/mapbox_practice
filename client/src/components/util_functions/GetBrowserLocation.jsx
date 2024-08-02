@@ -5,8 +5,15 @@ const CoordsContext = createContext();
 export const useCoords = () => useContext(CoordsContext); 
 
 export default function GetBrowserLocation({ children }) {
-  const [browCoords, setBrowCoords] = useState([49.283255, -123.119930]);
+  //Downtown Vancouver
+  // const [browCoords, setBrowCoords] = useState([49.283255, -123.119930]);
 
+  //Tour Eiffel
+  // const [browCoords, setBrowCoords] = useState([48.858093, 2.294694]);
+
+  //No state
+  const [browCoords, setBrowCoords] = useState();
+  
   useEffect(() => {
     const options = {
       enableHighAccuracy: true,
