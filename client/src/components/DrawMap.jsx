@@ -72,7 +72,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
   }, [maps, mapId, setMapId]);
 
 
-  const [points, setPoints] = useState();
+  const [points, setPoints] = useState([]);
   const [loading, setLoading] = useState(false);
   const [coordinadasPara, setCoordinadasPara] = useState([]);
   const [coord, setCoord] = useState([]);
