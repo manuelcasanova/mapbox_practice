@@ -91,6 +91,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
     return defaultPosition[0] === 48.858093 && defaultPosition[1] === 2.294694;
   }, [defaultPosition]);
 
+  const isPointsEmpty = points.length === 0;
 
   const [coordinatesForPolyline, setCoordinatesForPolyline] = useState([]);
 
@@ -265,7 +266,7 @@ export default function DrawMap({ maps, setMaps, mapId, setMapId, editAllowed, s
 
         </div>
 
-        {isParis && 
+        {isParis && isPointsEmpty &&
         <div className="tour-eiffel-container">
         <div className="tour-eiffel">Ouh là là, la tour Eiffel! </div>
         <div className="tour-eiffel">Allow your browser to access your location, or scroll manually to find it.</div></div>}
