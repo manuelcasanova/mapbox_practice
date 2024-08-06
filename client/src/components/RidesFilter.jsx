@@ -214,7 +214,7 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
           type="text"
           value={radius}
           onChange={handleRadiusChange}
-          placeholder='6371'
+          placeholder='40075'
           disabled={browCoords.length === 0} 
         />
            <label className='filter-label'>Km</label>

@@ -1742,7 +1742,7 @@ app.get("/rides/public", async (req, res) => {
         const speedRangeMin = req.query.filteredRides.speedMin;
         const speedRangeMax = req.query.filteredRides.speedMax;
         const rideName = req.query.filteredRides.rideName;
-        const radius = Number(req.query.filteredRides.radius) || 6371;
+        const radius = Number(req.query.filteredRides.radius) || 40075;
 
         let queryParams = [dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId];
         let distanceSelect = '';
