@@ -17,6 +17,7 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
   const [speedMin, setSpeedMin] = useState(0);
   const [speedMax, setSpeedMax] = useState(100000);
   const [rideName, setRideName] = useState("all")
+  const [radius, setRadius] = useState(6371)
   const [rId, setRId] = useState(0)
 
   const { auth } = useAuth()
@@ -53,6 +54,10 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
 
     if (rideName !== '') {
       filters.rideName = rideName
+    }
+
+    if (radius !== '') {
+      filters.radius = radius
     }
 
     if (rId !== '') {
@@ -97,6 +102,11 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
     setRideName(value);
   };
 
+  const handleRadiusChange = (e) => {
+    const value = e.target.value.trim() !== '' ? (e.target.value) : '';
+    setRadius(value);
+  };
+
   const handleRIdChange = (e) => {
     const value = e.target.value.trim() !== '' ? (e.target.value) : 0;
     setRId(value);
@@ -105,7 +115,7 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
 
   useEffect(() => {
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, rideName, rId]);
+  }, [dateStart, dateEnd, distanceMin, distanceMax, speedMin, speedMax, rideName, radius, rId]);
 
 
   const clearFilter = () => {
@@ -192,6 +202,19 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
           onChange={handleNameChange}
           placeholder='Aa'
         />
+
+      </div>
+
+      <div className='filter-range'>
+        <label className='filter-label'>Radius for start point:</label>
+        <input
+          className='filter-input'
+          type="text"
+          value={radius}
+          onChange={handleRadiusChange}
+          placeholder='6371'
+        />
+           <label className='filter-label'>Km</label>
 
       </div>
 

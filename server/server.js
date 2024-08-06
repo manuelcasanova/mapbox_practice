@@ -172,7 +172,7 @@ app.put('/users/edit/password', async (req, res) => {
 // PUT route to update user's last login
 app.post('/users/lastlogin/', async (req, res) => {
   try {
-    const { userId, lastlogin } = req.body; 
+    const { userId, lastlogin } = req.body;
     const insertLastLogin = await pool.query(
       `
       INSERT INTO login_history (user_id, login_time)
@@ -253,7 +253,7 @@ app.get('/users/muted', async (req, res) => {
     const result = await pool.query('SELECT * FROM muted WHERE mute = true AND (muter = $1 OR mutee = $1)', [userId]);
 
     const mutedUsers = result.rows
-  
+
     res.json({ mutedUsers });
   } catch (error) {
     console.error('Error fetching muted users:', error);
@@ -367,7 +367,7 @@ app.post("/users/follow", async (req, res) => {
 //         VALUES ($1, $2, 'pending', $3, true)
 //         ON CONFLICT (follower_id, followee_id)
 //         DO UPDATE SET status = 'pending' RETURNING *`
-      
+
 //         ,
 //         [followerId, followeeId, now]
 //       );
@@ -1357,14 +1357,14 @@ app.post("/user/deactivate/:id", async (req, res) => {
 
     if (isLoggedIn) {
 
-          // Construct the path to the profile picture folder
-          const uploadPath = path.join(__dirname, `profile_pictures/${req.body.userId}`);
+      // Construct the path to the profile picture folder
+      const uploadPath = path.join(__dirname, `profile_pictures/${req.body.userId}`);
 
-          // Check if the directory exists
-          if (fs.existsSync(uploadPath)) {
-            // Delete directory recursively
-            fs.rmSync(uploadPath, { recursive: true });
-          }
+      // Check if the directory exists
+      if (fs.existsSync(uploadPath)) {
+        // Delete directory recursively
+        fs.rmSync(uploadPath, { recursive: true });
+      }
 
 
       const deactivateUser = await pool.query(
@@ -1404,7 +1404,7 @@ app.get("/maps/public", async (req, res) => {
       const userLng = parseFloat(lng);
 
       query += `,
-      (3959 * acos(cos(radians($${queryParams.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length + 2})) + sin(radians($${queryParams.length + 1})) * sin(radians(fp.lat)))) AS distance
+      (6371 * acos(cos(radians($${queryParams.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length + 2})) + sin(radians($${queryParams.length + 1})) * sin(radians(fp.lat)))) AS distance
       `;
       queryParams.push(userLat, userLng);
     }
@@ -1530,7 +1530,7 @@ app.get("/rides/otherusers", async (req, res) => {
 
 //Get runs with other users
 app.get("/runs/otherusers", async (req, res) => {
- 
+
   try {
 
     const runs = await pool.query(
@@ -1732,7 +1732,8 @@ app.get("/rides/public", async (req, res) => {
     if (req.query.user && req.query.user.accessToken) {
       const userId = req.query.user.userId;
       const browCoords = req.query.browCoords;
-console.log(browCoords)
+  
+      
       if (req.query.filteredRides) {
         const dateStart = req.query.filteredRides.dateStart;
         const dateEnd = req.query.filteredRides.dateEnd;
@@ -1741,6 +1742,7 @@ console.log(browCoords)
         const speedRangeMin = req.query.filteredRides.speedMin;
         const speedRangeMax = req.query.filteredRides.speedMax;
         const rideName = req.query.filteredRides.rideName;
+        const radius = Number(req.query.filteredRides.radius) || 6371;
 
         let queryParams = [dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId];
         let distanceSelect = '';
@@ -1752,10 +1754,10 @@ console.log(browCoords)
           const userLng = parseFloat(lng);
 
           distanceSelect = `,
-            (3959 * acos(cos(radians($${queryParams.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length + 2})) + sin(radians($${queryParams.length + 1})) * sin(radians(fp.lat)))) AS calculated_distance`;
+            (6371 * acos(cos(radians($${queryParams.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length + 2})) + sin(radians($${queryParams.length + 1})) * sin(radians(fp.lat)))) AS calculated_distance`;
 
           queryParams.push(userLat, userLng);
-          orderByClause = 'ORDER BY r.starting_date ASC, calculated_distance ASC'; //invert order to order first by distance from browCoords
+          orderByClause = 'ORDER BY r.starting_date ASC, calculated_distance ASC';
         }
 
         let ridesQuery = `
@@ -1791,6 +1793,10 @@ console.log(browCoords)
         AND u2.isactive = true
         `;
 
+        if (browCoords) {
+          ridesQuery += ` AND (6371 * acos(cos(radians($${queryParams.length - 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length})) + sin(radians($${queryParams.length - 1})) * sin(radians(fp.lat)))) <= ${radius}`;
+        }
+
         if (rideName && rideName !== "all") {
           ridesQuery += ` AND r.name ILIKE $${queryParams.length + 1}`;
           queryParams.push(`%${rideName}%`);
@@ -1813,7 +1819,7 @@ console.log(browCoords)
           const userLng = parseFloat(lng);
 
           distanceSelect = `,
-            (3959 * acos(cos(radians($${queryParams.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length + 2})) + sin(radians($${queryParams.length + 1})) * sin(radians(fp.lat)))) AS calculated_distance`;
+            (6371 * acos(cos(radians($${queryParams.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length + 2})) + sin(radians($${queryParams.length + 1})) * sin(radians(fp.lat)))) AS calculated_distance`;
 
           queryParams.push(userLat, userLng);
           orderByClause = 'ORDER BY calculated_distance ASC, r.starting_date ASC';
@@ -1844,7 +1850,12 @@ console.log(browCoords)
         AND (mute2.mute IS NULL OR mute2.mute = false)
         ${orderByClause};
         `;
-console.log("order by clause", orderByClause)
+
+        if (browCoords) {
+          ridesQuery += ` AND (6371 * acos(cos(radians($${queryParams.length - 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length})) + sin(radians($${queryParams.length - 1})) * sin(radians(fp.lat)))) <= ${radius}`;
+        }
+
+        console.log("order by clause", orderByClause)
         const rides = await pool.query(ridesQuery, queryParams);
         res.json(rides.rows);
       }
@@ -1856,6 +1867,7 @@ console.log("order by clause", orderByClause)
     res.status(500).send("Server Error");
   }
 });
+
 
 
 
@@ -3119,11 +3131,11 @@ app.get("/users/followee", async (req, res) => {
 app.all('*', (req, res) => {
   res.status(404);
   if (req.accepts('html')) {
-      res.sendFile(path.join(__dirname, 'views', '404.html'));
+    res.sendFile(path.join(__dirname, 'views', '404.html'));
   } else if (req.accepts('json')) {
-      res.json({ "error": "404 Not Found" });
+    res.json({ "error": "404 Not Found" });
   } else {
-      res.type('txt').send("404 Not Found");
+    res.type('txt').send("404 Not Found");
   }
 });
 
