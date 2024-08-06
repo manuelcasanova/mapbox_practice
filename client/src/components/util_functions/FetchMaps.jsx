@@ -2,8 +2,6 @@ import axios from "axios";
 
 const fetchMaps = async (auth, setMaps, setAddToMyMaps, setIsLoading, setError, isMounted, filteredMaps, browCoords) => {
 
-  console.log("BrowCoords in FetchMaps", browCoords)
-
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
 

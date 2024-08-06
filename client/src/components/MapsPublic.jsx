@@ -35,10 +35,6 @@ const MapsPublic = () => {
   const { browCoords } = useCoords();
   const BACKEND = process.env.REACT_APP_API_URL;
 
-  console.log("browCoords in Maps Public", browCoords)
-
-  console.log("maps in Maps Public", maps)
-
   const [showFilter, setShowFilter] = useState(false)
 
   const defaultFilteredMaps = {

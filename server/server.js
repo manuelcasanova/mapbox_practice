@@ -1392,8 +1392,6 @@ app.get("/maps/public", async (req, res) => {
     const title = req.query?.filteredMaps?.title;
     const browCoords = req.query?.browCoords;
 
-    console.log("brow Coords in server maps/public", browCoords);
-
     let query = `
     SELECT DISTINCT m.*, fp.lat AS first_point_lat, fp.lng AS first_point_lng
     `;
@@ -1471,6 +1469,8 @@ app.get("/maps/", async (req, res) => {
   try {
 
     const userId = req.query.userId;
+    const browCoords = req.query.browCoords
+
     const maps = await pool.query(
 
 

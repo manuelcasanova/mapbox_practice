@@ -10,7 +10,7 @@ import '../styles/AllMaps.css'
 //Util functions
 import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchMutedUsers from "./util_functions/FetchMutedUsers";
-
+import { useCoords } from "./util_functions/GetBrowserLocation";
 
 
 export default function AllMaps({ fromButton, setFromButton, rideApp }) {
@@ -29,6 +29,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
   const BACKEND = process.env.REACT_APP_API_URL;
   const [users, setUsers] = useState([]);
   const [mutedUsers, setMutedUsers] = useState([])
+  const { browCoords } = useCoords();
 
   useEffect(() => {
   }, [fromButton])
@@ -65,7 +66,7 @@ export default function AllMaps({ fromButton, setFromButton, rideApp }) {
 
       try {
         const response = await axiosPrivate.get(`${BACKEND}/maps`, {
-          params: { userId },
+          params: { userId, browCoords },
           signal: controller.signal
         });
 
