@@ -19,12 +19,14 @@ import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import MappedMessage from './util_functions/messaging/MappedMessage';
+import { useCoords } from './util_functions/GetBrowserLocation';
 
 const RidesPublic = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
   const axiosPrivate = useAxiosPrivate()
   const [rides, setRides] = useState([]);
 
+  const { browCoords } = useCoords()
   const [showFilter, setShowFilter] = useState(false)
   const [showMap, setShowMap] = useState(null)
   const [showDetails, setShowDetails] = useState(null)
@@ -60,8 +62,6 @@ const RidesPublic = () => {
   const { auth } = useAuth();
 
   const [filteredRides, setFilteredRides] = useState(defaultFilteredRides);
-
-
 
   const formattedMessageDate = (createdAt) => {
     const date = new Date(createdAt);
@@ -118,7 +118,8 @@ const RidesPublic = () => {
         const response = await axiosPrivate.get(`${BACKEND}/rides/public`, {
           params: {
             user: auth,
-            filteredRides
+            filteredRides,
+            browCoords
           }
         });
 

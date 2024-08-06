@@ -1730,79 +1730,134 @@ app.get("/runs", async (req, res) => {
 app.get("/rides/public", async (req, res) => {
   try {
     if (req.query.user && req.query.user.accessToken) {
-      const userId = req.query.user.userId
+      const userId = req.query.user.userId;
+      const browCoords = req.query.browCoords;
+console.log(browCoords)
       if (req.query.filteredRides) {
-        const dateStart = req.query.filteredRides.dateStart
-        const dateEnd = req.query.filteredRides.dateEnd
-        const distanceMin = req.query.filteredRides.distanceMin
-        const distanceMax = req.query.filteredRides.distanceMax
-        const speedRangeMin = req.query.filteredRides.speedMin
-        const speedRangeMax = req.query.filteredRides.speedMax
-        const rideName = req.query.filteredRides.rideName
+        const dateStart = req.query.filteredRides.dateStart;
+        const dateEnd = req.query.filteredRides.dateEnd;
+        const distanceMin = req.query.filteredRides.distanceMin;
+        const distanceMax = req.query.filteredRides.distanceMax;
+        const speedRangeMin = req.query.filteredRides.speedMin;
+        const speedRangeMax = req.query.filteredRides.speedMax;
+        const rideName = req.query.filteredRides.rideName;
 
+        let queryParams = [dateStart, dateEnd, distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId];
+        let distanceSelect = '';
+        let orderByClause = 'ORDER BY r.starting_date';
 
+        if (browCoords) {
+          const [lat, lng] = browCoords;
+          const userLat = parseFloat(lat);
+          const userLng = parseFloat(lng);
+
+          distanceSelect = `,
+            (3959 * acos(cos(radians($${queryParams.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length + 2})) + sin(radians($${queryParams.length + 1})) * sin(radians(fp.lat)))) AS calculated_distance`;
+
+          queryParams.push(userLat, userLng);
+          orderByClause = 'ORDER BY r.starting_date ASC, calculated_distance ASC'; //invert order to order first by distance from browCoords
+        }
 
         let ridesQuery = `
-     SELECT DISTINCT r.*
-     FROM rides r
-     LEFT JOIN followers f ON r.createdby = f.followee_id
-     LEFT JOIN muted mute1 ON mute1.muter = $7 AND mute1.mutee = r.createdby
-     LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $7
-     INNER JOIN users u1 ON r.createdby = u1.id
-     INNER JOIN users u2 ON $7 = u2.id
-     WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $7 and f.status = 'accepted') OR (r.createdby = $7))
-     AND starting_date >= $1
-     AND starting_date <= $2
-       AND distance >= $3
-       AND distance <= $4
-       AND speed >= $5
-       AND speed <= $6
-       AND (mute1.mute IS NULL OR mute1.mute = false)
-       AND (mute2.mute IS NULL OR mute2.mute = false)
-       AND r.isactive = true
-       AND u1.isactive = true
-       AND u2.isactive = true
-       ORDER BY starting_date
-   `
-
-        let queryParams = [
-          dateStart, dateEnd,
-          distanceMin, distanceMax, speedRangeMin, speedRangeMax, userId
-        ];
+        SELECT DISTINCT r.*, fp.lat AS first_point_lat, fp.lng AS first_point_lng ${distanceSelect}
+        FROM rides r
+        LEFT JOIN followers f ON r.createdby = f.followee_id
+        LEFT JOIN muted mute1 ON mute1.muter = $7 AND mute1.mutee = r.createdby
+        LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $7
+        INNER JOIN users u1 ON r.createdby = u1.id
+        INNER JOIN users u2 ON $7 = u2.id
+        LEFT JOIN (
+            SELECT p.map, p.lat, p.lng
+            FROM points p
+            INNER JOIN (
+                SELECT map, MIN(id) AS first_point_id
+                FROM points
+                GROUP BY map
+            ) first_points ON p.id = first_points.first_point_id
+        ) fp ON r.map = fp.map
+        WHERE (r.ridetype='public' 
+               OR (r.ridetype = 'followers' AND f.follower_id = $7 AND f.status = 'accepted') 
+               OR (r.createdby = $7))
+        AND r.starting_date >= $1
+        AND r.starting_date <= $2
+        AND r.distance >= $3
+        AND r.distance <= $4
+        AND r.speed >= $5
+        AND r.speed <= $6
+        AND (mute1.mute IS NULL OR mute1.mute = false)
+        AND (mute2.mute IS NULL OR mute2.mute = false)
+        AND r.isactive = true
+        AND u1.isactive = true
+        AND u2.isactive = true
+        `;
 
         if (rideName && rideName !== "all") {
-          ridesQuery += ` AND name ILIKE $8`;
+          ridesQuery += ` AND r.name ILIKE $${queryParams.length + 1}`;
           queryParams.push(`%${rideName}%`);
         }
 
+        ridesQuery += ` ${orderByClause}`;
+
         const rides = await pool.query(ridesQuery, queryParams);
+
         res.json(rides.rows);
 
-
       } else {
-        const rides = await pool.query(`
-        SELECT DISTINCT r.* 
+        const queryParams = [userId];
+        let distanceSelect = '';
+        let orderByClause = 'ORDER BY r.starting_date';
+
+        if (browCoords) {
+          const [lat, lng] = browCoords;
+          const userLat = parseFloat(lat);
+          const userLng = parseFloat(lng);
+
+          distanceSelect = `,
+            (3959 * acos(cos(radians($${queryParams.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParams.length + 2})) + sin(radians($${queryParams.length + 1})) * sin(radians(fp.lat)))) AS calculated_distance`;
+
+          queryParams.push(userLat, userLng);
+          orderByClause = 'ORDER BY calculated_distance ASC, r.starting_date ASC';
+        }
+
+        const ridesQuery = `
+        SELECT DISTINCT r.*, fp.lat AS first_point_lat, fp.lng AS first_point_lng ${distanceSelect}
         FROM rides r
         LEFT JOIN followers f ON r.createdby = f.followee_id
         LEFT JOIN muted mute1 ON mute1.muter = $1 AND mute1.mutee = r.createdby
         LEFT JOIN muted mute2 ON mute2.muter = r.createdby AND mute2.mutee = $1
-        WHERE (r.ridetype='public' OR (r.ridetype = 'followers' and f.follower_id = $1 and f.status = 'accepted') OR (r.createdby = $1))
+        INNER JOIN users u1 ON r.createdby = u1.id
+        INNER JOIN users u2 ON $1 = u2.id
+        LEFT JOIN (
+            SELECT p.map, p.lat, p.lng
+            FROM points p
+            INNER JOIN (
+                SELECT map, MIN(id) AS first_point_id
+                FROM points
+                GROUP BY map
+            ) first_points ON p.id = first_points.first_point_id
+        ) fp ON r.map = fp.map
+        WHERE (r.ridetype='public' 
+               OR (r.ridetype = 'followers' AND f.follower_id = $1 AND f.status = 'accepted') 
+               OR (r.createdby = $1))
         AND r.isactive = true
         AND (mute1.mute IS NULL OR mute1.mute = false)
         AND (mute2.mute IS NULL OR mute2.mute = false)
-        ORDER BY starting_date
-        `, [userId]);
-
+        ${orderByClause};
+        `;
+console.log("order by clause", orderByClause)
+        const rides = await pool.query(ridesQuery, queryParams);
         res.json(rides.rows);
       }
     } else {
-
       res.status(403).json({ error: "Unauthorized access" });
     }
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 });
+
+
 
 //Get all public runs (user)
 app.get("/runs/public", async (req, res) => {
