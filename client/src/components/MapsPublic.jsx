@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 import PreviewMap from './PreviewMap';
@@ -19,6 +19,7 @@ import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../styles/Navbar.css'
 
+import {useCoords} from './util_functions/GetBrowserLocation'
 
 const MapsPublic = () => {
   const axiosPrivate = useAxiosPrivate()
@@ -31,7 +32,10 @@ const MapsPublic = () => {
   const [users, setUsers] = useState([]);
   const [showAllMaps, setShowAllMaps] = useState(false)
   const { auth } = useAuth();
+  const { browCoords } = useCoords();
   const BACKEND = process.env.REACT_APP_API_URL;
+
+  console.log("browCoords in Maps Public", browCoords)
 
   console.log("maps in Maps Public", maps)
 
@@ -71,7 +75,7 @@ const MapsPublic = () => {
 
   useEffect(() => {
     let isMounted = true;
-    fetchMaps(auth, setMaps, setAddToMyMaps, setIsLoading, setError, isMounted, filteredMaps);
+    fetchMaps(auth, setMaps, setAddToMyMaps, setIsLoading, setError, isMounted, filteredMaps, browCoords);
     return () => {
       isMounted = false;
     };

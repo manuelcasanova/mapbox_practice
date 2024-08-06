@@ -52,7 +52,7 @@ const handleLogin = async (req, res) => {
         // console.log(profile_picture)
 
         // Create JWTs
-        const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
+        const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
         const refreshToken = jwt.sign({ username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
 
         // Update user with new refresh token

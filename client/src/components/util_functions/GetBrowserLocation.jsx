@@ -12,7 +12,7 @@ export default function GetBrowserLocation({ children }) {
   // const [browCoords, setBrowCoords] = useState([48.858093, 2.294694]);
 
   //No state
-  const [browCoords, setBrowCoords] = useState();
+  const [browCoords, setBrowCoords] = useState([]);
   
   useEffect(() => {
     const options = {

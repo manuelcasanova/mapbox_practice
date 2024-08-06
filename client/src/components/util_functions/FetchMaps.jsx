@@ -1,7 +1,8 @@
 import axios from "axios";
 
-const fetchMaps = async (auth, setMaps, setAddToMyMaps, setIsLoading, setError, isMounted, filteredMaps) => {
+const fetchMaps = async (auth, setMaps, setAddToMyMaps, setIsLoading, setError, isMounted, filteredMaps, browCoords) => {
 
+  console.log("BrowCoords in FetchMaps", browCoords)
 
   const BACKEND = process.env.REACT_APP_API_URL;
   try {
@@ -16,7 +17,8 @@ const fetchMaps = async (auth, setMaps, setAddToMyMaps, setIsLoading, setError, 
     const response = await axiosPrivate.get(`${BACKEND}/maps/public`, {
       params: {
         user: auth,
-        filteredMaps
+        filteredMaps,
+        browCoords
       }
 
     });
