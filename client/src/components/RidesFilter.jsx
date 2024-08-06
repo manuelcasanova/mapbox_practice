@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import useAuth from "../hooks/useAuth"
 
+import { useCoords } from './util_functions/GetBrowserLocation';
 
 const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
 
@@ -19,6 +20,7 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
   const [rideName, setRideName] = useState("all")
   const [radius, setRadius] = useState(6371)
   const [rId, setRId] = useState(0)
+  const {browCoords} = useCoords()
 
   const { auth } = useAuth()
 
@@ -213,10 +215,13 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
           value={radius}
           onChange={handleRadiusChange}
           placeholder='6371'
+          disabled={browCoords.length === 0} 
         />
            <label className='filter-label'>Km</label>
 
       </div>
+
+      {browCoords.length === 0 && <div className='info-message-2'>Allow this app to access your location and refresh the page to enable "Radius for start point"</div>}
 
 
       {auth.isAdmin && ridesAllComponentMount &&

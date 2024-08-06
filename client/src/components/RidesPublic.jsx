@@ -27,6 +27,7 @@ const RidesPublic = () => {
   const [rides, setRides] = useState([]);
 
   const { browCoords } = useCoords()
+
   const [showFilter, setShowFilter] = useState(false)
   const [showMap, setShowMap] = useState(null)
   const [showDetails, setShowDetails] = useState(null)

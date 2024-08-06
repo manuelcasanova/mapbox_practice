@@ -214,6 +214,13 @@ max-width: 10px;
   border-radius: 5px;
 }
 
+.info-message-2 {
+  font-style: italic;
+  font-size: smaller;
+  color: black;
+  border-radius: 5px;
+}
+
 .info-button:hover {
   background-color: navy;
 }

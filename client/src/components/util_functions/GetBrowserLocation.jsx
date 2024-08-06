@@ -30,7 +30,7 @@ export default function GetBrowserLocation({ children }) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     };
 
-    const watchId = navigator.geolocation.getCurrentPosition(
+    const watchId = navigator.geolocation.watchPosition(
       success,
       error,
       options
