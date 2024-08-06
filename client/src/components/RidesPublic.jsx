@@ -58,7 +58,7 @@ const RidesPublic = () => {
     speedMin: 0,
     speedMax: 100000,
     rideName: 'all',
-    radius: 6371
+    radius: 40075
   };
 
   const { auth } = useAuth();

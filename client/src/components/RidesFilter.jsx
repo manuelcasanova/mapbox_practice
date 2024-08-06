@@ -18,7 +18,7 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
   const [speedMin, setSpeedMin] = useState(0);
   const [speedMax, setSpeedMax] = useState(100000);
   const [rideName, setRideName] = useState("all")
-  const [radius, setRadius] = useState(6371)
+  const [radius, setRadius] = useState(40075)
   const [rId, setRId] = useState(0)
   const {browCoords} = useCoords()
 
@@ -104,10 +104,24 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
     setRideName(value);
   };
 
+  const MAX_RADIUS = 40075;
+
   const handleRadiusChange = (e) => {
-    const value = e.target.value.trim() !== '' ? (e.target.value) : '';
+    let value = e.target.value.trim();
+
+    if (value !== '' && !isNaN(value)) {
+      value = Number(value);
+  
+      if (value > MAX_RADIUS) {
+        value = MAX_RADIUS;
+      }
+    } else {
+      value = '';
+    }
+  
     setRadius(value);
   };
+  
 
   const handleRIdChange = (e) => {
     const value = e.target.value.trim() !== '' ? (e.target.value) : 0;
