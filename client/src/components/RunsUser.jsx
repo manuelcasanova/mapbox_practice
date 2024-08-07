@@ -16,6 +16,7 @@ import fetchRunMessages from './util_functions/messaging/FetchRunMessages';
 import AddRunMessage from './util_functions/messaging/AddRunMessage';
 import MappedRunMessage from './util_functions/messaging/MappedRunMessage';
 import { deactivateRun } from './util_functions/run_functions/DeleteRun';
+import { useCoords } from './util_functions/GetBrowserLocation';
 
 
 const RunsUser = () => {
@@ -30,6 +31,7 @@ const RunsUser = () => {
   const [userRuns, setUserRuns] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const {browCoords} = useCoords()
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
@@ -41,6 +43,7 @@ const RunsUser = () => {
     distanceMax: 100000,
     paceMin: 0,
     paceMax: 100000,
+    radius: 20,
     runName: "all"
   };
 
@@ -86,7 +89,8 @@ const RunsUser = () => {
           const response = await axiosPrivate.get(`${BACKEND}/runs/user/${id}`, {
             params: {
               user: auth,
-              filteredRuns: filteredRuns || ''
+              filteredRuns: filteredRuns || '',
+              browCoords
             }
           });
 

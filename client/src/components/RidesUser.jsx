@@ -44,6 +44,7 @@ const RidesUser = () => {
     distanceMax: 100000,
     speedMin: 0,
     speedMax: 100000,
+    radius: 20,
     rideName: 'all'
   };
 

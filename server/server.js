@@ -2174,24 +2174,53 @@ app.get("/rides/user/:id", async (req, res) => {
 
 //Get users runs
 app.get("/runs/user/:id", async (req, res) => {
-
   try {
     const { id } = req.params;
-    const dateStart = req.query.filteredRuns.dateStart
-    const dateEnd = req.query.filteredRuns.dateEnd
-    const distanceMin = req.query.filteredRuns.distanceMin
-    const distanceMax = req.query.filteredRuns.distanceMax
-    const paceRangeMin = req.query.filteredRuns.paceMin
-    const paceRangeMax = req.query.filteredRuns.paceMax
-    const runName = `%${req.query.filteredRuns.runName}%`
+    const dateStart = req.query.filteredRuns.dateStart;
+    const dateEnd = req.query.filteredRuns.dateEnd;
+    const distanceMin = req.query.filteredRuns.distanceMin;
+    const distanceMax = req.query.filteredRuns.distanceMax;
+    const paceRangeMin = req.query.filteredRuns.paceMin;
+    const paceRangeMax = req.query.filteredRuns.paceMax;
+    const runName = `%${req.query.filteredRuns.runName}%`;
+    const browCoords = req.query.browCoords;
+    const radius = Number(req.query.filteredRuns.radius) || 20;
 
     if (id === null || id === undefined) {
       return res.status(400).json({ error: 'User ID is required.' });
     }
 
-    let runsQueryNoName =
-      `SELECT *
+    let distanceSelect = '';
+    let distanceCondition = '';
+    let queryParamsNoName = [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax];
+    let queryParamsName = [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax, runName];
+
+    if (browCoords) {
+      const [lat, lng] = browCoords;
+      const userLat = parseFloat(lat);
+      const userLng = parseFloat(lng);
+
+      distanceSelect = `,
+        (6371 * acos(cos(radians($${queryParamsNoName.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParamsNoName.length + 2})) + sin(radians($${queryParamsNoName.length + 1})) * sin(radians(fp.lat)))) AS calculated_distance`;
+
+      distanceCondition = `AND (6371 * acos(cos(radians($${queryParamsNoName.length + 1})) * cos(radians(fp.lat)) * cos(radians(fp.lng) - radians($${queryParamsNoName.length + 2})) + sin(radians($${queryParamsNoName.length + 1})) * sin(radians(fp.lat)))) <= ${radius}`;
+
+      queryParamsNoName.push(userLat, userLng);
+      queryParamsName.push(userLat, userLng);
+    }
+
+    let runsQueryNoName = `
+      SELECT runs.*, fp.lat AS first_point_lat, fp.lng AS first_point_lng ${distanceSelect}
       FROM runs
+      LEFT JOIN (
+          SELECT p.map, p.lat, p.lng
+          FROM points p
+          INNER JOIN (
+              SELECT map, MIN(id) AS first_point_id
+              FROM points
+              GROUP BY map
+          ) first_points ON p.id = first_points.first_point_id
+      ) fp ON runs.map = fp.map
       WHERE createdby = $1
         AND starting_date >= $2 
         AND starting_date <= $3 
@@ -2199,12 +2228,22 @@ app.get("/runs/user/:id", async (req, res) => {
         AND distance <= $5 
         AND pace >= $6 
         AND pace <= $7 
-        AND isactive = true 
+        AND isactive = true
+        ${distanceCondition}
       
       UNION 
       
-      SELECT runs.*
+      SELECT runs.*, fp.lat AS first_point_lat, fp.lng AS first_point_lng ${distanceSelect}
       FROM runs
+      LEFT JOIN (
+          SELECT p.map, p.lat, p.lng
+          FROM points p
+          INNER JOIN (
+              SELECT map, MIN(id) AS first_point_id
+              FROM points
+              GROUP BY map
+          ) first_points ON p.id = first_points.first_point_id
+      ) fp ON runs.map = fp.map
       INNER JOIN run_users ON runs.id = run_users.run_id
       WHERE run_users.user_id = $1 
         AND starting_date >= $2 
@@ -2220,12 +2259,22 @@ app.get("/runs/user/:id", async (req, res) => {
             AND (runs.createdby = muter OR runs.createdby = mutee)
             AND mute = true
         )
-      ORDER BY id DESC;
-      `
+        ${distanceCondition}
+      ORDER BY starting_date ASC, calculated_distance ASC;
+    `;
 
-    let runsQueryName =
-      `SELECT *
+    let runsQueryName = `
+      SELECT runs.*, fp.lat AS first_point_lat, fp.lng AS first_point_lng ${distanceSelect}
       FROM runs
+      LEFT JOIN (
+          SELECT p.map, p.lat, p.lng
+          FROM points p
+          INNER JOIN (
+              SELECT map, MIN(id) AS first_point_id
+              FROM points
+              GROUP BY map
+          ) first_points ON p.id = first_points.first_point_id
+      ) fp ON runs.map = fp.map
       WHERE createdby = $1
         AND starting_date >= $2 
         AND starting_date <= $3 
@@ -2235,11 +2284,21 @@ app.get("/runs/user/:id", async (req, res) => {
         AND pace <= $7 
         AND isactive = true 
         AND name ILIKE $8
+        ${distanceCondition}
       
       UNION 
       
-      SELECT runs.*
+      SELECT runs.*, fp.lat AS first_point_lat, fp.lng AS first_point_lng ${distanceSelect}
       FROM runs
+      LEFT JOIN (
+          SELECT p.map, p.lat, p.lng
+          FROM points p
+          INNER JOIN (
+              SELECT map, MIN(id) AS first_point_id
+              FROM points
+              GROUP BY map
+          ) first_points ON p.id = first_points.first_point_id
+      ) fp ON runs.map = fp.map
       INNER JOIN run_users ON runs.id = run_users.run_id
       WHERE run_users.user_id = $1 
         AND starting_date >= $2 
@@ -2255,47 +2314,21 @@ app.get("/runs/user/:id", async (req, res) => {
             AND (runs.createdby = muter OR runs.createdby = mutee)
             AND mute = true
         )
-            AND name ILIKE $8
-      ORDER BY id DESC;
-      `
-
-    let queryParamsNoName = [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax]
-
-    let queryParamsName = [id, dateStart, dateEnd, distanceMin, distanceMax, paceRangeMin, paceRangeMax, runName]
-
+        AND name ILIKE $8
+        ${distanceCondition}
+      ORDER BY starting_date ASC, calculated_distance ASC;
+      
+    `;
 
     const runs = !runName || runName === "%all%" ? await pool.query(runsQueryNoName, queryParamsNoName) : await pool.query(runsQueryName, queryParamsName);
 
-    res.json(runs.rows)
+    res.json(runs.rows);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-app.get('/rides/messages', async (req, res) => {
-  const { ride_id } = req.query;
-  try {
-    const rideMessages = await pool.query('SELECT * FROM ride_message WHERE ride_id = $1 ORDER BY createdat DESC', [ride_id]);
-    res.json(rideMessages.rows);
-
-  } catch (err) {
-    console.error('Error fetching ride messages:', err);
-    res.status(500).json({ error: 'An error occurred while fetching ride messages' });
-  }
-});
-
-app.get('/runs/messages', async (req, res) => {
-  const { run_id } = req.query;
-  try {
-    const runMessages = await pool.query('SELECT * FROM run_message WHERE run_id = $1 ORDER BY createdat DESC', [run_id]);
-    res.json(runMessages.rows);
-
-  } catch (err) {
-    console.error('Error fetching ride messages:', err);
-    res.status(500).json({ error: 'An error occurred while fetching run messages' });
-  }
-});
 
 app.get("/rides/messages/reported", async (req, res) => {
   const isAdmin = req.query.isAdmin;
