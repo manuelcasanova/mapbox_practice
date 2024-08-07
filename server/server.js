@@ -2329,6 +2329,30 @@ app.get("/runs/user/:id", async (req, res) => {
   }
 });
 
+app.get('/rides/messages', async (req, res) => {
+  const { ride_id } = req.query;
+  try {
+    const rideMessages = await pool.query('SELECT * FROM ride_message WHERE ride_id = $1 ORDER BY createdat DESC', [ride_id]);
+    res.json(rideMessages.rows);
+
+  } catch (err) {
+    console.error('Error fetching ride messages:', err);
+    res.status(500).json({ error: 'An error occurred while fetching ride messages' });
+  }
+});
+
+app.get('/runs/messages', async (req, res) => {
+  const { run_id } = req.query;
+  try {
+    const runMessages = await pool.query('SELECT * FROM run_message WHERE run_id = $1 ORDER BY createdat DESC', [run_id]);
+    res.json(runMessages.rows);
+
+  } catch (err) {
+    console.error('Error fetching ride messages:', err);
+    res.status(500).json({ error: 'An error occurred while fetching run messages' });
+  }
+});
+
 
 app.get("/rides/messages/reported", async (req, res) => {
   const isAdmin = req.query.isAdmin;
