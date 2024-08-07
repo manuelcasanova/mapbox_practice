@@ -19,6 +19,7 @@ import fetchUsernameAndId from './util_functions/FetchUsername'
 import fetchRunMessages from './util_functions/messaging/FetchRunMessages'
 import AddRunMessage from './util_functions/messaging/AddRunMessage'
 import MappedRunMessage from './util_functions/messaging/MappedRunMessage';
+import { useCoords } from './util_functions/GetBrowserLocation';
 
 const RunsPublic = () => {
   const BACKEND = process.env.REACT_APP_API_URL;
@@ -35,7 +36,8 @@ const RunsPublic = () => {
   const [addToMyRuns, setAddToMyRuns] = useState([])
   const [userRuns, setUserRuns] = useState([]);
   const [users, setUsers] = useState([]);
-
+  const { browCoords } = useCoords()
+ 
   const { auth } = useAuth();
 
   const yesterday = new Date();
@@ -48,7 +50,8 @@ const RunsPublic = () => {
     distanceMax: 100000,
     paceMin: 0,
     paceMax: 100000,
-    runName: 'all'
+    runName: 'all',
+    radius: 20
 
   };
 
@@ -114,7 +117,8 @@ const RunsPublic = () => {
         const response = await axiosPrivate.get(`${BACKEND}/runs/public`, {
           params: {
             user: auth,
-            filteredRuns
+            filteredRuns,
+            browCoords
           }
         });
 

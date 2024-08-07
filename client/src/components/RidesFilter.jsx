@@ -18,7 +18,7 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
   const [speedMin, setSpeedMin] = useState(0);
   const [speedMax, setSpeedMax] = useState(100000);
   const [rideName, setRideName] = useState("all")
-  const [radius, setRadius] = useState(40075)
+  const [radius, setRadius] = useState(20)
   const [rId, setRId] = useState(0)
   const {browCoords} = useCoords()
 
@@ -228,7 +228,7 @@ const RideFilter = ({ onFilter, handleShowFilter, ridesAllComponentMount }) => {
           type="text"
           value={radius}
           onChange={handleRadiusChange}
-          placeholder='40075'
+          placeholder='20'
           disabled={browCoords.length === 0} 
         />
            <label className='filter-label'>Km</label>

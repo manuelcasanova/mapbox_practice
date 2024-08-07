@@ -17,6 +17,7 @@ import fetchRideMessages from './util_functions/messaging/FetchRideMessages';
 import AddRideMessage from './util_functions/messaging/AddRideMessage';
 import MappedMessage from './util_functions/messaging/MappedMessage';
 import { deactivateRide } from './util_functions/ride_functions/DeleteRide';
+import { useCoords } from './util_functions/GetBrowserLocation';
 
 
 const RidesUser = () => {
@@ -31,6 +32,7 @@ const RidesUser = () => {
   const [userRides, setUserRides] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const {browCoords} = useCoords()
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
@@ -83,7 +85,8 @@ const RidesUser = () => {
           const response = await axiosPrivate.get(`${BACKEND}/rides/user/${id}`, {
             params: {
               user: auth,
-              filteredRides: filteredRides || ''
+              filteredRides: filteredRides || '',
+              browCoords
             }
           });
 

@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import useAuth from "../hooks/useAuth"
 
+import { useCoords } from './util_functions/GetBrowserLocation';
+
 const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) => {
 
 
@@ -16,7 +18,9 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
   const [paceMin, setPaceMin] = useState(0);
   const [paceMax, setPaceMax] = useState(100000);
   const [runName, setRunName] = useState("all")
+  const [radius, setRadius] = useState(20)
   const [rId, setRId] = useState(0)
+  const {browCoords} = useCoords()
 
   const { auth } = useAuth()
 
@@ -52,6 +56,11 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
     if (runName !== '') {
       filters.runName = runName
     }
+
+    if (radius !== '') {
+      filters.radius = radius
+    }
+
 
     if (rId !== '') {
       filters.rId = rId
@@ -95,6 +104,24 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
     setRunName(value);
   };
 
+  const MAX_RADIUS = 40075;
+
+  const handleRadiusChange = (e) => {
+    let value = e.target.value.trim();
+
+    if (value !== '' && !isNaN(value)) {
+      value = Number(value);
+  
+      if (value > MAX_RADIUS) {
+        value = MAX_RADIUS;
+      }
+    } else {
+      value = '';
+    }
+  
+    setRadius(value);
+  };
+
   const handleRIdChange = (e) => {
     const value = e.target.value.trim() !== '' ? (e.target.value) : 0;
     setRId(value);
@@ -102,7 +129,7 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
 
   useEffect(() => {
     handleFilter();
-  }, [dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax, runName, rId]);
+  }, [dateStart, dateEnd, distanceMin, distanceMax, paceMin, paceMax, runName, radius, rId]);
 
 
   const clearFilter = () => {
@@ -191,6 +218,24 @@ const RunFilter = ({ runs, onFilter, handleShowFilter, runsAllComponentMount }) 
         />
 
       </div>
+
+      <div className='filter-range'>
+        <label className='filter-label'>Radius for start point:</label>
+        <input
+          className='filter-input'
+          type="text"
+          value={radius}
+          onChange={handleRadiusChange}
+          placeholder='20'
+          disabled={browCoords.length === 0} 
+        />
+           <label className='filter-label'>Km</label>
+
+      </div>
+
+      {browCoords.length === 0 && <div className='info-message-2'>Allow this app to access your location and refresh the page to enable "Radius for start point"</div>}
+
+
 
 
       {auth.isAdmin && runsAllComponentMount &&
